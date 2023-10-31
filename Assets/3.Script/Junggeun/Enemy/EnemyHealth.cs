@@ -10,6 +10,7 @@ public class EnemyHealth : MonoBehaviour
     private RagDoll ragdoll;
     private bool isDie = false;
     public bool IsDie => isDie;
+    [SerializeField] private float dieForce;
 
     private SkinnedMeshRenderer[] skinnedMeshRenderer;
 
@@ -48,21 +49,23 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, Vector3 direction)
     {
         currentHealth -= amount;
         healthBar.SetHealthBar(currentHealth / maxHealth);
         if (currentHealth <= 0.0f)
         {
-            Die();
+            Die(direction);
         }
         blinkTimer = blinkDu;
     }
 
-    private void Die()
+    private void Die(Vector3 direction)
     {
         isDie = true;
+        direction.y = 1f;
         ragdoll.ActivateRagDoll();
+        ragdoll.ApplyForce(direction * dieForce);
         healthBar.gameObject.SetActive(false);
     }
 }

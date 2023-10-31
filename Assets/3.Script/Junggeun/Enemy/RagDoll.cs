@@ -32,4 +32,10 @@ public class RagDoll : MonoBehaviour
         }
         animator.enabled = false;
     }
+
+    public void ApplyForce(Vector3 force)
+    {
+        var rigidBody = animator.GetBoneTransform(HumanBodyBones.Hips).GetComponent<Rigidbody>();
+        rigidBody.AddForce(force, ForceMode.VelocityChange);
+    }
 }

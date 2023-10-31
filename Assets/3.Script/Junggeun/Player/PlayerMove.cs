@@ -28,7 +28,7 @@ public class PlayerMove : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            enemyHealth.TakeDamage(10f);
+            enemyHealth.TakeDamage(10f, new Vector3 (0f, 0f, 0f));
         }
     }
 }
