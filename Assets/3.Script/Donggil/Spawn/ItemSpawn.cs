@@ -11,6 +11,8 @@ public class ItemSpawn : MonoBehaviour
     public GameObject rangeObject;
     private BoxCollider rangeCollider;
 
+    [SerializeField] private Transform Gun_Object;
+
     private void Awake()
     {
         TryGetComponent(out rangeCollider);
@@ -41,6 +43,7 @@ public class ItemSpawn : MonoBehaviour
         for (int i = 0; i < Random.Range(5, 11); i++)
         {
             GameObject gun = Instantiate(GunPrefabs[Random.Range(0, GunPrefabs.Length)], RandomPosition(), Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 90)));
+            gun.transform.SetParent(Gun_Object);
         }
     }
 }
