@@ -16,9 +16,6 @@ public class PlayerControl : MonoBehaviour
     public Transform leftHandMount;
     public Transform rightHandMount;
 
-    [Header("Player Move Direction")]
-    public Vector3 direction;
-
     // Components
     private Rigidbody rigidBody;
     private Animator animator;
@@ -37,6 +34,8 @@ public class PlayerControl : MonoBehaviour
     {
         Move(); // 플레이어 이동
 
+        Debug.Log(transform.forward);
+
         if (Input.GetKeyDown(KeyCode.Return))
         {
             EquipGun();
@@ -54,7 +53,9 @@ public class PlayerControl : MonoBehaviour
             currentSpeed = walkSpeed;
         }
 
-        rigidBody.MovePosition(rigidBody.position + currentSpeed * Time.deltaTime * direction); // 입력 받은 방향대로 플레이어 이동
+        rigidBody.MovePosition(rigidBody.position + currentSpeed * Time.deltaTime * transform.forward * moveSpeedZ); // Z축 이동
+        rigidBody.MovePosition(rigidBody.position + currentSpeed * Time.deltaTime * transform.right * moveSpeedX); // X축 이동
+
         animator.SetFloat("MoveSpeedX", moveSpeedX); // x축 입력값 블렌드 트리에 적용
         animator.SetFloat("MoveSpeedZ", moveSpeedZ); // z축 입력값 블렌드 트리에 적용
     }

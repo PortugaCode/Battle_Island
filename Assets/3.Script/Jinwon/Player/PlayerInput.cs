@@ -81,10 +81,8 @@ public class PlayerInput : MonoBehaviour
             }
         }
 
-        playerControl.direction = new Vector3(x, 0, z); // x축, z축 입력값을 playerMove의 direction에 할당
         playerControl.moveSpeedX = x; // x축 입력값 할당
         playerControl.moveSpeedZ = z; // z축 입력값 할당
-
     }
 
     private void GetMouseInput()
