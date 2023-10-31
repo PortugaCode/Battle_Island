@@ -8,6 +8,7 @@ public class AILocoMotion : MonoBehaviour
     [SerializeField] private Transform playerTarget;
     private NavMeshAgent agent;
     private Animator animator;
+    private EnemyHealth enemyHealth;
 
     
     [SerializeField] private float maxTime = 1.0f; // 멀어진 후 따라갈 때 얼마나 텀이 있을지
@@ -19,11 +20,19 @@ public class AILocoMotion : MonoBehaviour
     {
         TryGetComponent(out agent);
         TryGetComponent(out animator);
+        TryGetComponent(out enemyHealth);
         GameObject.FindGameObjectWithTag("Player").TryGetComponent(out playerTarget);
     }
 
     private void Update()
     {
+        if (enemyHealth.IsDie)
+        {
+            agent.velocity = Vector3.zero;
+            return;
+        }
+
+
         timer -= Time.deltaTime;
         if(timer < 0.0f)
         {
