@@ -17,16 +17,21 @@ public class DebugNavMashAgent : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        // 방향성
         if(isvelocity)
         {
             Gizmos.color = Color.green;
             Gizmos.DrawLine(transform.position, transform.position + agent.velocity);
         }
+
+        // 목표하는 방향
         if (desiredvelocity)
         {
             Gizmos.color = Color.red;
             Gizmos.DrawLine(transform.position, transform.position + agent.desiredVelocity);
         }
+
+        //목적지까지의 선 + 코너마다 확인
         if(ispath)
         {
             Gizmos.color = Color.black;

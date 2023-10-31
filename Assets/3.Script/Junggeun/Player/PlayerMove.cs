@@ -8,9 +8,11 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float vertical;
     [SerializeField] private float Movespeed;
     [SerializeField] private Rigidbody rig;
+    [SerializeField] private EnemyHealth enemyHealth;
 
     private void Awake()
     {
+        GameObject.FindObjectOfType<EnemyHealth>().TryGetComponent(out enemyHealth);
         TryGetComponent(out rig);
     }
 
@@ -23,5 +25,10 @@ public class PlayerMove : MonoBehaviour
     {
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            enemyHealth.TakeDamage(10f);
+        }
     }
 }
