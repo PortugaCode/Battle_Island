@@ -7,10 +7,9 @@ public class EnemyHealth : MonoBehaviour
 {
     public float maxHealth;
     public float currentHealth;
-    private RagDoll ragdoll;
+    private AIAgent agent;
     private bool isDie = false;
     public bool IsDie => isDie;
-    [SerializeField] private float dieForce;
 
     private SkinnedMeshRenderer[] skinnedMeshRenderer;
 
@@ -25,7 +24,7 @@ public class EnemyHealth : MonoBehaviour
     {
         healthBar = GetComponentInChildren<UIHealthBar>();
         currentHealth = maxHealth;
-        TryGetComponent(out ragdoll);
+        TryGetComponent(out agent);
         skinnedMeshRenderer = GetComponentsInChildren<SkinnedMeshRenderer>();
     }
     private void Start()
@@ -63,9 +62,10 @@ public class EnemyHealth : MonoBehaviour
     private void Die(Vector3 direction)
     {
         isDie = true;
-        direction.y = 1f;
-        ragdoll.ActivateRagDoll();
-        ragdoll.ApplyForce(direction * dieForce);
-        healthBar.gameObject.SetActive(false);
+        
+        AIDeathState deathState = agent.stateMachine.GetState(AiStateID.Death) as AIDeathState;
+        deathState.direction = direction;
+        agent.stateMachine.ChangeState(AiStateID.Death);
+        agent.navMeshAgent.velocity = Vector3.zero;
     }
 }
