@@ -4,21 +4,23 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    private PlayerMove playerMove;
+    private PlayerControl playerControl;
     public bool isRun;
+    private bool isAim = false;
     private float z = 0;
 
     private void Awake()
     {
-        TryGetComponent(out playerMove);
+        TryGetComponent(out playerControl);
     }
 
     private void Update()
     {
-        GetInput(); // 입력 받기
+        GetKeyboardInput(); // 키보드 입력 받기
+        GetMouseInput();
     }
 
-    private void GetInput()
+    private void GetKeyboardInput()
     {
         float x = Input.GetAxis("Horizontal"); // x축 입력 받기
 
@@ -79,9 +81,24 @@ public class PlayerInput : MonoBehaviour
             }
         }
 
-        playerMove.direction = new Vector3(x, 0, z); // x축, z축 입력값을 playerMove의 direction에 할당
-        playerMove.moveSpeedX = x; // x축 입력값 할당
-        playerMove.moveSpeedZ = z; // z축 입력값 할당
+        playerControl.direction = new Vector3(x, 0, z); // x축, z축 입력값을 playerMove의 direction에 할당
+        playerControl.moveSpeedX = x; // x축 입력값 할당
+        playerControl.moveSpeedZ = z; // z축 입력값 할당
 
+    }
+
+    private void GetMouseInput()
+    {
+        if (Input.GetMouseButtonDown(1) && !isAim) // 우클릭
+        {
+            isAim = true;
+            playerControl.TPSZoomIn();
+        }
+
+        if (Input.GetMouseButtonUp(1) && isAim) // 우클릭 해제
+        {
+            isAim = false;
+            playerControl.TPSZoomOut();
+        }
     }
 }
