@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     private PlayerMove playerMove;
-    private bool isRun;
+    public bool isRun;
     private float z = 0;
 
     private void Awake()
@@ -27,12 +27,12 @@ public class PlayerInput : MonoBehaviour
             isRun = true;
         }
         
-        if (Input.GetKeyUp(KeyCode.LeftShift))
+        if (Input.GetKeyUp(KeyCode.LeftShift)) // 달리기 취소
         {
             isRun = false;
         }
 
-        if (Input.GetKey(KeyCode.W)) // 앞으로
+        if (Input.GetKey(KeyCode.W)) // 앞으로 갈 때
         {
             if (isRun == true)
             {
@@ -53,7 +53,7 @@ public class PlayerInput : MonoBehaviour
                 if (z > 1) z -= Time.deltaTime * 2.0f;
             }
         }
-        else if (Input.GetKey(KeyCode.S)) // 뒤로
+        else if (Input.GetKey(KeyCode.S)) // 뒤로 갈 때
         {
             if (z > -1)
             {
@@ -62,7 +62,7 @@ public class PlayerInput : MonoBehaviour
 
             if (z < -1) z = -1;
         }
-        else // z축 입력 없음
+        else // z축 입력 없을 때 0으로
         {
             if (z > 0)
             {
@@ -73,7 +73,7 @@ public class PlayerInput : MonoBehaviour
                 z += Time.deltaTime * 10.0f;
             }
 
-            if (Mathf.Abs(z) <= 0.001f)
+            if (Mathf.Abs(z) <= 0.001f) // 0으로 보정
             {
                 z = 0;
             }

@@ -17,11 +17,13 @@ public class PlayerMove : MonoBehaviour
     // Components
     private Rigidbody rigidBody;
     private Animator animator;
+    private PlayerInput playerInput;
 
     private void Awake()
     {
         TryGetComponent(out rigidBody);
         TryGetComponent(out animator);
+        TryGetComponent(out playerInput);
 
         currentSpeed = walkSpeed;
     }
@@ -33,6 +35,15 @@ public class PlayerMove : MonoBehaviour
 
     private void Move()
     {
+        if (playerInput.isRun && moveSpeedZ > 0) // 플레이어 속도 조정
+        {
+            currentSpeed = runSpeed;
+        }
+        else
+        {
+            currentSpeed = walkSpeed;
+        }
+
         rigidBody.MovePosition(rigidBody.position + currentSpeed * Time.deltaTime * direction); // 입력 받은 방향대로 플레이어 이동
         animator.SetFloat("MoveSpeedX", moveSpeedX); // x축 입력값 블렌드 트리에 적용
         animator.SetFloat("MoveSpeedZ", moveSpeedZ); // z축 입력값 블렌드 트리에 적용
