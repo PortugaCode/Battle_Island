@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Animations.Rigging;
 
 
 public class AIAgent : MonoBehaviour
@@ -13,14 +14,21 @@ public class AIAgent : MonoBehaviour
     public SkinnedMeshRenderer mesh;
     public UIHealthBar ui;
     public Transform playerTarget;
-    public Transform GunTarget;
+    public Transform AimTarget;
+    public Rig rig;
+    public TwoBoneIKConstraint twoBoneIK;
 
+    public GameObject[] rifleWeapons;
 
     public AiStateID initalState;
     public AIAgentConfig config;
 
     private void Awake()
     {
+        for(int i =0; i < rifleWeapons.Length; i++)
+        {
+            rifleWeapons[i].SetActive(false);
+        }
         TryGetComponent(out enemyHealth);
         TryGetComponent(out navMeshAgent);
         TryGetComponent(out ragDoll);

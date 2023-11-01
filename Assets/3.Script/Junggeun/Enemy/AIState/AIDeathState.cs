@@ -19,7 +19,7 @@ public class AIDeathState : AIState
         agent.ui.gameObject.SetActive(false);
     }
 
-    public void Update(AIAgent agent)
+    public void AIUpdate(AIAgent agent)
     {
         agent.navMeshAgent.velocity = Vector3.zero;
     }

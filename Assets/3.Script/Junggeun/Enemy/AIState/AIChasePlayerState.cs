@@ -16,10 +16,11 @@ public class AIChasePlayerState : AIState
 
     public void Enter(AIAgent agent)
     {
+        agent.AimTarget.position = agent.playerTarget.position;
         agent.navMeshAgent.speed = 3f;
     }
 
-    public void Update(AIAgent agent)
+    public void AIUpdate(AIAgent agent)
     {
         if (agent.enemyHealth.IsDie)
         {

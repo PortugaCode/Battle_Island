@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class AIFindWeaponState : MonoBehaviour, AIState
 {
     private GameObject pickup;
     private bool isPickup = false;
     private Animator animator;
+    
 
     public AiStateID GetID()
     {
@@ -21,7 +23,7 @@ public class AIFindWeaponState : MonoBehaviour, AIState
         agent.navMeshAgent.speed = 5;
     }
 
-    public void Update(AIAgent agent)
+    public void AIUpdate(AIAgent agent)
     {
         if (pickup == null)
         {
@@ -54,14 +56,16 @@ public class AIFindWeaponState : MonoBehaviour, AIState
             pickup.GetComponent<HaveGunCheck>().isEnemyEquip = true;
             pickup.GetComponent<HaveGunCheck>().isEquip = true;
             animator.SetBool("Equip", pickup.GetComponent<HaveGunCheck>().isEnemyEquip);
-
+            agent.rig.weight = 1f;
             
-            pickup.GetComponent<Rigidbody>().useGravity = false;
-            pickup.GetComponent<Rigidbody>().isKinematic = true;
-            pickup.transform.position = agent.GunTarget.position;
-            pickup.transform.parent = agent.GunTarget;
+            //나중에 rifle 정보 가지고 와서 바꾸기
+            agent.rifleWeapons[2].SetActive(true);
+
+            Destroy(pickup.gameObject);
         }
     }
+
+
 
     private void CheckPickup(AIAgent agent)
     {

@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIIdleState : AIState
+public class AIIdleState : MonoBehaviour, AIState
 {
+    float DuTime = 2.5f;
+    float CoolTime = 2.5f;
+
 
     public AiStateID GetID()
     {
@@ -12,11 +15,19 @@ public class AIIdleState : AIState
 
     public void Enter(AIAgent agent)
     {
-
+        
     }
 
-    public void Update(AIAgent agent)
+    public void AIUpdate(AIAgent agent)
     {
+        CoolTime -= DuTime * Time.deltaTime;
+        if(CoolTime > 0.0f)
+        {
+            Debug.Log(CoolTime);
+            return;
+        }
+        agent.twoBoneIK.weight = 1f;
+
         Vector3 Playerdirection = agent.playerTarget.position - agent.transform.position;
         if(Playerdirection.magnitude > agent.config.maxSightDistance)
         {
@@ -39,4 +50,5 @@ public class AIIdleState : AIState
     {
 
     }
+
 }

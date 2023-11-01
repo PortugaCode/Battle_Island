@@ -32,7 +32,7 @@ public class AIStateMachine : MonoBehaviour
 
     public void Update()
     {
-        GetState(currentState)?.Update(agent);
+        GetState(currentState)?.AIUpdate(agent);
     }
 
     public void ChangeState(AiStateID newstate)
