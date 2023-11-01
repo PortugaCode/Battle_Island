@@ -54,11 +54,9 @@ public class TPSControl : MonoBehaviour
             EquipGun();
         }
 
-        throwDirection = transform.up + transform.forward;
         if (Input.GetKeyDown(KeyCode.Space)) // 수류탄 테스트용
         {
-            GameObject currentGrenade = Instantiate(testGrenadePrefab, gunPivot.position, Quaternion.identity);
-            currentGrenade.GetComponent<Rigidbody>().velocity = throwDirection * throwPower;
+            ThrowGrenade();
         }
     }
 
@@ -87,6 +85,15 @@ public class TPSControl : MonoBehaviour
                 currentGun.GetComponent<TestRifle>().Shoot();
             }
         }
+
+        Debug.Log(mainCamera.eulerAngles.x);
+
+        // x가 30일때 upPower는 0.5f
+        // x가 0일때 upPower는 1.0f
+        // x가 330 (-30)일때 upPower는 1.5f
+
+        float upPower = 1.5f;
+        throwDirection = transform.up * upPower + transform.forward; // 마우스 회전에 따라 수류탄 투척 방향 결정
     }
 
     private void GetKeyboardInput()
@@ -151,5 +158,11 @@ public class TPSControl : MonoBehaviour
         hasGun = true;
         currentGun = Instantiate(testGunPrefab, gunPivot.position, gunPivot.rotation); // 총 생성
         currentGun.transform.SetParent(gunPivot); // GunPivot 위치에 장착
+    }
+
+    private void ThrowGrenade()
+    {
+        GameObject currentGrenade = Instantiate(testGrenadePrefab, gunPivot.position, Quaternion.identity);
+        currentGrenade.GetComponent<Rigidbody>().velocity = throwDirection * throwPower;
     }
 }
