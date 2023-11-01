@@ -13,6 +13,7 @@ public class AIAgent : MonoBehaviour
     public SkinnedMeshRenderer mesh;
     public UIHealthBar ui;
     public Transform playerTarget;
+    public Transform GunTarget;
 
 
     public AiStateID initalState;
@@ -31,6 +32,7 @@ public class AIAgent : MonoBehaviour
         stateMachine.RegsisterState(new AIChasePlayerState());
         stateMachine.RegsisterState(new AIDeathState());
         stateMachine.RegsisterState(new AIIdleState());
+        stateMachine.RegsisterState(new AIFindWeaponState());
         stateMachine.ChangeState(initalState);
     }
 

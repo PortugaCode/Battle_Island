@@ -1,0 +1,101 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class AIFindWeaponState : MonoBehaviour, AIState
+{
+    private GameObject pickup;
+    private bool isPickup = false;
+    private Animator animator;
+
+    public AiStateID GetID()
+    {
+        return AiStateID.FindWeapon;
+    }
+
+    public void Enter(AIAgent agent)
+    {
+        animator = agent.gameObject.GetComponent<Animator>();
+        pickup = FindClosestWeapon(agent);
+        agent.navMeshAgent.destination = pickup.transform.position;
+        agent.navMeshAgent.speed = 5;
+    }
+
+    public void Update(AIAgent agent)
+    {
+        if (pickup == null)
+        {
+            agent.stateMachine.ChangeState(AiStateID.Idle);
+        }
+
+        else if (pickup.GetComponent<HaveGunCheck>().isEquip)
+        {
+            pickup = FindClosestWeapon(agent);
+            if(pickup != null)
+            {
+                agent.navMeshAgent.destination = pickup.transform.position;
+                agent.navMeshAgent.speed = 5;
+            }
+        }
+
+
+        CheckPickup(agent);
+
+        if (isPickup)
+        {
+            agent.stateMachine.ChangeState(AiStateID.Idle);
+        }
+    }
+
+    public void Exit(AIAgent agent)
+    {
+        if(isPickup)
+        {
+            pickup.GetComponent<HaveGunCheck>().isEnemyEquip = true;
+            pickup.GetComponent<HaveGunCheck>().isEquip = true;
+            animator.SetBool("Equip", pickup.GetComponent<HaveGunCheck>().isEnemyEquip);
+
+            
+            pickup.GetComponent<Rigidbody>().useGravity = false;
+            pickup.GetComponent<Rigidbody>().isKinematic = true;
+            pickup.transform.position = agent.GunTarget.position;
+            pickup.transform.parent = agent.GunTarget;
+        }
+    }
+
+    private void CheckPickup(AIAgent agent)
+    {
+        Collider[] a = Physics.OverlapSphere(agent.transform.position, 0.5f);
+        foreach(Collider col in a)
+        {
+            if(col.CompareTag("Weapon") && !col.GetComponent<HaveGunCheck>().isEquip)
+            {
+                isPickup = true;
+            }
+        }
+
+    }
+
+
+    private GameObject FindClosestWeapon(AIAgent agnet)
+    {
+        GameObject[] Weapons = GameObject.FindGameObjectsWithTag("Weapon");
+        GameObject closestWeapon = null;
+        float closestDistance = float.MaxValue;
+
+        foreach(var weapon in Weapons)
+        {
+            float distanceToWeapon = Vector3.Distance(agnet.transform.position, weapon.transform.position);
+            if(distanceToWeapon < closestDistance)
+            {
+                if(!weapon.GetComponent<HaveGunCheck>().isEquip)
+                {
+                    closestDistance = distanceToWeapon;
+                    closestWeapon = weapon;
+                }
+            }
+        }
+        return closestWeapon;
+    }
+
+}
