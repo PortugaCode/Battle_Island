@@ -21,7 +21,7 @@ public class AIDeathState : AIState
 
     public void Update(AIAgent agent)
     {
-        
+        agent.navMeshAgent.velocity = Vector3.zero;
     }
 
     public void Exit(AIAgent agent)

@@ -12,6 +12,7 @@ public class AIAgent : MonoBehaviour
     public RagDoll ragDoll;
     public SkinnedMeshRenderer mesh;
     public UIHealthBar ui;
+    public Transform playerTarget;
 
 
     public AiStateID initalState;
@@ -24,10 +25,12 @@ public class AIAgent : MonoBehaviour
         TryGetComponent(out ragDoll);
         mesh = GetComponentInChildren<SkinnedMeshRenderer>();
         ui = GetComponentInChildren<UIHealthBar>();
+        GameObject.FindGameObjectWithTag("Player").TryGetComponent(out playerTarget);
 
         stateMachine = new AIStateMachine(this);
         stateMachine.RegsisterState(new AIChasePlayerState());
         stateMachine.RegsisterState(new AIDeathState());
+        stateMachine.RegsisterState(new AIIdleState());
         stateMachine.ChangeState(initalState);
     }
 
