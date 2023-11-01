@@ -15,6 +15,19 @@ public class Bullet : MonoBehaviour
 
     private void Start()
     {
-        rb.velocity = transform.forward * bulletSpeed;
+        rb.velocity = transform.forward * bulletSpeed; // Bullet 앞으로 이동
+    }
+
+    private void OnCollisionEnter(Collision collision) // 충돌 처리
+    {
+        if (!collision.collider.CompareTag("Player")) // 플레이어 무시
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void DrawTrajectory()
+    {
+
     }
 }

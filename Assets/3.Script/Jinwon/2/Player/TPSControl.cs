@@ -24,29 +24,41 @@ public class TPSControl : MonoBehaviour
     private float turnSmoothVelocity;
 
     [Header("Gun")]
-    [SerializeField] private Transform gunPivot;
+    public Transform gunPivot;
     [SerializeField] private GameObject testGunPrefab;
     private bool hasGun = false;
     private GameObject currentGun = null;
+
+    [Header("Throwable")]
+    [SerializeField] private GameObject testGrenadePrefab;
+    public float throwPower = 10.0f;
+    public Vector3 throwDirection;
 
     private void Awake()
     {
         TryGetComponent(out rb);
 
-        Cursor.visible = false;
-        currentSpeed = walkSpeed;
+        Cursor.visible = false; // 마우스 커서 비활성화
+        currentSpeed = walkSpeed; // 이동속도 초기화
     }
 
     private void Update()
     {
-        GetMouseInput();
-        GetKeyboardInput();
-        Move();
-        ZoomCheck();
+        GetMouseInput(); // 마우스 입력
+        GetKeyboardInput(); // 키보드 입력
+        Move(); // 이동
+        ZoomCheck(); // 줌
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return)) // 총 장착 테스트용
         {
             EquipGun();
+        }
+
+        throwDirection = transform.up + transform.forward;
+        if (Input.GetKeyDown(KeyCode.Space)) // 수류탄 테스트용
+        {
+            GameObject currentGrenade = Instantiate(testGrenadePrefab, gunPivot.position, Quaternion.identity);
+            currentGrenade.GetComponent<Rigidbody>().velocity = throwDirection * throwPower;
         }
     }
 
@@ -54,17 +66,23 @@ public class TPSControl : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1)) // 조준
         {
-            isAim = true;
+            if (!isAim)
+            {
+                isAim = true;
+            }
         }
 
         if (Input.GetMouseButtonUp(1)) // 조준 해제
         {
-            isAim = false;
+            if (isAim)
+            {
+                isAim = false;
+            }
         }
 
-        if (Input.GetMouseButton(0)) // 발사
+        if (Input.GetMouseButton(1) && Input.GetMouseButton(0)) // 조준 중 발사
         {
-            if (currentGun != null)
+            if (currentGun != null) // 장착된 총이 있다면 발사 메서드 호출
             {
                 currentGun.GetComponent<TestRifle>().Shoot();
             }
@@ -73,9 +91,8 @@ public class TPSControl : MonoBehaviour
 
     private void GetKeyboardInput()
     {
-        x = Input.GetAxisRaw("Horizontal");
-        z = Input.GetAxisRaw("Vertical");
-
+        x = Input.GetAxisRaw("Horizontal"); // x축 입력
+        z = Input.GetAxisRaw("Vertical"); // z축 입력
         direction = new Vector3(x, 0, z).normalized;
     }
 
@@ -85,15 +102,15 @@ public class TPSControl : MonoBehaviour
 
         // 카메라 바라보는 방향으로 캐릭터 회전
         float cameraAngle = mainCamera.eulerAngles.y;
-        float smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, cameraAngle, ref turnSmoothVelocity, turnSmoothTime);
-        transform.rotation = Quaternion.Euler(0, smoothAngle, 0);
+        float smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, cameraAngle, ref turnSmoothVelocity, turnSmoothTime); // 부드러운 회전 적용
+        transform.rotation = Quaternion.Euler(0, smoothAngle, 0); // 플레이어 로테이션값 변경 (회전)
 
         // 캐릭터 이동
         if (direction.magnitude != 0f)
         {
             Vector3 moveDirectionZ = transform.forward * z;
             Vector3 moveDirectionX = transform.right * x;
-            Vector3 moveDirection = moveDirectionX + moveDirectionZ;
+            Vector3 moveDirection = moveDirectionX + moveDirectionZ; // x축, z축 보정
 
             rb.MovePosition(rb.position + moveDirection.normalized * currentSpeed * Time.deltaTime); // 플레이어 이동
         }
@@ -101,6 +118,11 @@ public class TPSControl : MonoBehaviour
 
     private void ZoomCheck()
     {
+        if (!hasGun) // 총이 있는 상태에서만 줌 가능
+        {
+            return;
+        }
+
         if (isAim && !aimCamera.gameObject.activeSelf) // Zoom In
         {
             aimCamera.m_XAxis.Value = normalCamera.m_XAxis.Value; // 두 카메라 x값 동기화
@@ -121,13 +143,13 @@ public class TPSControl : MonoBehaviour
 
     private void EquipGun()
     {
-        if (hasGun)
+        if (hasGun) // 총이 없는 상태에서만 장착 가능
         {
             return;
         }
 
         hasGun = true;
-        currentGun = Instantiate(testGunPrefab, gunPivot.position, gunPivot.rotation);
-        currentGun.transform.SetParent(gunPivot);
+        currentGun = Instantiate(testGunPrefab, gunPivot.position, gunPivot.rotation); // 총 생성
+        currentGun.transform.SetParent(gunPivot); // GunPivot 위치에 장착
     }
 }

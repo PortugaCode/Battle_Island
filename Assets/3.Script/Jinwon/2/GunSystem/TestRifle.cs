@@ -30,13 +30,17 @@ public class TestRifle : Gun
 
         canShoot = false;
 
-        Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2.0f, Screen.height / 2.0f));
+        Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2.0f, Screen.height / 2.0f)); // 화면 중앙 (크로스헤어 위치)에 Ray
         if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f))
         {
-            // Bullet 발사
+            // Bullet 생성
             GameObject currentBullet = Instantiate(bulletPrefab, muzzleTransform.position, Quaternion.identity);
             currentBullet.transform.forward = raycastHit.point - muzzleTransform.position;
         }
+
+        //
+        // 남은 총알 계산
+        //
 
         // 쿨다운 계산
         while (timer > 0)

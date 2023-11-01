@@ -10,12 +10,12 @@ public class Gun : MonoBehaviour
     public int magSize; // 탄창 용량
     public bool canShoot;
 
-    public virtual void Shoot() // 발사
+    public virtual void Shoot() // 발사 메서드
     {
         
     }
 
-    public virtual void Reload() // 재장전
+    public virtual void Reload() // 재장전 메서드
     {
         
     }
