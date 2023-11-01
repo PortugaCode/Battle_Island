@@ -80,12 +80,14 @@ public class TPSControl : MonoBehaviour
             aimCamera.m_XAxis.Value = normalCamera.m_XAxis.Value; // 두 카메라 x값 동기화
             aimCamera.m_YAxis.Value = normalCamera.m_YAxis.Value; // 두 카메라 y값 동기화
             aimCamera.gameObject.SetActive(true); // 에임 카메라 On
+            UIManager.instance.Crosshair(true); // 크로스헤어 On
         }
         else if (!isAim && aimCamera.gameObject.activeSelf)
         {
             normalCamera.m_XAxis.Value = aimCamera.m_XAxis.Value; // 두 카메라 x값 동기화
             normalCamera.m_YAxis.Value = aimCamera.m_YAxis.Value; // 두 카메라 y값 동기화
             aimCamera.gameObject.SetActive(false); // 에임 카메라 Off
+            UIManager.instance.Crosshair(false); // 크로스헤어 Off
         }
     }
 }
