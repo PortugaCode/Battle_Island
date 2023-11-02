@@ -10,7 +10,8 @@ public class DeadZone : MonoBehaviour
         Phase2,
         Phase3,
         Phase4,
-        Phase5
+        Phase5,
+        Wait
     };
 
     public Vector3 InitPhase(Phase phase)
@@ -45,6 +46,8 @@ public class DeadZone : MonoBehaviour
                 return 30.0f;
             case Phase.Phase5:
                 return 20.0f;
+            case Phase.Wait:
+                return 5.0f;
             default:
                 return 0;
         }
@@ -69,13 +72,32 @@ public class DeadZone : MonoBehaviour
         }
     }
 
+    public float SetDeadZoneDamage(Phase phase)
+    {
+        switch (phase)
+        {
+            case Phase.Phase1:
+                return 1f;
+            case Phase.Phase2:
+                return 2f;
+            case Phase.Phase3:
+                return 4f;
+            case Phase.Phase4:
+                return 10f;
+            case Phase.Phase5:
+                return 20f;
+            default:
+                return 0;
+        }
+    }
+
     public GameObject DeadZonePrefabs;
 
-    private Vector3 DeadZonePosition;
-    private Vector3 DeadZoneScale;
+    public Vector3 DeadZonePosition;
+    public Vector3 DeadZoneScale;
 
     [SerializeField] private GameObject Set;                     //목표위치 표시를 위한 빈 오브젝트
-    [SerializeField] private GameObject DeadZoneObject;                 //자기장 오브젝트 생성
+    [SerializeField] private GameObject DeadZoneObject;
     [SerializeField] private BoxCollider mapRange;
     [SerializeField] private MeshRenderer mesh;
 
@@ -83,22 +105,25 @@ public class DeadZone : MonoBehaviour
     public GameObject player;
 
 
-    private bool isGameStart = true;
-    private bool isDeadZoneMove = false;
-    private bool isPointComplete = true;
-    private bool isNextDeadZoneMove = false;
-    private bool isSetTime = false;
+    private bool isGameStart = true;                //게임 시작 여부
+    private bool isDeadZoneMove = false;            //자기장 움직임 여부
+    private bool isPointComplete = true;            //다음지점 정해짐 여부
+    private bool isNextDeadZoneMove = false;        //다음 자기장위치 움직임 여부
+    private bool isSetTime = false;                 //시간 정해짐 여부
+    private bool isWaitTime = false;                //대기시간 여부
 
     private float gameTime = 0;
+    private float DamageTic = 0;
     private float distance;
-    private float radius;
+    public float radius;
+    private float limit = 20;
     private Vector3 scaleDistance;
 
 
-    private void Init()
+    private void Init()     //시작
     {
-        float map_X = mapRange.bounds.size.x;
-        float map_Z = mapRange.bounds.size.z;
+        float map_X = mapRange.bounds.size.x - limit;
+        float map_Z = mapRange.bounds.size.z - limit;
 
         radius = mesh.bounds.size.x / 2;
         Debug.Log("반지름 : " + radius);
@@ -115,22 +140,18 @@ public class DeadZone : MonoBehaviour
         scaleDistance = ScaleDistance();
     }
 
-    private float Distance()
+    private float Distance()        //중심 거리 계산 메소드
     {
         float dist = Vector3.Distance(DeadZoneObject.transform.position, DeadZonePosition);
         return dist;
     }
 
-    private Vector3 ScaleDistance()
+    private Vector3 ScaleDistance() //스케일 거리 계산 메소드
     {
         Vector3 scaleDist = DeadZoneScale - DeadZoneObject.transform.localScale;
         return scaleDist;
     }
 
-    private void Awake()
-    {
-
-    }
     private void Start()
     {
         Debug.Log(SetPhaseTime(Phase.Phase1));
@@ -138,58 +159,75 @@ public class DeadZone : MonoBehaviour
         //StartCoroutine(DeadZoneStart());
     }
 
-    private void Definition()
-    {
-        if (!isPointComplete)
-        {
-            distance = Distance();
-            scaleDistance = ScaleDistance();
-            isPointComplete = true;
-        }
-    }
-
-    int index = 0;
+    int index = 0;      //페이즈 증가
 
     private void Update()
     {
-        if (isGameStart)
+        if (isGameStart)                        //게임 시작시
         {
-            if (!isSetTime)
+            if (!isSetTime && !isWaitTime)      //시간이 지정 안되고 대기시간이 아닐 시
             {
-                gameTime = SetPhaseTime(Phase.Phase1 + index);
-                isSetTime = true;
-                isDeadZoneMove = true;
+                gameTime = SetPhaseTime(Phase.Wait);                 //대기시간 지정
+                Debug.Log(SetPhaseTime(Phase.Wait) + "초 남음.");    //남은시간 
+                isSetTime = true;           //시간 지정 완료
+                isWaitTime = true;          //대기시간 지정 완료
+            }
+            else if (!isSetTime && isWaitTime)  //만약 시간이 지정 안되고 대기시간이면
+            {
+                gameTime = SetPhaseTime(Phase.Phase1 + index);  //페이즈 시간 지정
+                isSetTime = true;           //시간 지정 완료
+                isWaitTime = false;         //대기시간 아님
+                isDeadZoneMove = true;      //자기장 움직임
             }
 
-            gameTime -= Time.deltaTime;
-            if (gameTime >= -0.01f)
+            gameTime -= Time.deltaTime;     //시간 줄어듦
+            if (gameTime >= -0.01f)         //만약 시간이 0초가 되면
             {
-                if (isDeadZoneMove)
+                if (isWaitTime)             //만약 대기시간이면
                 {
-                    MoveDeadZone(Phase.Phase1 + index);
+                    //남은 시간 표시
+                    if (gameTime <= 30.0f && gameTime > 29.99f) Debug.Log("30초 남음");
+                    else if (gameTime <= 10.0f && gameTime > 9.99f) Debug.Log("10초 남음");
                 }
-
-                if (!isPointComplete)
+                else                        //대기시간이 아니면
                 {
-                    Debug.Log($"{index + 1} 페이즈");
-                    distance = Distance();
-                    scaleDistance = ScaleDistance();
-                    isPointComplete = true;
+                    if (isDeadZoneMove)     //만약 자기장이 움직이는 상태면
+                    {
+                        MoveDeadZone(Phase.Phase1 + index);     //자기장 움직임
+                    }
+
+                    if (!isPointComplete)   //만약 다음 자기장위치가 정해져있지 않다면
+                    {
+                        Debug.Log($"{index + 1} 페이즈");
+                        distance = Distance();              //현재 자기장 중심과 다음 자기장 중심의 거리
+                        scaleDistance = ScaleDistance();    //현재 자기장 스케일과 다음 자기장 스케일 사이의 거리
+                        isPointComplete = true;             //다음 자기장 위치 지정 완료
+                    }
                 }
 
             }
-            else
+            else                            //시간이 0초보다 아래일 시(음수) 즉 시간이 끝날 시
             {
-                if (isNextDeadZoneMove)
+                if (isWaitTime)              //만약 대기시간이면
                 {
-                    MoveNextDeadZone(Phase.Phase1 + index);
+                    isSetTime = false;      //시간 지정 아님으로 설정
+                }
+
+                if (isNextDeadZoneMove)     //만약 다음 자기장이 움직이는 상태일 시
+                {
+                    MoveNextDeadZone(Phase.Phase1 + index);     //다음 자기장 움직임
                 }
             }
         }
 
-        if (Vector3.Distance(DeadZoneObject.transform.position, player.transform.position) > mesh.bounds.size.x / 2)
+        if (Vector3.SqrMagnitude(DeadZoneObject.transform.position - player.transform.position) > Mathf.Pow(mesh.bounds.size.x / 2, 2))     //자기장 밖으로 벗어날 시
         {
-            Damage();
+            DamageTic += Time.deltaTime;
+            if (DamageTic >= 1.0f)              //1초당 데미지 입음
+            {
+                Damage(Phase.Phase1 + index);   //페이즈가 지날수록 데미지가 강해진다.
+                DamageTic = 0;                  //시간초 초기화
+            }
         }
     }
 
@@ -197,34 +235,45 @@ public class DeadZone : MonoBehaviour
     private void MoveDeadZone(Phase phase)
     {
 
-        float MaxScaleDistance = Mathf.Max(Mathf.Abs(scaleDistance.x), Mathf.Abs(scaleDistance.y), Mathf.Abs(scaleDistance.z));
+        float MaxScaleDistance = Mathf.Max(Mathf.Abs(scaleDistance.x), Mathf.Abs(scaleDistance.y), Mathf.Abs(scaleDistance.z));     //각 축의 스케일중 최대값 구하기
 
-        float DeadZoneObjectTime = SetPhaseTime(phase);
+        float DeadZoneObjectTime = SetPhaseTime(phase);                     //자기장 줄어드는 시간은 페이즈 시간
 
-        float phaseSpeed = distance / DeadZoneObjectTime;
-        float phaseScaleSpeed = MaxScaleDistance / DeadZoneObjectTime;
+        float phaseSpeed = distance / DeadZoneObjectTime;                   //속도 = 거리 / 시간 (중심 거리)
+        float phaseScaleSpeed = MaxScaleDistance / DeadZoneObjectTime;      //속도 = 거리 / 시간 (스케일 거리)
 
-        DeadZoneObject.transform.position = Vector3.MoveTowards(DeadZoneObject.transform.position, DeadZonePosition, phaseSpeed * Time.deltaTime);
-        DeadZoneObject.transform.localScale -= new Vector3(phaseScaleSpeed * Time.deltaTime, 0, phaseScaleSpeed * Time.deltaTime);
+        DeadZoneObject.transform.position = Vector3.MoveTowards(DeadZoneObject.transform.position, DeadZonePosition, phaseSpeed * Time.deltaTime);      //자기장은 등속으로 움직임
 
+        //(MoveTowards 쓰지 않은 이유는 움직임과 줄어드는 속도차이가 나기 때문)
+        DeadZoneObject.transform.localScale -= new Vector3(phaseScaleSpeed * Time.deltaTime, 0, phaseScaleSpeed * Time.deltaTime);                      //자기장은 등속으로 줄어듦
+
+
+        //자기장 거리가 다음자기장에 근접했고 스케일이 다음 자기장 스케일과 근접했을경우
         if (Distance() <= 0.001f && DeadZoneObject.transform.localScale.x <= InitPhase(phase).x && DeadZoneObject.transform.localScale.z <= InitPhase(phase).z)
         {
-            DeadZoneObject.transform.position = DeadZonePosition;
-            DeadZoneObject.transform.localScale = DeadZoneScale;
+            if (phase == Phase.Phase5) return;      //마지막 페이즈면 탈출
+            else
+            {
+                //위치와 스케일이 딱 맞아떨어지게 변경
+                DeadZoneObject.transform.position = DeadZonePosition;
+                DeadZoneObject.transform.localScale = DeadZoneScale;
 
-            float currentRadius = radius * SetRadiusRatio(phase);
-            float nextRadius = radius * SetRadiusRatio(phase + 1);
-            Vector3 nextPoint = Set.transform.position + Random.insideUnitSphere * (currentRadius - nextRadius);
-            DeadZoneScale = InitPhase(phase + 1);
-            DeadZonePosition = nextPoint;
+                //현재 자기장 반지름과 다음 자기장 반지름 구해서 다음 자기장 위치 변경
+                float currentRadius = radius * SetRadiusRatio(phase);
+                float nextRadius = radius * SetRadiusRatio(phase + 1);
+
+                Vector3 nextPoint = Set.transform.position + Random.insideUnitSphere * (currentRadius - nextRadius);        //다음 자기장 위치는 구체 랜덤
+                nextPoint.y = 0f;       //구체이므로 높이를 0으로 조정한다
+                DeadZoneScale = InitPhase(phase + 1);   //다음 자기장 스케일 지정
+                DeadZonePosition = nextPoint;           //다음 자기장 위치 지정
 
 
-
-            isPointComplete = false;
-            isDeadZoneMove = false;
-            isNextDeadZoneMove = true;
-            if (index < System.Enum.GetValues(typeof(Phase)).Length) index++;
-            Debug.Log("페이즈 끝");
+                isPointComplete = false;                //위치 지정상태 아님
+                isDeadZoneMove = false;                 //자기장 움직이고 있지 않음
+                isNextDeadZoneMove = true;              //다음 자기장이 움직여야 함
+                if (index < 4) index++;                 //페이즈 더하는 변수가 5가 넘으면 안됨
+                Debug.Log("페이즈 끝");
+            }
         }
     }
 
@@ -240,21 +289,23 @@ public class DeadZone : MonoBehaviour
             Set.transform.position = DeadZonePosition;
             Set.transform.localScale = DeadZoneScale;
 
+            //위까지 자기장 움직이는 메소드와 같음
+
             isNextDeadZoneMove = false;
             isSetTime = false;
             Debug.Log("다음 자기장 완료");
         }
     }
 
-    public void Damage()
+    public void Damage(Phase phase)
     {
-            Debug.Log("데미지");
+        //HP -= SetDeadZoneDamage(phase);
+        Debug.Log(SetDeadZoneDamage(phase) + " 데미지");
     }
-
 
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(DeadZoneObject.transform.position, player.transform.position);
     }
-
 }
+
