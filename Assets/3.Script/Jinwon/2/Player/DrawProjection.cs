@@ -38,7 +38,7 @@ public class DrawProjection : MonoBehaviour
 
         lineRenderer.positionCount = (int)numPoints;
         List<Vector3> points = new List<Vector3>();
-        Vector3 startingPosition = tpsControl.gunPivot.position;
+        Vector3 startingPosition = tpsControl.grenadePivot.position;
         Vector3 startingVelocity = tpsControl.throwDirection * tpsControl.throwPower;
         for (float t = 0; t < numPoints; t += timeBetweenPoints)
         {

@@ -13,7 +13,6 @@ public enum Weapon
 public class TPSControl : MonoBehaviour
 {
     [Header("Move")]
-    private Rigidbody rb;
     public float walkSpeed = 2.0f;
     public float runSpeed = 3.0f;
     public float aimWalkSpeed = 1.0f;
@@ -37,16 +36,22 @@ public class TPSControl : MonoBehaviour
     private GameObject currentGun = null;
 
     [Header("Throwable")]
+    public Transform grenadePivot;
     [SerializeField] private GameObject testGrenadePrefab;
     public float throwPower = 10.0f;
     public Vector3 throwDirection;
 
-    //Status
+    // Status
     private Weapon currentWeapon = Weapon.None;
+
+    // Components
+    private Rigidbody rb;
+    private Animator animator;
 
     private void Awake()
     {
         TryGetComponent(out rb);
+        TryGetComponent(out animator);
 
         Cursor.visible = false; // 마우스 커서 비활성화
         currentSpeed = walkSpeed; // 이동속도 초기화
@@ -110,19 +115,20 @@ public class TPSControl : MonoBehaviour
             {
                 if (isAim)
                 {
+                    GetComponent<DrawProjection>().drawProjection = false;
                     isAim = false;
                 }
             }
 
-            if (Input.GetMouseButtonDown(0)) // 수류탄 조준
+            if (isAim && Input.GetMouseButton(0)) // 수류탄 조준
             {
                 GetComponent<DrawProjection>().drawProjection = true;
             }
 
-            if (Input.GetMouseButtonUp(0)) // 수류탄 투척
+            if (isAim && Input.GetMouseButtonUp(0)) // 수류탄 투척
             {
                 GetComponent<DrawProjection>().drawProjection = false;
-                ThrowGrenade();
+                StartCoroutine(ThrowGrenade());
             }
         }
 
@@ -138,14 +144,18 @@ public class TPSControl : MonoBehaviour
             camAngle = mainCamera.eulerAngles.x;
         }
 
-        float upPower = 1.0f - camAngle / 60.0f;
+        float upPower = 1.0f - camAngle / 30.0f;
         throwDirection = transform.up * upPower + transform.forward; // 마우스 회전에 따라 수류탄 투척 방향 결정
     }
 
     private void GetKeyboardInput()
     {
-        x = Input.GetAxisRaw("Horizontal"); // x축 입력
-        z = Input.GetAxisRaw("Vertical"); // z축 입력
+        x = Input.GetAxis("Horizontal"); // x축 입력
+        z = Input.GetAxis("Vertical"); // z축 입력
+
+        animator.SetFloat("MoveSpeedX", x); // x축 입력값 블렌드 트리에 적용
+        animator.SetFloat("MoveSpeedZ", z); // z축 입력값 블렌드 트리에 적용
+
         direction = new Vector3(x, 0, z).normalized;
     }
 
@@ -173,6 +183,7 @@ public class TPSControl : MonoBehaviour
     {
         if (isAim && !aimCamera.gameObject.activeSelf) // Zoom In
         {
+            animator.SetTrigger("Aim"); // 줌 인 애니메이션
             aimCamera.m_XAxis.Value = normalCamera.m_XAxis.Value; // 두 카메라 x값 동기화
             aimCamera.m_YAxis.Value = normalCamera.m_YAxis.Value; // 두 카메라 y값 동기화
             aimCamera.gameObject.SetActive(true); // 에임 카메라 On
@@ -181,6 +192,7 @@ public class TPSControl : MonoBehaviour
         }
         else if (!isAim && aimCamera.gameObject.activeSelf) // Zoom Out
         {
+            animator.SetTrigger("UnAim"); // 줌 아웃 애니메이션
             normalCamera.m_XAxis.Value = aimCamera.m_XAxis.Value; // 두 카메라 x값 동기화
             normalCamera.m_YAxis.Value = aimCamera.m_YAxis.Value; // 두 카메라 y값 동기화
             aimCamera.gameObject.SetActive(false); // 에임 카메라 Off
@@ -201,9 +213,14 @@ public class TPSControl : MonoBehaviour
         currentGun.transform.SetParent(gunPivot); // GunPivot 위치에 장착
     }
 
-    private void ThrowGrenade()
+    private IEnumerator ThrowGrenade()
     {
-        GameObject currentGrenade = Instantiate(testGrenadePrefab, gunPivot.position, Quaternion.identity);
+        animator.SetTrigger("ThrowGrenade");
+
+        yield return new WaitForSeconds(1.8f);
+
+        GameObject currentGrenade = Instantiate(testGrenadePrefab, grenadePivot.position, Quaternion.identity);
         currentGrenade.GetComponent<Rigidbody>().velocity = throwDirection * throwPower;
+        currentGrenade.GetComponent<Grenade>().StartTimer();
     }
 }

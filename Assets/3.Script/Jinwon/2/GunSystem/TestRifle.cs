@@ -9,10 +9,10 @@ public class TestRifle : Gun
 
     private void Awake()
     {
-        damage = 1.0f;
+        //damage = 50.0f;
         //fireRate = 60.0f;
-        coolDown = 1.0f;
-        magSize = 30;
+        //coolDown = 1.0f;
+        //magSize = 30;
         canShoot = true;
     }
 
@@ -36,6 +36,7 @@ public class TestRifle : Gun
             // Bullet »ý¼º
             GameObject currentBullet = Instantiate(bulletPrefab, muzzleTransform.position, Quaternion.identity);
             currentBullet.transform.forward = raycastHit.point - muzzleTransform.position;
+            currentBullet.GetComponent<Bullet>().bulletDamage = damage;
         }
 
         //
