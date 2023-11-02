@@ -7,7 +7,8 @@ public enum AiStateID
     ChasePlayer,
     Death,
     Idle,
-    FindWeapon
+    FindWeapon,
+    Shooting
 }
 
 public interface AIState

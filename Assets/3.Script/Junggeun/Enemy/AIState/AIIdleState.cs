@@ -15,18 +15,24 @@ public class AIIdleState : MonoBehaviour, AIState
 
     public void Enter(AIAgent agent)
     {
-        
+        while(agent.navMeshAgent.speed != 0)
+        {
+            agent.navMeshAgent.speed -= 0.1f;
+        }
     }
 
     public void AIUpdate(AIAgent agent)
     {
         CoolTime -= DuTime * Time.deltaTime;
-        if(CoolTime > 0.0f)
+        if(agent.isReady)
         {
-            Debug.Log(CoolTime);
-            return;
+            if (CoolTime > 0.0f)
+            {
+                Debug.Log(CoolTime);
+                return;
+            }
+            agent.twoBoneIK.weight = 1f;
         }
-        agent.twoBoneIK.weight = 1f;
 
         Vector3 Playerdirection = agent.playerTarget.position - agent.transform.position;
         if(Playerdirection.magnitude > agent.config.maxSightDistance)

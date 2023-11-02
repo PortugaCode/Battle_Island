@@ -7,6 +7,7 @@ using UnityEngine.Animations.Rigging;
 
 public class AIAgent : MonoBehaviour
 {
+    public bool isReady = false;
     public AIStateMachine stateMachine;
     public EnemyHealth enemyHealth;
     public NavMeshAgent navMeshAgent;
@@ -15,6 +16,7 @@ public class AIAgent : MonoBehaviour
     public UIHealthBar ui;
     public Transform playerTarget;
     public Transform AimTarget;
+    public Vector3 originAimPosition;
     public Rig rig;
     public TwoBoneIKConstraint twoBoneIK;
 
@@ -25,7 +27,9 @@ public class AIAgent : MonoBehaviour
 
     private void Awake()
     {
-        for(int i =0; i < rifleWeapons.Length; i++)
+        originAimPosition = AimTarget.position;
+
+        for (int i =0; i < rifleWeapons.Length; i++)
         {
             rifleWeapons[i].SetActive(false);
         }
@@ -41,6 +45,7 @@ public class AIAgent : MonoBehaviour
         stateMachine.RegsisterState(new AIDeathState());
         stateMachine.RegsisterState(new AIIdleState());
         stateMachine.RegsisterState(new AIFindWeaponState());
+        stateMachine.RegsisterState(new AIShootingState());
         stateMachine.ChangeState(initalState);
     }
 

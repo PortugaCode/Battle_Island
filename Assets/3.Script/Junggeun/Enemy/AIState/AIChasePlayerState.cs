@@ -16,7 +16,8 @@ public class AIChasePlayerState : AIState
 
     public void Enter(AIAgent agent)
     {
-        agent.AimTarget.position = agent.playerTarget.position;
+        Debug.Log("бя╠Б");
+
         agent.navMeshAgent.speed = 3f;
     }
 
@@ -28,6 +29,11 @@ public class AIChasePlayerState : AIState
             return;
         }
 
+        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position, 5f * Time.deltaTime);
+        //agent.AimTarget.position = agent.playerTarget.position;
+
+
+
 
         timer -= Time.deltaTime;
         if (timer < 0.0f)
@@ -38,6 +44,28 @@ public class AIChasePlayerState : AIState
                 agent.navMeshAgent.destination = agent.playerTarget.position;
             }
             timer = agent.config.maxTime;
+        }
+
+        /*        float distance = Vector3.Distance(agent.playerTarget.position, agent.transform.position);
+                if (distance < agent.config.maxSightDistance)
+                {
+                    agent.stateMachine.ChangeState(AiStateID.Shooting);
+                }*/
+
+
+        Vector3 Playerdirection = agent.playerTarget.position - agent.transform.position;
+        if (Playerdirection.magnitude > agent.config.maxSightDistance+7f)
+        {
+            return;
+        }
+
+        Vector3 agnetDirection = agent.transform.forward;
+        Playerdirection.Normalize();
+        float dotProduct = Vector3.Dot(Playerdirection, agnetDirection);
+
+        if (dotProduct > 0.0f)
+        {
+            agent.stateMachine.ChangeState(AiStateID.Shooting);
         }
     }
 

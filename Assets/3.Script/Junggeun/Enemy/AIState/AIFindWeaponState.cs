@@ -75,6 +75,7 @@ public class AIFindWeaponState : MonoBehaviour, AIState
             if(col.CompareTag("Weapon") && !col.GetComponent<HaveGunCheck>().isEquip)
             {
                 isPickup = true;
+                agent.isReady = true;
             }
         }
 
