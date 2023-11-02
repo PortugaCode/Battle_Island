@@ -63,7 +63,7 @@ public class TPSControl : MonoBehaviour
     {
         GetMouseInput(); // 마우스 입력
         GetKeyboardInput(); // 키보드 입력
-        Move(); // 이동
+        PlayerMove(); // 이동
         ZoomCheck(); // 줌
 
         if (Input.GetKeyDown(KeyCode.Keypad1)) // 총 장착 테스트
@@ -75,6 +75,11 @@ public class TPSControl : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Keypad2)) // 수류탄 장착 테스트
         {
             currentWeapon = Weapon.Grenade;
+        }
+
+        if (Input.GetKeyDown(KeyCode.F)) // 승차
+        {
+            EnterCar();
         }
     }
 
@@ -257,7 +262,7 @@ public class TPSControl : MonoBehaviour
         direction = new Vector3(x, 0, z).normalized;
     }
 
-    private void Move()
+    private void PlayerMove()
     {
         //float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + mainCamera.eulerAngles.y;
 
@@ -335,5 +340,20 @@ public class TPSControl : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         canThrow = true;
+    }
+
+    private void GetItemAround()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 3.0f);
+
+        foreach (Collider c in colliders)
+        {
+            // 주변 아이템들 쭉 탐색
+        }
+    }
+
+    private void EnterCar() // 승차
+    {
+
     }
 }
