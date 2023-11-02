@@ -17,6 +17,7 @@ public class TPSControl : MonoBehaviour
     public float runSpeed = 3.0f;
     public float aimWalkSpeed = 1.0f;
     private float currentSpeed;
+    private bool isRun = false;
     private float x;
     private float z;
     private Vector3 direction;
@@ -40,6 +41,7 @@ public class TPSControl : MonoBehaviour
     [SerializeField] private GameObject testGrenadePrefab;
     public float throwPower = 10.0f;
     public Vector3 throwDirection;
+    private bool canThrow = true;
 
     // Status
     private Weapon currentWeapon = Weapon.None;
@@ -120,15 +122,19 @@ public class TPSControl : MonoBehaviour
                 }
             }
 
-            if (isAim && Input.GetMouseButton(0)) // 수류탄 조준
+            if (canThrow)
             {
-                GetComponent<DrawProjection>().drawProjection = true;
-            }
+                if (isAim && Input.GetMouseButton(0)) // 수류탄 조준
+                {
+                    GetComponent<DrawProjection>().drawProjection = true;
+                }
 
-            if (isAim && Input.GetMouseButtonUp(0)) // 수류탄 투척
-            {
-                GetComponent<DrawProjection>().drawProjection = false;
-                StartCoroutine(ThrowGrenade());
+                if (isAim && Input.GetMouseButtonUp(0)) // 수류탄 투척
+                {
+                    canThrow = false;
+                    GetComponent<DrawProjection>().drawProjection = false;
+                    StartCoroutine(ThrowGrenade());
+                }
             }
         }
 
@@ -150,8 +156,100 @@ public class TPSControl : MonoBehaviour
 
     private void GetKeyboardInput()
     {
-        x = Input.GetAxis("Horizontal"); // x축 입력
-        z = Input.GetAxis("Vertical"); // z축 입력
+        //x = Input.GetAxis("Horizontal"); // x축 입력
+        //z = Input.GetAxis("Vertical"); // z축 입력
+
+        if (Input.GetKey(KeyCode.LeftShift)) // LeftShift 입력 시 달리기
+        {
+            isRun = true;
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift)) // 달리기 취소
+        {
+            isRun = false;
+        }
+
+        if (Input.GetKey(KeyCode.W)) // 앞으로 갈 때
+        {
+            if (isRun == true)
+            {
+                if (z < 2)
+                {
+                    z += Time.deltaTime * 2.0f;
+                }
+
+                if (z > 2) z = 2;
+            }
+            else if (isRun == false)
+            {
+                if (z < 1)
+                {
+                    z += Time.deltaTime * 2.0f;
+                }
+
+                if (z > 1) z -= Time.deltaTime * 2.0f;
+            }
+        }
+        else if (Input.GetKey(KeyCode.S)) // 뒤로 갈 때
+        {
+            if (z > -1)
+            {
+                z -= Time.deltaTime * 2.0f;
+            }
+
+            if (z < -1) z = -1;
+        }
+        else // z축 입력 없을 때 0으로
+        {
+            if (z > 0)
+            {
+                z -= Time.deltaTime * 10.0f;
+            }
+            else if (z < 0)
+            {
+                z += Time.deltaTime * 10.0f;
+            }
+
+            if (Mathf.Abs(z) <= 0.001f) // 0으로 보정
+            {
+                z = 0;
+            }
+        }
+
+        if (Input.GetKey(KeyCode.D)) // 오른쪽으로 갈 때
+        {
+            if (x < 1)
+            {
+                x += Time.deltaTime * 2.0f;
+            }
+
+            if (x > 1) x -= Time.deltaTime * 2.0f;
+        }
+        else if (Input.GetKey(KeyCode.A)) // 왼쪽으로 갈 때
+        {
+            if (x > -1)
+            {
+                x -= Time.deltaTime * 2.0f;
+            }
+
+            if (x < -1) x = -1;
+        }
+        else // x축 입력 없을 때 0으로
+        {
+            if (x > 0)
+            {
+                x -= Time.deltaTime * 10.0f;
+            }
+            else if (x < 0)
+            {
+                x += Time.deltaTime * 10.0f;
+            }
+
+            if (Mathf.Abs(x) <= 0.001f) // 0으로 보정
+            {
+                x = 0;
+            }
+        }
 
         animator.SetFloat("MoveSpeedX", x); // x축 입력값 블렌드 트리에 적용
         animator.SetFloat("MoveSpeedZ", z); // z축 입력값 블렌드 트리에 적용
@@ -167,6 +265,15 @@ public class TPSControl : MonoBehaviour
         float cameraAngle = mainCamera.eulerAngles.y;
         float smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, cameraAngle, ref turnSmoothVelocity, turnSmoothTime); // 부드러운 회전 적용
         transform.rotation = Quaternion.Euler(0, smoothAngle, 0); // 플레이어 로테이션값 변경 (회전)
+
+        if (isRun && z > 0) // 플레이어 속도 조정
+        {
+            currentSpeed = runSpeed;
+        }
+        else
+        {
+            currentSpeed = walkSpeed;
+        }
 
         // 캐릭터 이동
         if (direction.magnitude != 0f)
@@ -215,12 +322,18 @@ public class TPSControl : MonoBehaviour
 
     private IEnumerator ThrowGrenade()
     {
+        Vector3 direction = throwDirection * throwPower; // 방향 미리 지정
+
         animator.SetTrigger("ThrowGrenade");
 
         yield return new WaitForSeconds(1.8f);
 
         GameObject currentGrenade = Instantiate(testGrenadePrefab, grenadePivot.position, Quaternion.identity);
-        currentGrenade.GetComponent<Rigidbody>().velocity = throwDirection * throwPower;
+        currentGrenade.GetComponent<Rigidbody>().velocity = direction;
         currentGrenade.GetComponent<Grenade>().StartTimer();
+
+        yield return new WaitForSeconds(0.5f);
+
+        canThrow = true;
     }
 }

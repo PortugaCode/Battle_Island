@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public float gravity = 9.8f;
     public float bulletSpeed = 1.0f;
     public float bulletDamage = 0;
 
@@ -17,6 +18,11 @@ public class Bullet : MonoBehaviour
     private void Start()
     {
         rb.velocity = transform.forward * bulletSpeed; // Bullet 앞으로 이동
+    }
+
+    private void FixedUpdate()
+    {
+        rb.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
     }
 
     private void OnCollisionEnter(Collision collision) // 충돌 처리
