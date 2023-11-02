@@ -16,14 +16,19 @@ public class AIAgent : MonoBehaviour
     public UIHealthBar ui;
     public Transform playerTarget;
     public Transform AimTarget;
-    public Vector3 originAimPosition;
+    public Transform originTarget;
+
     public Rig rig;
     public TwoBoneIKConstraint twoBoneIK;
 
     public GameObject[] rifleWeapons;
-    public GameObject[] StartAim;
+    public Transform[] StartAim;
     public GameObject SelectRifleWeapons;
-    public GameObject SelectStartAim;
+    public Transform SelectStartAim;
+    public GameObject Bullet;
+
+    public LayerMask WallLayer;
+
 
 
     public AiStateID initalState;
@@ -31,7 +36,6 @@ public class AIAgent : MonoBehaviour
 
     private void Awake()
     {
-        originAimPosition = AimTarget.position;
 
         for (int i =0; i < rifleWeapons.Length; i++)
         {

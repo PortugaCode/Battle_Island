@@ -1,9 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIShootingState : AIState
+public class AIShootingState : MonoBehaviour, AIState
 {
+    private float lastFireTime;
+    private float timeBetFire = 0.3f;
+    private Transform fireTransform;
+
+    
+
+
 
     public AiStateID GetID()
     {
@@ -30,9 +38,18 @@ public class AIShootingState : AIState
         }
 
         agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position, 5f * Time.deltaTime);
+        if(agent.navMeshAgent.speed <= 0)
+        {
+            Fire(agent);
+            CheckWall(agent);
 
-        CheckPlayer(agent);
-        CheckPlayer2(agent);
+
+            CheckPlayer(agent);
+            CheckPlayer2(agent);
+            
+        }
+        
+
     }
 
     public void Exit(AIAgent agent)
@@ -40,10 +57,35 @@ public class AIShootingState : AIState
 
     }
 
+    private void CheckWall(AIAgent agent)
+    {
+        if(Physics.Raycast(agent.StartAim[2].transform.position, agent.StartAim[2].transform.forward, out RaycastHit hit, 7f))
+        {
+            Debug.Log("¹º°¡ ´ê¾Ò´Ù.");
+            if(hit.collider.CompareTag("Finish"))
+            {
+                agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
+                Debug.DrawRay(agent.StartAim[2].transform.position, agent.StartAim[2].transform.forward * hit.distance, Color.blue);
+            }
+            else
+            {
+                Debug.DrawRay(agent.StartAim[2].transform.position, agent.StartAim[2].transform.forward * 1000f, Color.red);
+            }
+        }
+    }
+
+    private void CheckWall2(AIAgent agent)
+    {
+        if(Physics.CheckSphere(agent.StartAim[2].position, 1f, agent.WallLayer))
+        {
+            agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
+        }
+    }
+
     private void CheckPlayer(AIAgent agent)
     {
         Vector3 Playerdirection = agent.playerTarget.position - agent.transform.position;
-        if (Playerdirection.magnitude > agent.config.maxSightDistance+5f)
+        if (Playerdirection.magnitude > agent.config.maxSightDistance+7f)
         {
             agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
         }
@@ -63,5 +105,21 @@ public class AIShootingState : AIState
         }
     }
 
+    private void Fire(AIAgent agent)
+    {
+        if(Time.time >= lastFireTime + timeBetFire)
+        {
+            lastFireTime = Time.time;
 
+            Shot(agent);
+        }
+    }
+
+    private void Shot(AIAgent agent)
+    {
+        GameObject b = Instantiate(agent.Bullet, agent.StartAim[2].position, agent.StartAim[2].transform.rotation);
+/*        Vector3 direction = b.transform.position - agent.AimTarget.position;
+        direction.Normalize();
+        b.transform.forward = direction;*/
+    }
 }

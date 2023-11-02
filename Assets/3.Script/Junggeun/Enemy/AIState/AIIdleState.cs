@@ -34,6 +34,8 @@ public class AIIdleState : MonoBehaviour, AIState
             agent.twoBoneIK.weight = 1f;
         }
 
+        agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
+
         Vector3 Playerdirection = agent.playerTarget.position - agent.transform.position;
         if(Playerdirection.magnitude > agent.config.maxSightDistance)
         {
