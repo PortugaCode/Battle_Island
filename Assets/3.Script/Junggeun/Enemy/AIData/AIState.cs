@@ -8,7 +8,8 @@ public enum AiStateID
     Death,
     Idle,
     FindWeapon,
-    Shooting
+    Shooting,
+    RandomMove
 }
 
 public interface AIState

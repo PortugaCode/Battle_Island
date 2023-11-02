@@ -35,8 +35,7 @@ public class AIFindWeaponState : MonoBehaviour, AIState
             pickup = FindClosestWeapon(agent);
             if(pickup != null)
             {
-                agent.navMeshAgent.destination = pickup.transform.position;
-                agent.navMeshAgent.speed = 5;
+                agent.stateMachine.ChangeState(AiStateID.RandomMove);
             }
         }
 
@@ -78,7 +77,6 @@ public class AIFindWeaponState : MonoBehaviour, AIState
                 agent.isReady = true;
             }
         }
-
     }
 
 

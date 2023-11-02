@@ -34,9 +34,9 @@ public class AIIdleState : MonoBehaviour, AIState
             agent.twoBoneIK.weight = 1f;
         }
 
-        agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
+        agent.stateMachine.ChangeState(AiStateID.RandomMove);
 
-        Vector3 Playerdirection = agent.playerTarget.position - agent.transform.position;
+/*        Vector3 Playerdirection = agent.playerTarget.position - agent.transform.position;
         if(Playerdirection.magnitude > agent.config.maxSightDistance)
         {
             return;
@@ -49,7 +49,7 @@ public class AIIdleState : MonoBehaviour, AIState
         if(dotProduct > 0.0f)
         {
             agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
-        }
+        }*/
 
 
     }
