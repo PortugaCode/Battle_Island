@@ -21,6 +21,10 @@ public class AIAgent : MonoBehaviour
     public TwoBoneIKConstraint twoBoneIK;
 
     public GameObject[] rifleWeapons;
+    public GameObject[] StartAim;
+    public GameObject SelectRifleWeapons;
+    public GameObject SelectStartAim;
+
 
     public AiStateID initalState;
     public AIAgentConfig config;
@@ -33,6 +37,7 @@ public class AIAgent : MonoBehaviour
         {
             rifleWeapons[i].SetActive(false);
         }
+
         TryGetComponent(out enemyHealth);
         TryGetComponent(out navMeshAgent);
         TryGetComponent(out ragDoll);

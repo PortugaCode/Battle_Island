@@ -43,7 +43,7 @@ public class AIShootingState : AIState
     private void CheckPlayer(AIAgent agent)
     {
         Vector3 Playerdirection = agent.playerTarget.position - agent.transform.position;
-        if (Playerdirection.magnitude > agent.config.maxSightDistance+7f)
+        if (Playerdirection.magnitude > agent.config.maxSightDistance+5f)
         {
             agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
         }

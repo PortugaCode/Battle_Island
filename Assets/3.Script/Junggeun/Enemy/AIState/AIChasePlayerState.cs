@@ -54,7 +54,7 @@ public class AIChasePlayerState : AIState
 
 
         Vector3 Playerdirection = agent.playerTarget.position - agent.transform.position;
-        if (Playerdirection.magnitude > agent.config.maxSightDistance+7f)
+        if (Playerdirection.magnitude > agent.config.maxSightDistance+3f)
         {
             return;
         }
