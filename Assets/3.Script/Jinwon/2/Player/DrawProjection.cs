@@ -15,6 +15,9 @@ public class DrawProjection : MonoBehaviour
 
     // The physics layers that will cause the line to stop being drawn
     public LayerMask CollidableLayers;
+
+    public bool drawProjection = false;
+
     void Start()
     {
         TryGetComponent(out lineRenderer);
@@ -23,6 +26,16 @@ public class DrawProjection : MonoBehaviour
 
     void Update()
     {
+        if (!drawProjection)
+        {
+            lineRenderer.enabled = false;
+            return;
+        }
+        else
+        {
+            lineRenderer.enabled = true;
+        }
+
         lineRenderer.positionCount = (int)numPoints;
         List<Vector3> points = new List<Vector3>();
         Vector3 startingPosition = tpsControl.gunPivot.position;
@@ -39,7 +52,6 @@ public class DrawProjection : MonoBehaviour
                 break;
             }
         }
-
         lineRenderer.SetPositions(points.ToArray());
     }
 }

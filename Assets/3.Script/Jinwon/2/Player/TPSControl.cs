@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
+public enum Weapon
+{
+    None,
+    Gun,
+    Grenade
+}
+
 public class TPSControl : MonoBehaviour
 {
     [Header("Move")]
@@ -34,6 +41,9 @@ public class TPSControl : MonoBehaviour
     public float throwPower = 10.0f;
     public Vector3 throwDirection;
 
+    //Status
+    private Weapon currentWeapon = Weapon.None;
+
     private void Awake()
     {
         TryGetComponent(out rb);
@@ -49,50 +59,86 @@ public class TPSControl : MonoBehaviour
         Move(); // 이동
         ZoomCheck(); // 줌
 
-        if (Input.GetKeyDown(KeyCode.Return)) // 총 장착 테스트용
+        if (Input.GetKeyDown(KeyCode.Keypad1)) // 총 장착 테스트
         {
             EquipGun();
+            currentWeapon = Weapon.Gun;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space)) // 수류탄 테스트용
+        if (Input.GetKeyDown(KeyCode.Keypad2)) // 수류탄 장착 테스트
         {
-            ThrowGrenade();
+            currentWeapon = Weapon.Grenade;
         }
     }
 
     private void GetMouseInput()
     {
-        if (Input.GetMouseButtonDown(1)) // 조준
+        if (currentWeapon == Weapon.Gun && currentGun != null)
         {
-            if (!isAim)
+            if (Input.GetMouseButtonDown(1)) // 조준
             {
-                isAim = true;
+                if (!isAim)
+                {
+                    isAim = true;
+                }
             }
-        }
 
-        if (Input.GetMouseButtonUp(1)) // 조준 해제
-        {
-            if (isAim)
+            if (Input.GetMouseButtonUp(1)) // 조준 해제
             {
-                isAim = false;
+                if (isAim)
+                {
+                    isAim = false;
+                }
             }
-        }
 
-        if (Input.GetMouseButton(1) && Input.GetMouseButton(0)) // 조준 중 발사
-        {
-            if (currentGun != null) // 장착된 총이 있다면 발사 메서드 호출
+            if (Input.GetMouseButton(1) && Input.GetMouseButton(0)) // 조준 중 발사
             {
                 currentGun.GetComponent<TestRifle>().Shoot();
             }
         }
+        else if (currentWeapon == Weapon.Grenade)
+        {
+            if (Input.GetMouseButtonDown(1)) // 조준
+            {
+                if (!isAim)
+                {
+                    isAim = true;
+                }
+            }
 
-        Debug.Log(mainCamera.eulerAngles.x);
+            if (Input.GetMouseButtonUp(1)) // 조준 해제
+            {
+                if (isAim)
+                {
+                    isAim = false;
+                }
+            }
 
-        // x가 30일때 upPower는 0.5f
-        // x가 0일때 upPower는 1.0f
-        // x가 330 (-30)일때 upPower는 1.5f
+            if (Input.GetMouseButtonDown(0)) // 수류탄 조준
+            {
+                GetComponent<DrawProjection>().drawProjection = true;
+            }
 
-        float upPower = 1.5f;
+            if (Input.GetMouseButtonUp(0)) // 수류탄 투척
+            {
+                GetComponent<DrawProjection>().drawProjection = false;
+                ThrowGrenade();
+            }
+        }
+
+        // 마우스 회전 각도에 따라 궤적 변경
+        float camAngle;
+
+        if (mainCamera.eulerAngles.x > 300)
+        {
+            camAngle = mainCamera.eulerAngles.x - 360.0f;
+        }
+        else
+        {
+            camAngle = mainCamera.eulerAngles.x;
+        }
+
+        float upPower = 1.0f - camAngle / 60.0f;
         throwDirection = transform.up * upPower + transform.forward; // 마우스 회전에 따라 수류탄 투척 방향 결정
     }
 
@@ -125,11 +171,6 @@ public class TPSControl : MonoBehaviour
 
     private void ZoomCheck()
     {
-        if (!hasGun) // 총이 있는 상태에서만 줌 가능
-        {
-            return;
-        }
-
         if (isAim && !aimCamera.gameObject.activeSelf) // Zoom In
         {
             aimCamera.m_XAxis.Value = normalCamera.m_XAxis.Value; // 두 카메라 x값 동기화
