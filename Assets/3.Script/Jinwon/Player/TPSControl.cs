@@ -22,6 +22,11 @@ public class TPSControl : MonoBehaviour
     private float z;
     private Vector3 direction;
 
+    [Header("Jump")]
+    public LayerMask groundLayer;
+    public float jumpForce = 2.0f;
+    private bool isGround = true;
+
     [Header("Camera")]
     [SerializeField] private Transform mainCamera;
     [SerializeField] private CinemachineFreeLook normalCamera;
@@ -47,7 +52,7 @@ public class TPSControl : MonoBehaviour
     private GameObject nearCar;
     private bool isCarEntered = false;
 
-    // Status
+    // Weapon Status
     private Weapon currentWeapon = Weapon.None;
 
     // Components
@@ -72,6 +77,7 @@ public class TPSControl : MonoBehaviour
             PlayerMove(); // 이동
             ZoomCheck(); // 줌
             CheckCar(); // 차량 체크
+            GroundCheck(); // 땅 체크
 
             if (Input.GetKeyDown(KeyCode.Keypad1)) // 총 장착 테스트
             {
@@ -271,6 +277,11 @@ public class TPSControl : MonoBehaviour
             }
         }
 
+        if (isGround && Input.GetKeyDown(KeyCode.Space)) // 점프
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+
         animator.SetFloat("MoveSpeedX", x); // x축 입력값 블렌드 트리에 적용
         animator.SetFloat("MoveSpeedZ", z); // z축 입력값 블렌드 트리에 적용
 
@@ -304,6 +315,11 @@ public class TPSControl : MonoBehaviour
 
             rb.MovePosition(rb.position + moveDirection.normalized * currentSpeed * Time.deltaTime); // 플레이어 이동
         }
+    }
+
+    private void GroundCheck()
+    {
+        isGround = Physics.OverlapSphere(transform.position, 0.5f, groundLayer).Length > 0;
     }
 
     private void ZoomCheck()
