@@ -15,6 +15,7 @@ public class AIIdleState : MonoBehaviour, AIState
 
     public void Enter(AIAgent agent)
     {
+        Debug.Log("¾ÆÀÌµé");
         while(agent.navMeshAgent.speed != 0)
         {
             agent.navMeshAgent.speed -= 0.1f;
@@ -28,12 +29,17 @@ public class AIIdleState : MonoBehaviour, AIState
         {
             if (CoolTime > 0.0f)
             {
-                Debug.Log(CoolTime);
                 return;
             }
             agent.twoBoneIK.weight = 1f;
+            CoolTime = DuTime;
         }
-
+        
+        if(agent.magAmmo < agent.ammoRemain && agent.isReady)
+        {
+            agent.stateMachine.ChangeState(AiStateID.Reload);
+            return;
+        }
         agent.stateMachine.ChangeState(AiStateID.RandomMove);
 
 /*        Vector3 Playerdirection = agent.playerTarget.position - agent.transform.position;

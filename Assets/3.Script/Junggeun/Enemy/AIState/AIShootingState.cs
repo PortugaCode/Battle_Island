@@ -6,8 +6,6 @@ using UnityEngine;
 public class AIShootingState : MonoBehaviour, AIState
 {
     private float lastFireTime;
-    private float timeBetFire = 0.18f;
-    private Transform fireTransform;
     private Animator animator;
 
 
@@ -44,7 +42,14 @@ public class AIShootingState : MonoBehaviour, AIState
         agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position, 5f * Time.deltaTime);
         if(agent.navMeshAgent.speed <= 0)
         {
-            Fire(agent);
+            if(agent.magAmmo > 0)
+            {
+                Fire(agent);
+            }
+            else if(agent.magAmmo <= 0)
+            {
+                agent.stateMachine.ChangeState(AiStateID.Reload);
+            }
             CheckWall(agent);
 
 
@@ -66,7 +71,6 @@ public class AIShootingState : MonoBehaviour, AIState
     {
         if(Physics.Raycast(agent.StartAim[2].transform.position, agent.StartAim[2].transform.forward, out RaycastHit hit, 7f))
         {
-            Debug.Log("¹º°¡ ´ê¾Ò´Ù.");
             if(hit.collider.CompareTag("Finish"))
             {
                 agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
@@ -112,18 +116,18 @@ public class AIShootingState : MonoBehaviour, AIState
 
     private void Fire(AIAgent agent)
     {
-        if(Time.time >= lastFireTime + timeBetFire)
+        if(Time.time >= lastFireTime + agent.Nowgundata.timebetFire)
         {
             lastFireTime = Time.time;
 
             Shot(agent);
             agent.isShot = true;
         }
-        else { agent.isShot = false; }
     }
 
     private void Shot(AIAgent agent)
     {
+        Debug.Log("¹ß»ç");
         GameObject b = Instantiate(agent.Bullet, agent.StartAim[2].position, agent.StartAim[2].transform.rotation);
         GameObject light = Instantiate(agent.FireLight, agent.StartAim[2].position, Quaternion.identity);
         Destroy(light, 0.03f);
@@ -132,7 +136,7 @@ public class AIShootingState : MonoBehaviour, AIState
         agent.FireEffect.Play();
         agent.FireEffect1.Play();
         animator.SetTrigger("Fire");
-
+        agent.magAmmo--;
         /*        Vector3 direction = b.transform.position - agent.AimTarget.position;
                 direction.Normalize();
                 b.transform.forward = direction;*/

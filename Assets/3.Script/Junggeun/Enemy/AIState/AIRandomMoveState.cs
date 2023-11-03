@@ -15,6 +15,7 @@ public class AIRandomMoveState : AIState
 
     public void Enter(AIAgent agent)
     {
+        Debug.Log("·£´ý ÀÌµ¿");
         point = FindClosestPoint(agent);
         agent.navMeshAgent.destination = point.transform.position;
         agent.navMeshAgent.speed = 5;
@@ -22,23 +23,30 @@ public class AIRandomMoveState : AIState
 
     public void AIUpdate(AIAgent agent)
     {
-        
+        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 2f * Time.deltaTime);
 
-        if (FindPlayer(agent) && agent.isReady)
+        if (FindPlayer(agent) && agent.isReady && agent.isAmmoReady)
         {
             agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
             return;
         }
 
-        if (FindWeapon(agent))
+        if (FindWeapon(agent) && !agent.isReady)
         {
             agent.stateMachine.ChangeState(AiStateID.FindWeapon);
             return;
         }
 
+        if (FindBullet(agent))
+        {
+            agent.stateMachine.ChangeState(AiStateID.FindBullet);
+            return;
+        }
+
+
         if (FindPlayer(agent))
         {
-            agent.navMeshAgent.speed = 7f;
+            agent.navMeshAgent.speed = 5.5f;
         }
         else
         {
@@ -80,6 +88,19 @@ public class AIRandomMoveState : AIState
         foreach(Collider col in w)
         {
             if(col.CompareTag("Weapon"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private bool FindBullet(AIAgent agent)
+    {
+        Collider[] w = Physics.OverlapSphere(agent.transform.position, 20f);
+        foreach (Collider col in w)
+        {
+            if (col.CompareTag("Bullet"))
             {
                 return true;
             }

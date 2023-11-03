@@ -17,6 +17,8 @@ public class AIFindWeaponState : MonoBehaviour, AIState
 
     public void Enter(AIAgent agent)
     {
+        Debug.Log("ÃÑ Ã£±â");
+
         animator = agent.gameObject.GetComponent<Animator>();
         pickup = FindClosestWeapon(agent);
         agent.navMeshAgent.destination = pickup.transform.position;
@@ -75,6 +77,10 @@ public class AIFindWeaponState : MonoBehaviour, AIState
             {
                 isPickup = true;
                 agent.isReady = true;
+                agent.isAmmoReady = true;
+                agent.Nowgundata = agent.gundata[(int)col.GetComponent<GunEnum>().gunState];
+                agent.magAmmo = agent.Nowgundata.magCapcity;
+                agent.ammoRemain += agent.Nowgundata.magCapcity;
             }
         }
     }

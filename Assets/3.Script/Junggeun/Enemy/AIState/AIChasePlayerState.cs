@@ -29,7 +29,7 @@ public class AIChasePlayerState : AIState
             return;
         }
 
-        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 5f * Time.deltaTime);
+        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 2f * Time.deltaTime);
 
 
 
@@ -44,15 +44,8 @@ public class AIChasePlayerState : AIState
             timer = agent.config.maxTime;
         }
 
-        /*        float distance = Vector3.Distance(agent.playerTarget.position, agent.transform.position);
-                if (distance < agent.config.maxSightDistance)
-                {
-                    agent.stateMachine.ChangeState(AiStateID.Shooting);
-                }*/
         if(CheckWall(agent) || CheckWall2(agent)) return;
 
-/*        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position, 5f * Time.deltaTime);
-        //agent.AimTarget.position = agent.playerTarget.position;*/
 
         Vector3 Playerdirection = agent.playerTarget.position - agent.transform.position;
         if (Playerdirection.magnitude > agent.config.maxSightDistance+15f)
@@ -79,7 +72,6 @@ public class AIChasePlayerState : AIState
     {
         if (Physics.Raycast(agent.StartAim[2].transform.position, agent.StartAim[2].transform.forward, out RaycastHit hit, 10f))
         {
-            Debug.Log("¹º°¡ ´ê¾Ò´Ù.");
             if (hit.collider.CompareTag("Finish"))
             {
                 
@@ -98,7 +90,7 @@ public class AIChasePlayerState : AIState
 
     private bool CheckWall2(AIAgent agent)
     {
-        if (Physics.CheckSphere(agent.StartAim[2].position, 1f, agent.WallLayer))
+        if (Physics.CheckSphere(agent.StartAim[2].position, 2f, agent.WallLayer))
         {
             return true;
         }
