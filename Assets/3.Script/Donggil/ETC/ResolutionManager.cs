@@ -20,17 +20,7 @@ public class ResolutionManager : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            if(option.activeSelf)
-            {
-                option.SetActive(false);
-            }
-            else
-            {
-                option.SetActive(true);
-            }
-        }
+        
     }
 
     private void Init()
