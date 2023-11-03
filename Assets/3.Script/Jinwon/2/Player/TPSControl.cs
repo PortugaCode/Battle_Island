@@ -43,6 +43,10 @@ public class TPSControl : MonoBehaviour
     public Vector3 throwDirection;
     private bool canThrow = true;
 
+    [Header("Car")]
+    private GameObject nearCar;
+    private bool isCarEntered = false;
+
     // Status
     private Weapon currentWeapon = Weapon.None;
 
@@ -61,25 +65,36 @@ public class TPSControl : MonoBehaviour
 
     private void Update()
     {
-        GetMouseInput(); // 마우스 입력
-        GetKeyboardInput(); // 키보드 입력
-        PlayerMove(); // 이동
-        ZoomCheck(); // 줌
-
-        if (Input.GetKeyDown(KeyCode.Keypad1)) // 총 장착 테스트
+        if (!isCarEntered)
         {
-            EquipGun();
-            currentWeapon = Weapon.Gun;
+            GetMouseInput(); // 마우스 입력
+            GetKeyboardInput(); // 키보드 입력
+            PlayerMove(); // 이동
+            ZoomCheck(); // 줌
+            CheckCar(); // 차량 체크
+
+            if (Input.GetKeyDown(KeyCode.Keypad1)) // 총 장착 테스트
+            {
+                EquipGun();
+                currentWeapon = Weapon.Gun;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Keypad2)) // 수류탄 장착 테스트
+            {
+                currentWeapon = Weapon.Grenade;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Return)) // 승차
+            {
+                EnterCar();
+            }
         }
-
-        if (Input.GetKeyDown(KeyCode.Keypad2)) // 수류탄 장착 테스트
+        else
         {
-            currentWeapon = Weapon.Grenade;
-        }
-
-        if (Input.GetKeyDown(KeyCode.F)) // 승차
-        {
-            EnterCar();
+            if (Input.GetKeyDown(KeyCode.Return)) // 하차
+            {
+                ExitCar();
+            }
         }
     }
 
@@ -342,7 +357,7 @@ public class TPSControl : MonoBehaviour
         canThrow = true;
     }
 
-    private void GetItemAround()
+    private void GetItemAround() // 플레이어 주변 아이템 확인
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, 3.0f);
 
@@ -352,8 +367,49 @@ public class TPSControl : MonoBehaviour
         }
     }
 
+    private void CheckCar() // 플레이어 주변 차량 확인
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 3.0f);
+
+        foreach (Collider c in colliders)
+        {
+            if (c.GetComponent<CarControl>())
+            {
+                nearCar = c.gameObject;
+                return;
+            }
+
+            /*if (c.CompareTag("Car"))
+            {
+                nearCar = c.gameObject;
+                return;
+            }*/
+        }
+    }
+
     private void EnterCar() // 승차
     {
+        if (nearCar == null)
+        {
+            return;
+        }
 
+        isCarEntered = true;
+        transform.GetChild(7).gameObject.SetActive(false);
+        nearCar.GetComponent<CarControl>().EnterCar();
+    }
+
+    private void ExitCar() // 하차
+    {
+        if (nearCar == null)
+        {
+            return;
+        }
+
+        isCarEntered = false;
+        nearCar.GetComponent<CarControl>().ExitCar();
+        transform.GetChild(7).gameObject.SetActive(true);
+        transform.position = nearCar.GetComponent<CarControl>().playerPosition.position;
+        transform.forward = nearCar.GetComponent<CarControl>().playerPosition.forward;
     }
 }

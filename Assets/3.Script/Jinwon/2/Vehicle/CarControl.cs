@@ -1,19 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using Cinemachine;
 
 public class CarControl : MonoBehaviour
 {
     private Rigidbody rb;
 
-    [SerializeField] private Transform frontHandle;
-    [SerializeField] private Transform backHandle;
-    [SerializeField] private GameObject leftWheel;
-    [SerializeField] private GameObject rightWheel;
+    [SerializeField] private CinemachineFreeLook carCamera; // 자동차 3인칭 카메라
+    public Transform playerPosition; // 플레이어가 내릴 위치
+    [SerializeField] private Transform frontHandle; // 차가 앞으로 갈 때 적용할 방향
+    [SerializeField] private Transform backHandle; // 차가 뒤로 갈 때 적용할 방향
+    [SerializeField] private GameObject leftWheel; // 왼쪽 바퀴
+    [SerializeField] private GameObject rightWheel; // 오른쪽 바퀴
 
     private float x; // 좌우 (각도)
     private float z; // 앞뒤 (속력)
+
+    public bool isPlayerEntered = false; // 차량에 탑승했는지 확인
 
     private void Awake()
     {
@@ -22,6 +26,11 @@ public class CarControl : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!isPlayerEntered)
+        {
+            return;
+        }
+
         GetKeyboardInput();
         CarMove();
     }
@@ -112,8 +121,8 @@ public class CarControl : MonoBehaviour
             }
         }
 
-        frontHandle.localRotation = Quaternion.Euler(new Vector3(0, x, 0));
-        backHandle.localRotation = Quaternion.Euler(new Vector3(0, -x, 0));
+        frontHandle.localRotation = Quaternion.Euler(new Vector3(0, x, 0)); // 방향 각도 조절
+        backHandle.localRotation = Quaternion.Euler(new Vector3(0, -x, 0)); // 방향 각도 조절
 
         leftWheel.transform.localRotation = Quaternion.Euler(new Vector3(0, x * 30.0f, 0)); // 왼쪽 바퀴 회전
         rightWheel.transform.localRotation = Quaternion.Euler(new Vector3(0, -180.0f + x * 30.0f, 0)); // 오른쪽 바퀴 회전
@@ -121,18 +130,32 @@ public class CarControl : MonoBehaviour
 
     private void CarMove()
     {
-        Vector3 moveDirection = frontHandle.forward * z;
-        Vector3 backDirection = backHandle.forward * z;
+        Vector3 frontDirection = frontHandle.forward * z; // 앞으로 갈 때 방향
+        Vector3 backDirection = backHandle.forward * z; // 뒤로 갈 때 방향
 
         if (z > 0)
         {
             transform.forward = frontHandle.forward;
-            rb.MovePosition(rb.position + moveDirection * Time.deltaTime); // 차량 이동
+            rb.MovePosition(rb.position + frontDirection * Time.deltaTime); // 차량 이동
         }
         else if (z < 0)
         {
             transform.forward = backHandle.forward;
             rb.MovePosition(rb.position + backDirection * Time.deltaTime); // 차량 이동
         }
+    }
+
+    public void EnterCar()
+    {
+        isPlayerEntered = true;
+        rb.isKinematic = false;
+        carCamera.gameObject.SetActive(true);
+    }
+
+    public void ExitCar()
+    {
+        isPlayerEntered = false;
+        rb.isKinematic = true;
+        carCamera.gameObject.SetActive(false);
     }
 }
