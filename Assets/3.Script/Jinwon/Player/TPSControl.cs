@@ -12,6 +12,10 @@ public enum Weapon
 
 public class TPSControl : MonoBehaviour
 {
+    // Player Status
+    private float currentHealth = 0f;
+    private float maxHealth = 100.0f;
+
     [Header("Move")]
     public float walkSpeed = 2.0f;
     public float runSpeed = 3.0f;
@@ -52,6 +56,10 @@ public class TPSControl : MonoBehaviour
     private GameObject nearCar;
     private bool isCarEntered = false;
 
+    [Header("Item")]
+    private List<GameObject> nearItemList = new List<GameObject>();
+    public LayerMask itemLayer;
+
     // Weapon Status
     private Weapon currentWeapon = Weapon.None;
 
@@ -63,6 +71,8 @@ public class TPSControl : MonoBehaviour
     {
         TryGetComponent(out rb);
         TryGetComponent(out animator);
+
+        currentHealth = maxHealth;
 
         Cursor.visible = false; // 마우스 커서 비활성화
         currentSpeed = walkSpeed; // 이동속도 초기화
@@ -76,7 +86,6 @@ public class TPSControl : MonoBehaviour
             GetKeyboardInput(); // 키보드 입력
             PlayerMove(); // 이동
             ZoomCheck(); // 줌
-            CheckCar(); // 차량 체크
             GroundCheck(); // 땅 체크
 
             if (Input.GetKeyDown(KeyCode.Keypad1)) // 총 장착 테스트
@@ -93,6 +102,12 @@ public class TPSControl : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Return)) // 승차
             {
                 EnterCar();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Tab)) // 인벤토리 on off
+            {
+                GetItemAround(); // 주변 아이템 탐색
+                UIManager.instance.ToggleInventory(nearItemList);
             }
         }
         else
@@ -317,12 +332,12 @@ public class TPSControl : MonoBehaviour
         }
     }
 
-    private void GroundCheck()
+    private void GroundCheck() // 땅에 닿아있는지 체크
     {
-        isGround = Physics.OverlapSphere(transform.position, 0.5f, groundLayer).Length > 0;
+        isGround = Physics.OverlapSphere(transform.position, 0.5f, groundLayer).Length > 0; // Ground 레이어에 닿으면 isGround = true;
     }
 
-    private void ZoomCheck()
+    private void ZoomCheck() // 줌인, 줌아웃
     {
         if (isAim && !aimCamera.gameObject.activeSelf) // Zoom In
         {
@@ -344,7 +359,7 @@ public class TPSControl : MonoBehaviour
         }
     }
 
-    private void EquipGun()
+    private void EquipGun() // 총 장착
     {
         if (hasGun) // 총이 없는 상태에서만 장착 가능
         {
@@ -356,30 +371,32 @@ public class TPSControl : MonoBehaviour
         currentGun.transform.SetParent(gunPivot); // GunPivot 위치에 장착
     }
 
-    private IEnumerator ThrowGrenade()
+    private IEnumerator ThrowGrenade() // 수류탄 던지기
     {
         Vector3 direction = throwDirection * throwPower; // 방향 미리 지정
 
-        animator.SetTrigger("ThrowGrenade");
+        animator.SetTrigger("ThrowGrenade"); // 애니메이션 재생
 
         yield return new WaitForSeconds(1.8f);
 
-        GameObject currentGrenade = Instantiate(testGrenadePrefab, grenadePivot.position, Quaternion.identity);
-        currentGrenade.GetComponent<Rigidbody>().velocity = direction;
-        currentGrenade.GetComponent<Grenade>().StartTimer();
+        GameObject currentGrenade = Instantiate(testGrenadePrefab, grenadePivot.position, Quaternion.identity); // 수류탄 생성
+        currentGrenade.GetComponent<Rigidbody>().velocity = direction; // 방향으로 던지기
+        currentGrenade.GetComponent<Grenade>().StartTimer(); // 수류탄 타이머 시작
 
         yield return new WaitForSeconds(0.5f);
 
         canThrow = true;
     }
 
-    private void GetItemAround() // 플레이어 주변 아이템 확인
+    private void GetItemAround() // 플레이어 주변 아이템 확인 --> 인벤토리 열때만 호출
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 3.0f);
+        nearItemList.Clear();
+
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 3.0f, itemLayer); // 플레이어 주변의 item레이어 오브젝트들 검출
 
         foreach (Collider c in colliders)
         {
-            // 주변 아이템들 쭉 탐색
+            nearItemList.Add(c.gameObject);
         }
     }
 
@@ -389,22 +406,18 @@ public class TPSControl : MonoBehaviour
 
         foreach (Collider c in colliders)
         {
-            if (c.GetComponent<CarControl>())
+            if (c.CompareTag("Car"))
             {
                 nearCar = c.gameObject;
                 return;
             }
-
-            /*if (c.CompareTag("Car"))
-            {
-                nearCar = c.gameObject;
-                return;
-            }*/
         }
     }
 
     private void EnterCar() // 승차
     {
+        CheckCar(); // 주변 차 확인
+
         if (nearCar == null)
         {
             return;
@@ -427,5 +440,15 @@ public class TPSControl : MonoBehaviour
         transform.GetChild(7).gameObject.SetActive(true);
         transform.position = nearCar.GetComponent<CarControl>().playerPosition.position;
         transform.forward = nearCar.GetComponent<CarControl>().playerPosition.forward;
+    }
+
+    private void Heal(float healAmount) // 체력 회복
+    {
+        currentHealth += healAmount;
+
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
     }
 }
