@@ -410,6 +410,7 @@ public class TPSControl : MonoBehaviour
     {
         if (!firstPersonCamera.gameObject.activeSelf) // Zoom In
         {
+            transform.GetChild(7).gameObject.SetActive(false); // 모델링 Off
             firstPersonCamera.gameObject.SetActive(true); // 1인칭 카메라 On
             UIManager.instance.Crosshair(true); // 크로스헤어 On
             currentSpeed = aimWalkSpeed; // 플레이어 속도 조정
@@ -420,6 +421,7 @@ public class TPSControl : MonoBehaviour
     {
         if (firstPersonCamera.gameObject.activeSelf) // Zoom In
         {
+            transform.GetChild(7).gameObject.SetActive(true); // 모델링 On
             firstPersonCamera.gameObject.SetActive(false); // 1인칭 카메라 Off
             UIManager.instance.Crosshair(false); // 크로스헤어 Off
             currentSpeed = walkSpeed; // 플레이어 속도 조정
