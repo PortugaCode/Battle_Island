@@ -18,6 +18,15 @@ public class AIAgent : MonoBehaviour
     [HideInInspector] public Transform playerTarget;
     [HideInInspector] public GameObject SelectRifleWeapons;
     [HideInInspector] public Transform SelectStartAim;
+    [HideInInspector] public bool isShot;
+    [HideInInspector] public RaycastHit hit;
+
+    [Header("FireEffect")]
+    public ParticleSystem FireEffect;
+    public ParticleSystem FireEffect1;
+    public GameObject FireLight;
+    public LineRenderer lineRenderer;
+
 
     [Header("TargetAim")]
     public Transform AimTarget;
@@ -47,11 +56,11 @@ public class AIAgent : MonoBehaviour
             rifleWeapons[i].SetActive(false);
         }
 
-
         //===========================================================================
         TryGetComponent(out enemyHealth);
         TryGetComponent(out navMeshAgent);
         TryGetComponent(out ragDoll);
+        TryGetComponent(out lineRenderer);
         mesh = GetComponentInChildren<SkinnedMeshRenderer>();
         ui = GetComponentInChildren<UIHealthBar>();
         GameObject.FindGameObjectWithTag("Player").TryGetComponent(out playerTarget);
@@ -78,5 +87,21 @@ public class AIAgent : MonoBehaviour
     private void Update()
     {
         stateMachine.Update();
+        if(isShot)
+        {
+            StartCoroutine(ShotEffect(hit.point));
+        }
     }
+
+    private IEnumerator ShotEffect(Vector3 hitPosition)
+    {
+        Debug.Log("¿€µø¡ﬂ");
+        lineRenderer.SetPosition(0, StartAim[2].transform.position);
+        lineRenderer.SetPosition(1, hitPosition);
+        lineRenderer.enabled = true;
+
+        yield return new WaitForSeconds(0.03f);
+        lineRenderer.enabled = false;
+    }
+
 }

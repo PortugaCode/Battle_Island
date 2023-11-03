@@ -63,7 +63,7 @@ public class AIRandomMoveState : AIState
 
     private bool FindPlayer(AIAgent agent)
     {
-        Collider[] w = Physics.OverlapSphere(agent.transform.position, 15f);
+        Collider[] w = Physics.OverlapSphere(agent.transform.position, 20f);
         foreach (Collider col in w)
         {
             if (col.CompareTag("Player"))
@@ -76,7 +76,7 @@ public class AIRandomMoveState : AIState
 
     private bool FindWeapon(AIAgent agent)
     {
-        Collider[] w = Physics.OverlapSphere(agent.transform.position, 15f);
+        Collider[] w = Physics.OverlapSphere(agent.transform.position, 20f);
         foreach(Collider col in w)
         {
             if(col.CompareTag("Weapon"))

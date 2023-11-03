@@ -6,10 +6,10 @@ using UnityEngine;
 public class AIShootingState : MonoBehaviour, AIState
 {
     private float lastFireTime;
-    private float timeBetFire = 0.3f;
+    private float timeBetFire = 0.18f;
     private Transform fireTransform;
+    private Animator animator;
 
-    
 
 
 
@@ -20,6 +20,7 @@ public class AIShootingState : MonoBehaviour, AIState
 
     public void Enter(AIAgent agent)
     {
+        animator = agent.gameObject.GetComponent<Animator>();
         Debug.Log("½´ÆÃ");
         agent.twoBoneIK.weight = 1f;
         agent.rig.weight = 1f;
@@ -37,6 +38,9 @@ public class AIShootingState : MonoBehaviour, AIState
             return;
         }
 
+        Physics.Raycast(agent.StartAim[2].position, agent.StartAim[2].forward, out agent.hit, Mathf.Infinity);
+        Debug.DrawRay(agent.StartAim[2].position, agent.StartAim[2].forward * 1000f, Color.green);
+
         agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position, 5f * Time.deltaTime);
         if(agent.navMeshAgent.speed <= 0)
         {
@@ -46,9 +50,9 @@ public class AIShootingState : MonoBehaviour, AIState
 
             CheckPlayer(agent);
             CheckPlayer2(agent);
-            
         }
-        
+
+
 
     }
 
@@ -56,6 +60,7 @@ public class AIShootingState : MonoBehaviour, AIState
     {
 
     }
+
 
     private void CheckWall(AIAgent agent)
     {
@@ -85,7 +90,7 @@ public class AIShootingState : MonoBehaviour, AIState
     private void CheckPlayer(AIAgent agent)
     {
         Vector3 Playerdirection = agent.playerTarget.position - agent.transform.position;
-        if (Playerdirection.magnitude > agent.config.maxSightDistance+7f)
+        if (Playerdirection.magnitude > agent.config.maxSightDistance+15f)
         {
             agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
         }
@@ -112,14 +117,26 @@ public class AIShootingState : MonoBehaviour, AIState
             lastFireTime = Time.time;
 
             Shot(agent);
+            agent.isShot = true;
         }
+        else { agent.isShot = false; }
     }
 
     private void Shot(AIAgent agent)
     {
         GameObject b = Instantiate(agent.Bullet, agent.StartAim[2].position, agent.StartAim[2].transform.rotation);
-/*        Vector3 direction = b.transform.position - agent.AimTarget.position;
-        direction.Normalize();
-        b.transform.forward = direction;*/
+        GameObject light = Instantiate(agent.FireLight, agent.StartAim[2].position, Quaternion.identity);
+        Destroy(light, 0.03f);
+        agent.FireEffect.transform.position = agent.StartAim[2].position;
+        agent.FireEffect1.transform.position = agent.rifleWeapons[2].transform.position;
+        agent.FireEffect.Play();
+        agent.FireEffect1.Play();
+        animator.SetTrigger("Fire");
+
+        /*        Vector3 direction = b.transform.position - agent.AimTarget.position;
+                direction.Normalize();
+                b.transform.forward = direction;*/
     }
+
+
 }
