@@ -35,7 +35,11 @@ public class TPSControl : MonoBehaviour
     [SerializeField] private Transform mainCamera;
     [SerializeField] private CinemachineFreeLook normalCamera;
     [SerializeField] private CinemachineFreeLook aimCamera;
-    private bool isAim = false;
+    [SerializeField] private CinemachineVirtualCamera firstPersonCamera;
+    private float clickTimer = 0f;
+    private bool timerOn = false;
+    private bool isFirstPersonView = false;
+    private bool isThirdPersonView = false;
     public float turnSmoothTime = 0.1f;
     private float turnSmoothVelocity;
 
@@ -82,10 +86,9 @@ public class TPSControl : MonoBehaviour
     {
         if (!isCarEntered)
         {
-            GetMouseInput(); // 마우스 입력
+            GetMouseInput2(); // 마우스 입력
             GetKeyboardInput(); // 키보드 입력
             PlayerMove(); // 이동
-            ZoomCheck(); // 줌
             GroundCheck(); // 땅 체크
 
             if (Input.GetKeyDown(KeyCode.Keypad1)) // 총 장착 테스트
@@ -119,7 +122,7 @@ public class TPSControl : MonoBehaviour
         }
     }
 
-    private void GetMouseInput()
+    /*private void GetMouseInput()
     {
         if (currentWeapon == Weapon.Gun && currentGun != null)
         {
@@ -176,6 +179,69 @@ public class TPSControl : MonoBehaviour
                     GetComponent<DrawProjection>().drawProjection = false;
                     StartCoroutine(ThrowGrenade());
                 }
+            }
+        }
+    }*/
+
+    private void GetMouseInput2()
+    {
+        // 1. 우클릭 -> 타이머 시작
+        // 2. 우클릭 해제 시 타이머에 따라
+        // 살짝 눌렀으면 1인칭 진입
+        // 원래 3인칭 상태였으면 3인칭 해제
+        // 원래 1인칭 상태였으면 1인칭 해제
+        // 3. 우클릭 한 채로 오래 있으면 3인칭 진입
+        
+        if (Input.GetMouseButtonDown(1))
+        {
+            timerOn = true;
+        }
+
+        if (timerOn)
+        {
+            clickTimer += Time.deltaTime;
+        }
+
+        if (clickTimer >= 0.5f)
+        {
+            timerOn = false;
+            clickTimer = 0;
+
+            if (!isFirstPersonView && !isThirdPersonView)
+            {
+                // 3인칭 진입
+                isThirdPersonView = true;
+                Third_ZoomIn();
+            }
+        }
+
+        if (Input.GetMouseButtonUp(1))
+        {
+            timerOn = false;
+            clickTimer = 0;
+
+            if (isFirstPersonView)
+            {
+                // 1인칭 해제
+                isFirstPersonView = false;
+                First_ZoomOut();
+                return;
+            }
+
+            if (isThirdPersonView)
+            {
+                // 3인칭 해제
+                isThirdPersonView = false;
+                Third_ZoomOut();
+                return;
+            }
+
+            if (!isFirstPersonView && !isThirdPersonView && clickTimer < 0.5f)
+            {
+                // 1인칭 진입
+                isFirstPersonView = true;
+                First_ZoomIn();
+                return;
             }
         }
 
@@ -308,9 +374,12 @@ public class TPSControl : MonoBehaviour
         //float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + mainCamera.eulerAngles.y;
 
         // 카메라 바라보는 방향으로 캐릭터 회전
-        float cameraAngle = mainCamera.eulerAngles.y;
-        float smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, cameraAngle, ref turnSmoothVelocity, turnSmoothTime); // 부드러운 회전 적용
-        transform.rotation = Quaternion.Euler(0, smoothAngle, 0); // 플레이어 로테이션값 변경 (회전)
+        if (!isFirstPersonView)
+        {
+            float cameraAngle = mainCamera.eulerAngles.y;
+            float smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, cameraAngle, ref turnSmoothVelocity, turnSmoothTime); // 부드러운 회전 적용
+            transform.rotation = Quaternion.Euler(0, smoothAngle, 0); // 플레이어 로테이션값 변경 (회전)
+        }
 
         if (isRun && z > 0) // 플레이어 속도 조정
         {
@@ -337,9 +406,29 @@ public class TPSControl : MonoBehaviour
         isGround = Physics.OverlapSphere(transform.position, 0.5f, groundLayer).Length > 0; // Ground 레이어에 닿으면 isGround = true;
     }
 
-    private void ZoomCheck() // 줌인, 줌아웃
+    private void First_ZoomIn()
     {
-        if (isAim && !aimCamera.gameObject.activeSelf) // Zoom In
+        if (!firstPersonCamera.gameObject.activeSelf) // Zoom In
+        {
+            firstPersonCamera.gameObject.SetActive(true); // 1인칭 카메라 On
+            UIManager.instance.Crosshair(true); // 크로스헤어 On
+            currentSpeed = aimWalkSpeed; // 플레이어 속도 조정
+        }
+    }
+
+    private void First_ZoomOut()
+    {
+        if (firstPersonCamera.gameObject.activeSelf) // Zoom In
+        {
+            firstPersonCamera.gameObject.SetActive(false); // 1인칭 카메라 Off
+            UIManager.instance.Crosshair(false); // 크로스헤어 Off
+            currentSpeed = walkSpeed; // 플레이어 속도 조정
+        }
+    }
+
+    private void Third_ZoomIn()
+    {
+        if (!aimCamera.gameObject.activeSelf) // Zoom In
         {
             animator.SetTrigger("Aim"); // 줌 인 애니메이션
             aimCamera.m_XAxis.Value = normalCamera.m_XAxis.Value; // 두 카메라 x값 동기화
@@ -348,7 +437,11 @@ public class TPSControl : MonoBehaviour
             UIManager.instance.Crosshair(true); // 크로스헤어 On
             currentSpeed = aimWalkSpeed; // 플레이어 속도 조정
         }
-        else if (!isAim && aimCamera.gameObject.activeSelf) // Zoom Out
+    }
+
+    private void Third_ZoomOut()
+    {
+        if (aimCamera.gameObject.activeSelf) // Zoom Out
         {
             animator.SetTrigger("UnAim"); // 줌 아웃 애니메이션
             normalCamera.m_XAxis.Value = aimCamera.m_XAxis.Value; // 두 카메라 x값 동기화
