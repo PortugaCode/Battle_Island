@@ -18,11 +18,6 @@ public class ResolutionManager : MonoBehaviour
         Init();
     }
 
-    private void Update()
-    {
-        
-    }
-
     private void Init()
     {
         for (int i = 0; i < Screen.resolutions.Length; i++)

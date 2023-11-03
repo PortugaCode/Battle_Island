@@ -24,7 +24,6 @@ public class OptionManager : MonoBehaviour
         }
         else
         {
-            GraphicOption.SetActive(false);
             AudioOption.SetActive(false);
         }
     }
