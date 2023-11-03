@@ -90,7 +90,7 @@ public class AIChasePlayerState : AIState
 
     private bool CheckWall2(AIAgent agent)
     {
-        if (Physics.CheckSphere(agent.StartAim[2].position, 2f, agent.WallLayer))
+        if (Physics.CheckSphere(agent.StartAim[2].position, 1.5f, agent.WallLayer))
         {
             return true;
         }

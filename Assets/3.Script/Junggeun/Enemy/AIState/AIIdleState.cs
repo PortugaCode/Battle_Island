@@ -35,7 +35,7 @@ public class AIIdleState : MonoBehaviour, AIState
             CoolTime = DuTime;
         }
         
-        if(agent.magAmmo < agent.ammoRemain && agent.isReady)
+        if(agent.magAmmo < agent.ammoRemain && agent.isReady && agent.magAmmo < agent.Nowgundata.magCapcity)
         {
             agent.stateMachine.ChangeState(AiStateID.Reload);
             return;

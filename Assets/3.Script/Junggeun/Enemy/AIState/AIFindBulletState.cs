@@ -47,6 +47,7 @@ public class AIFindBulletState : MonoBehaviour, AIState
         {
             agent.stateMachine.ChangeState(AiStateID.Idle);
         }
+        agent.navMeshAgent.destination = pickup.transform.position;
     }
 
     public void Exit(AIAgent agent)
