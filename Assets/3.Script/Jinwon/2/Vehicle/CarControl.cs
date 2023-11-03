@@ -5,13 +5,12 @@ using UnityEngine.UI;
 
 public class CarControl : MonoBehaviour
 {
-    public Text directionText;
-
     private Rigidbody rb;
 
-    private float turnSmoothVelocity;
-
-    [SerializeField] private Transform handle;
+    [SerializeField] private Transform frontHandle;
+    [SerializeField] private Transform backHandle;
+    [SerializeField] private GameObject leftWheel;
+    [SerializeField] private GameObject rightWheel;
 
     private float x; // 좌우 (각도)
     private float z; // 앞뒤 (속력)
@@ -19,11 +18,6 @@ public class CarControl : MonoBehaviour
     private void Awake()
     {
         TryGetComponent(out rb);
-    }
-
-    private void Update()
-    {
-        directionText.text = x.ToString();
     }
 
     private void FixedUpdate()
@@ -64,7 +58,7 @@ public class CarControl : MonoBehaviour
                 z += Time.deltaTime * 10.0f;
             }
 
-            if (Mathf.Abs(z) <= 0.001f) // 0으로 보정
+            if (Mathf.Abs(z) < 0.1f) // 0으로 보정
             {
                 z = 0;
             }
@@ -96,7 +90,7 @@ public class CarControl : MonoBehaviour
 
             if (x > -xLimit)
             {
-                x -= Time.deltaTime * 30.0f;
+                x -= Time.deltaTime * 20.0f;
             }
 
             if (x < -xLimit) x = -xLimit;
@@ -105,39 +99,40 @@ public class CarControl : MonoBehaviour
         {
             if (x > 0)
             {
-                x -= Time.deltaTime * 30.0f;
+                x -= Time.deltaTime * 20.0f;
             }
             else if (x < 0)
             {
-                x += Time.deltaTime * 30.0f;
+                x += Time.deltaTime * 20.0f;
             }
 
-            if (Mathf.Abs(x) <= 0.01f) // 0으로 보정
+            if (Mathf.Abs(x) < 0.2f) // 0으로 보정
             {
                 x = 0;
             }
         }
 
-        handle.localRotation = Quaternion.Euler(new Vector3(0, x, 0));
+        frontHandle.localRotation = Quaternion.Euler(new Vector3(0, x, 0));
+        backHandle.localRotation = Quaternion.Euler(new Vector3(0, -x, 0));
+
+        leftWheel.transform.localRotation = Quaternion.Euler(new Vector3(0, x * 30.0f, 0)); // 왼쪽 바퀴 회전
+        rightWheel.transform.localRotation = Quaternion.Euler(new Vector3(0, -180.0f + x * 30.0f, 0)); // 오른쪽 바퀴 회전
     }
 
     private void CarMove()
     {
-        Vector3 moveDirection = handle.forward * z;
+        Vector3 moveDirection = frontHandle.forward * z;
+        Vector3 backDirection = backHandle.forward * z;
 
-        if (Mathf.Abs(z) > 0)
+        if (z > 0)
         {
-            transform.forward = handle.forward;
-
+            transform.forward = frontHandle.forward;
             rb.MovePosition(rb.position + moveDirection * Time.deltaTime); // 차량 이동
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Vector3 moveDirection = handle.forward;
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, moveDirection);
+        else if (z < 0)
+        {
+            transform.forward = backHandle.forward;
+            rb.MovePosition(rb.position + backDirection * Time.deltaTime); // 차량 이동
+        }
     }
 }
