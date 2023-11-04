@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIFindBulletState : MonoBehaviour, AIState
+public class AIFindBulletState : AIState
 {
     private GameObject pickup;
     private bool isPickup = false;
@@ -67,7 +67,7 @@ public class AIFindBulletState : MonoBehaviour, AIState
             //나중에 rifle 정보 가지고 와서 바꾸기
             agent.rifleWeapons[2].SetActive(true);
 
-            Destroy(pickup.gameObject);
+            MonoBehaviour.Destroy(pickup.gameObject);
         }
     }
 

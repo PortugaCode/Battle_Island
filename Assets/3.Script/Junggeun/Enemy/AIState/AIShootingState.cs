@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIShootingState : MonoBehaviour, AIState
+public class AIShootingState : AIState
 {
     private float lastFireTime;
     private Animator animator;
@@ -127,10 +127,11 @@ public class AIShootingState : MonoBehaviour, AIState
 
     private void Shot(AIAgent agent)
     {
+        
         Debug.Log("น฿ป็");
-        GameObject b = Instantiate(agent.Bullet, agent.StartAim[2].position, agent.StartAim[2].transform.rotation);
-        GameObject light = Instantiate(agent.FireLight, agent.StartAim[2].position, Quaternion.identity);
-        Destroy(light, 0.03f);
+        GameObject b = MonoBehaviour.Instantiate(agent.Bullet, agent.StartAim[2].position, agent.StartAim[2].transform.rotation);
+        GameObject light = MonoBehaviour.Instantiate(agent.FireLight, agent.StartAim[2].position, Quaternion.identity);
+        MonoBehaviour.Destroy(light, 0.03f);
         agent.FireEffect.transform.position = agent.StartAim[2].position;
         agent.FireEffect1.transform.position = agent.rifleWeapons[2].transform.position;
         agent.FireEffect.Play();

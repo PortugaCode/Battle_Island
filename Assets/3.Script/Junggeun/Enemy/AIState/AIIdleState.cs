@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIIdleState : MonoBehaviour, AIState
+public class AIIdleState : AIState
 {
     float DuTime = 2.5f;
     float CoolTime = 2.5f;
