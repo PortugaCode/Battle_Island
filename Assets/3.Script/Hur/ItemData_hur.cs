@@ -38,9 +38,11 @@ using UnityEngine;
 public class ItemData_hur
 {
     public bool notice; //감지
+    public Sprite itemIcon;
     public int itemID;
     public string itemName;
     public bool isUsed; //사용했나요?
+    
     public ItemType itemType; // 아이템 종류 타입
     public UsingType usingType; // 아이템 쓸모 타입
 
@@ -54,9 +56,10 @@ public class ItemData_hur
         Consumable, Wearable
     }
 
-    public ItemData_hur(bool _notice, int _itemID, string _itemName, bool _isUsed, ItemType _itemType, UsingType _usingType)
+    public ItemData_hur(bool _notice, Sprite _itemIcon, int _itemID, string _itemName, bool _isUsed, ItemType _itemType, UsingType _usingType)
     {
         notice = _notice;
+        itemIcon = _itemIcon;
         itemID = _itemID;
         itemName = _itemName;
         isUsed = _isUsed;

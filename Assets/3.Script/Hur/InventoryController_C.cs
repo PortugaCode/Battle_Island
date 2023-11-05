@@ -5,7 +5,9 @@ using UnityEngine;
 public class InventoryController_C : MonoBehaviour
 {
     [SerializeField] private ItemGrid_C selectedItemGrid;
-   
+
+    //주변에서 끌어오는 걸 구현할 경우 CreateRandomItem을 없애야 함
+
     public ItemGrid_C SelectedItemGrid
     {
         get => selectedItemGrid;
@@ -41,14 +43,9 @@ public class InventoryController_C : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.W)) //빼기
-        {
-            InsertRandomItem();
-        }
-
-        //if (Input.GetKeyDown(KeyCode.R))
+        //if (Input.GetKeyDown(KeyCode.W)) //수정 - 생략
         //{
-        //    RotateItem();
+        //    InsertRandomItem();
         //}
 
         if (Input.GetMouseButtonDown(1))
@@ -57,7 +54,7 @@ public class InventoryController_C : MonoBehaviour
         }
 
 
-        if (selectedItemGrid == null)
+        if (selectedItemGrid == null) //수정
         {
             inventoryHighlight.Show(false);
             return;
@@ -81,30 +78,30 @@ public class InventoryController_C : MonoBehaviour
         selectedItem.Rotate();
     }
 
-    private void InsertRandomItem() //빼기
-    {
-        if (selectedItemGrid == null)
-        {
-            return;
-        }
+    //private void InsertRandomItem() //수정 - 생략
+    //{
+    //    if (selectedItemGrid == null)
+    //    {
+    //        return;
+    //    }
 
-        CreateRandomItem();
-        InventoryItem_C itemToInsert = selectedItem;
-        selectedItem = null;
-        InsertItem(itemToInsert);
-    }
+    //    CreateRandomItem();
+    //    InventoryItem_C itemToInsert = selectedItem;
+    //    selectedItem = null;
+    //    InsertItem(itemToInsert);
+    //}
 
-    private void InsertItem(InventoryItem_C itemToInsert)//빼기
-    {
-        Vector2Int? posOnGrid = selectedItemGrid.FindSpaceForObject(itemToInsert);
+    //private void InsertItem(InventoryItem_C itemToInsert)//수정 - 생략
+    //{
+    //    Vector2Int? posOnGrid = selectedItemGrid.FindSpaceForObject(itemToInsert);
 
-        if (posOnGrid == null)
-        {
-            return;
-        }
+    //    if (posOnGrid == null)
+    //    {
+    //        return;
+    //    }
 
-        selectedItemGrid.PlaceItem(itemToInsert, posOnGrid.Value.x, posOnGrid.Value.y);
-    }
+    //    selectedItemGrid.PlaceItem(itemToInsert, posOnGrid.Value.x, posOnGrid.Value.y);
+    //}
 
     Vector2Int oldPosition;
     InventoryItem_C itemToHighlight;
@@ -149,7 +146,7 @@ public class InventoryController_C : MonoBehaviour
         }
     }
 
-    private void CreateRandomItem()
+    private void CreateRandomItem()//수정 - 빼기
     {
         InventoryItem_C inventoryItme =
             Instantiate(itemPrefab).GetComponent<InventoryItem_C>();
@@ -163,7 +160,7 @@ public class InventoryController_C : MonoBehaviour
         inventoryItme.Set(items[selectedItemID]);
     }
 
-    private void LeftMouseButtonPress()
+    private void LeftMouseButtonPress()//수정 - 변경
     {
         Vector2Int tileGridPosition = GetTileGridPosition();
 
@@ -181,7 +178,7 @@ public class InventoryController_C : MonoBehaviour
     {
         Vector2 position = Input.mousePosition;
 
-        if (selectedItem != null) //이거 고쳐야 하나
+        if (selectedItem != null)
         {
             position.x -= (selectedItem.WIDTH - 1) * ItemGrid_C.tileSizeWidth / 2;
             position.y += (selectedItem.HEIGHT - 1) * ItemGrid_C.tileSizeHeight / 2;
@@ -227,6 +224,9 @@ public class InventoryController_C : MonoBehaviour
         if (selectedItem != null)
         {
             rect.position = Input.mousePosition;
+
+            //만약 아이템이 wearable이라면
+
         }
     }
 }
