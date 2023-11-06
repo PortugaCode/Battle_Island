@@ -104,7 +104,7 @@ public class AIShootingState : AIState
 
     private void CheckWall2(AIAgent agent)
     {
-        if(Physics.CheckSphere(agent.SelectStartAim.position, 1f, agent.WallLayer))
+        if(Physics.CheckSphere(agent.SelectStartAim.position, 0.5f, agent.WallLayer))
         {
             agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
         }

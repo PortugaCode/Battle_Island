@@ -5,6 +5,7 @@ using UnityEngine;
 public class AIStandbyState : AIState
 {
     private Animator animator;
+    private float lastFireTime;
 
     public AiStateID GetID()
     {
@@ -15,18 +16,20 @@ public class AIStandbyState : AIState
     {
         Debug.Log("대기 모드");
         animator = agent.GetComponent<Animator>();
-        while (agent.navMeshAgent.speed != 0)
+        if (agent.ammoRemain <= 0)
         {
-            agent.navMeshAgent.speed -= 0.1f;
+            return;
         }
-        animator.SetTrigger("Crouch");
+        animator.SetTrigger("Reload");
+        agent.isAmmoReady = true;
+        agent.isneedReload = true;
     }
 
     public void AIUpdate(AIAgent agent)
     {
+        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position, 4f * Time.deltaTime);
 
-        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 4f * Time.deltaTime);
-        Vector3 Playerdirection = agent.playerTarget.position - agent.transform.position;
+        Vector3 Playerdirection = agent.playerTarget.position - agent.SelectStartAim.position;
         if (Playerdirection.magnitude > agent.config.maxSightDistance)
         {
             return;

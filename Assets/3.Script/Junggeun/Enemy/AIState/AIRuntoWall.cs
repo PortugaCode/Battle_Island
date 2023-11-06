@@ -35,6 +35,7 @@ public class AIRuntoWall : AIState
 
     public void AIUpdate(AIAgent agent)
     {
+        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 4f * Time.deltaTime);
         distance = agent.transform.position - resultPoint;
         if (distance.magnitude <= 0.5f)
         {
@@ -45,7 +46,10 @@ public class AIRuntoWall : AIState
 
     public void Exit(AIAgent agent)
     {
-        
+        while (agent.navMeshAgent.speed != 0)
+        {
+            agent.navMeshAgent.speed -= 0.1f;
+        }
     }
 
     private void BinarySearch(AIAgent agent) //이진탐색 알고리즘
