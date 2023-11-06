@@ -37,7 +37,9 @@ public class Bullet : MonoBehaviour
                 //Debug.Log($"{collision.collider.name}에게 {bulletDamage}의 데미지 입힘");
             }
 
-            GameObject hitEffect = Instantiate(hitEffectPrefab, collision.contacts[0].point, Quaternion.identity);
+            Vector3 hitDirection = (collision.contacts[0].point - transform.position).normalized;
+
+            GameObject hitEffect = Instantiate(hitEffectPrefab, collision.contacts[0].point, Quaternion.Euler(hitDirection));
             Destroy(hitEffect, 0.5f);
 
             Destroy(gameObject);

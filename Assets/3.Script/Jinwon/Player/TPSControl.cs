@@ -50,6 +50,10 @@ public class TPSControl : MonoBehaviour
     private bool hasGun = false; // 총 장착 여부
     private GameObject currentGun = null; // 현재 장착한 총
 
+    [Header("Recoil")]
+    [SerializeField] private float recoilX;
+    [SerializeField] private float recoilY;
+
     [Header("Throwable")]
     public Transform grenadePivot; // 수류탄 피벗
     [SerializeField] private GameObject testGrenadePrefab; // 수류탄 프리팹
@@ -214,6 +218,7 @@ public class TPSControl : MonoBehaviour
         {
             if (currentGun != null && Input.GetMouseButton(0))
             {
+                GunRecoil();
                 currentGun.GetComponent<Gun>().Shoot(); // 발사
             }
         }
@@ -338,12 +343,9 @@ public class TPSControl : MonoBehaviour
     private void PlayerMove()
     {
         // 카메라 바라보는 방향으로 캐릭터 회전
-        if (true)
-        {
-            float cameraAngle = mainCamera.eulerAngles.y;
-            float smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, cameraAngle, ref turnSmoothVelocity, turnSmoothTime); // 부드러운 회전 적용
-            transform.rotation = Quaternion.Euler(0, smoothAngle, 0); // 플레이어 로테이션값 변경 (회전)
-        }
+        float cameraAngle = mainCamera.eulerAngles.y;
+        float smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, cameraAngle, ref turnSmoothVelocity, turnSmoothTime); // 부드러운 회전 적용
+        transform.rotation = Quaternion.Euler(0, smoothAngle, 0); // 플레이어 로테이션값 변경 (회전)
 
         if (isRun && z > 0) // 플레이어 속도 조정
         {
@@ -564,6 +566,23 @@ public class TPSControl : MonoBehaviour
 
         transform.position = nearCar.GetComponent<CarControl>().playerPosition.position;
         transform.forward = nearCar.GetComponent<CarControl>().playerPosition.forward;
+    }
+
+    private void GunRecoil()
+    {
+        if (isFirstPersonView)
+        {
+            CinemachinePOV pov = firstPersonCamera.GetCinemachineComponent<CinemachinePOV>();
+            pov.m_HorizontalAxis.Value += Random.Range(-recoilX, recoilX); // x축 반동;
+            pov.m_VerticalAxis.Value -= Random.Range(0, recoilY); // y축 반동
+        }
+        else if (isThirdPersonView)
+        {
+            aimCamera.m_XAxis.Value += Random.Range(-recoilX * 0.01f, recoilX * 0.01f); // x축 반동;
+            aimCamera.m_YAxis.Value -= Random.Range(0, recoilY * 0.01f); // y축 반동;
+        }
+
+        //mainCamera.eulerAngles += new Vector3(recoilX, Random.Range(-recoilY, recoilY), Random.Range(-recoilZ, recoilZ));
     }
 
     private void Heal(float healAmount) // 체력 회복
