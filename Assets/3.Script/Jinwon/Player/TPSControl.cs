@@ -13,60 +13,60 @@ public enum Weapon
 public class TPSControl : MonoBehaviour
 {
     // Player Status
-    private float currentHealth = 0f;
-    private float maxHealth = 100.0f;
+    private float currentHealth = 0f; // 현재 체력
+    private float maxHealth = 100.0f; // 최대 체력
 
     [Header("Move")]
-    public float walkSpeed = 2.0f;
-    public float runSpeed = 3.0f;
-    public float aimWalkSpeed = 1.0f;
-    private float currentSpeed;
-    private bool isRun = false;
-    private float x;
-    private float z;
-    private Vector3 direction;
+    public float walkSpeed = 2.0f; // 걷기 속도
+    public float runSpeed = 3.0f; // 달리기 속도
+    public float aimWalkSpeed = 1.0f; // 조준 상태 걷기 속도
+    private float currentSpeed; // 현재 속도
+    private bool isRun = false; // 달리고 있는지 체크
+    private float x; // x축 입력값
+    private float z; // z축 입력값
+    private Vector3 direction; // 이동할 방향
 
     [Header("Jump")]
-    public LayerMask groundLayer;
-    public float jumpForce = 2.0f;
-    private bool isGround = true;
+    public LayerMask groundLayer; // 땅 체크할 레이어
+    public float jumpForce = 2.0f; // 점프력
+    private bool isGround = true; // 땅에 닿아있는지 체크
 
     [Header("Camera")]
-    [SerializeField] private GameObject characterModel;
-    [SerializeField] private Transform mainCamera;
-    [SerializeField] private CinemachineFreeLook normalCamera;
-    [SerializeField] private CinemachineFreeLook aimCamera;
-    public CinemachineVirtualCamera firstPersonCamera;
-    private float clickTimer = 0f;
-    private bool timerOn = false;
-    public bool isFirstPersonView = false;
-    public bool isThirdPersonView = false;
-    public float turnSmoothTime = 0.1f;
-    private float turnSmoothVelocity;
+    [SerializeField] private GameObject characterModel; // 캐릭터 모델링
+    [SerializeField] private Transform mainCamera; // 메인카메라
+    [SerializeField] private CinemachineFreeLook normalCamera; // 평상시 카메라
+    [SerializeField] private CinemachineFreeLook aimCamera; // 3인칭 조준시 카메라
+    public CinemachineVirtualCamera firstPersonCamera; // 1인칭 조준시 카메라
+    private float clickTimer = 0f; // 조준 클릭 타이머
+    private bool timerOn = false; // 타이머 시작 여부
+    public bool isFirstPersonView = false; // 1인칭 시점 여부
+    public bool isThirdPersonView = false; // 3인칭 시점 여부
+    public float turnSmoothTime = 0.1f; // 회전 시간
+    private float turnSmoothVelocity; // 회전 속도
 
     [Header("Gun")]
-    public GameObject gunPivot;
-    [SerializeField] private GameObject testGunPrefab;
-    private bool hasGun = false;
-    private GameObject currentGun = null;
+    public GameObject gunPivot; // 총 피벗
+    [SerializeField] private GameObject testGunPrefab; // 테스트용 총 프리팹
+    private bool hasGun = false; // 총 장착 여부
+    private GameObject currentGun = null; // 현재 장착한 총
 
     [Header("Throwable")]
-    public Transform grenadePivot;
-    [SerializeField] private GameObject testGrenadePrefab;
-    public float throwPower = 10.0f;
-    public Vector3 throwDirection;
-    private bool canThrow = true;
+    public Transform grenadePivot; // 수류탄 피벗
+    [SerializeField] private GameObject testGrenadePrefab; // 수류탄 프리팹
+    public float throwPower = 10.0f; // 던지는 힘
+    public Vector3 throwDirection; // 던질 방향
+    private bool canThrow = true; // 던지기 가능 여부
 
     [Header("Car")]
-    private GameObject nearCar;
-    private bool isCarEntered = false;
+    private GameObject nearCar; // 주변 차
+    private bool isCarEntered = false; // 차 탑승 여부
 
     [Header("Item")]
-    private List<GameObject> nearItemList = new List<GameObject>();
-    public LayerMask itemLayer;
+    private List<GameObject> nearItemList = new List<GameObject>(); // 주변 아이템 리스트
+    public LayerMask itemLayer; // 아이템 체크할 레이어
 
     // Weapon Status
-    private Weapon currentWeapon = Weapon.None;
+    private Weapon currentWeapon = Weapon.None; // 현재 장착중인 무기
 
     // Components
     private Rigidbody rb;
@@ -110,7 +110,7 @@ public class TPSControl : MonoBehaviour
                 EnterCar();
             }
 
-            if (Input.GetKeyDown(KeyCode.Tab)) // 인벤토리 on off
+            if (Input.GetKeyDown(KeyCode.Tab)) // 인벤토리 on off 테스트
             {
                 GetItemAround(); // 주변 아이템 탐색
                 UIManager.instance.ToggleInventory(nearItemList);
@@ -127,7 +127,7 @@ public class TPSControl : MonoBehaviour
 
     private void GetMouseInput2()
     {
-        // 마우스 회전 각도에 따라 궤적 변경
+        // 마우스 회전 각도에 따라 수류탄 궤적 변경
         float camAngle;
 
         if (mainCamera.eulerAngles.x > 300)
@@ -210,19 +210,19 @@ public class TPSControl : MonoBehaviour
             }
         }
 
-        if (currentWeapon == Weapon.Gun)
+        if (currentWeapon == Weapon.Gun) // 총 장착 시
         {
             if (currentGun != null && Input.GetMouseButton(0))
             {
-                currentGun.GetComponent<TestRifle>().Shoot();
+                currentGun.GetComponent<Gun>().Shoot(); // 발사
             }
         }
-        else if (currentWeapon == Weapon.Grenade)
+        else if (currentWeapon == Weapon.Grenade) // 수류탄 장착 시
         {
             if (canThrow && Input.GetMouseButtonDown(0))
             {
                 canThrow = false;
-                StartCoroutine(ThrowGrenade());
+                StartCoroutine(ThrowGrenade()); // 투척
             }
         }
     }
@@ -381,7 +381,17 @@ public class TPSControl : MonoBehaviour
             firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.Value = normalCamera.m_XAxis.Value; // 두 카메라 x값 동기화
             firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.Value = 2.0f; // y값 초기화
             firstPersonCamera.gameObject.SetActive(true); // 1인칭 카메라 On
-            UIManager.instance.Crosshair(true); // 크로스헤어 On
+
+            // 크로스헤어 On
+            if (currentGun.GetComponent<Gun>().gunType == GunType.Rifle)
+            {
+                UIManager.instance.FirstPersonRifleCrosshair(true);
+            }
+            else if (currentGun.GetComponent<Gun>().gunType == GunType.Sniper)
+            {
+                UIManager.instance.FirstPersonSniperCrosshair(true);
+            }
+            
             currentSpeed = aimWalkSpeed; // 플레이어 속도 조정
         }
     }
@@ -397,25 +407,35 @@ public class TPSControl : MonoBehaviour
             normalCamera.m_XAxis.Value = firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.Value; // 두 카메라 x값 동기화
             normalCamera.m_YAxis.Value = 0.35f; // y값 초기화
             firstPersonCamera.gameObject.SetActive(false); // 1인칭 카메라 Off
-            UIManager.instance.Crosshair(false); // 크로스헤어 Off
+
+            // 크로스헤어 Off
+            if (currentGun.GetComponent<Gun>().gunType == GunType.Rifle)
+            {
+                UIManager.instance.FirstPersonRifleCrosshair(false);
+            }
+            else if (currentGun.GetComponent<Gun>().gunType == GunType.Sniper)
+            {
+                UIManager.instance.FirstPersonSniperCrosshair(false);
+            }
+
             currentSpeed = walkSpeed; // 플레이어 속도 조정
         }
     }
 
     private void Third_ZoomIn()
     {
-        if (currentWeapon == Weapon.Grenade)
+        if (currentWeapon == Weapon.Grenade) // 수류탄 장착 시
         {
-            GetComponent<DrawProjection>().drawProjection = true;
+            GetComponent<DrawProjection>().drawProjection = true; // 궤적 켜기
         }
 
         if (!aimCamera.gameObject.activeSelf) // Zoom In
         {
             animator.SetTrigger("Aim"); // 줌 인 애니메이션
-            aimCamera.m_XAxis.Value = normalCamera.m_XAxis.Value; // 두 카메라 x값 동기화
-            aimCamera.m_YAxis.Value = normalCamera.m_YAxis.Value; // 두 카메라 y값 동기화
+            aimCamera.m_XAxis.Value = normalCamera.m_XAxis.Value; // 카메라 x값 동기화
+            aimCamera.m_YAxis.Value = normalCamera.m_YAxis.Value; // 카메라 y값 동기화
             aimCamera.gameObject.SetActive(true); // 에임 카메라 On
-            UIManager.instance.Crosshair(true); // 크로스헤어 On
+            UIManager.instance.ThirdPersonCrosshair(true); // 크로스헤어 On
             currentSpeed = aimWalkSpeed; // 플레이어 속도 조정
         }
     }
@@ -424,16 +444,16 @@ public class TPSControl : MonoBehaviour
     {
         if (currentWeapon == Weapon.Grenade)
         {
-            GetComponent<DrawProjection>().drawProjection = false;
+            GetComponent<DrawProjection>().drawProjection = false; // 궤적 끄기
         }
 
         if (aimCamera.gameObject.activeSelf) // Zoom Out
         {
             animator.SetTrigger("UnAim"); // 줌 아웃 애니메이션
-            normalCamera.m_XAxis.Value = aimCamera.m_XAxis.Value; // 두 카메라 x값 동기화
-            normalCamera.m_YAxis.Value = aimCamera.m_YAxis.Value; // 두 카메라 y값 동기화
+            normalCamera.m_XAxis.Value = aimCamera.m_XAxis.Value; // 카메라 x값 동기화
+            normalCamera.m_YAxis.Value = aimCamera.m_YAxis.Value; // 카메라 y값 동기화
             aimCamera.gameObject.SetActive(false); // 에임 카메라 Off
-            UIManager.instance.Crosshair(false); // 크로스헤어 Off
+            UIManager.instance.ThirdPersonCrosshair(false); // 크로스헤어 Off
             currentSpeed = walkSpeed; // 플레이어 속도 조정
         }
     }
@@ -485,7 +505,7 @@ public class TPSControl : MonoBehaviour
 
         foreach (Collider c in colliders)
         {
-            nearItemList.Add(c.gameObject);
+            nearItemList.Add(c.gameObject); // 주변 아이템들 리스트에 추가
         }
     }
 
@@ -497,7 +517,7 @@ public class TPSControl : MonoBehaviour
         {
             if (c.CompareTag("Car"))
             {
-                nearCar = c.gameObject;
+                nearCar = c.gameObject; // 주변 차 할당
                 return;
             }
         }
@@ -513,8 +533,14 @@ public class TPSControl : MonoBehaviour
         }
 
         isCarEntered = true;
-        characterModel.SetActive(false);
-        gunPivot.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+
+        characterModel.SetActive(false); // 플레이어 모델링 Off
+
+        if (gunPivot.transform.childCount != 0)
+        {
+            gunPivot.transform.GetChild(0).GetChild(0).gameObject.SetActive(false); // 총 모델링 Off
+        }
+        
         nearCar.GetComponent<CarControl>().EnterCar();
     }
 
@@ -526,9 +552,16 @@ public class TPSControl : MonoBehaviour
         }
 
         isCarEntered = false;
+
         nearCar.GetComponent<CarControl>().ExitCar();
-        characterModel.SetActive(true);
-        gunPivot.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+
+        characterModel.SetActive(true); // 플레이어 모델링 On
+
+        if (gunPivot.transform.childCount != 0)
+        {
+            gunPivot.transform.GetChild(0).GetChild(0).gameObject.SetActive(true); // 총 모델링 On
+        }
+
         transform.position = nearCar.GetComponent<CarControl>().playerPosition.position;
         transform.forward = nearCar.GetComponent<CarControl>().playerPosition.forward;
     }

@@ -2,8 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GunType // 총 타입
+{
+    Rifle,
+    Sniper
+}
+
 public class Gun : MonoBehaviour
 {
+    public GunType gunType; // 총 타입
     public float damage; // 데미지
     //public float fireRate; // 분당 발사 수 (RPM)
     public float coolDown; // 발사 쿨타임
