@@ -43,6 +43,12 @@ public class AIRandomMoveState : AIState
             return;
         }
 
+        if (FindArmor(agent) && !agent.isArmor)
+        {
+            agent.stateMachine.ChangeState(AiStateID.FindArmor);
+            return;
+        }
+
 
         if (FindPlayer(agent))
         {
@@ -101,6 +107,19 @@ public class AIRandomMoveState : AIState
         foreach (Collider col in w)
         {
             if (col.CompareTag("Bullet"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private bool FindArmor(AIAgent agent)
+    {
+        Collider[] w = Physics.OverlapSphere(agent.transform.position, 20f);
+        foreach (Collider col in w)
+        {
+            if (col.CompareTag("Armor"))
             {
                 return true;
             }

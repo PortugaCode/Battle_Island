@@ -28,10 +28,10 @@ public class AIFindBulletState : AIState
     {
         if (pickup == null)
         {
-            agent.stateMachine.ChangeState(AiStateID.Idle);
+            agent.stateMachine.ChangeState(AiStateID.RandomMove);
         }
 
-        else if (pickup.GetComponent<HaveGunCheck>().isEquip)
+        else if (pickup.GetComponent<EquipCheck>().isEquip)
         {
             pickup = FindClosestBullet(agent);
             if (pickup != null)
@@ -45,7 +45,9 @@ public class AIFindBulletState : AIState
 
         if (isPickup)
         {
+            agent.ammoRemain += 30;
             agent.stateMachine.ChangeState(AiStateID.Idle);
+            return;
         }
         agent.navMeshAgent.destination = pickup.transform.position;
     }
@@ -54,18 +56,14 @@ public class AIFindBulletState : AIState
     {
         if (isPickup)
         {
-            pickup.GetComponent<HaveGunCheck>().isEnemyEquip = true;
-            pickup.GetComponent<HaveGunCheck>().isEquip = true;
+            pickup.GetComponent<EquipCheck>().isEnemyEquip = true;
+            pickup.GetComponent<EquipCheck>().isEquip = true;
 
             if(agent.isReady)
             {
-                animator.SetBool("Equip", pickup.GetComponent<HaveGunCheck>().isEnemyEquip);
+                animator.SetBool("Equip", pickup.GetComponent<EquipCheck>().isEnemyEquip);
                 agent.rig.weight = 1f;
             }
-
-
-            //나중에 rifle 정보 가지고 와서 바꾸기
-            agent.rifleWeapons[2].SetActive(true);
 
             MonoBehaviour.Destroy(pickup.gameObject);
         }
@@ -78,10 +76,9 @@ public class AIFindBulletState : AIState
         Collider[] a = Physics.OverlapSphere(agent.transform.position, 0.5f);
         foreach (Collider col in a)
         {
-            if (col.CompareTag("Bullet") && !col.GetComponent<HaveGunCheck>().isEquip)
+            if (col.CompareTag("Bullet") && !col.GetComponent<EquipCheck>().isEquip)
             {
                 isPickup = true;
-                agent.ammoRemain += agent.Nowgundata.magCapcity;
             }
         }
     }
@@ -98,7 +95,7 @@ public class AIFindBulletState : AIState
             float distanceToWeapon = Vector3.Distance(agnet.transform.position, bullet.transform.position);
             if (distanceToWeapon < closestDistance)
             {
-                if (!bullet.GetComponent<HaveGunCheck>().isEquip)
+                if (!bullet.GetComponent<EquipCheck>().isEquip)
                 {
                     closestDistance = distanceToWeapon;
                     closestBullet = bullet;

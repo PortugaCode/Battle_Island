@@ -18,7 +18,7 @@ public class AIAgent : MonoBehaviour
     [HideInInspector] public SkinnedMeshRenderer mesh;
     [HideInInspector] public UIHealthBar ui;
     [HideInInspector] public Transform playerTarget;
-     
+
     [HideInInspector] public bool isneedReload = false;
     [HideInInspector] public bool isnowReload = false;
     [HideInInspector] public RaycastHit hit;
@@ -28,6 +28,11 @@ public class AIAgent : MonoBehaviour
     public GunData Nowgundata;
     public int ammoRemain; //남은 전체 탄알
     public int magAmmo; // 현재 탄창에 남아 있는 탄알
+
+    [Header("RunPoint")]
+    public Transform RuntoPoint;
+
+
 
     [Header("FireEffect")]
     public ParticleSystem FireEffect;
@@ -51,6 +56,11 @@ public class AIAgent : MonoBehaviour
     [HideInInspector] public GameObject SelectRifleWeapons;
     [HideInInspector] public Transform SelectStartAim;
 
+    [Header("ArmorData")]
+    public bool isArmor;
+    public GameObject[] Armor;
+    [HideInInspector] public GameObject SelectArmor;
+
     [Header("WallLayer")]
     public LayerMask WallLayer;
 
@@ -64,6 +74,12 @@ public class AIAgent : MonoBehaviour
         for (int i =0; i < rifleWeapons.Length; i++)
         {
             rifleWeapons[i].SetActive(false);
+        }
+
+        //방어구 SetActive false 작업
+        for (int i = 0; i < Armor.Length; i++)
+        {
+            Armor[i].SetActive(false);
         }
 
         //===========================================================================
@@ -89,6 +105,9 @@ public class AIAgent : MonoBehaviour
         stateMachine.RegsisterState(new AIRandomMoveState());
         stateMachine.RegsisterState(new AIReloadState());
         stateMachine.RegsisterState(new AIFindBulletState());
+        stateMachine.RegsisterState(new AIFindArmorState());
+        stateMachine.RegsisterState(new AIStandbyState());
+        stateMachine.RegsisterState(new AIRuntoWall());
         #endregion
 
 
@@ -114,7 +133,7 @@ public class AIAgent : MonoBehaviour
 
     private IEnumerator ShotEffect(Vector3 hitPosition)
     {
-        lineRenderer.SetPosition(0, StartAim[2].transform.position);
+        lineRenderer.SetPosition(0, SelectStartAim.position);
         lineRenderer.SetPosition(1, hitPosition);
         lineRenderer.enabled = true;
 

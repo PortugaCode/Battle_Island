@@ -7,6 +7,10 @@ public class AIShootingState : AIState
 {
     private float lastFireTime;
     private Animator animator;
+    private float x;
+    private float y;
+
+    private EnemyHealth enemyHealth;
 
 
 
@@ -19,6 +23,7 @@ public class AIShootingState : AIState
     public void Enter(AIAgent agent)
     {
         animator = agent.gameObject.GetComponent<Animator>();
+        enemyHealth = agent.gameObject.GetComponent<EnemyHealth>();
         Debug.Log("½´ÆÃ");
         agent.twoBoneIK.weight = 1f;
         agent.rig.weight = 1f;
@@ -36,10 +41,21 @@ public class AIShootingState : AIState
             return;
         }
 
-        Physics.Raycast(agent.StartAim[2].position, agent.StartAim[2].forward, out agent.hit, Mathf.Infinity);
-        Debug.DrawRay(agent.StartAim[2].position, agent.StartAim[2].forward * 1000f, Color.green);
+        if(enemyHealth.currentHealth < 50f)
+        {
+            agent.stateMachine.ChangeState(AiStateID.RuntoWall);
+        }
 
-        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position, 5f * Time.deltaTime);
+        //ÃÑ ½ò ¶§ Åº ·£´ýÀ¸·Î Æ¢°Ô ÇÏ±â À§ÇÑ º¯¼ö
+        x = UnityEngine.Random.Range(-3f, 3f);
+        y = UnityEngine.Random.Range(-3f, 3f);
+
+
+        Physics.Raycast(agent.SelectStartAim.position, agent.SelectStartAim.forward, out agent.hit, Mathf.Infinity);
+        Debug.DrawRay(agent.SelectStartAim.position, agent.SelectStartAim.forward * 1000f, Color.green);
+
+        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position + new Vector3(x, y, 0f), 4f * Time.deltaTime);
+
         if(agent.navMeshAgent.speed <= 0)
         {
             if(agent.magAmmo > 0)
@@ -69,23 +85,23 @@ public class AIShootingState : AIState
 
     private void CheckWall(AIAgent agent)
     {
-        if(Physics.Raycast(agent.StartAim[2].transform.position, agent.StartAim[2].transform.forward, out RaycastHit hit, 7f))
+        if(Physics.Raycast(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward, out RaycastHit hit, 7f))
         {
             if(hit.collider.CompareTag("Finish"))
             {
                 agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
-                Debug.DrawRay(agent.StartAim[2].transform.position, agent.StartAim[2].transform.forward * hit.distance, Color.blue);
+                Debug.DrawRay(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward * hit.distance, Color.blue);
             }
             else
             {
-                Debug.DrawRay(agent.StartAim[2].transform.position, agent.StartAim[2].transform.forward * 1000f, Color.red);
+                Debug.DrawRay(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward * 1000f, Color.red);
             }
         }
     }
 
     private void CheckWall2(AIAgent agent)
     {
-        if(Physics.CheckSphere(agent.StartAim[2].position, 1f, agent.WallLayer))
+        if(Physics.CheckSphere(agent.SelectStartAim.position, 1f, agent.WallLayer))
         {
             agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
         }
@@ -129,11 +145,13 @@ public class AIShootingState : AIState
     {
         
         Debug.Log("¹ß»ç");
-        GameObject b = MonoBehaviour.Instantiate(agent.Bullet, agent.StartAim[2].position, agent.StartAim[2].transform.rotation);
-        GameObject light = MonoBehaviour.Instantiate(agent.FireLight, agent.StartAim[2].position, Quaternion.identity);
+
+
+        GameObject b = MonoBehaviour.Instantiate(agent.Bullet, agent.SelectStartAim.position, agent.SelectStartAim.transform.rotation);
+        GameObject light = MonoBehaviour.Instantiate(agent.FireLight, agent.SelectStartAim.position, Quaternion.identity);
         MonoBehaviour.Destroy(light, 0.03f);
-        agent.FireEffect.transform.position = agent.StartAim[2].position;
-        agent.FireEffect1.transform.position = agent.rifleWeapons[2].transform.position;
+        agent.FireEffect.transform.position = agent.SelectStartAim.position;
+        agent.FireEffect1.transform.position = agent.SelectRifleWeapons.transform.position;
         agent.FireEffect.Play();
         agent.FireEffect1.Play();
         animator.SetTrigger("Fire");

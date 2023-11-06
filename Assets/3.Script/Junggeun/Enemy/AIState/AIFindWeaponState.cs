@@ -29,10 +29,10 @@ public class AIFindWeaponState : AIState
     {
         if (pickup == null)
         {
-            agent.stateMachine.ChangeState(AiStateID.Idle);
+            agent.stateMachine.ChangeState(AiStateID.RandomMove);
         }
 
-        else if (pickup.GetComponent<HaveGunCheck>().isEquip)
+        else if (pickup.GetComponent<EquipCheck>().isEquip)
         {
             pickup = FindClosestWeapon(agent);
             if(pickup != null)
@@ -54,13 +54,13 @@ public class AIFindWeaponState : AIState
     {
         if(isPickup)
         {
-            pickup.GetComponent<HaveGunCheck>().isEnemyEquip = true;
-            pickup.GetComponent<HaveGunCheck>().isEquip = true;
-            animator.SetBool("Equip", pickup.GetComponent<HaveGunCheck>().isEnemyEquip);
+            pickup.GetComponent<EquipCheck>().isEnemyEquip = true;
+            pickup.GetComponent<EquipCheck>().isEquip = true;
+            animator.SetBool("Equip", pickup.GetComponent<EquipCheck>().isEnemyEquip);
             agent.rig.weight = 1f;
-            
+
             //나중에 rifle 정보 가지고 와서 바꾸기
-            agent.rifleWeapons[2].SetActive(true);
+            agent.SelectRifleWeapons.SetActive(true);
 
             MonoBehaviour.Destroy(pickup.gameObject);
         }
@@ -73,11 +73,13 @@ public class AIFindWeaponState : AIState
         Collider[] a = Physics.OverlapSphere(agent.transform.position, 0.5f);
         foreach(Collider col in a)
         {
-            if(col.CompareTag("Weapon") && !col.GetComponent<HaveGunCheck>().isEquip)
+            if(col.CompareTag("Weapon") && !col.GetComponent<EquipCheck>().isEquip)
             {
                 isPickup = true;
                 agent.isReady = true;
                 agent.isAmmoReady = true;
+                agent.SelectStartAim = agent.StartAim[(int)col.GetComponent<GunEnum>().gunState];
+                agent.SelectRifleWeapons = agent.rifleWeapons[(int)col.GetComponent<GunEnum>().gunState];
                 agent.Nowgundata = agent.gundata[(int)col.GetComponent<GunEnum>().gunState];
                 agent.magAmmo = agent.Nowgundata.magCapcity;
                 agent.ammoRemain += agent.Nowgundata.magCapcity;
@@ -97,7 +99,7 @@ public class AIFindWeaponState : AIState
             float distanceToWeapon = Vector3.Distance(agnet.transform.position, weapon.transform.position);
             if(distanceToWeapon < closestDistance)
             {
-                if(!weapon.GetComponent<HaveGunCheck>().isEquip)
+                if(!weapon.GetComponent<EquipCheck>().isEquip)
                 {
                     closestDistance = distanceToWeapon;
                     closestWeapon = weapon;
