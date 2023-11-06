@@ -32,6 +32,7 @@ public class TPSControl : MonoBehaviour
     private bool isGround = true;
 
     [Header("Camera")]
+    [SerializeField] private GameObject characterModel;
     [SerializeField] private Transform mainCamera;
     [SerializeField] private CinemachineFreeLook normalCamera;
     [SerializeField] private CinemachineFreeLook aimCamera;
@@ -44,7 +45,7 @@ public class TPSControl : MonoBehaviour
     private float turnSmoothVelocity;
 
     [Header("Gun")]
-    public Transform gunPivot;
+    public GameObject gunPivot;
     [SerializeField] private GameObject testGunPrefab;
     private bool hasGun = false;
     private GameObject currentGun = null;
@@ -122,76 +123,35 @@ public class TPSControl : MonoBehaviour
         }
     }
 
-    /*private void GetMouseInput()
-    {
-        if (currentWeapon == Weapon.Gun && currentGun != null)
-        {
-            if (Input.GetMouseButtonDown(1)) // 조준
-            {
-                if (!isAim)
-                {
-                    isAim = true;
-                }
-            }
-
-            if (Input.GetMouseButtonUp(1)) // 조준 해제
-            {
-                if (isAim)
-                {
-                    isAim = false;
-                }
-            }
-
-            if (Input.GetMouseButton(1) && Input.GetMouseButton(0)) // 조준 중 발사
-            {
-                currentGun.GetComponent<TestRifle>().Shoot();
-            }
-        }
-        else if (currentWeapon == Weapon.Grenade)
-        {
-            if (Input.GetMouseButtonDown(1)) // 조준
-            {
-                if (!isAim)
-                {
-                    isAim = true;
-                }
-            }
-
-            if (Input.GetMouseButtonUp(1)) // 조준 해제
-            {
-                if (isAim)
-                {
-                    GetComponent<DrawProjection>().drawProjection = false;
-                    isAim = false;
-                }
-            }
-
-            if (canThrow)
-            {
-                if (isAim && Input.GetMouseButton(0)) // 수류탄 조준
-                {
-                    GetComponent<DrawProjection>().drawProjection = true;
-                }
-
-                if (isAim && Input.GetMouseButtonUp(0)) // 수류탄 투척
-                {
-                    canThrow = false;
-                    GetComponent<DrawProjection>().drawProjection = false;
-                    StartCoroutine(ThrowGrenade());
-                }
-            }
-        }
-    }*/
-
     private void GetMouseInput2()
     {
+        // 마우스 회전 각도에 따라 궤적 변경
+        float camAngle;
+
+        if (mainCamera.eulerAngles.x > 300)
+        {
+            camAngle = mainCamera.eulerAngles.x - 360.0f;
+        }
+        else
+        {
+            camAngle = mainCamera.eulerAngles.x;
+        }
+
+        float upPower = 1.0f - camAngle / 30.0f;
+        throwDirection = transform.up * upPower + transform.forward; // 마우스 회전에 따라 수류탄 투척 방향 결정
+
+        if (currentWeapon == Weapon.None)
+        {
+            return;
+        }
+
         // 1. 우클릭 -> 타이머 시작
         // 2. 우클릭 해제 시 타이머에 따라
         // 살짝 눌렀으면 1인칭 진입
         // 원래 3인칭 상태였으면 3인칭 해제
         // 원래 1인칭 상태였으면 1인칭 해제
         // 3. 우클릭 한 채로 오래 있으면 3인칭 진입
-        
+
         if (Input.GetMouseButtonDown(1))
         {
             timerOn = true;
@@ -238,27 +198,31 @@ public class TPSControl : MonoBehaviour
 
             if (!isFirstPersonView && !isThirdPersonView && clickTimer < 0.5f)
             {
-                // 1인칭 진입
-                isFirstPersonView = true;
-                First_ZoomIn();
-                return;
+                if (currentWeapon == Weapon.Gun)
+                {
+                    // 1인칭 진입
+                    isFirstPersonView = true;
+                    First_ZoomIn();
+                    return;
+                }
             }
         }
 
-        // 마우스 회전 각도에 따라 궤적 변경
-        float camAngle;
-
-        if (mainCamera.eulerAngles.x > 300)
+        if (currentWeapon == Weapon.Gun)
         {
-            camAngle = mainCamera.eulerAngles.x - 360.0f;
+            if (currentGun != null && Input.GetMouseButton(0))
+            {
+                currentGun.GetComponent<TestRifle>().Shoot();
+            }
         }
-        else
+        else if (currentWeapon == Weapon.Grenade)
         {
-            camAngle = mainCamera.eulerAngles.x;
+            if (canThrow && Input.GetMouseButtonDown(0))
+            {
+                canThrow = false;
+                StartCoroutine(ThrowGrenade());
+            }
         }
-
-        float upPower = 1.0f - camAngle / 30.0f;
-        throwDirection = transform.up * upPower + transform.forward; // 마우스 회전에 따라 수류탄 투척 방향 결정
     }
 
     private void GetKeyboardInput()
@@ -410,7 +374,8 @@ public class TPSControl : MonoBehaviour
     {
         if (!firstPersonCamera.gameObject.activeSelf) // Zoom In
         {
-            transform.GetChild(7).gameObject.SetActive(false); // 모델링 Off
+            characterModel.SetActive(false); // 모델링 Off
+            gunPivot.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
             firstPersonCamera.gameObject.SetActive(true); // 1인칭 카메라 On
             UIManager.instance.Crosshair(true); // 크로스헤어 On
             currentSpeed = aimWalkSpeed; // 플레이어 속도 조정
@@ -419,9 +384,10 @@ public class TPSControl : MonoBehaviour
 
     private void First_ZoomOut()
     {
-        if (firstPersonCamera.gameObject.activeSelf) // Zoom In
+        if (firstPersonCamera.gameObject.activeSelf) // Zoom Out
         {
-            transform.GetChild(7).gameObject.SetActive(true); // 모델링 On
+            characterModel.SetActive(true); // 모델링 On
+            gunPivot.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
             firstPersonCamera.gameObject.SetActive(false); // 1인칭 카메라 Off
             UIManager.instance.Crosshair(false); // 크로스헤어 Off
             currentSpeed = walkSpeed; // 플레이어 속도 조정
@@ -430,6 +396,11 @@ public class TPSControl : MonoBehaviour
 
     private void Third_ZoomIn()
     {
+        if (currentWeapon == Weapon.Grenade)
+        {
+            GetComponent<DrawProjection>().drawProjection = true;
+        }
+
         if (!aimCamera.gameObject.activeSelf) // Zoom In
         {
             animator.SetTrigger("Aim"); // 줌 인 애니메이션
@@ -443,6 +414,11 @@ public class TPSControl : MonoBehaviour
 
     private void Third_ZoomOut()
     {
+        if (currentWeapon == Weapon.Grenade)
+        {
+            GetComponent<DrawProjection>().drawProjection = false;
+        }
+
         if (aimCamera.gameObject.activeSelf) // Zoom Out
         {
             animator.SetTrigger("UnAim"); // 줌 아웃 애니메이션
@@ -462,23 +438,33 @@ public class TPSControl : MonoBehaviour
         }
 
         hasGun = true;
-        currentGun = Instantiate(testGunPrefab, gunPivot.position, gunPivot.rotation); // 총 생성
-        currentGun.transform.SetParent(gunPivot); // GunPivot 위치에 장착
+        currentGun = Instantiate(testGunPrefab, gunPivot.transform.position, gunPivot.transform.rotation); // 총 생성
+        currentGun.transform.SetParent(gunPivot.transform); // GunPivot 위치에 장착
     }
 
     private IEnumerator ThrowGrenade() // 수류탄 던지기
     {
+        if (gunPivot.transform.childCount != 0)
+        {
+            gunPivot.transform.GetChild(0).GetChild(0).gameObject.SetActive(false); // 총 모델링 Off
+        }
+
         Vector3 direction = throwDirection * throwPower; // 방향 미리 지정
 
         animator.SetTrigger("ThrowGrenade"); // 애니메이션 재생
 
-        yield return new WaitForSeconds(1.8f);
+        yield return new WaitForSeconds(0.525f);
 
         GameObject currentGrenade = Instantiate(testGrenadePrefab, grenadePivot.position, Quaternion.identity); // 수류탄 생성
         currentGrenade.GetComponent<Rigidbody>().velocity = direction; // 방향으로 던지기
         currentGrenade.GetComponent<Grenade>().StartTimer(); // 수류탄 타이머 시작
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.0f);
+
+        if (gunPivot.transform.childCount != 0)
+        {
+            gunPivot.transform.GetChild(0).GetChild(0).gameObject.SetActive(true); // 총 모델링 On
+        }
 
         canThrow = true;
     }
@@ -519,7 +505,8 @@ public class TPSControl : MonoBehaviour
         }
 
         isCarEntered = true;
-        transform.GetChild(7).gameObject.SetActive(false);
+        characterModel.SetActive(false);
+        gunPivot.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
         nearCar.GetComponent<CarControl>().EnterCar();
     }
 
@@ -532,7 +519,8 @@ public class TPSControl : MonoBehaviour
 
         isCarEntered = false;
         nearCar.GetComponent<CarControl>().ExitCar();
-        transform.GetChild(7).gameObject.SetActive(true);
+        characterModel.SetActive(true);
+        gunPivot.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
         transform.position = nearCar.GetComponent<CarControl>().playerPosition.position;
         transform.forward = nearCar.GetComponent<CarControl>().playerPosition.forward;
     }
