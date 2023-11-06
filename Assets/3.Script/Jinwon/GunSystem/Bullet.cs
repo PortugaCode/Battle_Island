@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    [SerializeField] private GameObject hitEffectPrefab;
+
     public float gravity = 9.8f;
     public float bulletSpeed = 1.0f;
     public float bulletDamage = 0;
@@ -34,6 +36,9 @@ public class Bullet : MonoBehaviour
                 collision.collider.GetComponent<Damagable>().TakeDamage(bulletDamage);
                 //Debug.Log($"{collision.collider.name}에게 {bulletDamage}의 데미지 입힘");
             }
+
+            GameObject hitEffect = Instantiate(hitEffectPrefab, collision.contacts[0].point, Quaternion.identity);
+            Destroy(hitEffect, 0.5f);
 
             Destroy(gameObject);
         }

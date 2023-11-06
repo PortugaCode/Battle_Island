@@ -6,6 +6,7 @@ public class TestRifle : Gun
 {
     [SerializeField] private Transform muzzleTransform;
     [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private GameObject muzzleFlashEffectPrefab;
 
     private GameObject player;
 
@@ -40,19 +41,28 @@ public class TestRifle : Gun
             // Bullet 생성
             if (player.GetComponent<TPSControl>().isFirstPersonView) // 1인칭 시점일 때 카메라 조금 앞에서 발사
             {
-                Vector3 forwardDirection = (raycastHit.point - player.GetComponent<TPSControl>().firstPersonCamera.transform.position).normalized;
+                Vector3 forwardDirection = (raycastHit.point - player.GetComponent<TPSControl>().firstPersonCamera.transform.position).normalized * 0.75f;
+
+                Vector3 muzzleFlashPosition = new Vector3(player.GetComponent<TPSControl>().firstPersonCamera.transform.position.x, player.GetComponent<TPSControl>().firstPersonCamera.transform.position.y - 0.05f, player.GetComponent<TPSControl>().firstPersonCamera.transform.position.z) + forwardDirection;
 
                 GameObject currentBullet = Instantiate(bulletPrefab, player.GetComponent<TPSControl>().firstPersonCamera.transform.position + forwardDirection, Quaternion.identity);
-
                 currentBullet.transform.forward = forwardDirection;
-
                 currentBullet.GetComponent<Bullet>().bulletDamage = damage;
+                currentBullet.GetComponentInChildren<TrailRenderer>().enabled = false;
+
+                GameObject muzzleFlashEffect = Instantiate(muzzleFlashEffectPrefab, muzzleFlashPosition, Quaternion.identity);
+                muzzleFlashEffect.transform.forward = forwardDirection;
+                Destroy(muzzleFlashEffect, 0.5f);
             }
             else if (player.GetComponent<TPSControl>().isThirdPersonView) // 3인칭 시점일 때 총구에서 발사
             {
                 GameObject currentBullet = Instantiate(bulletPrefab, muzzleTransform.position, Quaternion.identity);
                 currentBullet.transform.forward = raycastHit.point - muzzleTransform.position;
                 currentBullet.GetComponent<Bullet>().bulletDamage = damage;
+
+                GameObject muzzleFlashEffect = Instantiate(muzzleFlashEffectPrefab, muzzleTransform.position, Quaternion.identity);
+                muzzleFlashEffect.transform.forward = raycastHit.point - muzzleTransform.position;
+                Destroy(muzzleFlashEffect, 0.5f);
             }
         }
 
