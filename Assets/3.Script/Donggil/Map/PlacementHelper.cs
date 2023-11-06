@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ public static class PlacementHelper
     {
         List<Direction> neighborDirection = new List<Direction>();
 
-        if(collection.Contains(position + Vector3Int.right * 10))
+        if (collection.Contains(position + Vector3Int.right * 10))
         {
             neighborDirection.Add(Direction.Right);
         }
@@ -26,5 +27,41 @@ public static class PlacementHelper
         }
 
         return neighborDirection;
+    }
+
+    internal static Vector3Int GetOffsetFromDirection(Direction direction)
+    {
+        switch (direction)
+        {
+            case Direction.Up:
+                return new Vector3Int(0, 0, 1) * 10;
+            case Direction.Down:
+                return new Vector3Int(0, 0, -1) * 10;
+            case Direction.Left:
+                return Vector3Int.left * 10;
+            case Direction.Right:
+                return Vector3Int.right * 10;
+            default:
+                break;
+        }
+        throw new System.Exception(direction + " 방향이 없음");
+    }
+
+    internal static Direction GetReverseDirection(Direction direction)
+    {
+        switch (direction)
+        {
+            case Direction.Up:
+                return Direction.Down;
+            case Direction.Down:
+                return Direction.Up;
+            case Direction.Left:
+                return Direction.Right;
+            case Direction.Right:
+                return Direction.Left;
+            default:
+                break;
+        }
+        throw new System.Exception(direction + " 방향이 없음");
     }
 }

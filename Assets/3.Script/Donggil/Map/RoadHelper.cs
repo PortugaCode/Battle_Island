@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RoadHelper : MonoBehaviour
@@ -8,6 +9,11 @@ public class RoadHelper : MonoBehaviour
     public GameObject[] roadStraights;
     Dictionary<Vector3Int, GameObject> roadDic = new Dictionary<Vector3Int, GameObject>();
     HashSet<Vector3Int> fixRoadCandidates = new HashSet<Vector3Int>();
+
+    public List<Vector3Int> GetRoadPositions()
+    {
+        return roadDic.Keys.ToList();
+    }
 
     public void PlaceStreetPosition(Vector3 startPos, Vector3Int direction, int length)
     {
@@ -24,7 +30,7 @@ public class RoadHelper : MonoBehaviour
             {
                 continue;
             }
-            var road = Instantiate(roadStraights[Random.Range(0, roadStraights.Length)], position, rotation, transform);
+            var road = Instantiate(roadStraights[Random.Range(0,roadStraights.Length)], position, rotation, transform);
             roadDic.Add(position, road);
             if (i == 0 || i == length - 1)
             {
