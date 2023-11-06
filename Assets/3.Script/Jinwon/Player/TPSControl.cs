@@ -36,11 +36,11 @@ public class TPSControl : MonoBehaviour
     [SerializeField] private Transform mainCamera;
     [SerializeField] private CinemachineFreeLook normalCamera;
     [SerializeField] private CinemachineFreeLook aimCamera;
-    [SerializeField] private CinemachineVirtualCamera firstPersonCamera;
+    public CinemachineVirtualCamera firstPersonCamera;
     private float clickTimer = 0f;
     private bool timerOn = false;
-    private bool isFirstPersonView = false;
-    private bool isThirdPersonView = false;
+    public bool isFirstPersonView = false;
+    public bool isThirdPersonView = false;
     public float turnSmoothTime = 0.1f;
     private float turnSmoothVelocity;
 
@@ -70,11 +70,13 @@ public class TPSControl : MonoBehaviour
 
     // Components
     private Rigidbody rb;
+    private CapsuleCollider cc;
     private Animator animator;
 
     private void Awake()
     {
         TryGetComponent(out rb);
+        TryGetComponent(out cc);
         TryGetComponent(out animator);
 
         currentHealth = maxHealth;
@@ -335,10 +337,8 @@ public class TPSControl : MonoBehaviour
 
     private void PlayerMove()
     {
-        //float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + mainCamera.eulerAngles.y;
-
         // 카메라 바라보는 방향으로 캐릭터 회전
-        if (!isFirstPersonView)
+        if (true)
         {
             float cameraAngle = mainCamera.eulerAngles.y;
             float smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, cameraAngle, ref turnSmoothVelocity, turnSmoothTime); // 부드러운 회전 적용
@@ -374,8 +374,12 @@ public class TPSControl : MonoBehaviour
     {
         if (!firstPersonCamera.gameObject.activeSelf) // Zoom In
         {
-            characterModel.SetActive(false); // 모델링 Off
-            gunPivot.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+            characterModel.SetActive(false); // 플레이어 모델링 Off
+            cc.isTrigger = true; // isTrigger On
+            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY; // Y값 고정
+            gunPivot.transform.GetChild(0).GetChild(0).gameObject.SetActive(false); // 총 모델링 Off
+            firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.Value = normalCamera.m_XAxis.Value; // 두 카메라 x값 동기화
+            firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.Value = 2.0f; // y값 초기화
             firstPersonCamera.gameObject.SetActive(true); // 1인칭 카메라 On
             UIManager.instance.Crosshair(true); // 크로스헤어 On
             currentSpeed = aimWalkSpeed; // 플레이어 속도 조정
@@ -386,8 +390,12 @@ public class TPSControl : MonoBehaviour
     {
         if (firstPersonCamera.gameObject.activeSelf) // Zoom Out
         {
-            characterModel.SetActive(true); // 모델링 On
-            gunPivot.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+            characterModel.SetActive(true); // 플레이어 모델링 On
+            cc.isTrigger = false; // isTrigger Off
+            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ; // Y값 고정 해제
+            gunPivot.transform.GetChild(0).GetChild(0).gameObject.SetActive(true); // 총 모델링 On
+            normalCamera.m_XAxis.Value = firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.Value; // 두 카메라 x값 동기화
+            normalCamera.m_YAxis.Value = 0.35f; // y값 초기화
             firstPersonCamera.gameObject.SetActive(false); // 1인칭 카메라 Off
             UIManager.instance.Crosshair(false); // 크로스헤어 Off
             currentSpeed = walkSpeed; // 플레이어 속도 조정
@@ -453,7 +461,7 @@ public class TPSControl : MonoBehaviour
 
         animator.SetTrigger("ThrowGrenade"); // 애니메이션 재생
 
-        yield return new WaitForSeconds(0.525f);
+        yield return new WaitForSeconds(0.55f);
 
         GameObject currentGrenade = Instantiate(testGrenadePrefab, grenadePivot.position, Quaternion.identity); // 수류탄 생성
         currentGrenade.GetComponent<Rigidbody>().velocity = direction; // 방향으로 던지기

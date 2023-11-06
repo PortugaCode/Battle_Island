@@ -7,6 +7,8 @@ public class TestRifle : Gun
     [SerializeField] private Transform muzzleTransform;
     [SerializeField] private GameObject bulletPrefab;
 
+    private GameObject player;
+
     private void Awake()
     {
         //damage = 50.0f;
@@ -14,6 +16,8 @@ public class TestRifle : Gun
         //coolDown = 1.0f;
         //magSize = 30;
         canShoot = true;
+
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     public override void Shoot()
@@ -34,9 +38,19 @@ public class TestRifle : Gun
         if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f))
         {
             // Bullet »ý¼º
-            GameObject currentBullet = Instantiate(bulletPrefab, muzzleTransform.position, Quaternion.identity);
-            currentBullet.transform.forward = raycastHit.point - muzzleTransform.position;
-            currentBullet.GetComponent<Bullet>().bulletDamage = damage;
+
+            if (player.GetComponent<TPSControl>().isFirstPersonView)
+            {
+                GameObject currentBullet = Instantiate(bulletPrefab, player.GetComponent<TPSControl>().firstPersonCamera.transform.position, Quaternion.identity);
+                currentBullet.transform.forward = raycastHit.point - player.GetComponent<TPSControl>().firstPersonCamera.transform.position;
+                currentBullet.GetComponent<Bullet>().bulletDamage = damage;
+            }
+            else if (player.GetComponent<TPSControl>().isThirdPersonView)
+            {
+                GameObject currentBullet = Instantiate(bulletPrefab, muzzleTransform.position, Quaternion.identity);
+                currentBullet.transform.forward = raycastHit.point - muzzleTransform.position;
+                currentBullet.GetComponent<Bullet>().bulletDamage = damage;
+            }
         }
 
         //
