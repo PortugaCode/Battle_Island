@@ -29,7 +29,7 @@ public class AIChasePlayerState : AIState
             return;
         }
 
-        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 4f * Time.deltaTime);
+        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 2f * Time.deltaTime);
 
 
 
@@ -57,7 +57,7 @@ public class AIChasePlayerState : AIState
         Playerdirection.Normalize();
         float dotProduct = Vector3.Dot(Playerdirection, agnetDirection);
 
-        if (dotProduct > 0.0f)
+        if (dotProduct > 0.5f)
         {
             agent.stateMachine.ChangeState(AiStateID.Shooting);
         }
@@ -89,7 +89,7 @@ public class AIChasePlayerState : AIState
 
     private bool CheckWall2(AIAgent agent)
     {
-        if (Physics.CheckSphere(agent.SelectStartAim.position, 1f, agent.WallLayer))
+        if (Physics.CheckSphere(agent.SelectStartAim.position, 1.5f, agent.WallLayer))
         {
             return true;
         }

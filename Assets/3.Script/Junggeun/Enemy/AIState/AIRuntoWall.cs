@@ -23,6 +23,7 @@ public class AIRuntoWall : AIState
 
     public void Enter(AIAgent agent)
     {
+        Debug.Log("º® Ã£±â");
         agent.navMeshAgent.speed = 5.5f;
         ClosetWall = CheckCloseWall(agent);
 
@@ -35,13 +36,17 @@ public class AIRuntoWall : AIState
 
     public void AIUpdate(AIAgent agent)
     {
-        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 4f * Time.deltaTime);
+
+        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 2f * Time.deltaTime);
+
         distance = agent.transform.position - resultPoint;
-        if (distance.magnitude <= 0.5f)
+        if (distance.magnitude <= 1.0f)
         {
-            agent.transform.LookAt(agent.playerTarget);
             agent.stateMachine.ChangeState(AiStateID.Standby);
+            return;
         }
+
+
     }
 
     public void Exit(AIAgent agent)
@@ -56,13 +61,14 @@ public class AIRuntoWall : AIState
     {
         start = ClosetWall.transform.position;
         direction = ClosetWall.transform.position - agent.playerTarget.position;
-        end = start += direction.normalized * 10f;
+        end = start += direction.normalized * 20f;
 
-        if (CheckCol(agent, end))
+/*        if (CheckCol(agent, end))
         {
             agent.stateMachine.ChangeState(AiStateID.Shooting);
             return;
-        }
+        }*/
+
         mid = (start + end) / 2;
         lastMid = mid;
 

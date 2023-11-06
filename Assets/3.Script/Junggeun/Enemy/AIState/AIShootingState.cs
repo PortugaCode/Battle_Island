@@ -47,24 +47,74 @@ public class AIShootingState : AIState
         {
             isgotowall = false;
             agent.stateMachine.ChangeState(AiStateID.RuntoWall);
+            return;
         }
+
+        if (!isgotowall)
+        {
+            agent.transform.LookAt(agent.playerTarget);
+            agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position, 3f * Time.deltaTime);
+            if (Physics.Raycast(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward, out RaycastHit hit, 20f))
+            {
+                if (hit.collider.CompareTag("Wall"))
+                {
+                    Debug.DrawRay(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward * hit.distance, Color.blue);
+                }
+                else if(!agent.isneedReload)
+                {
+                    if (agent.magAmmo <= 0)
+                    {
+                        if (agent.ammoRemain <= 0)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            animator.SetTrigger("Reload");
+                            agent.isAmmoReady = true;
+                            agent.isneedReload = true;
+                            return;
+                        }
+                    }
+                    Debug.DrawRay(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward * 1000f, Color.red);
+                    //ÃÑ ½ò ¶§ Åº ·£´ýÀ¸·Î Æ¢°Ô ÇÏ±â À§ÇÑ º¯¼ö
+                    x = UnityEngine.Random.Range(-3f, 3f);
+                    y = UnityEngine.Random.Range(-3f, 3f);
+                    if (agent.navMeshAgent.speed <= 0)
+                    {
+                        Physics.Raycast(agent.SelectStartAim.position, agent.SelectStartAim.forward, out agent.hit, Mathf.Infinity);
+                        Debug.DrawRay(agent.SelectStartAim.position, agent.SelectStartAim.forward * 1000f, Color.green);
+
+                        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position + new Vector3(x, y, 0f), 3f * Time.deltaTime);
+                        if (agent.magAmmo > 0)
+                        {
+                            Fire(agent);
+                        }
+                    }
+                }
+                return;
+            }
+            return;
+        }
+
+
+        Debug.Log("´ë±â¸ðµå ÀÌÈÄ");
+
+
         CheckWall(agent);
+        CheckWall2(agent);
         CheckPlayer(agent);
         CheckPlayer2(agent);
 
-
-        //ÃÑ ½ò ¶§ Åº ·£´ýÀ¸·Î Æ¢°Ô ÇÏ±â À§ÇÑ º¯¼ö
-        x = UnityEngine.Random.Range(-3f, 3f);
-        y = UnityEngine.Random.Range(-3f, 3f);
-
-
-        Physics.Raycast(agent.SelectStartAim.position, agent.SelectStartAim.forward, out agent.hit, Mathf.Infinity);
-        Debug.DrawRay(agent.SelectStartAim.position, agent.SelectStartAim.forward * 1000f, Color.green);
-
-        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position + new Vector3(x, y, 0f), 4f * Time.deltaTime);
-
-        if(agent.navMeshAgent.speed <= 0)
+        if (agent.navMeshAgent.speed <= 0 && isgotowall)
         {
+
+            x = UnityEngine.Random.Range(-3f, 3f);
+            y = UnityEngine.Random.Range(-3f, 3f);
+            Physics.Raycast(agent.SelectStartAim.position, agent.SelectStartAim.forward, out agent.hit, Mathf.Infinity);
+            Debug.DrawRay(agent.SelectStartAim.position, agent.SelectStartAim.forward * 1000f, Color.green);
+
+            agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position + new Vector3(x, y, 0f), 3f * Time.deltaTime);
             if (agent.magAmmo > 0)
             {
                 Fire(agent);
@@ -73,7 +123,6 @@ public class AIShootingState : AIState
             {
                 agent.stateMachine.ChangeState(AiStateID.Reload);
             }
-
         }
 
 
@@ -101,6 +150,8 @@ public class AIShootingState : AIState
             }
         }
     }
+
+
 
     private void CheckWall2(AIAgent agent)
     {

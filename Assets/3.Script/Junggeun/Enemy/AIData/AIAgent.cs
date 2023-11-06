@@ -23,6 +23,11 @@ public class AIAgent : MonoBehaviour
     [HideInInspector] public bool isnowReload = false;
     [HideInInspector] public RaycastHit hit;
 
+
+    [Header("Character")]
+    [SerializeField] private GameObject[] EnemyModel;
+
+
     [Header("Gun Data")]
     public GunData[] gundata;
     public GunData Nowgundata;
@@ -78,6 +83,9 @@ public class AIAgent : MonoBehaviour
         {
             Armor[i].SetActive(false);
         }
+
+        int a = Random.Range(0, 8);
+        EnemyModel[a].SetActive(true);
 
         //===========================================================================
         TryGetComponent(out enemyHealth);
