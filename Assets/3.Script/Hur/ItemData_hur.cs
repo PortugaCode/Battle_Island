@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 /*
@@ -59,7 +60,6 @@ public class ItemData_hur
     public ItemData_hur(bool _notice, Sprite _itemIcon, int _itemID, string _itemName, bool _isUsed, ItemType _itemType, UsingType _usingType)
     {
         notice = _notice;
-        itemIcon = _itemIcon;
         itemID = _itemID;
         itemName = _itemName;
         isUsed = _isUsed;

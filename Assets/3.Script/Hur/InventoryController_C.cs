@@ -35,7 +35,7 @@ public class InventoryController_C : MonoBehaviour
     {
         ItemIconDrag();
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q)) //수정 - 생략
         {
             if (selectedItem == null)
             {
@@ -146,7 +146,7 @@ public class InventoryController_C : MonoBehaviour
         }
     }
 
-    private void CreateRandomItem()//수정 - 빼기
+    public void CreateRandomItem()//수정 - 생략
     {
         InventoryItem_C inventoryItme =
             Instantiate(itemPrefab).GetComponent<InventoryItem_C>();

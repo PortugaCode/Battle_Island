@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class ItemGrid_C : MonoBehaviour
 {
     //이거 조절하면 아이템도 커진다
@@ -27,8 +26,9 @@ public class ItemGrid_C : MonoBehaviour
         Init(gridSizeWidth, gridSizeHeight);
     }
 
-    public InventoryItem_C PickUpItem(int x, int y)
+    public InventoryItem_C PickUpItem(int x, int y) //33:32
     {
+        //47.34
         InventoryItem_C toReturn = inventoryItemSlot[x, y];
 
         if (toReturn == null)
@@ -73,6 +73,7 @@ public class ItemGrid_C : MonoBehaviour
     {
         int height = gridSizeHeight - itemToInsert.HEIGHT + 1;
         int width = gridSizeWidth - itemToInsert.WIDTH + 1;
+
 
         for (int y = 0; y < height; y++)
         {
