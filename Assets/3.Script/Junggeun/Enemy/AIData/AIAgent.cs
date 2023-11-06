@@ -9,7 +9,7 @@ public class AIAgent : MonoBehaviour
 {
     public bool isReady = false;
     public bool isAmmoReady = false;
-    public bool isShot;
+    public bool isShot = false;
 
     [HideInInspector] public AIStateMachine stateMachine;
     [HideInInspector] public EnemyHealth enemyHealth;
@@ -28,9 +28,6 @@ public class AIAgent : MonoBehaviour
     public GunData Nowgundata;
     public int ammoRemain; //남은 전체 탄알
     public int magAmmo; // 현재 탄창에 남아 있는 탄알
-
-    [Header("RunPoint")]
-    public Transform RuntoPoint;
 
 
 

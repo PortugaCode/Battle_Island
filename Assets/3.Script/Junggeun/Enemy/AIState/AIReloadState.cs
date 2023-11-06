@@ -32,7 +32,6 @@ public class AIReloadState : AIState
             agent.isneedReload = true;
         }
 
-
         
     }
 

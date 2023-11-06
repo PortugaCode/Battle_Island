@@ -27,9 +27,7 @@ public class AIRuntoWall : AIState
         ClosetWall = CheckCloseWall(agent);
 
 
-        start = ClosetWall.transform.position;
-        direction = ClosetWall.transform.position - agent.playerTarget.position;
-        end = start += direction.normalized * 10f;
+
 
         BinarySearch(agent);
         agent.navMeshAgent.destination = resultPoint;
@@ -40,6 +38,7 @@ public class AIRuntoWall : AIState
         distance = agent.transform.position - resultPoint;
         if (distance.magnitude <= 0.5f)
         {
+            agent.transform.LookAt(agent.playerTarget);
             agent.stateMachine.ChangeState(AiStateID.Standby);
         }
     }
@@ -49,11 +48,15 @@ public class AIRuntoWall : AIState
         
     }
 
-    private void BinarySearch(AIAgent agent)
+    private void BinarySearch(AIAgent agent) //이진탐색 알고리즘
     {
-        if(CheckCol(agent, end))
+        start = ClosetWall.transform.position;
+        direction = ClosetWall.transform.position - agent.playerTarget.position;
+        end = start += direction.normalized * 10f;
+
+        if (CheckCol(agent, end))
         {
-            //ShootState
+            agent.stateMachine.ChangeState(AiStateID.Shooting);
             return;
         }
         mid = (start + end) / 2;

@@ -12,6 +12,8 @@ public class AIShootingState : AIState
 
     private EnemyHealth enemyHealth;
 
+    private bool isgotowall = true;
+
 
 
 
@@ -41,10 +43,15 @@ public class AIShootingState : AIState
             return;
         }
 
-        if(enemyHealth.currentHealth < 50f)
+        if(enemyHealth.currentHealth < 50f && isgotowall)
         {
+            isgotowall = false;
             agent.stateMachine.ChangeState(AiStateID.RuntoWall);
         }
+        CheckWall(agent);
+        CheckPlayer(agent);
+        CheckPlayer2(agent);
+
 
         //ÃÑ ½ò ¶§ Åº ·£´ýÀ¸·Î Æ¢°Ô ÇÏ±â À§ÇÑ º¯¼ö
         x = UnityEngine.Random.Range(-3f, 3f);
@@ -58,7 +65,7 @@ public class AIShootingState : AIState
 
         if(agent.navMeshAgent.speed <= 0)
         {
-            if(agent.magAmmo > 0)
+            if (agent.magAmmo > 0)
             {
                 Fire(agent);
             }
@@ -66,11 +73,7 @@ public class AIShootingState : AIState
             {
                 agent.stateMachine.ChangeState(AiStateID.Reload);
             }
-            CheckWall(agent);
 
-
-            CheckPlayer(agent);
-            CheckPlayer2(agent);
         }
 
 
@@ -85,9 +88,9 @@ public class AIShootingState : AIState
 
     private void CheckWall(AIAgent agent)
     {
-        if(Physics.Raycast(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward, out RaycastHit hit, 7f))
+        if(Physics.Raycast(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward, out RaycastHit hit, 20f))
         {
-            if(hit.collider.CompareTag("Finish"))
+            if(hit.collider.CompareTag("Wall"))
             {
                 agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
                 Debug.DrawRay(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward * hit.distance, Color.blue);

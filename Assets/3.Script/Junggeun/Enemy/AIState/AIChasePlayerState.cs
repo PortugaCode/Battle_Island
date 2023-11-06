@@ -72,9 +72,8 @@ public class AIChasePlayerState : AIState
     {
         if (Physics.Raycast(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward, out RaycastHit hit, 10f))
         {
-            if (hit.collider.CompareTag("Finish"))
+            if (hit.collider.CompareTag("Wall"))
             {
-                
                 Debug.DrawRay(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward * hit.distance, Color.blue);
                 return true;
             }
