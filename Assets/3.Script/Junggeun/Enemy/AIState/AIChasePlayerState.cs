@@ -8,6 +8,7 @@ public class AIChasePlayerState : AIState
 
     
     private float timer = 0.0f;
+    private EnemyHealth enemyHealth;
 
     public AiStateID GetID()
     {
@@ -17,7 +18,7 @@ public class AIChasePlayerState : AIState
     public void Enter(AIAgent agent)
     {
         Debug.Log("бя╠Б");
-
+        enemyHealth = agent.gameObject.GetComponent<EnemyHealth>();
         agent.navMeshAgent.speed = 3f;
     }
 
@@ -30,8 +31,6 @@ public class AIChasePlayerState : AIState
         }
 
         agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 2f * Time.deltaTime);
-
-
 
         timer -= Time.deltaTime;
         if (timer < 0.0f)
@@ -60,6 +59,13 @@ public class AIChasePlayerState : AIState
         if (dotProduct > 0.5f)
         {
             agent.stateMachine.ChangeState(AiStateID.Shooting);
+        }
+
+        if (enemyHealth.currentHealth < 50f)
+        {
+            agent.isRun = false;
+            agent.stateMachine.ChangeState(AiStateID.RuntoWall);
+            return;
         }
     }
 

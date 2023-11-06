@@ -38,9 +38,8 @@ public class AIRuntoWall : AIState
     {
 
         agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 2f * Time.deltaTime);
-
         distance = agent.transform.position - resultPoint;
-        if (distance.magnitude <= 1.0f)
+        if (distance.magnitude <= 0.8f)
         {
             agent.stateMachine.ChangeState(AiStateID.Standby);
             return;

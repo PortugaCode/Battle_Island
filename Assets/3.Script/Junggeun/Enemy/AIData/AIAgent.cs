@@ -10,6 +10,7 @@ public class AIAgent : MonoBehaviour
     public bool isReady = false;
     public bool isAmmoReady = false;
     public bool isShot = false;
+    public bool isRun = true;
 
     [HideInInspector] public AIStateMachine stateMachine;
     [HideInInspector] public EnemyHealth enemyHealth;

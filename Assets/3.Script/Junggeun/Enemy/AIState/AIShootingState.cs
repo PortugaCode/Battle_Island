@@ -12,7 +12,6 @@ public class AIShootingState : AIState
 
     private EnemyHealth enemyHealth;
 
-    private bool isgotowall = true;
 
 
 
@@ -43,17 +42,17 @@ public class AIShootingState : AIState
             return;
         }
 
-        if(enemyHealth.currentHealth < 50f && isgotowall)
+        if(enemyHealth.currentHealth < 50f && agent.isRun)
         {
-            isgotowall = false;
+            agent.isRun = false;
             agent.stateMachine.ChangeState(AiStateID.RuntoWall);
             return;
         }
 
-        if (!isgotowall)
+        if (!agent.isRun)
         {
             agent.transform.LookAt(agent.playerTarget);
-            agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position, 3f * Time.deltaTime);
+            agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position, 2f * Time.deltaTime);
             if (Physics.Raycast(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward, out RaycastHit hit, 20f))
             {
                 if (hit.collider.CompareTag("Wall"))
@@ -106,7 +105,7 @@ public class AIShootingState : AIState
         CheckPlayer(agent);
         CheckPlayer2(agent);
 
-        if (agent.navMeshAgent.speed <= 0 && isgotowall)
+        if (agent.navMeshAgent.speed <= 0 && agent.isRun)
         {
 
             x = UnityEngine.Random.Range(-3f, 3f);
@@ -114,7 +113,7 @@ public class AIShootingState : AIState
             Physics.Raycast(agent.SelectStartAim.position, agent.SelectStartAim.forward, out agent.hit, Mathf.Infinity);
             Debug.DrawRay(agent.SelectStartAim.position, agent.SelectStartAim.forward * 1000f, Color.green);
 
-            agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position + new Vector3(x, y, 0f), 3f * Time.deltaTime);
+            agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position + new Vector3(x, y, 0f), 2f * Time.deltaTime);
             if (agent.magAmmo > 0)
             {
                 Fire(agent);

@@ -16,11 +16,12 @@ public class AIStandbyState : AIState
     {
         Debug.Log("대기 모드");
         animator = agent.GetComponent<Animator>();
+        animator.SetTrigger("Crouch");
         if (agent.ammoRemain <= 0)
         {
             return;
         }
-        animator.SetTrigger("Crouch");
+
         animator.SetTrigger("Reload");
         agent.isAmmoReady = true;
         agent.isneedReload = true;
