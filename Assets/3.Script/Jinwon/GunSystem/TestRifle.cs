@@ -48,6 +48,7 @@ public class TestRifle : Gun
                 GameObject currentBullet = Instantiate(bulletPrefab, player.GetComponent<TPSControl>().firstPersonCamera.transform.position + forwardDirection, Quaternion.identity);
                 currentBullet.transform.forward = forwardDirection;
                 currentBullet.GetComponent<Bullet>().bulletDamage = damage;
+                currentBullet.GetComponent<Bullet>().hit = raycastHit;
                 currentBullet.GetComponentInChildren<TrailRenderer>().enabled = false;
 
                 GameObject muzzleFlashEffect = Instantiate(muzzleFlashEffectPrefab, muzzleFlashPosition, Quaternion.identity);
@@ -59,6 +60,7 @@ public class TestRifle : Gun
                 GameObject currentBullet = Instantiate(bulletPrefab, muzzleTransform.position, Quaternion.identity);
                 currentBullet.transform.forward = raycastHit.point - muzzleTransform.position;
                 currentBullet.GetComponent<Bullet>().bulletDamage = damage;
+                currentBullet.GetComponent<Bullet>().hit = raycastHit;
 
                 GameObject muzzleFlashEffect = Instantiate(muzzleFlashEffectPrefab, muzzleTransform.position, Quaternion.identity);
                 muzzleFlashEffect.transform.forward = raycastHit.point - muzzleTransform.position;
