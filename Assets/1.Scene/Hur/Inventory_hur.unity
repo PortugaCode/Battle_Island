@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 170780506}
   - component: {fileID: 170780505}
   m_Layer: 0
-  m_Name: Test
+  m_Name: NoticeItems
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -452,7 +452,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 11, y: 443}
+  m_AnchoredPosition: {x: 11, y: 451}
   m_SizeDelta: {x: 419.8958, y: 109.7407}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &721962414
@@ -996,6 +996,7 @@ GameObject:
   - component: {fileID: 1024214825}
   - component: {fileID: 1024214824}
   - component: {fileID: 1024214823}
+  - component: {fileID: 1024214826}
   m_Layer: 5
   m_Name: Scrollbar
   m_TagString: Untagged
@@ -1044,11 +1045,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 0.41037738, b: 0.41037738, a: 1}
-    m_HighlightedColor: {r: 1, g: 0.41176474, b: 0.41176474, a: 1}
-    m_PressedColor: {r: 1, g: 0.41176474, b: 0.41176474, a: 1}
-    m_SelectedColor: {r: 1, g: 0.41176474, b: 0.41176474, a: 1}
-    m_DisabledColor: {r: 1, g: 0.41176474, b: 0.41176474, a: 0.5019608}
+    m_NormalColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
+    m_HighlightedColor: {r: 0.28235295, g: 0.28235295, b: 0.28235295, a: 1}
+    m_PressedColor: {r: 0.28235295, g: 0.28235295, b: 0.28235295, a: 1}
+    m_SelectedColor: {r: 0.28235295, g: 0.28235295, b: 0.28235295, a: 1}
+    m_DisabledColor: {r: 0.28235295, g: 0.28235295, b: 0.28235295, a: 0.57254905}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1110,6 +1111,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1024214821}
   m_CullTransparentMesh: 1
+--- !u!114 &1024214826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024214821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 3, y: -3}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1033226183
 GameObject:
   m_ObjectHideFlags: 0
@@ -1146,7 +1162,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 468.50006, y: 929}
+  m_AnchoredPosition: {x: 455, y: 929}
   m_SizeDelta: {x: 512.5, y: 896}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1033226185
@@ -1161,7 +1177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b26a1e3c20e4fe84ea0a5b5aa43eee47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSizeWidth: 16
+  gridSizeWidth: 17
   gridSizeHeight: 28
 --- !u!114 &1033226186
 MonoBehaviour:
@@ -1398,7 +1414,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 6, y: 443}
+  m_AnchoredPosition: {x: 6, y: 454}
   m_SizeDelta: {x: 419.8958, y: 109.7407}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1264110973
@@ -1634,7 +1650,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -24.641235, y: 443}
+  m_AnchoredPosition: {x: -24.641235, y: 451}
   m_SizeDelta: {x: 419.8958, y: 109.7407}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1559960901
@@ -1791,8 +1807,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.7129, y: -71.497894}
-  m_SizeDelta: {x: 399.3246, y: 891.1661}
+  m_AnchoredPosition: {x: 0, y: -71}
+  m_SizeDelta: {x: 399.3246, y: 891.166}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1867476401
 MonoBehaviour:
@@ -1813,7 +1829,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 0
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 60
   m_Viewport: {fileID: 0}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1024214823}
@@ -2063,8 +2079,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 16.745584, y: 0.00062394445}
-  m_SizeDelta: {x: 397, y: 0}
+  m_AnchoredPosition: {x: -0.00000590086, y: 0}
+  m_SizeDelta: {x: 399.3246, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2103921508
 MonoBehaviour:
@@ -2123,7 +2139,7 @@ MonoBehaviour:
     m_Bottom: 0
   m_ChildAlignment: 0
   m_StartCorner: 0
-  m_StartAxis: 0
+  m_StartAxis: 1
   m_CellSize: {x: 397, y: 110}
   m_Spacing: {x: 0, y: 5}
   m_Constraint: 0

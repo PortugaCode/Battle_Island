@@ -11,13 +11,12 @@ public class NoticeItem : MonoBehaviour
 
     private int num;
     private string nameSave;
-    //public Text itemCount_txt;
     //public GameObject selectedItem;
     public int addItem = 0;
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R))//아이템이 감지됐을 때
         {
             ItemData_hur randomItem = GetRandomItem();
             GameObject newPrefab = Instantiate(slotprefab, parentTransform);
