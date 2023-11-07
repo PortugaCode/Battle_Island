@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class AIFindWeaponState : MonoBehaviour, AIState
+public class AIFindWeaponState : AIState
 {
     private GameObject pickup;
     private bool isPickup = false;
@@ -17,6 +17,8 @@ public class AIFindWeaponState : MonoBehaviour, AIState
 
     public void Enter(AIAgent agent)
     {
+        Debug.Log("총 찾기");
+
         animator = agent.gameObject.GetComponent<Animator>();
         pickup = FindClosestWeapon(agent);
         agent.navMeshAgent.destination = pickup.transform.position;
@@ -27,10 +29,10 @@ public class AIFindWeaponState : MonoBehaviour, AIState
     {
         if (pickup == null)
         {
-            agent.stateMachine.ChangeState(AiStateID.Idle);
+            agent.stateMachine.ChangeState(AiStateID.RandomMove);
         }
 
-        else if (pickup.GetComponent<HaveGunCheck>().isEquip)
+        else if (pickup.GetComponent<EquipCheck>().isEquip)
         {
             pickup = FindClosestWeapon(agent);
             if(pickup != null)
@@ -52,15 +54,15 @@ public class AIFindWeaponState : MonoBehaviour, AIState
     {
         if(isPickup)
         {
-            pickup.GetComponent<HaveGunCheck>().isEnemyEquip = true;
-            pickup.GetComponent<HaveGunCheck>().isEquip = true;
-            animator.SetBool("Equip", pickup.GetComponent<HaveGunCheck>().isEnemyEquip);
+            pickup.GetComponent<EquipCheck>().isEnemyEquip = true;
+            pickup.GetComponent<EquipCheck>().isEquip = true;
+            animator.SetBool("Equip", pickup.GetComponent<EquipCheck>().isEnemyEquip);
             agent.rig.weight = 1f;
-            
-            //나중에 rifle 정보 가지고 와서 바꾸기
-            agent.rifleWeapons[2].SetActive(true);
 
-            Destroy(pickup.gameObject);
+            //나중에 rifle 정보 가지고 와서 바꾸기
+            agent.SelectRifleWeapons.SetActive(true);
+
+            MonoBehaviour.Destroy(pickup.gameObject);
         }
     }
 
@@ -71,10 +73,16 @@ public class AIFindWeaponState : MonoBehaviour, AIState
         Collider[] a = Physics.OverlapSphere(agent.transform.position, 0.5f);
         foreach(Collider col in a)
         {
-            if(col.CompareTag("Weapon") && !col.GetComponent<HaveGunCheck>().isEquip)
+            if(col.CompareTag("Weapon") && !col.GetComponent<EquipCheck>().isEquip)
             {
                 isPickup = true;
                 agent.isReady = true;
+                agent.isAmmoReady = true;
+                agent.SelectStartAim = agent.StartAim[(int)col.GetComponent<GunEnum>().gunState];
+                agent.SelectRifleWeapons = agent.rifleWeapons[(int)col.GetComponent<GunEnum>().gunState];
+                agent.Nowgundata = agent.gundata[(int)col.GetComponent<GunEnum>().gunState];
+                agent.magAmmo = agent.Nowgundata.magCapcity;
+                agent.ammoRemain += agent.Nowgundata.magCapcity;
             }
         }
     }
@@ -91,7 +99,7 @@ public class AIFindWeaponState : MonoBehaviour, AIState
             float distanceToWeapon = Vector3.Distance(agnet.transform.position, weapon.transform.position);
             if(distanceToWeapon < closestDistance)
             {
-                if(!weapon.GetComponent<HaveGunCheck>().isEquip)
+                if(!weapon.GetComponent<EquipCheck>().isEquip)
                 {
                     closestDistance = distanceToWeapon;
                     closestWeapon = weapon;

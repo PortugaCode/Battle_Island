@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIStateMachine : MonoBehaviour
+public class AIStateMachine
 {
     public AIState[] states;
     public AIAgent agent;

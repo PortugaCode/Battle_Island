@@ -5,7 +5,7 @@ using UnityEngine;
 public class BulletController : MonoBehaviour
 {
     private Rigidbody rig;
-    private Transform player;
+    private Transform Target;
     private Vector3 direction;
 
     public float speed = 4f;
@@ -13,9 +13,10 @@ public class BulletController : MonoBehaviour
     private void Awake()
     {
         TryGetComponent(out rig);
-        GameObject.FindGameObjectWithTag("Player").TryGetComponent(out player);
+        GameObject.FindGameObjectWithTag("Point").TryGetComponent(out Target);
 
-        direction = player.position - transform.position;
+        direction = Target.position - transform.position;
+        direction.Normalize();
 
 
         rig.AddForce(direction * speed);

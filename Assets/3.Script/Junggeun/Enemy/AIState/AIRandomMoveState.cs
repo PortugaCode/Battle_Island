@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AIRandomMoveState : AIState
 {
-    private GameObject point;
+    private Vector3 point;
     private Vector3 distance;
 
 
@@ -15,42 +16,57 @@ public class AIRandomMoveState : AIState
 
     public void Enter(AIAgent agent)
     {
-        point = FindClosestPoint(agent);
-        agent.navMeshAgent.destination = point.transform.position;
+        Debug.Log("랜덤 이동");
+        point = GetRandomPoint(new Vector3(16, 0, -31), 60f);
+        agent.navMeshAgent.destination = point;
         agent.navMeshAgent.speed = 5;
     }
 
     public void AIUpdate(AIAgent agent)
     {
-        
+        Debug.DrawRay(point, Vector3.up, Color.green, Mathf.Infinity);
+        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 2f * Time.deltaTime);
 
-        if (FindPlayer(agent) && agent.isReady)
+        if (FindPlayer(agent) && agent.isReady && agent.isAmmoReady)
         {
             agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
             return;
         }
 
-        if (FindWeapon(agent))
+        if (FindWeapon(agent) && !agent.isReady)
         {
             agent.stateMachine.ChangeState(AiStateID.FindWeapon);
             return;
         }
 
+        if (FindBullet(agent))
+        {
+            agent.stateMachine.ChangeState(AiStateID.FindBullet);
+            return;
+        }
+
+        if (FindArmor(agent) && !agent.isArmor)
+        {
+            agent.stateMachine.ChangeState(AiStateID.FindArmor);
+            return;
+        }
+
+
         if (FindPlayer(agent))
         {
-            agent.navMeshAgent.speed = 7f;
+            agent.navMeshAgent.speed = 5.5f;
         }
         else
         {
             agent.navMeshAgent.speed = 5f;
         }
 
-        distance = agent.transform.position - point.transform.position;
-        if (distance.magnitude <= 0.5f)
+        distance = agent.transform.position - point;
+        if (distance.magnitude <= 4f)
         {
-            point = null;
-            point = FindClosestPoint(agent);
-            agent.navMeshAgent.destination = point.transform.position;
+            //point = null; //나중에 Vector 000으로 바꾸기
+            point = GetRandomPoint(new Vector3(16, 0, -31), 60f);
+            agent.navMeshAgent.destination = point;
             agent.navMeshAgent.speed = 5;
         }
     }
@@ -87,13 +103,52 @@ public class AIRandomMoveState : AIState
         return false;
     }
 
-    private GameObject FindClosestPoint(AIAgent agnet)
+    private bool FindBullet(AIAgent agent)
+    {
+        Collider[] w = Physics.OverlapSphere(agent.transform.position, 20f);
+        foreach (Collider col in w)
+        {
+            if (col.CompareTag("Bullet"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private bool FindArmor(AIAgent agent)
+    {
+        Collider[] w = Physics.OverlapSphere(agent.transform.position, 20f);
+        foreach (Collider col in w)
+        {
+            if (col.CompareTag("Armor"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+/*    private GameObject FindClosestPoint(AIAgent agnet)
     {
         GameObject[] points = GameObject.FindGameObjectsWithTag("Point");
         int i = Random.Range(0, points.Length);
         
         GameObject point = points[i];
         return point;
+    }*/
+
+    private Vector3 GetRandomPoint(Vector3 center, float maxDistance)
+    {
+        Vector3 randomPos = Random.insideUnitSphere * maxDistance + center;
+
+        NavMeshHit hit;
+
+        NavMesh.SamplePosition(randomPos, out hit, maxDistance, NavMesh.AllAreas);
+
+
+
+        return hit.position;
     }
 
 }
