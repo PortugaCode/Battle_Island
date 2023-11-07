@@ -97,7 +97,7 @@ public class AIAgent : MonoBehaviour
         ui = GetComponentInChildren<UIHealthBar>();
         if(GameObject.FindGameObjectWithTag("Player"))
         {
-            TryGetComponent(out playerTarget);
+            GameObject.FindGameObjectWithTag("Player").TryGetComponent(out playerTarget);
         }
         //GameObject.FindGameObjectWithTag("Player").TryGetComponent(out playerTarget);
         //===========================================================================

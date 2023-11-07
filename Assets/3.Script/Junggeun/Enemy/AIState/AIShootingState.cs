@@ -9,7 +9,7 @@ public class AIShootingState : AIState
     private Animator animator;
     private float x;
     private float y;
-
+    int a;
     private EnemyHealth enemyHealth;
 
 
@@ -23,6 +23,7 @@ public class AIShootingState : AIState
 
     public void Enter(AIAgent agent)
     {
+        a = UnityEngine.Random.Range(0, 3);
         animator = agent.gameObject.GetComponent<Animator>();
         enemyHealth = agent.gameObject.GetComponent<EnemyHealth>();
         Debug.Log("½´ÆÃ");
@@ -42,7 +43,7 @@ public class AIShootingState : AIState
             return;
         }
 
-        if(enemyHealth.currentHealth < 50f && agent.isRun)
+        if(enemyHealth.currentHealth < 50f && agent.isRun && a == 1)
         {
             agent.isRun = false;
             agent.stateMachine.ChangeState(AiStateID.RuntoWall);

@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class AIChasePlayerState : AIState
 {
 
-    
+    int a;
     private float timer = 0.0f;
     private EnemyHealth enemyHealth;
 
@@ -20,6 +20,7 @@ public class AIChasePlayerState : AIState
         Debug.Log("бя╠Б");
         enemyHealth = agent.gameObject.GetComponent<EnemyHealth>();
         agent.navMeshAgent.speed = 3f;
+        a = UnityEngine.Random.Range(0, 3);
     }
 
     public void AIUpdate(AIAgent agent)
@@ -61,7 +62,8 @@ public class AIChasePlayerState : AIState
             agent.stateMachine.ChangeState(AiStateID.Shooting);
         }
 
-        if (enemyHealth.currentHealth < 50f)
+
+        if (enemyHealth.currentHealth < 50f && a == 1 && agent.isRun)
         {
             agent.isRun = false;
             agent.stateMachine.ChangeState(AiStateID.RuntoWall);

@@ -17,13 +17,14 @@ public class AIRandomMoveState : AIState
     public void Enter(AIAgent agent)
     {
         Debug.Log("랜덤 이동");
-        point = GetRandomPoint(new Vector3(16, 0, -31), 50f);
+        point = GetRandomPoint(new Vector3(16, 0, -31), 60f);
         agent.navMeshAgent.destination = point;
         agent.navMeshAgent.speed = 5;
     }
 
     public void AIUpdate(AIAgent agent)
     {
+        Debug.DrawRay(point, Vector3.up, Color.green, Mathf.Infinity);
         agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 2f * Time.deltaTime);
 
         if (FindPlayer(agent) && agent.isReady && agent.isAmmoReady)
@@ -61,10 +62,10 @@ public class AIRandomMoveState : AIState
         }
 
         distance = agent.transform.position - point;
-        if (distance.magnitude <= 0.5f)
+        if (distance.magnitude <= 2.5f)
         {
             //point = null; //나중에 Vector 000으로 바꾸기
-            point = GetRandomPoint(new Vector3(16, 0, -31), 50f);
+            point = GetRandomPoint(new Vector3(16, 0, -31), 60f);
             agent.navMeshAgent.destination = point;
             agent.navMeshAgent.speed = 5;
         }
@@ -144,7 +145,9 @@ public class AIRandomMoveState : AIState
         NavMeshHit hit;
 
         NavMesh.SamplePosition(randomPos, out hit, maxDistance, NavMesh.AllAreas);
-        Debug.Log(hit.position);
+
+
+
         return hit.position;
     }
 
