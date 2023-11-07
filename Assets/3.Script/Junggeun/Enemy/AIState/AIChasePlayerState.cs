@@ -31,7 +31,7 @@ public class AIChasePlayerState : AIState
             return;
         }
 
-        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 4f * Time.deltaTime);
+        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 5f * Time.deltaTime);
 
         timer -= Time.deltaTime;
         if (timer < 0.0f)
@@ -43,17 +43,20 @@ public class AIChasePlayerState : AIState
             }
             timer = agent.config.maxTime;
         }
-        if (Physics.CheckSphere(agent.transform.position, 4f, agent.PlayerLayer))
+
+
+        if (Physics.CheckSphere(agent.transform.position, 5f, agent.PlayerLayer))
         {
             agent.stateMachine.ChangeState(AiStateID.Shooting);
             return;
         }
 
+
         if (CheckWall(agent) || CheckWall2(agent) || CheckWall3(agent)) return;
 
 
         Vector3 Playerdirection = agent.playerTarget.position - agent.transform.position;
-        if (Playerdirection.magnitude > agent.config.maxSightDistance+15f)
+        if (Playerdirection.magnitude > agent.config.maxSightDistance+40f)
         {
             return;
         }
@@ -65,6 +68,7 @@ public class AIChasePlayerState : AIState
         if (dotProduct > 0.5f)
         {
             agent.stateMachine.ChangeState(AiStateID.Shooting);
+            return;
         }
 
 
@@ -83,7 +87,7 @@ public class AIChasePlayerState : AIState
 
     private bool CheckWall(AIAgent agent)
     {
-        if (Physics.Raycast(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward, out RaycastHit hit, 10f))
+        if (Physics.Raycast(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward, out RaycastHit hit, Mathf.Infinity))
         {
             if (hit.collider.CompareTag("Wall"))
             {
@@ -92,7 +96,7 @@ public class AIChasePlayerState : AIState
             }
             else
             {
-                Debug.DrawRay(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward * 1000f, Color.red);
+                Debug.DrawRay(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward * hit.distance, Color.red);
                 return false;
             }
         }
@@ -101,7 +105,7 @@ public class AIChasePlayerState : AIState
 
     private bool CheckWall2(AIAgent agent)
     {
-        if (Physics.CheckSphere(agent.SelectStartAim.position, 1f, agent.WallLayer))
+        if (Physics.CheckSphere(agent.SelectStartAim.position, 0.5f, agent.WallLayer))
         {
             return true;
         }

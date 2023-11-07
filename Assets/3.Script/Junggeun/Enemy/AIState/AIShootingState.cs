@@ -112,7 +112,7 @@ public class AIShootingState : AIState
             Physics.Raycast(agent.SelectStartAim.position, agent.SelectStartAim.forward, out agent.hit, Mathf.Infinity);
             Debug.DrawRay(agent.SelectStartAim.position, agent.SelectStartAim.forward * 1000f, Color.green);
 
-            agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position + new Vector3(x, y, 0f), 4f * Time.deltaTime);
+            agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position + new Vector3(x, y, 0f), 5f * Time.deltaTime);
             if (agent.magAmmo > 0)
             {
                 Fire(agent);
@@ -138,7 +138,7 @@ public class AIShootingState : AIState
 
     private void CheckAll(AIAgent agent)
     {
-        if(Physics.CheckSphere(agent.transform.position, 4f, agent.PlayerLayer))
+        if(Physics.CheckSphere(agent.transform.position, 5f, agent.PlayerLayer))
         {
             return;
         }
@@ -158,7 +158,7 @@ public class AIShootingState : AIState
         }
 
         Vector3 Playerdirection = agent.playerTarget.position - agent.transform.position;
-        if (Playerdirection.magnitude > agent.config.maxSightDistance + 15f)
+        if (Playerdirection.magnitude > agent.config.maxSightDistance + 40f)
         {
             agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
             return;
@@ -192,7 +192,7 @@ public class AIShootingState : AIState
     private void CheckPlayer(AIAgent agent)
     {
         Vector3 Playerdirection = agent.playerTarget.position - agent.transform.position;
-        if (Playerdirection.magnitude > agent.config.maxSightDistance+15f)
+        if (Playerdirection.magnitude > agent.config.maxSightDistance+40f)
         {
             agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
         }
