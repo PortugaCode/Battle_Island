@@ -47,8 +47,17 @@ public class AIChasePlayerState : AIState
 
         if (Physics.CheckSphere(agent.transform.position, 5f, agent.PlayerLayer))
         {
-            agent.stateMachine.ChangeState(AiStateID.Shooting);
-            return;
+            Vector3 direction = agent.playerTarget.position - agent.transform.position ;
+
+            if (Physics.Raycast(agent.transform.position, direction, 5f, agent.WallLayer))
+            {
+                return;
+            }
+            else
+            {
+                agent.stateMachine.ChangeState(AiStateID.Shooting);
+                return;
+            }
         }
 
 
