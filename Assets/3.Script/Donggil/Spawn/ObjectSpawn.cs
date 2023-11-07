@@ -13,6 +13,12 @@ public class ObjectSpawn : MonoBehaviour
 
     [SerializeField] private Transform Map_Object;
 
+
+    private bool isMoveCollider = false;
+
+    Ray ray = new Ray();
+    RaycastHit hit;
+
     private void Awake()
     {
         TryGetComponent(out rangeCollider);
@@ -20,7 +26,18 @@ public class ObjectSpawn : MonoBehaviour
 
     private void Start()
     {
-        SpawnGun();
+        //SpawnObject();
+        isMoveCollider = true;
+    }
+
+    private void Update()
+    {
+        if (isMoveCollider)
+        {
+            MoveSpawnObject();
+            //isMoveCollider = false;
+        }
+
     }
 
     private Vector3 RandomPosition()
@@ -34,26 +51,47 @@ public class ObjectSpawn : MonoBehaviour
         rangeZ = Random.Range((rangeZ / 2) * -1, (rangeZ / 2));
 
 
-        Vector3 randomPos = new Vector3(rangeX, transform.position.y, rangeZ) + originPos;
-        
+        Vector3 randomPos = new Vector3(rangeX, 0, rangeZ) + originPos;
+
 
         return randomPos;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.collider.CompareTag("Wall"))
+        if (collision.collider.CompareTag("Wall"))
         {
             RandomPosition();
         }
     }
 
-    private void SpawnGun()
+    private void SpawnObject()
     {
-        for (int i = 0; i < Random.Range(20, 42); i++)
+        for (int i = 0; i < Random.Range(50, 100); i++)
         {
             GameObject mapObject = Instantiate(MapObjectPrefabs[Random.Range(0, MapObjectPrefabs.Length)], RandomPosition(), Quaternion.identity);
             mapObject.transform.SetParent(Map_Object);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("GameController"))
+        {
+            isMoveCollider = false;
+
+        }
+    }
+
+
+    private void MoveSpawnObject()
+    {
+        ray.origin = transform.position;
+        ray.direction = Vector3.right;
+        Debug.DrawRay(transform.position, Vector3.down * 15.0f, Color.red);
+        if (Physics.Raycast(ray, out hit, 15.0f, (-1) - (1 << LayerMask.NameToLayer("Donggil") ) ) ) 
+        {
+            transform.Translate(Vector3.right * Time.deltaTime * 20);
         }
     }
 }

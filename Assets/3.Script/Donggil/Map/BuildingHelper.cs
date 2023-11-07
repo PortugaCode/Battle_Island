@@ -59,7 +59,6 @@ public class BuildingHelper : MonoBehaviour
                                 buildingDic.Add(pos, building);
                             }
                         }
-                        Debug.Log(VerifyingBuildingFits(halfSize, freeEstateSpots, freeSpot, blockedPositions, ref tempPositionsBlock));
                     }
                     else
                     {
@@ -102,7 +101,7 @@ public class BuildingHelper : MonoBehaviour
 
     private GameObject SpawnPrefab(GameObject prefab, Vector3Int position, Quaternion rotation)
     {
-        var newBuilding = Instantiate(prefab, position, rotation, transform);
+        var newBuilding = Instantiate(prefab, position + transform.position, rotation, transform);
         return newBuilding;
     }
 
