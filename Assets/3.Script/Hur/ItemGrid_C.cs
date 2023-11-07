@@ -200,12 +200,12 @@ public class ItemGrid_C : MonoBehaviour
             {
                 if (inventoryItemSlot[posX + x, posY + y] != null)
                 {
-                    return false;
+                    return false; //중첩이 있음
                 }
             }
         }
 
-        return true;
+        return true; //중첩이 없음
     }
 
     bool PositionCheck(int posX, int posY)
