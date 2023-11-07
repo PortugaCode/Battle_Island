@@ -128,11 +128,11 @@ public class AIAgent : MonoBehaviour
     private void Update()
     {
         stateMachine.Update();
-        if(isShot && magAmmo > 0 && isReady && isAmmoReady)
+/*        if(isShot && magAmmo > 0 && isReady && isAmmoReady)
         {
             StartCoroutine(ShotEffect(hit.point));
             
-        }
+        }*/
         isShot = false;
 
         if (isneedReload && !isnowReload && isReady && isAmmoReady)

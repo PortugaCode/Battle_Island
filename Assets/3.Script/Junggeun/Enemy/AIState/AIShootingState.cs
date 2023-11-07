@@ -53,7 +53,7 @@ public class AIShootingState : AIState
         if (!agent.isRun)
         {
             agent.transform.LookAt(agent.playerTarget);
-            agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position, 2f * Time.deltaTime);
+            agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position, 2.5f * Time.deltaTime);
             if (Physics.Raycast(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward, out RaycastHit hit, 20f))
             {
                 if (hit.collider.CompareTag("Wall"))
@@ -85,7 +85,7 @@ public class AIShootingState : AIState
                         Physics.Raycast(agent.SelectStartAim.position, agent.SelectStartAim.forward, out agent.hit, Mathf.Infinity);
                         Debug.DrawRay(agent.SelectStartAim.position, agent.SelectStartAim.forward * 1000f, Color.green);
 
-                        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position + new Vector3(x, y, 0f), 3f * Time.deltaTime);
+                        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position + new Vector3(x, y, 0f), 2.5f * Time.deltaTime);
                         if (agent.magAmmo > 0)
                         {
                             Fire(agent);
@@ -101,14 +101,10 @@ public class AIShootingState : AIState
         Debug.Log("대기모드 이후");
 
 
-        CheckWall(agent);
-        CheckWall2(agent);
-        CheckPlayer(agent);
-        CheckPlayer2(agent);
+
 
         if (agent.navMeshAgent.speed <= 0 && agent.isRun)
         {
-
             x = UnityEngine.Random.Range(-3f, 3f);
             y = UnityEngine.Random.Range(-3f, 3f);
             Physics.Raycast(agent.SelectStartAim.position, agent.SelectStartAim.forward, out agent.hit, Mathf.Infinity);
@@ -125,6 +121,8 @@ public class AIShootingState : AIState
             }
         }
 
+        CheckAll(agent);
+
 
 
     }
@@ -135,9 +133,9 @@ public class AIShootingState : AIState
     }
 
 
-    private void CheckWall(AIAgent agent)
+    private void CheckAll(AIAgent agent)
     {
-        if(Physics.Raycast(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward, out RaycastHit hit, 20f))
+        if(Physics.Raycast(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward, out RaycastHit hit, Vector3.Distance(agent.SelectStartAim.position, agent.playerTarget.position)))
         {
             if(hit.collider.CompareTag("Wall"))
             {
@@ -148,7 +146,29 @@ public class AIShootingState : AIState
             {
                 Debug.DrawRay(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward * 1000f, Color.red);
             }
+            return;
         }
+
+        Vector3 Playerdirection = agent.playerTarget.position - agent.transform.position;
+        if (Playerdirection.magnitude > agent.config.maxSightDistance + 15f)
+        {
+            agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
+            return;
+        }
+
+        Vector3 Playerdirection2 = agent.playerTarget.position - agent.transform.position;
+
+        Vector3 agnetDirection = agent.transform.forward;
+        Playerdirection2.Normalize();
+        float dotProduct = Vector3.Dot(Playerdirection2, agnetDirection);
+
+        if (dotProduct < 0.0f)
+        {
+            agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
+            return;
+        }
+
+
     }
 
 

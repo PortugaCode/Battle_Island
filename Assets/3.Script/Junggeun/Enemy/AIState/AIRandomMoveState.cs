@@ -62,7 +62,7 @@ public class AIRandomMoveState : AIState
         }
 
         distance = agent.transform.position - point;
-        if (distance.magnitude <= 2.5f)
+        if (distance.magnitude <= 4f)
         {
             //point = null; //나중에 Vector 000으로 바꾸기
             point = GetRandomPoint(new Vector3(16, 0, -31), 60f);
