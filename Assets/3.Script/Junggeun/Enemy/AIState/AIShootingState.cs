@@ -138,12 +138,22 @@ public class AIShootingState : AIState
 
     private void CheckAll(AIAgent agent)
     {
-        if(Physics.CheckSphere(agent.transform.position, 5f, agent.PlayerLayer))
+        if (Physics.CheckSphere(agent.transform.position, 5f, agent.PlayerLayer))
         {
-            return;
+            Vector3 direction = agent.playerTarget.position - agent.transform.position;
+
+            if (Physics.Raycast(agent.transform.position, direction, 5f, agent.WallLayer))
+            {
+                agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
+                return;
+            }
+            else
+            {
+                return;
+            }
         }
 
-        if(Physics.Raycast(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward, out RaycastHit hit, Vector3.Distance(agent.SelectStartAim.position, agent.playerTarget.position)))
+        if (Physics.Raycast(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward, out RaycastHit hit, Vector3.Distance(agent.SelectStartAim.position, agent.playerTarget.position)))
         {
             if(hit.collider.CompareTag("Wall"))
             {
