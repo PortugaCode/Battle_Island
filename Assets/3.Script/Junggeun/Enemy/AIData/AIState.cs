@@ -9,7 +9,12 @@ public enum AiStateID
     Idle,
     FindWeapon,
     Shooting,
-    RandomMove
+    RandomMove,
+    Reload,
+    FindBullet,
+    FindArmor,
+    Standby,
+    RuntoWall
 }
 
 public interface AIState

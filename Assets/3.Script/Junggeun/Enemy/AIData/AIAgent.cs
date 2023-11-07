@@ -8,6 +8,9 @@ using UnityEngine.Animations.Rigging;
 public class AIAgent : MonoBehaviour
 {
     public bool isReady = false;
+    public bool isAmmoReady = false;
+    public bool isShot = false;
+    public bool isRun = true;
 
     [HideInInspector] public AIStateMachine stateMachine;
     [HideInInspector] public EnemyHealth enemyHealth;
@@ -16,10 +19,23 @@ public class AIAgent : MonoBehaviour
     [HideInInspector] public SkinnedMeshRenderer mesh;
     [HideInInspector] public UIHealthBar ui;
     [HideInInspector] public Transform playerTarget;
-    [HideInInspector] public GameObject SelectRifleWeapons;
-    [HideInInspector] public Transform SelectStartAim;
-    [HideInInspector] public bool isShot;
+
+    [HideInInspector] public bool isneedReload = false;
+    [HideInInspector] public bool isnowReload = false;
     [HideInInspector] public RaycastHit hit;
+
+
+    [Header("Character")]
+    [SerializeField] private GameObject[] EnemyModel;
+
+
+    [Header("Gun Data")]
+    public GunData[] gundata;
+    public GunData Nowgundata;
+    public int ammoRemain; //남은 전체 탄알
+    public int magAmmo; // 현재 탄창에 남아 있는 탄알
+
+
 
     [Header("FireEffect")]
     public ParticleSystem FireEffect;
@@ -40,6 +56,13 @@ public class AIAgent : MonoBehaviour
     public GameObject[] rifleWeapons;
     public Transform[] StartAim;
     public GameObject Bullet;
+    [HideInInspector] public GameObject SelectRifleWeapons;
+    [HideInInspector] public Transform SelectStartAim;
+
+    [Header("ArmorData")]
+    public bool isArmor;
+    public GameObject[] Armor;
+    [HideInInspector] public GameObject SelectArmor;
 
     [Header("WallLayer")]
     public LayerMask WallLayer;
@@ -56,6 +79,15 @@ public class AIAgent : MonoBehaviour
             rifleWeapons[i].SetActive(false);
         }
 
+        //방어구 SetActive false 작업
+        for (int i = 0; i < Armor.Length; i++)
+        {
+            Armor[i].SetActive(false);
+        }
+
+        int a = Random.Range(0, 8);
+        EnemyModel[a].SetActive(true);
+
         //===========================================================================
         TryGetComponent(out enemyHealth);
         TryGetComponent(out navMeshAgent);
@@ -63,7 +95,11 @@ public class AIAgent : MonoBehaviour
         TryGetComponent(out lineRenderer);
         mesh = GetComponentInChildren<SkinnedMeshRenderer>();
         ui = GetComponentInChildren<UIHealthBar>();
-        GameObject.FindGameObjectWithTag("Player").TryGetComponent(out playerTarget);
+        if(GameObject.FindGameObjectWithTag("Player"))
+        {
+            GameObject.FindGameObjectWithTag("Player").TryGetComponent(out playerTarget);
+        }
+        //GameObject.FindGameObjectWithTag("Player").TryGetComponent(out playerTarget);
         //===========================================================================
 
 
@@ -77,6 +113,11 @@ public class AIAgent : MonoBehaviour
         stateMachine.RegsisterState(new AIFindWeaponState());
         stateMachine.RegsisterState(new AIShootingState());
         stateMachine.RegsisterState(new AIRandomMoveState());
+        stateMachine.RegsisterState(new AIReloadState());
+        stateMachine.RegsisterState(new AIFindBulletState());
+        stateMachine.RegsisterState(new AIFindArmorState());
+        stateMachine.RegsisterState(new AIStandbyState());
+        stateMachine.RegsisterState(new AIRuntoWall());
         #endregion
 
 
@@ -87,21 +128,48 @@ public class AIAgent : MonoBehaviour
     private void Update()
     {
         stateMachine.Update();
-        if(isShot)
+/*        if(isShot && magAmmo > 0 && isReady && isAmmoReady)
         {
             StartCoroutine(ShotEffect(hit.point));
+            
+        }*/
+        isShot = false;
+
+        if (isneedReload && !isnowReload && isReady && isAmmoReady)
+        {
+            StartCoroutine(ReloadCo());
         }
     }
 
     private IEnumerator ShotEffect(Vector3 hitPosition)
     {
-        Debug.Log("작동중");
-        lineRenderer.SetPosition(0, StartAim[2].transform.position);
+        lineRenderer.SetPosition(0, SelectStartAim.position);
         lineRenderer.SetPosition(1, hitPosition);
         lineRenderer.enabled = true;
 
         yield return new WaitForSeconds(0.03f);
         lineRenderer.enabled = false;
+        isShot = false;
+    }
+
+    private IEnumerator ReloadCo()
+    {
+        isnowReload = true;
+
+        yield return new WaitForSeconds(Nowgundata.reloadTime);
+
+        int ammoToFill = Nowgundata.magCapcity - magAmmo;
+
+        if(ammoRemain < ammoToFill)
+        {
+            ammoToFill = ammoRemain;
+        }
+
+        magAmmo += ammoToFill;
+        ammoRemain -= ammoToFill;
+
+        isnowReload = false;
+        isneedReload = false;
     }
 
 }
