@@ -69,7 +69,6 @@ public class Visualizer : MonoBehaviour
                         direction = agentParameter.direction;
 
                         Length = agentParameter.length;
-                        Debug.Log(Length);
                     }
                     else
                     {
@@ -77,6 +76,7 @@ public class Visualizer : MonoBehaviour
                     }
                     break;
                 case EncodingLetters.draw:
+                    Debug.Log(Length);
                     tempPosition = currentPosition;
                     currentPosition += direction * length;
                     roadHelper.PlaceStreetPosition(tempPosition, Vector3Int.RoundToInt(direction), length);
@@ -96,7 +96,6 @@ public class Visualizer : MonoBehaviour
 
         roadHelper.FixRoad();
         buildingHelper.PlaceBuildingAroundRoad(roadHelper.GetRoadPositions());
-
     }
 
 
