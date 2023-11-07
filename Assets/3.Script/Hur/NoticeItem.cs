@@ -3,16 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class NoticeItem : MonoBehaviour
 {
     [SerializeField] private Database_hur database;
     [SerializeField] private GameObject slotprefab;
     [SerializeField] private Transform parentTransform;
-
-    private int num;
-    private string nameSave;
-    //public GameObject selectedItem;
-    public int addItem = 0;
 
     private void Update()
     {
@@ -23,7 +19,6 @@ public class NoticeItem : MonoBehaviour
             UpdateSlot(newPrefab, randomItem);
         }
     }
-
     private ItemData_hur GetRandomItem()
     {
         int randomindex = Random.Range(0, database.itemList.Count);
@@ -44,4 +39,5 @@ public class NoticeItem : MonoBehaviour
             itemImage.sprite = itemdata.itemIcon;
         }
     }
+  
 }

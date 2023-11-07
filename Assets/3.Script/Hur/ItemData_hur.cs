@@ -57,7 +57,7 @@ public class ItemData_hur
         Consumable, Wearable
     }
 
-    public ItemData_hur(bool _notice, Sprite _itemIcon, int _itemID, string _itemName, bool _isUsed, ItemType _itemType, UsingType _usingType)
+    public ItemData_hur(bool _notice, int _itemID, string _itemName, bool _isUsed, ItemType _itemType, UsingType _usingType)
     {
         notice = _notice;
         itemID = _itemID;
@@ -65,5 +65,6 @@ public class ItemData_hur
         isUsed = _isUsed;
         itemType = _itemType;
         usingType = _usingType;
+        itemIcon = Resources.Load("resource_hur/" + _itemID.ToString(), typeof(Sprite)) as Sprite;
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class InventoryController_C : MonoBehaviour
 {
     [SerializeField] private ItemGrid_C selectedItemGrid;
+    [SerializeField] private SurrItemSelected sur_slotclick;
 
     //주변에서 끌어오는 걸 구현할 경우 CreateRandomItem을 없애야 함
 
@@ -30,6 +31,7 @@ public class InventoryController_C : MonoBehaviour
     private void Awake()
     {
         inventoryHighlight = GetComponent<InventoryHighlight_C>();
+        sur_slotclick = FindObjectOfType<SurrItemSelected>();
     }
     private void Update()
     {
@@ -148,16 +150,16 @@ public class InventoryController_C : MonoBehaviour
 
     public void CreateRandomItem()//수정 - 생략
     {
-        InventoryItem_C inventoryItme =
+        InventoryItem_C inventoryItem =
             Instantiate(itemPrefab).GetComponent<InventoryItem_C>();
-        selectedItem = inventoryItme;
+        selectedItem = inventoryItem;
 
-        rect = inventoryItme.GetComponent<RectTransform>();
+        rect = inventoryItem.GetComponent<RectTransform>();
         rect.SetParent(canvasT);
         rect.SetAsLastSibling();
 
         int selectedItemID = UnityEngine.Random.Range(0, items.Count);
-        inventoryItme.Set(items[selectedItemID]);
+        inventoryItem.Set(items[selectedItemID]);
     }
 
     private void LeftMouseButtonPress()//수정 - 변경
