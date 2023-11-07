@@ -468,6 +468,8 @@ public class TPSControl : MonoBehaviour
         }
 
         hasGun = true;
+        animator.SetBool("HasGun", true);
+        animator.SetTrigger("EquipGun");
         currentGun = Instantiate(testGunPrefab, gunPivot.transform.position, gunPivot.transform.rotation); // ÃÑ »ý¼º
         currentGun.transform.SetParent(gunPivot.transform); // GunPivot À§Ä¡¿¡ ÀåÂø
     }

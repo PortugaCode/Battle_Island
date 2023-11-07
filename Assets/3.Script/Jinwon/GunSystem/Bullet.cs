@@ -55,6 +55,11 @@ public class Bullet : MonoBehaviour
                 }
             }
 
+            if (collision.collider.CompareTag("Enemy"))
+            {
+                collision.collider.GetComponent<EnemyHealth>().TakeDamage(bulletDamage, collision.contacts[0].point);
+            }
+
             Destroy(gameObject);
         }
     }
