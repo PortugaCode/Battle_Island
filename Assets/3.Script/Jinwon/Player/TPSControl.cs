@@ -363,7 +363,8 @@ public class TPSControl : MonoBehaviour
             Vector3 moveDirectionX = transform.right * x;
             Vector3 moveDirection = moveDirectionX + moveDirectionZ; // x축, z축 보정
 
-            rb.MovePosition(rb.position + moveDirection.normalized * currentSpeed * Time.deltaTime); // 플레이어 이동
+            rb.velocity = moveDirection * currentSpeed;
+            //rb.MovePosition(rb.position + moveDirection.normalized * currentSpeed * Time.deltaTime); // 플레이어 이동
         }
     }
 
