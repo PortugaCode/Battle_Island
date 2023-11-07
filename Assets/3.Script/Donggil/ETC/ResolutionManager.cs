@@ -18,21 +18,6 @@ public class ResolutionManager : MonoBehaviour
         Init();
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            if(option.activeSelf)
-            {
-                option.SetActive(false);
-            }
-            else
-            {
-                option.SetActive(true);
-            }
-        }
-    }
-
     private void Init()
     {
         for (int i = 0; i < Screen.resolutions.Length; i++)
