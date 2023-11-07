@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AIRandomMoveState : AIState
 {
-    private GameObject point;
+    private Vector3 point;
     private Vector3 distance;
 
 
@@ -16,8 +17,8 @@ public class AIRandomMoveState : AIState
     public void Enter(AIAgent agent)
     {
         Debug.Log("랜덤 이동");
-        point = FindClosestPoint(agent);
-        agent.navMeshAgent.destination = point.transform.position;
+        point = GetRandomPoint(new Vector3(16, 0, -31), 50f);
+        agent.navMeshAgent.destination = point;
         agent.navMeshAgent.speed = 5;
     }
 
@@ -59,12 +60,12 @@ public class AIRandomMoveState : AIState
             agent.navMeshAgent.speed = 5f;
         }
 
-        distance = agent.transform.position - point.transform.position;
+        distance = agent.transform.position - point;
         if (distance.magnitude <= 0.5f)
         {
-            point = null;
-            point = FindClosestPoint(agent);
-            agent.navMeshAgent.destination = point.transform.position;
+            //point = null; //나중에 Vector 000으로 바꾸기
+            point = GetRandomPoint(new Vector3(16, 0, -31), 50f);
+            agent.navMeshAgent.destination = point;
             agent.navMeshAgent.speed = 5;
         }
     }
@@ -127,13 +128,24 @@ public class AIRandomMoveState : AIState
         return false;
     }
 
-    private GameObject FindClosestPoint(AIAgent agnet)
+/*    private GameObject FindClosestPoint(AIAgent agnet)
     {
         GameObject[] points = GameObject.FindGameObjectsWithTag("Point");
         int i = Random.Range(0, points.Length);
         
         GameObject point = points[i];
         return point;
+    }*/
+
+    private Vector3 GetRandomPoint(Vector3 center, float maxDistance)
+    {
+        Vector3 randomPos = Random.insideUnitSphere * maxDistance + center;
+
+        NavMeshHit hit;
+
+        NavMesh.SamplePosition(randomPos, out hit, maxDistance, NavMesh.AllAreas);
+        Debug.Log(hit.position);
+        return hit.position;
     }
 
 }

@@ -95,7 +95,11 @@ public class AIAgent : MonoBehaviour
         TryGetComponent(out lineRenderer);
         mesh = GetComponentInChildren<SkinnedMeshRenderer>();
         ui = GetComponentInChildren<UIHealthBar>();
-        GameObject.FindGameObjectWithTag("Player").TryGetComponent(out playerTarget);
+        if(GameObject.FindGameObjectWithTag("Player"))
+        {
+            TryGetComponent(out playerTarget);
+        }
+        //GameObject.FindGameObjectWithTag("Player").TryGetComponent(out playerTarget);
         //===========================================================================
 
 
