@@ -67,6 +67,9 @@ public class AIAgent : MonoBehaviour
     [Header("WallLayer")]
     public LayerMask WallLayer;
 
+    [Header("PlayerLayer")]
+    public LayerMask PlayerLayer;
+
     [Header("AIDefaultState")]
     public AiStateID initalState;
     public AIAgentConfig config;

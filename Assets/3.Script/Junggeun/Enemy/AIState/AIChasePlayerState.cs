@@ -31,7 +31,7 @@ public class AIChasePlayerState : AIState
             return;
         }
 
-        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 2f * Time.deltaTime);
+        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 4f * Time.deltaTime);
 
         timer -= Time.deltaTime;
         if (timer < 0.0f)
@@ -43,8 +43,13 @@ public class AIChasePlayerState : AIState
             }
             timer = agent.config.maxTime;
         }
+        if (Physics.CheckSphere(agent.transform.position, 4f, agent.PlayerLayer))
+        {
+            agent.stateMachine.ChangeState(AiStateID.Shooting);
+            return;
+        }
 
-        if(CheckWall(agent) || CheckWall2(agent)) return;
+        if (CheckWall(agent) || CheckWall2(agent) || CheckWall3(agent)) return;
 
 
         Vector3 Playerdirection = agent.playerTarget.position - agent.transform.position;
@@ -87,17 +92,25 @@ public class AIChasePlayerState : AIState
             }
             else
             {
-                
                 Debug.DrawRay(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward * 1000f, Color.red);
                 return false;
             }
         }
-        return false;
+        return true;
     }
 
     private bool CheckWall2(AIAgent agent)
     {
-        if (Physics.CheckSphere(agent.SelectStartAim.position, 1.5f, agent.WallLayer))
+        if (Physics.CheckSphere(agent.SelectStartAim.position, 1f, agent.WallLayer))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private bool CheckWall3(AIAgent agent)
+    {
+        if (Physics.CheckSphere(agent.transform.position, 1.5f, agent.WallLayer))
         {
             return true;
         }

@@ -11,6 +11,7 @@ public class AIShootingState : AIState
     private float y;
     int a;
     private EnemyHealth enemyHealth;
+    private bool nowReload = false;
 
 
 
@@ -23,6 +24,7 @@ public class AIShootingState : AIState
 
     public void Enter(AIAgent agent)
     {
+        nowReload = false;
         a = UnityEngine.Random.Range(0, 3);
         animator = agent.gameObject.GetComponent<Animator>();
         enemyHealth = agent.gameObject.GetComponent<EnemyHealth>();
@@ -53,7 +55,7 @@ public class AIShootingState : AIState
         if (!agent.isRun)
         {
             agent.transform.LookAt(agent.playerTarget);
-            agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position, 2.5f * Time.deltaTime);
+            agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position, 4f * Time.deltaTime);
             if (Physics.Raycast(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward, out RaycastHit hit, 20f))
             {
                 if (hit.collider.CompareTag("Wall"))
@@ -110,21 +112,22 @@ public class AIShootingState : AIState
             Physics.Raycast(agent.SelectStartAim.position, agent.SelectStartAim.forward, out agent.hit, Mathf.Infinity);
             Debug.DrawRay(agent.SelectStartAim.position, agent.SelectStartAim.forward * 1000f, Color.green);
 
-            agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position + new Vector3(x, y, 0f), 2f * Time.deltaTime);
+            agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position + new Vector3(x, y, 0f), 4f * Time.deltaTime);
             if (agent.magAmmo > 0)
             {
                 Fire(agent);
             }
-            else if(agent.magAmmo <= 0)
+            else if(agent.magAmmo <= 0 && !nowReload)
             {
+                nowReload = true;
                 agent.stateMachine.ChangeState(AiStateID.Reload);
             }
         }
 
+
+
+
         CheckAll(agent);
-
-
-
     }
 
     public void Exit(AIAgent agent)
@@ -135,6 +138,11 @@ public class AIShootingState : AIState
 
     private void CheckAll(AIAgent agent)
     {
+        if(Physics.CheckSphere(agent.transform.position, 4f, agent.PlayerLayer))
+        {
+            return;
+        }
+
         if(Physics.Raycast(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward, out RaycastHit hit, Vector3.Distance(agent.SelectStartAim.position, agent.playerTarget.position)))
         {
             if(hit.collider.CompareTag("Wall"))
