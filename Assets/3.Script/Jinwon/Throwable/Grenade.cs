@@ -36,7 +36,7 @@ public class Grenade : MonoBehaviour
             if (c.GetComponent<Damagable>())  // 데미지 받을 수 있으면 호출 (Damageble은 현재 테스트로 작성해놓은 스크립트, 합칠때 수정)
             {
                 c.GetComponent<Damagable>().TakeDamage(100.0f);
-                Debug.Log($"{c.name}에게 100 의 데미지 입힘");
+                //Debug.Log($"{c.name}에게 100 의 데미지 입힘");
             }
         }
 
@@ -45,10 +45,4 @@ public class Grenade : MonoBehaviour
         Instantiate(explosionPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject, 2.0f);
     }
-
-    /*private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(transform.position, 2.5f);
-    }*/
 }

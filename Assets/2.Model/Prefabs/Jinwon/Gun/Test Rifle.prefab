@@ -583,12 +583,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9c52fa6945b89342b873d287bd2ed45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gunType: 0
   damage: 50
-  coolDown: 1
+  coolDown: 0.1
   magSize: 30
   canShoot: 0
   muzzleTransform: {fileID: 1592103048927667351}
-  bulletPrefab: {fileID: 7752664833668816889, guid: c1261366795419b4ca8b625f5a4e4776, type: 3}
+  bulletPrefab: {fileID: 7752664833668816889, guid: ed1b94f43a5a7f947abb6ddc42ac1a31, type: 3}
+  muzzleFlashEffectPrefab: {fileID: 1023579220386104652, guid: 839014eebe9194f40a38e36875037241, type: 3}
 --- !u!1 &5262038116419177558
 GameObject:
   m_ObjectHideFlags: 0
