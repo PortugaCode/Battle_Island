@@ -36,8 +36,10 @@ public class AIFindBulletState : AIState
             pickup = FindClosestBullet(agent);
             if (pickup != null)
             {
-                agent.stateMachine.ChangeState(AiStateID.Idle);
+                agent.stateMachine.ChangeState(AiStateID.RandomMove);
+                return;
             }
+            //agent.navMeshAgent.destination = pickup.transform.position;
         }
 
 
@@ -49,7 +51,6 @@ public class AIFindBulletState : AIState
             agent.stateMachine.ChangeState(AiStateID.Idle);
             return;
         }
-        agent.navMeshAgent.destination = pickup.transform.position;
     }
 
     public void Exit(AIAgent agent)

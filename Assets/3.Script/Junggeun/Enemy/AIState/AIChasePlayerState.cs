@@ -31,7 +31,7 @@ public class AIChasePlayerState : AIState
             return;
         }
 
-        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 5f * Time.deltaTime);
+        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 3f * Time.deltaTime);
 
         timer -= Time.deltaTime;
         if (timer < 0.0f)
@@ -42,6 +42,17 @@ public class AIChasePlayerState : AIState
                 agent.navMeshAgent.destination = agent.playerTarget.position;
             }
             timer = agent.config.maxTime;
+        }
+
+        Vector3 Playerdirection2 = agent.playerTarget.position - agent.transform.position;
+
+        Vector3 agnetDirection2 = agent.transform.forward;
+        Playerdirection2.Normalize();
+        float dotProduct2 = Vector3.Dot(Playerdirection2, agnetDirection2);
+
+        if (dotProduct2 < 0.0f)
+        {
+            return;
         }
 
 
@@ -74,7 +85,7 @@ public class AIChasePlayerState : AIState
         Playerdirection.Normalize();
         float dotProduct = Vector3.Dot(Playerdirection, agnetDirection);
 
-        if (dotProduct > 0.5f)
+        if (dotProduct > 0.0f)
         {
             agent.stateMachine.ChangeState(AiStateID.Shooting);
             return;

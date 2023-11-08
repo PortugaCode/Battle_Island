@@ -20,11 +20,11 @@ public class AIRandomMoveState : AIState
         point = GetRandomPoint(new Vector3(16, 0, -31), 60f);
         agent.navMeshAgent.destination = point;
         agent.navMeshAgent.speed = 5;
+        Debug.DrawRay(point, Vector3.up, Color.green, 1000f);
     }
 
     public void AIUpdate(AIAgent agent)
     {
-        Debug.DrawRay(point, Vector3.up, Color.green, Mathf.Infinity);
         agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 2f * Time.deltaTime);
 
         if (FindPlayer(agent) && agent.isReady && agent.isAmmoReady)
@@ -68,6 +68,7 @@ public class AIRandomMoveState : AIState
             point = GetRandomPoint(new Vector3(16, 0, -31), 60f);
             agent.navMeshAgent.destination = point;
             agent.navMeshAgent.speed = 5;
+            Debug.DrawRay(point, Vector3.down, Color.green, 1000f);
         }
     }
 
@@ -129,24 +130,30 @@ public class AIRandomMoveState : AIState
         return false;
     }
 
-/*    private GameObject FindClosestPoint(AIAgent agnet)
-    {
-        GameObject[] points = GameObject.FindGameObjectsWithTag("Point");
-        int i = Random.Range(0, points.Length);
-        
-        GameObject point = points[i];
-        return point;
-    }*/
+    /*    private GameObject FindClosestPoint(AIAgent agnet)
+        {
+            GameObject[] points = GameObject.FindGameObjectsWithTag("Point");
+            int i = Random.Range(0, points.Length);
 
-    private Vector3 GetRandomPoint(Vector3 center, float maxDistance)
-    {
-        Vector3 randomPos = Random.insideUnitSphere * maxDistance + center;
+            GameObject point = points[i];
+            return point;
+        }*/
 
+    private Vector3 GetRandomPoint(Vector3 center, float MaxDistance)
+    {
+        Vector3 randomPos = Random.insideUnitSphere * MaxDistance + center;
+        randomPos.y = 3f;
         NavMeshHit hit;
 
-        NavMesh.SamplePosition(randomPos, out hit, maxDistance, NavMesh.AllAreas);
-
-
+        NavMesh.SamplePosition(randomPos, out hit, MaxDistance, NavMesh.AllAreas);
+        /*        while (true)
+                {
+                    NavMesh.SamplePosition(randomPos, out hit, MaxDistance, NavMesh.AllAreas);
+                    if (hit.position.y < 3f)
+                    {
+                        break;
+                    }
+                }*/
 
         return hit.position;
     }
