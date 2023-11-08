@@ -105,12 +105,23 @@ public class ZoomControl : MonoBehaviour
         animator.SetTrigger("UnAim");
     }
 
+    public void StartLookAround()
+    {
+        player.GetComponent<CharacterMovement>().normalCamX = normalCamera.m_XAxis.Value;
+        player.GetComponent<CharacterMovement>().normalCamY = normalCamera.m_YAxis.Value;
+    }
+
+    public void EndLookAround()
+    {
+        normalCamera.m_XAxis.Value = player.GetComponent<CharacterMovement>().normalCamX;
+        normalCamera.m_YAxis.Value = player.GetComponent<CharacterMovement>().normalCamY;
+    }
+
     private IEnumerator SetActivePlayerModel()
     {
         yield return new WaitForSeconds(0.05f);
 
         // [플레이어 모델 활성화]
         player.transform.Find("Model").gameObject.SetActive(true);
-
     }
 }
