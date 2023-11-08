@@ -247,6 +247,7 @@ public class AIShootingState : AIState
         agent.FireEffect.Play();
         agent.FireEffect1.Play();
         animator.SetTrigger("Fire");
+        agent.enemyAudio.PlayShot();
         agent.magAmmo--;
         /*        Vector3 direction = b.transform.position - agent.AimTarget.position;
                 direction.Normalize();
