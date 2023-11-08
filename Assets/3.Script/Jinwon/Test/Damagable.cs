@@ -12,6 +12,7 @@ public class Damagable : MonoBehaviour
 
         if (health <= 0)
         {
+            Recorder.instance.Replay();
             Destroy(gameObject);
         }
     }

@@ -19,8 +19,8 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    [SerializeField] private GameObject firstPersonRifleCrosshair; // 1인칭 라이플 시점 UI
-    [SerializeField] private GameObject firstPersonSniperCrosshair; // 1인칭 스나이퍼 시점 UI
+    [SerializeField] private GameObject rifleCrosshair; // 1인칭 라이플 시점 UI
+    [SerializeField] private GameObject sniperCrosshair; // 1인칭 스나이퍼 시점 UI
     [SerializeField] private GameObject thirdPersonCrosshair; // 3인칭 크로스헤어 UI
     [SerializeField] private GameObject inventoryPanel; // 인벤토리 패널
     [SerializeField] private GameObject itemTextPrefab; // 텍스트 생성용 프리팹
@@ -28,12 +28,12 @@ public class UIManager : MonoBehaviour
 
     public void FirstPersonRifleCrosshair(bool on) // Rifle UI Toggle
     {
-        firstPersonRifleCrosshair.SetActive(on);
+        rifleCrosshair.SetActive(on);
     }
 
     public void FirstPersonSniperCrosshair(bool on) // Sniper UI Toggle
     {
-        firstPersonSniperCrosshair.SetActive(on);
+        sniperCrosshair.SetActive(on);
     }
 
     public void ThirdPersonCrosshair(bool on) // 3인칭 Crosshair UI Toggle
@@ -52,6 +52,14 @@ public class UIManager : MonoBehaviour
             UpdateNearItems(nearItems); // 인벤토리 열 때 주변 아이템 재탐색
             inventoryPanel.SetActive(true);
         }
+    }
+
+    public void TurnOffUI()
+    {
+        rifleCrosshair.SetActive(false);
+        sniperCrosshair.SetActive(false);
+        thirdPersonCrosshair.SetActive(false);
+        inventoryPanel.SetActive(false);
     }
 
     private void UpdateNearItems(List<GameObject> nearItems)
