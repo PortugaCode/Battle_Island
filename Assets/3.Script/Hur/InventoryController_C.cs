@@ -130,7 +130,7 @@ public class InventoryController_C : MonoBehaviour
 
         if (selectedItem == null)
         {
-            itemToHighlight = selectedItemGrid.GetItem(positionOnGrid.x, positionOnGrid.y);
+            //itemToHighlight = selectedItemGrid.GetItem(positionOnGrid.x, positionOnGrid.y);
 
             if (itemToHighlight != null)
             {
@@ -159,6 +159,12 @@ public class InventoryController_C : MonoBehaviour
 
     public void CreateRandomItem()//수정 - 생략
     {
+        //걍 애초에 slot프리팹에 이 함수를 넣으면 되잖아.
+        if (itemPrefab.CompareTag("Consumer"))
+        {
+            Debug.Log("충돌 이벤트 제발");
+        }
+
         InventoryItem_C inventoryItem =
             Instantiate(itemPrefab).GetComponent<InventoryItem_C>();
         selectedItem = inventoryItem;
@@ -169,6 +175,7 @@ public class InventoryController_C : MonoBehaviour
 
         int selectedItemID = UnityEngine.Random.Range(0, items.Count);
         inventoryItem.Set(items[selectedItemID]);
+
     }
 
     private void LeftMouseButtonPress()//수정 - 변경
