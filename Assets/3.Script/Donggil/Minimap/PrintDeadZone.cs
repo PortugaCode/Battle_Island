@@ -8,8 +8,12 @@ public class PrintDeadZone : MonoBehaviour
 {
     LineRenderer line;
     MeshRenderer mesh;
-    public float radius;
-    public int circlePoint = 100;
+
+    [Header("MainCamera 설정방법(마우스 올려 툴팁확인)")]
+    [Tooltip("MainCamera에 Rendering부분에서 Culling Mask \nDeadZone 체크 해제하기")]
+    [SerializeField] private int circlePoint = 100;      //점 개수 100개로 해서 유사 원으로 만듦
+    private float radius;
+
     private DeadZone DZone;
 
     private void Start()
