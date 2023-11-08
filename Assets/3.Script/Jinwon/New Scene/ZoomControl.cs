@@ -5,6 +5,9 @@ using Cinemachine;
 
 public class ZoomControl : MonoBehaviour
 {
+    // Components
+    private Animator animator;
+
     // Player
     private GameObject player;
 
@@ -17,6 +20,9 @@ public class ZoomControl : MonoBehaviour
 
     private void Awake()
     {
+        // [애니메이터 할당]
+        TryGetComponent(out animator);
+
         // [플레이어 오브젝트 할당]
         player = GameObject.FindGameObjectWithTag("Player");
 
@@ -51,6 +57,9 @@ public class ZoomControl : MonoBehaviour
         firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.Value = normalCamera.m_XAxis.Value;
         firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.Value = 2.0f;
         firstPersonCamera.gameObject.SetActive(true);
+
+        // [1인칭 UI 출력]
+        UIManager.instance.FirstPersonRifleCrosshair(true);
     }
 
     public void First_ZoomOut()
@@ -61,6 +70,9 @@ public class ZoomControl : MonoBehaviour
         firstPersonCamera.gameObject.SetActive(false);
 
         StartCoroutine(SetActivePlayerModel());
+
+        // [1인칭 UI 출력]
+        UIManager.instance.FirstPersonRifleCrosshair(false);
     }
 
     public void Third_ZoomIn()
@@ -69,6 +81,13 @@ public class ZoomControl : MonoBehaviour
         thirdPersonCamera.m_XAxis.Value = normalCamera.m_XAxis.Value;
         thirdPersonCamera.m_YAxis.Value = normalCamera.m_YAxis.Value - 0.25f;
         thirdPersonCamera.gameObject.SetActive(true);
+
+        // [1인칭 UI 출력]
+        UIManager.instance.ThirdPersonCrosshair(true);
+
+        // [애니메이션]
+        animator.SetBool("HasGun", true);
+        animator.SetTrigger("Aim");
     }
 
     public void Third_ZoomOut()
@@ -77,6 +96,13 @@ public class ZoomControl : MonoBehaviour
         normalCamera.m_XAxis.Value = thirdPersonCamera.m_XAxis.Value;
         normalCamera.m_YAxis.Value = thirdPersonCamera.m_YAxis.Value + 0.25f;
         thirdPersonCamera.gameObject.SetActive(false);
+
+        // [1인칭 UI 출력]
+        UIManager.instance.ThirdPersonCrosshair(false);
+
+        // [애니메이션]
+        animator.SetBool("HasGun", true);
+        animator.SetTrigger("UnAim");
     }
 
     private IEnumerator SetActivePlayerModel()
