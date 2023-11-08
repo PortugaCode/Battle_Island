@@ -9,14 +9,18 @@ public class SurrItemClick : MonoBehaviour, IPointerDownHandler, IPointerEnterHa
     //여긴 슬롯에 있어야만 하는 스크립트임
 
     [SerializeField] private Image image;
-    public bool surItemClick;
+    [SerializeField] private NoticeItem noticeItem;
+    public bool Click = false;
+    private void Start()
+    {
+        noticeItem = FindObjectOfType<NoticeItem>();
+    }
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (Input.GetMouseButtonDown(0))
+        if (!Click && Input.GetMouseButtonDown(0)) //주변슬롯에 뜬 아이템을 누르면
         {
-            Debug.Log("이건 되나?");
-            surItemClick = true;
-
+            Click = true;
+            noticeItem.ClickItem();
         }
         else if (Input.GetMouseButtonDown(1))
         {
