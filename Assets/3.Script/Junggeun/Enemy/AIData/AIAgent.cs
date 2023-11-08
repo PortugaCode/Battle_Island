@@ -11,6 +11,7 @@ public class AIAgent : MonoBehaviour
     public bool isAmmoReady = false;
     public bool isShot = false;
     public bool isRun = true;
+    public bool isArmor;
 
     [HideInInspector] public AIStateMachine stateMachine;
     [HideInInspector] public EnemyHealth enemyHealth;
@@ -60,7 +61,6 @@ public class AIAgent : MonoBehaviour
     [HideInInspector] public Transform SelectStartAim;
 
     [Header("ArmorData")]
-    public bool isArmor;
     public GameObject[] Armor;
     [HideInInspector] public GameObject SelectArmor;
 

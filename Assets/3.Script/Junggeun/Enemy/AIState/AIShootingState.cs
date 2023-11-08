@@ -240,7 +240,7 @@ public class AIShootingState : AIState
         
         Debug.Log("น฿ป็");
 
-        GameObject b = EnemyBulletPooling.Instance.Bullets.Dequeue();
+        GameObject b = BulletPooling.Instance.Bullets.Dequeue();
         b.gameObject.SetActive(true);
         b.transform.position = agent.SelectStartAim.position;
         b.transform.rotation = agent.SelectStartAim.rotation;

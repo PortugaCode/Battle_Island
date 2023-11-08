@@ -88,7 +88,7 @@ public class AIFindArmorState : AIState
             {
                 isPickup = true;
                 agent.isArmor = true;
-                agent.SelectArmor = agent.Armor[(int)col.GetComponent<GunEnum>().armorState];
+                agent.SelectArmor = agent.Armor[(int)col.GetComponent<ArmorEnum>().armorState];
             }
         }
     }

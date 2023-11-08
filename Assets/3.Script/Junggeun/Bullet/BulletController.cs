@@ -34,12 +34,12 @@ public class BulletController : MonoBehaviour
         if (collision.collider.CompareTag("Player"))
         {
             gameObject.SetActive(false);
-            EnemyBulletPooling.Instance.Bullets.Enqueue(gameObject);
+            BulletPooling.Instance.Bullets.Enqueue(gameObject);
         }
         else if(collision.collider)
         {
             gameObject.SetActive(false);
-            EnemyBulletPooling.Instance.Bullets.Enqueue(gameObject);
+            BulletPooling.Instance.Bullets.Enqueue(gameObject);
         }
     }
 }
