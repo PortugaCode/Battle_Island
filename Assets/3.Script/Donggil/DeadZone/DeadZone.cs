@@ -129,7 +129,7 @@ public class DeadZone : MonoBehaviour
     private float gameTime = 0;
     private float DamageTic = 0;
     private float distance;
-    private float radius;
+    public float radius;
     private float limit = 20;
     private Vector3 scaleDistance;
 
@@ -315,6 +315,17 @@ public class DeadZone : MonoBehaviour
     {
         //HP -= SetDeadZoneDamage(phase);
         Debug.Log(SetDeadZoneDamage(phase) + " 데미지");
+    }
+
+    public float CurrentRadius()                    //실시간 자기장 크기 가져오기
+    {
+        float rad = mesh.bounds.size.x / 2;
+        return rad;
+    }
+
+    public Vector3 CurrentDeadZonePosition()        //실시간 자기장 중심좌표 가져오기
+    {
+        return DeadZoneObject.transform.position;
     }
 
     private void OnDrawGizmos()

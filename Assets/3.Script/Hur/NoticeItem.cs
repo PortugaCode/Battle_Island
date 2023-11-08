@@ -30,18 +30,18 @@ public class NoticeItem : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            ItemData_hur randomItem = GetRandomItem();
+            //ItemData_hur randomItem = GetRandomItem();
             GameObject SurSlotPrefab = Instantiate(slotprefab, parentTransform);
-            UpdateSlot(SurSlotPrefab, randomItem);
+            //UpdateSlot(SurSlotPrefab, randomItem);
         }
     }
 
-    private ItemData_hur GetRandomItem()
-    //나중에 수정할 것 - itemList에 해당하는 아이템과 이어져야 함
-    {
-        int randomindex = Random.Range(0, database.itemList.Count);
-        return database.itemList[randomindex];
-    }
+    //private ItemData_hur GetRandomItem()
+    ////나중에 수정할 것 - itemList에 해당하는 아이템과 이어져야 함
+    //{
+    //    //int randomindex = Random.Range(0, database.itemList.Count);
+    //    //return database.itemList[randomindex];
+    //}
     private void UpdateSlot(GameObject prefab, ItemData_hur itemdata)
     //아이템이 랜덤으로 뜰 때 아이템 이름과 이미지가 맞게 만드는 함수
     {
