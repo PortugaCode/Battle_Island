@@ -14,10 +14,11 @@ public class ObjectSpawn : MonoBehaviour
     private BoxCollider rangeCollider;
 
     [SerializeField] private Transform Map_Object;
+    [SerializeField] private GameObject Road;
 
-    [Range(0, 100)]
-    public int rangeStart = 0;
     [Range(0, 500)]
+    public int rangeStart = 0;
+    [Range(0, 800)]
     public int rangeEnd = 50;
 
 
@@ -38,22 +39,21 @@ public class ObjectSpawn : MonoBehaviour
 
     private Vector3 RandomPosition()
     {
-        Vector3 originPos = rangeCollider.transform.position;
 
         float rangeX = rangeCollider.bounds.size.x;
         float rangeZ = rangeCollider.bounds.size.z;
 
-        rangeX = Random.Range((rangeX / 2) * -1, (rangeX / 2));
-        rangeZ = Random.Range((rangeZ / 2) * -1, (rangeZ / 2));
+        float x = Random.Range((rangeX / 2) * (-1), (rangeX / 2));
+        float z = Random.Range((rangeZ / 2) * (-1), (rangeZ / 2));
 
 
-        Vector3 randomPos = new Vector3(rangeX, -0.8f, rangeZ) + originPos;
+        Vector3 randomPos = new Vector3(x, -0.8f, z) + transform.position;
 
 
         return randomPos;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
         if (collision.collider.CompareTag("Wall"))
         {
@@ -63,17 +63,29 @@ public class ObjectSpawn : MonoBehaviour
 
     private void SpawnObject()
     {
+        
         for (int i = 0; i < Random.Range(rangeStart, rangeEnd); i++)
         {
-            GameObject mapObject = Instantiate(MapObjectPrefabs[Random.Range(0, MapObjectPrefabs.Length)], RandomPosition() + new Vector3(20, 0, 20), Quaternion.identity);
+            GameObject mapObject = Instantiate(MapObjectPrefabs[Random.Range(0, MapObjectPrefabs.Length)], RandomPosition(), Quaternion.identity);
             mapObject.transform.SetParent(Map_Object);
         }
     }
 
-    private void MountainSpawn()
+    private void MountainSpawn(GameObject road)
     {
         float x = MapCollider.bounds.extents.x;
         float z = MapCollider.bounds.extents.x;
+
+        float road_x = 0;
+        float road_z = 0;
+
+        Bounds totalBounds = new Bounds();
+        foreach (Collider child in road.GetComponentsInChildren<Collider>())
+        {
+            totalBounds.Encapsulate(child.bounds);
+            road_x = totalBounds.size.x;
+            road_z = totalBounds.size.z;
+        }
 
         for (int i = 0; i < Random.Range(1, 3); i++)
         {

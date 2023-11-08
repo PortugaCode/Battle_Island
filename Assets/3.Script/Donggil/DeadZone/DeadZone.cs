@@ -98,20 +98,20 @@ public class DeadZone : MonoBehaviour
     private Vector3 DeadZonePosition;
     private Vector3 DeadZoneScale;
 
-    [Header("현재 자기장 오브젝트")]
+    [Header("현재 자기장 오브젝트(자식 부모순으로 넣기)")]
     [Tooltip("자기장 자식 오브젝트")]
     public GameObject DeadZonePrefabs;
     [Tooltip("자기장 부모 오브젝트")]
     [SerializeField] private GameObject DeadZoneObject;
 
 
-    [Header("다음 자기장 오브젝트")]
+    [Header("다음 자기장 오브젝트(부모만 넣기)")]
     [SerializeField] private GameObject NextDeadZone;                     //목표위치 표시를 위한 빈 오브젝트
     
-    [Header("자기장 시작 범위(Collider)")]
-    [SerializeField] private BoxCollider mapRange;
+    [Header("자기장 시작 범위(Collider)(콜라이더 포함된 맵 오브젝트 넣기)")]
+    [SerializeField] private Collider mapRange;
 
-    [Header("자기장 크기 확인")]
+    [Header("자기장 크기 확인(현재 자기장 자식 오브젝트 넣기)")]
     [SerializeField] private MeshRenderer mesh;
 
 

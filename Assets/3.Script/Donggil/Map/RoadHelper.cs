@@ -10,7 +10,7 @@ public class RoadHelper : MonoBehaviour
     Dictionary<Vector3Int, GameObject> roadDic = new Dictionary<Vector3Int, GameObject>();
     HashSet<Vector3Int> fixRoadCandidates = new HashSet<Vector3Int>();
 
-    
+    private Vector3 fix = new Vector3(0, 0.55f, 0);
 
     public List<Vector3Int> GetRoadPositions()
     {
@@ -32,7 +32,7 @@ public class RoadHelper : MonoBehaviour
             {
                 continue;
             }
-            var road = Instantiate(roadStraights[Random.Range(0,roadStraights.Length)], position, rotation, transform);
+            var road = Instantiate(roadStraights[Random.Range(0,roadStraights.Length)], position - fix, rotation, transform);
             roadDic.Add(position, road);
             if (i == 0 || i == length - 1)
             {
@@ -64,7 +64,7 @@ public class RoadHelper : MonoBehaviour
                 {
                     rotation = Quaternion.Euler(0, -90, 0);
                 }
-                roadDic[position] = Instantiate(roadEnd, position, rotation, transform);
+                roadDic[position] = Instantiate(roadEnd, position - fix, rotation, transform);
             }
             else if (neiborDirections.Count == 2)
             {
@@ -86,7 +86,7 @@ public class RoadHelper : MonoBehaviour
                 {
                     rotation = Quaternion.Euler(0, -90, 0);
                 }
-                roadDic[position] = Instantiate(roadCorner, position, rotation, transform);
+                roadDic[position] = Instantiate(roadCorner, position - fix, rotation, transform);
             }
             else if (neiborDirections.Count == 3)
             {
@@ -109,12 +109,12 @@ public class RoadHelper : MonoBehaviour
                 {
                     rotation = Quaternion.Euler(0, -90, 0);
                 }
-                roadDic[position] = Instantiate(roadT, position, rotation, transform);
+                roadDic[position] = Instantiate(roadT, position - fix, rotation, transform);
             }
             else
             {
                 Destroy(roadDic[position]);
-                roadDic[position] = Instantiate(roadCross, position, rotation, transform);
+                roadDic[position] = Instantiate(roadCross, position - fix, rotation, transform);
             }
         }
     }
