@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class DeadZone : MonoBehaviour
 {
+    /*
+     MainCamera -> Rendering -> Culling Mask -> DeadZone 체크 해제
+     */
     public enum Phase
     {
         Phase1,
@@ -46,7 +49,7 @@ public class DeadZone : MonoBehaviour
                 return 30.0f;
             case Phase.Phase5:
                 return 20.0f;
-            case Phase.Wait:
+            case Phase.Wait:                    //테스트시 5초 테스트 완료시 60초로 변경
                 return 5.0f;
             default:
                 return 0;
@@ -91,17 +94,28 @@ public class DeadZone : MonoBehaviour
         }
     }
 
+
+    private Vector3 DeadZonePosition;
+    private Vector3 DeadZoneScale;
+
+    [Header("현재 자기장 오브젝트")]
+    [Tooltip("자기장 자식 오브젝트")]
     public GameObject DeadZonePrefabs;
-
-    public Vector3 DeadZonePosition;
-    public Vector3 DeadZoneScale;
-
-    [SerializeField] private GameObject Set;                     //목표위치 표시를 위한 빈 오브젝트
+    [Tooltip("자기장 부모 오브젝트")]
     [SerializeField] private GameObject DeadZoneObject;
+
+
+    [Header("다음 자기장 오브젝트")]
+    [SerializeField] private GameObject NextDeadZone;                     //목표위치 표시를 위한 빈 오브젝트
+    
+    [Header("자기장 시작 범위(Collider)")]
     [SerializeField] private BoxCollider mapRange;
+
+    [Header("자기장 크기 확인")]
     [SerializeField] private MeshRenderer mesh;
 
 
+    [Header("플레이어와 자기장 거리탐지")]
     public GameObject player;
 
 
@@ -131,8 +145,8 @@ public class DeadZone : MonoBehaviour
         DeadZoneScale = InitPhase(Phase.Phase1);                             //1페이즈 자기장 스케일
 
         DeadZoneObject.transform.position = Vector3.zero;                    //자기장 오브젝트 초기 위치
-        Set.transform.position = DeadZonePosition;                           //1페이즈 자기장 위치 
-        Set.transform.localScale = new Vector3(20f, 1f, 20f);
+        NextDeadZone.transform.position = DeadZonePosition;                           //1페이즈 자기장 위치 
+        NextDeadZone.transform.localScale = new Vector3(20f, 1f, 20f);
         DeadZoneObject.transform.localScale = new Vector3(100f, 1f, 100f);
         DeadZonePrefabs.transform.SetParent(DeadZoneObject.transform);
 
@@ -262,7 +276,7 @@ public class DeadZone : MonoBehaviour
                 float currentRadius = radius * SetRadiusRatio(phase);
                 float nextRadius = radius * SetRadiusRatio(phase + 1);
 
-                Vector3 nextPoint = Set.transform.position + Random.insideUnitSphere * (currentRadius - nextRadius);        //다음 자기장 위치는 구체 랜덤
+                Vector3 nextPoint = NextDeadZone.transform.position + Random.insideUnitSphere * (currentRadius - nextRadius);        //다음 자기장 위치는 구체 랜덤
                 nextPoint.y = 0f;       //구체이므로 높이를 0으로 조정한다
                 DeadZoneScale = InitPhase(phase + 1);   //다음 자기장 스케일 지정
                 DeadZonePosition = nextPoint;           //다음 자기장 위치 지정
@@ -282,12 +296,12 @@ public class DeadZone : MonoBehaviour
     {
         //Debug.Log("다음자기장 위치는?");
         float MaxScaleDistance = Mathf.Max(Mathf.Abs(scaleDistance.x), Mathf.Abs(scaleDistance.y), Mathf.Abs(scaleDistance.z));
-        Set.transform.position = Vector3.MoveTowards(Set.transform.position, DeadZonePosition, distance * Time.deltaTime);
-        Set.transform.localScale -= new Vector3(MaxScaleDistance * Time.deltaTime, 0, MaxScaleDistance * Time.deltaTime);
-        if (Vector3.Distance(Set.transform.position, DeadZonePosition) <= 0.001f && Set.transform.localScale.x <= InitPhase(phase).x && Set.transform.localScale.z <= InitPhase(phase).z)
+        NextDeadZone.transform.position = Vector3.MoveTowards(NextDeadZone.transform.position, DeadZonePosition, distance * Time.deltaTime);
+        NextDeadZone.transform.localScale -= new Vector3(MaxScaleDistance * Time.deltaTime, 0, MaxScaleDistance * Time.deltaTime);
+        if (Vector3.Distance(NextDeadZone.transform.position, DeadZonePosition) <= 0.001f && NextDeadZone.transform.localScale.x <= InitPhase(phase).x && NextDeadZone.transform.localScale.z <= InitPhase(phase).z)
         {
-            Set.transform.position = DeadZonePosition;
-            Set.transform.localScale = DeadZoneScale;
+            NextDeadZone.transform.position = DeadZonePosition;
+            NextDeadZone.transform.localScale = DeadZoneScale;
 
             //위까지 자기장 움직이는 메소드와 같음
 
@@ -301,6 +315,17 @@ public class DeadZone : MonoBehaviour
     {
         //HP -= SetDeadZoneDamage(phase);
         Debug.Log(SetDeadZoneDamage(phase) + " 데미지");
+    }
+
+    public float CurrentRadius()                    //실시간 자기장 크기 가져오기
+    {
+        float rad = mesh.bounds.size.x / 2;
+        return rad;
+    }
+
+    public Vector3 CurrentDeadZonePosition()        //실시간 자기장 중심좌표 가져오기
+    {
+        return DeadZoneObject.transform.position;
     }
 
     private void OnDrawGizmos()

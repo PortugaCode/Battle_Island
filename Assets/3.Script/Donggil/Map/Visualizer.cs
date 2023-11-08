@@ -11,6 +11,8 @@ public class Visualizer : MonoBehaviour
     public RoadHelper roadHelper;
     public BuildingHelper buildingHelper;
 
+    public GameObject Road;
+    public GameObject Map;
 
     //차후 수정 예정
     private int length = 6;
@@ -36,12 +38,13 @@ public class Visualizer : MonoBehaviour
     {
         var sequence = lSystem.GenerateSentence();
         VisualizeSequence(sequence);
+        CalcSize(Road, Map);
     }
 
     private void VisualizeSequence(string sequence)
     {
         Stack<AgentParameters> savePoints = new Stack<AgentParameters>();
-        var currentPosition = Vector3.zero;
+        Vector3 currentPosition = Road.transform.position;
 
         Vector3 direction = Vector3.forward * 10;
         Vector3 tempPosition = Vector3.zero;
@@ -58,7 +61,7 @@ public class Visualizer : MonoBehaviour
                     {
                         position = currentPosition,
                         direction = direction,
-                        length = Length 
+                        length = Length
                     });
                     break;
                 case EncodingLetters.load:
@@ -76,7 +79,7 @@ public class Visualizer : MonoBehaviour
                     }
                     break;
                 case EncodingLetters.draw:
-                    Debug.Log(Length);
+                    
                     tempPosition = currentPosition;
                     currentPosition += direction * length;
                     roadHelper.PlaceStreetPosition(tempPosition, Vector3Int.RoundToInt(direction), length);
@@ -98,5 +101,37 @@ public class Visualizer : MonoBehaviour
         buildingHelper.PlaceBuildingAroundRoad(roadHelper.GetRoadPositions());
     }
 
+
+    public void CalcSize(GameObject game, GameObject Map) 
+    {
+        float x = 0;
+        float z = 0;
+
+        float map_x = 0;
+        float map_z = 0;
+        Bounds totalBounds = new Bounds();
+        foreach (Collider child in game.GetComponentsInChildren<Collider>())
+        {
+            totalBounds.Encapsulate(child.bounds);
+            x = totalBounds.size.x;
+            z = totalBounds.size.z;
+        }
+
+        foreach (Collider child in Map.GetComponentsInChildren<Collider>())
+        {
+            totalBounds.Encapsulate(child.bounds);
+            map_x = totalBounds.size.x;
+            map_z = totalBounds.size.z;
+        }
+        //Debug.Log($"x : {x}");
+        //Debug.Log($"z : {z}");
+        float max = Mathf.Max(x, z);
+        float scaleMag = max * 0.01f;
+        //float scaleMag = (max - (Mathf.Abs(x - z)) * 0.6f) * 0.01f;
+
+        Map.transform.localScale = new Vector3(1 * scaleMag, 1, 1 * scaleMag);
+        //Debug.Log($"map_x : {map_x}");
+        //Debug.Log($"map_z : {map_z}");
+    }
 
 }

@@ -61,6 +61,7 @@ public class AIFindWeaponState : AIState
 
             //나중에 rifle 정보 가지고 와서 바꾸기
             agent.SelectRifleWeapons.SetActive(true);
+            agent.enemyAudio.PlayReload();
 
             MonoBehaviour.Destroy(pickup.gameObject);
         }

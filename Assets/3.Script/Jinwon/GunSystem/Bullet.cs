@@ -32,18 +32,11 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision) // 충돌 처리
     {
-        if (!collision.collider.CompareTag("Player")) // 무시
+        if (!collision.collider.transform.root.CompareTag("Player")) // 무시
         {
-            if (collision.collider.GetComponent<Damagable>()) // 데미지 받을 수 있으면 호출 (Damageble은 현재 테스트로 작성해놓은 스크립트, 합칠때 수정)
-            {
-                collision.collider.GetComponent<Damagable>().TakeDamage(bulletDamage);
-                //Debug.Log($"{collision.collider.name}에게 {bulletDamage}의 데미지 입힘");
-            }
-
             Vector3 hitDirection = (collision.contacts[0].point - transform.position).normalized;
 
-
-            if (!collision.collider.CompareTag("Wall")) // 벽, 바닥에만 나오게 변경 필요
+            if (!collision.collider.transform.root.CompareTag("Wall")) // 벽, 바닥에만 나오게 변경 필요
             {
                 GameObject hitEffect = Instantiate(hitEffectPrefab, collision.contacts[0].point, Quaternion.Euler(hitDirection));
                 Destroy(hitEffect, 0.5f);
@@ -55,9 +48,12 @@ public class Bullet : MonoBehaviour
                 }
             }
 
-            if (collision.collider.CompareTag("Enemy"))
+            if (collision.collider.transform.root.CompareTag("Enemy"))
             {
-                collision.collider.GetComponent<EnemyHealth>().TakeDamage(bulletDamage, collision.contacts[0].point);
+                // 수정 필요
+                collision.collider.transform.root.GetComponent<EnemyHealth>().TakeDamage(bulletDamage, hitDirection);
+                //collision.collider.GetComponent<Damagable>().TakeDamage(bulletDamage);
+                Recorder.instance.UpdateData(collision.collider.gameObject, transform.forward);
             }
 
             Destroy(gameObject);

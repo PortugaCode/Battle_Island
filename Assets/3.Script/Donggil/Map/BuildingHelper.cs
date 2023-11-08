@@ -38,6 +38,7 @@ public class BuildingHelper : MonoBehaviour
             {
                 if (buildingTypes[i].quantity == -1)
                 {
+                    Debug.Log(freeSpot.Key);
                     var building = SpawnPrefab(buildingTypes[i].GetPrefabs(), freeSpot.Key, rotation);
                     buildingDic.Add(freeSpot.Key, building);
                     break;
@@ -59,7 +60,6 @@ public class BuildingHelper : MonoBehaviour
                                 buildingDic.Add(pos, building);
                             }
                         }
-                        Debug.Log(VerifyingBuildingFits(halfSize, freeEstateSpots, freeSpot, blockedPositions, ref tempPositionsBlock));
                     }
                     else
                     {
