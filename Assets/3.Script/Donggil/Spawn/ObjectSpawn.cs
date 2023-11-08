@@ -46,7 +46,7 @@ public class ObjectSpawn : MonoBehaviour
         float x = Random.Range((rangeX / 2) * (-1), (rangeX / 2));
         float z = Random.Range((rangeZ / 2) * (-1), (rangeZ / 2));
 
-
+        
         Vector3 randomPos = new Vector3(x, -0.8f, z) + transform.position;
 
 
