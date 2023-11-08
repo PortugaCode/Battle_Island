@@ -240,8 +240,13 @@ public class AIShootingState : AIState
         
         Debug.Log("น฿ป็");
 
+        GameObject b = EnemyBulletPooling.Instance.Bullets.Dequeue();
+        b.gameObject.SetActive(true);
+        b.transform.position = agent.SelectStartAim.position;
+        b.transform.rotation = agent.SelectStartAim.rotation;
 
-        GameObject b = MonoBehaviour.Instantiate(agent.Bullet, agent.SelectStartAim.position, agent.SelectStartAim.transform.rotation);
+
+
         GameObject light = MonoBehaviour.Instantiate(agent.FireLight, agent.SelectStartAim.position, Quaternion.identity);
         MonoBehaviour.Destroy(light, 0.03f);
         agent.FireEffect.transform.position = agent.SelectStartAim.position;
@@ -251,6 +256,11 @@ public class AIShootingState : AIState
         animator.SetTrigger("Fire");
         agent.enemyAudio.PlayShot();
         agent.magAmmo--;
+
+
+        //GameObject b = MonoBehaviour.Instantiate(agent.Bullet, agent.SelectStartAim.position, agent.SelectStartAim.transform.rotation);
+
+
         /*        Vector3 direction = b.transform.position - agent.AimTarget.position;
                 direction.Normalize();
                 b.transform.forward = direction;*/
