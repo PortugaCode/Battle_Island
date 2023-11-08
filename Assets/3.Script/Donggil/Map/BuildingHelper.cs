@@ -38,6 +38,7 @@ public class BuildingHelper : MonoBehaviour
             {
                 if (buildingTypes[i].quantity == -1)
                 {
+                    Debug.Log(freeSpot.Key);
                     var building = SpawnPrefab(buildingTypes[i].GetPrefabs(), freeSpot.Key, rotation);
                     buildingDic.Add(freeSpot.Key, building);
                     break;
@@ -101,7 +102,7 @@ public class BuildingHelper : MonoBehaviour
 
     private GameObject SpawnPrefab(GameObject prefab, Vector3Int position, Quaternion rotation)
     {
-        var newBuilding = Instantiate(prefab, position + transform.position, rotation, transform);
+        var newBuilding = Instantiate(prefab, position, rotation, transform);
         return newBuilding;
     }
 
