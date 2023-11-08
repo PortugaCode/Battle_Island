@@ -154,7 +154,6 @@ public class AIRandomMoveState : AIState
                         break;
                     }
                 }*/
-
         return hit.position;
     }
 
