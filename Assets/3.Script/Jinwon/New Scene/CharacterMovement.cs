@@ -75,8 +75,6 @@ public class CharacterMovement : MonoBehaviour
     {
         if (canMove)
         {
-            // GetInput1 : 1인칭, 3인칭 둘다 있음
-            // GetInput2 : 3인칭만 있음
             GetInput();
             GroundCheck();
         }
@@ -108,6 +106,12 @@ public class CharacterMovement : MonoBehaviour
             rig.GetComponent<Rig>().weight = 1.0f;
             animator.SetBool("HasGun", true);
             animator.SetTrigger("EquipGun");
+        }
+
+        // [재장전]
+        if (hasGun && Input.GetKeyDown(KeyCode.R))
+        {
+
         }
 
         // [둘러보기]
