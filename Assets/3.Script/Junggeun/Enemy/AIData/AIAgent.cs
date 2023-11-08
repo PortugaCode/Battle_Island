@@ -23,7 +23,7 @@ public class AIAgent : MonoBehaviour
     [HideInInspector] public bool isneedReload = false;
     [HideInInspector] public bool isnowReload = false;
     [HideInInspector] public RaycastHit hit;
-
+    [HideInInspector] public EnemyAudio enemyAudio;
 
     [Header("Character")]
     [SerializeField] private GameObject[] EnemyModel;
@@ -67,6 +67,9 @@ public class AIAgent : MonoBehaviour
     [Header("WallLayer")]
     public LayerMask WallLayer;
 
+    [Header("PlayerLayer")]
+    public LayerMask PlayerLayer;
+
     [Header("AIDefaultState")]
     public AiStateID initalState;
     public AIAgentConfig config;
@@ -93,6 +96,7 @@ public class AIAgent : MonoBehaviour
         TryGetComponent(out navMeshAgent);
         TryGetComponent(out ragDoll);
         TryGetComponent(out lineRenderer);
+        TryGetComponent(out enemyAudio);
         mesh = GetComponentInChildren<SkinnedMeshRenderer>();
         ui = GetComponentInChildren<UIHealthBar>();
         if(GameObject.FindGameObjectWithTag("Player"))
@@ -155,7 +159,7 @@ public class AIAgent : MonoBehaviour
     private IEnumerator ReloadCo()
     {
         isnowReload = true;
-
+        enemyAudio.PlayReload();
         yield return new WaitForSeconds(Nowgundata.reloadTime);
 
         int ammoToFill = Nowgundata.magCapcity - magAmmo;

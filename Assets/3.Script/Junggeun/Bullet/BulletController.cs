@@ -5,7 +5,7 @@ using UnityEngine;
 public class BulletController : MonoBehaviour
 {
     private Rigidbody rig;
-    private Transform Target;
+    //private Transform Target;
     private Vector3 direction;
 
     public float speed = 4f;
@@ -13,19 +13,19 @@ public class BulletController : MonoBehaviour
     private void Awake()
     {
         TryGetComponent(out rig);
-        GameObject.FindGameObjectWithTag("Point").TryGetComponent(out Target);
+        //GameObject.FindGameObjectWithTag("Point").TryGetComponent(out Target);
 
-        direction = Target.position - transform.position;
+        direction = transform.forward;
         direction.Normalize();
-
-
+        
+        
         rig.AddForce(direction * speed);
     }
 
 /*    private void Update()
     {
 
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        transform.Translate(transform.forward * speed * Time.deltaTime);
     }*/
 
     private void OnCollisionEnter(Collision collision)
@@ -38,6 +38,6 @@ public class BulletController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        Destroy(gameObject, 2f);
+        Destroy(gameObject, 1.3f);
     }
 }

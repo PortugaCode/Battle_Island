@@ -12,7 +12,7 @@ public class PlayerMove1 : MonoBehaviour
 
     private void Awake()
     {
-        GameObject.FindObjectOfType<EnemyHealth>().TryGetComponent(out enemyHealth);
+        //GameObject.FindObjectOfType<EnemyHealth>().TryGetComponent(out enemyHealth);
         TryGetComponent(out rig);
     }
 
