@@ -31,15 +31,7 @@ public class UIHealthBar : MonoBehaviour
         bool isBehind = Vector3.Dot(direction, Camera.main.transform.forward) <= 0.0f;
 
         Vector3 direction2 = player.position - target.position;
-        bool isBehind2;
-        if (Physics.Raycast(target.position, direction2, Vector3.Distance(player.position, target.position), WallLayer))
-        {
-            isBehind2 = true;
-        }
-        else
-        {
-            isBehind2 = false;
-        }
+        bool isBehind2 = Physics.Raycast(target.position, direction2, Vector3.Distance(player.position, target.position), WallLayer);
 
         if(isBehind || isBehind2)
         {

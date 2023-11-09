@@ -152,7 +152,7 @@ public class AIShootingState : AIState
         {
             Vector3 direction = agent.playerTarget.position - agent.transform.position;
 
-            if (Physics.Raycast(agent.transform.position, direction, 5f, agent.WallLayer))
+            if (Physics.Raycast(agent.transform.position, direction, Vector3.Distance(agent.transform.position, agent.playerTarget.position), agent.WallLayer))
             {
                 agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
                 return;
@@ -170,7 +170,7 @@ public class AIShootingState : AIState
                 agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
                 Debug.DrawRay(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward * hit.distance, Color.blue);
             }
-            else
+            else if (hit.collider.CompareTag("Player"))
             {
                 Debug.DrawRay(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward * 1000f, Color.red);
             }

@@ -60,7 +60,7 @@ public class AIChasePlayerState : AIState
         {
             Vector3 direction = agent.playerTarget.position - agent.transform.position ;
 
-            if (Physics.Raycast(agent.transform.position, direction, 7f, agent.WallLayer))
+            if (Physics.Raycast(agent.transform.position, direction, Vector3.Distance(agent.transform.position, agent.playerTarget.position), agent.WallLayer))
             {
                 return;
             }
@@ -125,7 +125,7 @@ public class AIChasePlayerState : AIState
 
     private bool CheckWall2(AIAgent agent)
     {
-        if (Physics.CheckSphere(agent.SelectStartAim.position, 0.5f, agent.WallLayer))
+        if (Physics.CheckSphere(agent.SelectStartAim.position, 1f, agent.WallLayer))
         {
             return true;
         }
