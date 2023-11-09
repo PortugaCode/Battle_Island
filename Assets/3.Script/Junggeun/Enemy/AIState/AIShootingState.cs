@@ -246,9 +246,6 @@ public class AIShootingState : AIState
         b.transform.rotation = agent.SelectStartAim.rotation;
 
 
-
-        GameObject light = MonoBehaviour.Instantiate(agent.FireLight, agent.SelectStartAim.position, Quaternion.identity);
-        MonoBehaviour.Destroy(light, 0.03f);
         agent.FireEffect.transform.position = agent.SelectStartAim.position;
         agent.FireEffect1.transform.position = agent.SelectRifleWeapons.transform.position;
         agent.FireEffect.Play();
@@ -263,7 +260,10 @@ public class AIShootingState : AIState
 
         /*        Vector3 direction = b.transform.position - agent.AimTarget.position;
                 direction.Normalize();
-                b.transform.forward = direction;*/
+                b.transform.forward = direction;
+        
+                 GameObject light = MonoBehaviour.Instantiate(agent.FireLight, agent.SelectStartAim.position, Quaternion.identity);
+        MonoBehaviour.Destroy(light, 0.03f);*/
     }
 
 
