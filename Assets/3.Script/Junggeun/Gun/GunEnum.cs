@@ -11,15 +11,7 @@ public enum GunState
     Weapon5
 }
 
-public enum ArmorState
-{
-    Armor1,
-    Armor2,
-    Armor3
-}
-
 public class GunEnum : MonoBehaviour
 {
     public GunState gunState;
-    public ArmorState armorState;
 }

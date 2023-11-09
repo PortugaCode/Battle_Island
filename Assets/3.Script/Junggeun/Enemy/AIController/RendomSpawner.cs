@@ -12,10 +12,10 @@ public class RendomSpawner : MonoBehaviour
 
     private void Awake()
     {
-        int index = Random.Range(2, 6);
-        Spawnpoint = new Vector3[index];
+        Spawnpoint = new Vector3[5];
+        //Spawnpoint = new Vector3[GameManager.instance.Level];
 
-        for(int i = 0; i < Spawnpoint.Length; i++)
+        for (int i = 0; i < Spawnpoint.Length; i++)
         {
             Spawnpoint[i] = GetRandomPoint(new Vector3(16, 0, -31), 60f);
             GameObject CloneEnemy = Instantiate(EnemyAi, Spawnpoint[i], Quaternion.identity);
