@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 3212350769106712329}
   - component: {fileID: 3220404245417688477}
   - component: {fileID: 3172351554953939787}
-  m_Layer: 0
+  - component: {fileID: -6630735612869220949}
+  m_Layer: 29
   m_Name: Barrel_01
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -96,3 +97,17 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43769163169136302, guid: 80f634cacba63de4c9136668f522188b, type: 2}
+--- !u!114 &-6630735612869220949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3233658559423243241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3445becc984b644aa9d615dd2f414d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameObj: {fileID: 3233658559423243241}
+  radius: 1

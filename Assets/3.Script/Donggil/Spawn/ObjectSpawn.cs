@@ -21,15 +21,12 @@ public class ObjectSpawn : MonoBehaviour
     [Range(0, 800)]
     public int rangeEnd = 50;
 
-
-    private bool isMoveCollider = false;
-
-    Ray ray = new Ray();
-    RaycastHit hit;
+    private CheckObject check;
 
     private void Awake()
     {
         TryGetComponent(out rangeCollider);
+        check = FindObjectOfType<CheckObject>();
     }
 
     private void Start()
@@ -46,7 +43,7 @@ public class ObjectSpawn : MonoBehaviour
         float x = Random.Range((rangeX / 2) * (-1), (rangeX / 2));
         float z = Random.Range((rangeZ / 2) * (-1), (rangeZ / 2));
 
-        
+
         Vector3 randomPos = new Vector3(x, -0.8f, z) + transform.position;
 
 
@@ -63,11 +60,15 @@ public class ObjectSpawn : MonoBehaviour
 
     private void SpawnObject()
     {
-        
+
         for (int i = 0; i < Random.Range(rangeStart, rangeEnd); i++)
         {
-            GameObject mapObject = Instantiate(MapObjectPrefabs[Random.Range(0, MapObjectPrefabs.Length)], RandomPosition(), Quaternion.identity);
-            mapObject.transform.SetParent(Map_Object);
+            if (!check.IsObjectExist())
+            {
+                GameObject mapObject = Instantiate(MapObjectPrefabs[Random.Range(0, MapObjectPrefabs.Length)], RandomPosition(), Quaternion.identity);
+                mapObject.transform.SetParent(Map_Object);
+            }
+            else continue;
         }
     }
 
