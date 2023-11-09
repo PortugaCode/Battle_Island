@@ -13,7 +13,7 @@ public class Gun : MonoBehaviour
 {
     [Header("Player")]
     private GameObject player;
-    [SerializeField] private Transform muzzleTransform;
+    public Transform muzzleTransform;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private GameObject muzzleFlashEffectPrefab;
     private ZoomControl zoomControl;
@@ -21,7 +21,7 @@ public class Gun : MonoBehaviour
 
     [Header("Both")]
     [SerializeField] protected GunData[] gunDatas;
-    protected GunType gunType; // ÃÑ Å¸ÀÔ
+    public GunType gunType; // ÃÑ Å¸ÀÔ
     protected float damage; // µ¥¹ÌÁö
     protected float coolDown; // ¹ß»ç ÄðÅ¸ÀÓ
     protected int magSize; // ÅºÃ¢ ¿ë·®
