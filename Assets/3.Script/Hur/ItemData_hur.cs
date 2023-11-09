@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [System.Serializable]
+#region 아이템계획
 /*
    * 아이템 = 총 19개
    *   - 1. 소모품
@@ -36,6 +37,8 @@ using UnityEngine.UI;
    *      감지가 됐나 안됐나 - bool
    *      입력값
    */
+#endregion
+
 public class ItemData_hur
 {
     public bool notice; //감지

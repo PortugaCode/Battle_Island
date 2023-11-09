@@ -26,9 +26,8 @@ public class ItemGrid_C : MonoBehaviour
         Init(gridSizeWidth, gridSizeHeight);
     }
 
-    public InventoryItem_C PickUpItem(int x, int y) //33:32
+    public InventoryItem_C PickUpItem(int x, int y)
     {
-        //47.34
         InventoryItem_C toReturn = inventoryItemSlot[x, y];
 
         if (toReturn == null)
@@ -67,7 +66,7 @@ public class ItemGrid_C : MonoBehaviour
         return inventoryItemSlot[x, y];
     }
 
-    Vector2 positionOnTheGrid = new Vector2(); //마우스 포인터의 위치
+    Vector2 positionOnTheGrid = new Vector2(); //마우스 포인터의 위치x
 
     public Vector2Int? FindSpaceForObject(InventoryItem_C itemToInsert)
     {
@@ -92,8 +91,8 @@ public class ItemGrid_C : MonoBehaviour
         return null;
     }
 
-    Vector2Int tileGridPosition = new Vector2Int(); //타일 그리드에서의 위치
-
+    Vector2Int tileGridPosition = new Vector2Int(); 
+    //타일 그리드에서의 위치
     //Vector2Int는 정수로 된 2D벡터
     public Vector2Int GetTileGridPosition(Vector2 mousePosition)
     {

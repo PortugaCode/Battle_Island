@@ -5,8 +5,14 @@ using UnityEngine.UI;
 
 public class InventoryItem_C : MonoBehaviour
 {
+    [SerializeField] private Database_hur database;
     public ItemData_C itemData;
 
+    private void Start()
+    {
+        database = FindObjectOfType<Database_hur>();
+    }
+    
     public int HEIGHT
     {
         get
@@ -40,10 +46,14 @@ public class InventoryItem_C : MonoBehaviour
         this.itemData = itemData;
         GetComponent<Image>().sprite = itemData.itemIcon;
 
+        //무조건 주변 인벤토리의 슬롯과 같아야 함
+        Debug.Log("아이템 뿅");
+
         Vector2 size = new Vector2();
         size.x = itemData.width * ItemGrid_C.tileSizeWidth;
         size.y = itemData.height * ItemGrid_C.tileSizeHeight;
         GetComponent<RectTransform>().sizeDelta = size;
+
     }
 
     internal void Rotate()

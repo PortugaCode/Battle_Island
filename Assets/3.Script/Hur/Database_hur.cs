@@ -9,6 +9,7 @@ public class Database_hur : MonoBehaviour
     public Image _itemIcon;
 
     private void Start()
+    //아이템 데이터베이스
     {
         itemList.Add(new ItemData_hur(false, 100, "아드레날린 주사기", false, ItemData_hur.ItemType.booster, ItemData_hur.UsingType.Consumable));
         itemList.Add(new ItemData_hur(false, 101, "군용조끼 Lv.1", false, ItemData_hur.ItemType.armor, ItemData_hur.UsingType.Wearable));
@@ -28,7 +29,7 @@ public class Database_hur : MonoBehaviour
         itemList.Add(new ItemData_hur(false, 115, "큰 주머니", false, ItemData_hur.ItemType.bag, ItemData_hur.UsingType.Wearable));
         itemList.Add(new ItemData_hur(false, 116, "라이플", false, ItemData_hur.ItemType.weapon, ItemData_hur.UsingType.Wearable));
         itemList.Add(new ItemData_hur(false, 117, "스나이퍼", false, ItemData_hur.ItemType.weapon, ItemData_hur.UsingType.Wearable));
-    }//아이템 데이터베이스
+    }
 
     public ItemData_hur GetItemByID(int itemID) //아이템 아이디를 기반으로 아이템 데이터와 이름을 검색
     {
