@@ -18,4 +18,9 @@ public class Rifle1 : Gun
     {
         base.PlayerShoot();
     }
+
+    public override void EnemyShoot(AIAgent agent)
+    {
+        base.EnemyShoot(agent);
+    }
 }

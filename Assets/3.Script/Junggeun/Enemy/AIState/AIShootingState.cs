@@ -56,11 +56,11 @@ public class AIShootingState : AIState
         {
             agent.transform.LookAt(agent.playerTarget);
             agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position, 3f * Time.deltaTime);
-            if (Physics.Raycast(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward, out RaycastHit hit, 20f))
+            if (Physics.Raycast(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward, out RaycastHit hit, 20f))
             {
                 if (hit.collider.CompareTag("Wall"))
                 {
-                    Debug.DrawRay(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward * hit.distance, Color.blue);
+                    Debug.DrawRay(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward * hit.distance, Color.blue);
                 }
                 else if(!agent.isneedReload)
                 {
@@ -78,19 +78,19 @@ public class AIShootingState : AIState
                             return;
                         }
                     }
-                    Debug.DrawRay(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward * 1000f, Color.red);
+                    Debug.DrawRay(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward * 1000f, Color.red);
                     //ÃÑ ½ò ¶§ Åº ·£´ýÀ¸·Î Æ¢°Ô ÇÏ±â À§ÇÑ º¯¼ö
                     x = UnityEngine.Random.Range(-2f, 2f);
                     y = UnityEngine.Random.Range(-2f, 2f);
                     if (agent.navMeshAgent.speed <= 0)
                     {
-                        Physics.Raycast(agent.SelectStartAim.position, agent.SelectStartAim.forward, out agent.hit, Mathf.Infinity);
-                        Debug.DrawRay(agent.SelectStartAim.position, agent.SelectStartAim.forward * 1000f, Color.green);
+                        Physics.Raycast(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward, out agent.hit, Mathf.Infinity);
+                        Debug.DrawRay(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward * 1000f, Color.green);
 
                         agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position + new Vector3(x, y, 0f), 2.5f * Time.deltaTime);
                         if (agent.magAmmo > 0)
                         {
-                            Fire(agent);
+                            agent.CurrentGun_Gun.EnemyShoot(agent);
                         }
                     }
                 }
@@ -105,13 +105,13 @@ public class AIShootingState : AIState
         {
             x = UnityEngine.Random.Range(-2f, 2f);
             y = UnityEngine.Random.Range(-2f, 2f);
-            Physics.Raycast(agent.SelectStartAim.position, agent.SelectStartAim.forward, out agent.hit, Mathf.Infinity);
-            Debug.DrawRay(agent.SelectStartAim.position, agent.SelectStartAim.forward * 1000f, Color.green);
+            Physics.Raycast(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward, out agent.hit, Mathf.Infinity);
+            Debug.DrawRay(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward * 1000f, Color.green);
 
             agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position + new Vector3(x, y, 0f), 3f * Time.deltaTime);
             if (agent.magAmmo > 0)
             {
-                Fire(agent);
+                agent.CurrentGun_Gun.EnemyShoot(agent);
             }
             else if(agent.magAmmo <= 0 && !nowReload)
             {
@@ -163,16 +163,20 @@ public class AIShootingState : AIState
             }
         }
 
-        if (Physics.Raycast(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward, out RaycastHit hit, Vector3.Distance(agent.SelectStartAim.position, agent.playerTarget.position)))
+        if (Physics.Raycast(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward, out RaycastHit hit, Vector3.Distance(agent.CurrentGun_Gun.muzzleTransform.position, agent.playerTarget.position)))
         {
             if(hit.collider.CompareTag("Wall"))
             {
                 agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
-                Debug.DrawRay(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward * hit.distance, Color.blue);
+                Debug.DrawRay(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward * hit.distance, Color.blue);
             }
             else if (hit.collider.CompareTag("Player"))
             {
-                Debug.DrawRay(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward * 1000f, Color.red);
+                Debug.DrawRay(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward * 1000f, Color.red);
+            }
+            else if(hit.collider)
+            {
+                agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
             }
             return;
         }
@@ -191,7 +195,7 @@ public class AIShootingState : AIState
 
     private void CheckWall2(AIAgent agent)
     {
-        if(Physics.CheckSphere(agent.SelectStartAim.position, 0.5f, agent.WallLayer))
+        if(Physics.CheckSphere(agent.CurrentGun_Gun.muzzleTransform.position, 0.5f, agent.WallLayer))
         {
             agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
         }
@@ -220,7 +224,7 @@ public class AIShootingState : AIState
         }
     }
 
-    private void Fire(AIAgent agent)
+/*    private void Fire(AIAgent agent)
     {
         if(Time.time >= lastFireTime + agent.Nowgundata.timebetFire)
         {
@@ -229,9 +233,9 @@ public class AIShootingState : AIState
             Shot(agent);
             agent.isShot = true;
         }
-    }
+    }*/
 
-    private void Shot(AIAgent agent)
+    /*private void Shot(AIAgent agent)
     {
         
         Debug.Log("¹ß»ç");
@@ -261,13 +265,13 @@ public class AIShootingState : AIState
         //GameObject b = MonoBehaviour.Instantiate(agent.Bullet, agent.SelectStartAim.position, agent.SelectStartAim.transform.rotation);
 
 
-        /*        Vector3 direction = b.transform.position - agent.AimTarget.position;
+        *//*        Vector3 direction = b.transform.position - agent.AimTarget.position;
                 direction.Normalize();
                 b.transform.forward = direction;
         
                  GameObject light = MonoBehaviour.Instantiate(agent.FireLight, agent.SelectStartAim.position, Quaternion.identity);
-        MonoBehaviour.Destroy(light, 0.03f);*/
-    }
+        MonoBehaviour.Destroy(light, 0.03f);*//*
+    }*/
 
 
 }
