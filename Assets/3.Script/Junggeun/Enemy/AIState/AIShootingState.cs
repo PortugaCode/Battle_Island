@@ -100,10 +100,6 @@ public class AIShootingState : AIState
         }
 
 
-        Debug.Log("대기모드 이후");
-
-
-
 
         if (agent.navMeshAgent.speed <= 0 && agent.isRun)
         {
@@ -252,6 +248,13 @@ public class AIShootingState : AIState
         agent.FireEffect1.Play();
         animator.SetTrigger("Fire");
         agent.enemyAudio.PlayShot();
+        agent.FireEffect2.transform.position = agent.hit.point;
+
+        if (agent.hit.collider.CompareTag("Wall"))
+        {
+            agent.FireEffect2.Play();
+        }
+
         agent.magAmmo--;
 
 
