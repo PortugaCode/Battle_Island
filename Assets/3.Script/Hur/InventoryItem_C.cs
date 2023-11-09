@@ -11,6 +11,7 @@ public class InventoryItem_C : MonoBehaviour
     private void Start()
     {
         database = FindObjectOfType<Database_hur>();
+
     }
     
     public int HEIGHT

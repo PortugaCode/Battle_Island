@@ -10,25 +10,36 @@ public class NoticeItem : MonoBehaviour
     [SerializeField] private GameObject slotprefab;
     [SerializeField] private Transform parentTransform;
 
+    //Test
+    [SerializeField] private PlayerController player;
+
     //주변 슬롯의 아이템을 디아블로식 인벤토리에 넣으면 사라짐
     [SerializeField] private Transform DiabloSpace;
-    
+
     public bool ItemDragOn = false;
 
+    private void Start()
+    {
+        player = FindObjectOfType<PlayerController>();
+        //player.eatItem = false;
+    }
     private void Update()
     {
-        KnowItem();
+        if (player.eatItem)
+        {
+            KnowItem();
+        }
+        
     }
 
     private void KnowItem()
     //아이템을 감지했을 때 프리팹 생성
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ItemData_hur randomItem = GetRandomItem();
-            GameObject SurSlotPrefab = Instantiate(slotprefab, parentTransform);
-            UpdateSlot(SurSlotPrefab, randomItem);
-        }
+        player.eatItem = false;
+        
+        ItemData_hur randomItem = GetRandomItem();
+        GameObject SurSlotPrefab = Instantiate(slotprefab, parentTransform);
+        UpdateSlot(SurSlotPrefab, randomItem);
     }
 
     private ItemData_hur GetRandomItem()
@@ -37,8 +48,8 @@ public class NoticeItem : MonoBehaviour
         //int randomindex = Random.Range(0, database.itemList.Count);
         int Itemindex = Random.Range(0, database.itemList.Count);
 
-        Debug.Log("랜덤 돌리는 중..."); 
-        
+        //Debug.Log("아이템 습득!");
+
         return database.itemList[Itemindex];
     }
     private void UpdateSlot(GameObject prefab, ItemData_hur itemdata)
@@ -58,6 +69,6 @@ public class NoticeItem : MonoBehaviour
         }
 
     }
-    
+
 }
 

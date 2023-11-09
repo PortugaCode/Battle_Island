@@ -6,7 +6,7 @@ public class InventoryController_C : MonoBehaviour
 {
     [SerializeField] private ItemGrid_C selectedItemGrid;
     [SerializeField] private NoticeItem noticeItem;
-    
+
     //주변에서 끌어오는 걸 구현할 경우 CreateRandomItem을 없애야 함
 
     InventoryItem_C selectedItem;
@@ -15,8 +15,10 @@ public class InventoryController_C : MonoBehaviour
 
     [SerializeField] List<ItemData_C> item;
     [SerializeField] GameObject itemPrefab;
-    //[SerializeField] GameObject itemPrefab_wearable;
-    //[SerializeField] GameObject itemPrefab_etc;
+    private int prefabNum;
+    private string TagName;
+    //[SerializeField] GameObject itemPrefab_wear; //wearable tag가 있는 아이템
+    //[SerializeField] GameObject itemPrefab_etc; // 다른 태그가 붙은 아이템
 
     [SerializeField] Transform canvasT;
 
@@ -46,6 +48,7 @@ public class InventoryController_C : MonoBehaviour
             {
                 noticeItem.ItemDragOn = false;
                 CreateRandomItem();
+
             }
         }
 
@@ -161,18 +164,13 @@ public class InventoryController_C : MonoBehaviour
 
     }
 
-    public void CreateRandomItem()//수정 - 생략
-    {
-        //걍 애초에 slot프리팹에 이 함수를 넣으면 되잖아.
-        //바닥을 tag로 구분하는게 편하다
 
-        //if (itemPrefab.CompareTag("Wearable"))
-        //{
-        //    Debug.Log("Wearable 충돌");
-        //}
+    public void CreateRandomItem()//수정 - 생략
+                                  //걍 애초에 slot프리팹에 이 함수를 넣으면 되잖아
+    {
 
         InventoryItem_C inventoryItem =
-            Instantiate(itemPrefab).GetComponent<InventoryItem_C>();
+        Instantiate(itemPrefab).GetComponent<InventoryItem_C>();
         selectedItem = inventoryItem;
 
         rect = inventoryItem.GetComponent<RectTransform>();
@@ -181,7 +179,35 @@ public class InventoryController_C : MonoBehaviour
 
         int selectedItemID = UnityEngine.Random.Range(0, item.Count); //랜덤 수정 - 변경
         inventoryItem.Set(item[selectedItemID]);
+
+
     }
+    //public void CreateItem_wear()
+    //{
+    //    InventoryItem_C inventoryItem_wear =
+    //    Instantiate(itemPrefab_wear).GetComponent<InventoryItem_C>();
+    //    selectedItem = inventoryItem_wear;
+
+    //    rect = inventoryItem_wear.GetComponent<RectTransform>();
+    //    rect.SetParent(canvasT);
+    //    rect.SetAsLastSibling();
+
+    //    int selectedItemID_wear = UnityEngine.Random.Range(0, item.Count); //랜덤 수정 - 변경
+    //    inventoryItem_wear.Set(item[selectedItemID_wear]);
+    //}
+    //public void CreateItem_etc()
+    //{
+    //    InventoryItem_C inventoryItem_etc =
+    //       Instantiate(itemPrefab_etc).GetComponent<InventoryItem_C>();
+    //    selectedItem = inventoryItem_etc;
+
+    //    rect = inventoryItem_etc.GetComponent<RectTransform>();
+    //    rect.SetParent(canvasT);
+    //    rect.SetAsLastSibling();
+
+    //    int selectedItemID_etc = UnityEngine.Random.Range(0, item.Count); //랜덤 수정 - 변경
+    //    inventoryItem_etc.Set(item[selectedItemID_etc]);
+    //}
 
     private void LeftMouseButtonPress()//수정 - 변경
     {
@@ -232,8 +258,8 @@ public class InventoryController_C : MonoBehaviour
     }
     private void PickUpItem(Vector2Int tileGridPosition)
     {
-        selectedItem =
-                        selectedItemGrid.PickUpItem(tileGridPosition.x, tileGridPosition.y);
+        selectedItem = 
+            selectedItemGrid.PickUpItem(tileGridPosition.x, tileGridPosition.y);
 
         if (selectedItem != null)
         {
@@ -245,9 +271,6 @@ public class InventoryController_C : MonoBehaviour
         if (selectedItem != null)
         {
             rect.position = Input.mousePosition;
-
-            //만약 아이템이 wearable이라면
-
         }
     }
 }
