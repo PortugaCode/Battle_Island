@@ -21,9 +21,12 @@ public class AIDeathState : AIState
         agent.rig.weight = 0f;
 
         //나중에 건 데이터에 맞게 밖으로 보내기 (죽을 때 총 밖으로 꺼내는 작업)
-        agent.SelectRifleWeapons.GetComponent<Rigidbody>().useGravity = true;
-        agent.SelectRifleWeapons.GetComponent<Rigidbody>().isKinematic = false;
-        agent.SelectRifleWeapons.transform.SetParent(null);
+        if(agent.SelectRifleWeapons != null)
+        {
+            agent.SelectRifleWeapons.GetComponent<Rigidbody>().useGravity = true;
+            agent.SelectRifleWeapons.GetComponent<Rigidbody>().isKinematic = false;
+            agent.SelectRifleWeapons.transform.SetParent(null);
+        }
     }
 
     public void AIUpdate(AIAgent agent)

@@ -148,7 +148,7 @@ public class AIShootingState : AIState
         }
 
 
-        if (Physics.CheckSphere(agent.transform.position, 5f, agent.PlayerLayer))
+        if (Physics.CheckSphere(agent.transform.position, 7f, agent.PlayerLayer))
         {
             Vector3 direction = agent.playerTarget.position - agent.transform.position;
 
@@ -178,7 +178,7 @@ public class AIShootingState : AIState
         }
 
         Vector3 Playerdirection = agent.playerTarget.position - agent.transform.position;
-        if (Playerdirection.magnitude > agent.config.maxSightDistance + 40f)
+        if (Playerdirection.magnitude > agent.config.maxSightDistance + 25f)
         {
             agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
             return;

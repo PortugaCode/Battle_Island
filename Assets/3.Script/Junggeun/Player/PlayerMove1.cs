@@ -10,7 +10,7 @@ public class PlayerMove1 : MonoBehaviour
     [SerializeField] private Rigidbody rig;
     [SerializeField] private EnemyHealth enemyHealth;
 
-    private void Awake()
+    private void Start()
     {
         GameObject.FindObjectOfType<EnemyHealth>().TryGetComponent(out enemyHealth);
         TryGetComponent(out rig);
