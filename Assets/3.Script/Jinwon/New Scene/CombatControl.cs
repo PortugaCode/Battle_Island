@@ -132,7 +132,6 @@ public class CombatControl : MonoBehaviour
         // 3. 우클릭 한 채로 오래 있으면 3인칭 진입
 
         float camAngle;
-
         if (mainCamera.eulerAngles.x > 300)
         {
             camAngle = mainCamera.eulerAngles.x - 360.0f;
@@ -233,7 +232,6 @@ public class CombatControl : MonoBehaviour
                 if (currentGun != null)
                 {
                     currentGun.GetComponent<Gun>().PlayerShoot();
-                    //animator.SetTrigger("Fire");
                     GunRecoil();
                 }
             }

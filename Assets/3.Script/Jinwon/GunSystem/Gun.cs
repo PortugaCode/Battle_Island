@@ -14,7 +14,6 @@ public class Gun : MonoBehaviour
     [Header("Player")]
     private GameObject player;
     public Transform muzzleTransform;
-    [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private GameObject muzzleFlashEffectPrefab;
     private ZoomControl zoomControl;
     private CombatControl combatControl;
@@ -58,22 +57,35 @@ public class Gun : MonoBehaviour
 
                 Vector3 muzzleFlashPosition = new Vector3(zoomControl.firstPersonCamera.transform.position.x, zoomControl.firstPersonCamera.transform.position.y - 0.05f, zoomControl.firstPersonCamera.transform.position.z) + forwardDirection;
 
-                GameObject currentBullet = Instantiate(bulletPrefab, zoomControl.firstPersonCamera.transform.position + forwardDirection, Quaternion.identity);
-                currentBullet.transform.forward = forwardDirection;
-                currentBullet.GetComponent<Bullet>().bulletDamage = damage;
-                currentBullet.GetComponent<Bullet>().hit = raycastHit;
-                currentBullet.GetComponentInChildren<TrailRenderer>().enabled = false;
-
+                // 오브젝트 풀링
+                if (ObjectPoolControl.instance.bulletQueue.Count > 0)
+                {
+                    GameObject currentBullet = ObjectPoolControl.instance.bulletQueue.Dequeue();
+                    currentBullet.transform.position = zoomControl.firstPersonCamera.transform.position + forwardDirection;
+                    currentBullet.transform.forward = forwardDirection;
+                    currentBullet.GetComponent<Bullet>().bulletDamage = damage;
+                    currentBullet.GetComponent<Bullet>().hit = raycastHit;
+                    currentBullet.GetComponentInChildren<TrailRenderer>().enabled = false;
+                    currentBullet.SetActive(true);
+                }
+                
                 GameObject muzzleFlashEffect = Instantiate(muzzleFlashEffectPrefab, muzzleFlashPosition, Quaternion.identity);
                 muzzleFlashEffect.transform.forward = forwardDirection;
                 Destroy(muzzleFlashEffect, 0.5f);
             }
             else if (combatControl.isThirdPerson) // 3인칭 시점일 때 총구에서 발사
             {
-                GameObject currentBullet = Instantiate(bulletPrefab, muzzleTransform.position, Quaternion.identity);
-                currentBullet.transform.forward = raycastHit.point - muzzleTransform.position;
-                currentBullet.GetComponent<Bullet>().bulletDamage = damage;
-                currentBullet.GetComponent<Bullet>().hit = raycastHit;
+                // 오브젝트 풀링
+                if (ObjectPoolControl.instance.bulletQueue.Count > 0)
+                {
+                    GameObject currentBullet = ObjectPoolControl.instance.bulletQueue.Dequeue();
+                    currentBullet.transform.position = muzzleTransform.position;
+                    currentBullet.transform.forward = raycastHit.point - muzzleTransform.position;
+                    currentBullet.GetComponent<Bullet>().bulletDamage = damage;
+                    currentBullet.GetComponent<Bullet>().hit = raycastHit;
+                    currentBullet.GetComponentInChildren<TrailRenderer>().enabled = true;
+                    currentBullet.SetActive(true);
+                }
 
                 GameObject muzzleFlashEffect = Instantiate(muzzleFlashEffectPrefab, muzzleTransform.position, Quaternion.identity);
                 muzzleFlashEffect.transform.forward = raycastHit.point - muzzleTransform.position;
