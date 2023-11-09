@@ -9,6 +9,8 @@ public class BuildingHelper : MonoBehaviour
 
     public Dictionary<Vector3Int, GameObject> buildingDic = new Dictionary<Vector3Int, GameObject>();
 
+    private Vector3 fix = new Vector3(0, 0.8f, 0);
+
     public void PlaceBuildingAroundRoad(List<Vector3Int> roadPos)
     {
         Dictionary<Vector3Int, Direction> freeEstateSpots = FindFreeSpaceAroundRoad(roadPos);
@@ -38,7 +40,6 @@ public class BuildingHelper : MonoBehaviour
             {
                 if (buildingTypes[i].quantity == -1)
                 {
-                    Debug.Log(freeSpot.Key);
                     var building = SpawnPrefab(buildingTypes[i].GetPrefabs(), freeSpot.Key, rotation);
                     buildingDic.Add(freeSpot.Key, building);
                     break;
@@ -102,7 +103,7 @@ public class BuildingHelper : MonoBehaviour
 
     private GameObject SpawnPrefab(GameObject prefab, Vector3Int position, Quaternion rotation)
     {
-        var newBuilding = Instantiate(prefab, position, rotation, transform);
+        var newBuilding = Instantiate(prefab, position - fix, rotation, transform);
         return newBuilding;
     }
 
@@ -114,7 +115,7 @@ public class BuildingHelper : MonoBehaviour
             var neiborDirections = PlacementHelper.FindNeighbor(position, roadPos);
             foreach (Direction direction in Enum.GetValues(typeof(Direction)))
             {
-                if (neiborDirections.Contains(direction) == false)
+                if (!neiborDirections.Contains(direction))
                 {
                     var newPos = position + PlacementHelper.GetOffsetFromDirection(direction);
                     if (freeSpaces.ContainsKey(newPos))

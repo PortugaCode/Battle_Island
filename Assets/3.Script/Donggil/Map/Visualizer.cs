@@ -14,6 +14,8 @@ public class Visualizer : MonoBehaviour
     public GameObject Road;
     public GameObject Map;
 
+    public bool isMap = false;
+
     //차후 수정 예정
     private int length = 6;
     private float angle = 90;
@@ -34,11 +36,11 @@ public class Visualizer : MonoBehaviour
         set => length = value;
     }
 
-    private void Start()
+    private void Awake()
     {
         var sequence = lSystem.GenerateSentence();
         VisualizeSequence(sequence);
-        CalcSize(Road, Map);
+        CalcSize(Road, Map, isMap);
     }
 
     private void VisualizeSequence(string sequence)
@@ -79,7 +81,7 @@ public class Visualizer : MonoBehaviour
                     }
                     break;
                 case EncodingLetters.draw:
-                    
+
                     tempPosition = currentPosition;
                     currentPosition += direction * length;
                     roadHelper.PlaceStreetPosition(tempPosition, Vector3Int.RoundToInt(direction), length);
@@ -102,36 +104,40 @@ public class Visualizer : MonoBehaviour
     }
 
 
-    public void CalcSize(GameObject game, GameObject Map) 
+    public void CalcSize(GameObject game, GameObject Map, bool IsMap)
     {
-        float x = 0;
-        float z = 0;
-
-        float map_x = 0;
-        float map_z = 0;
-        Bounds totalBounds = new Bounds();
-        foreach (Collider child in game.GetComponentsInChildren<Collider>())
+        if (IsMap)
         {
-            totalBounds.Encapsulate(child.bounds);
-            x = totalBounds.size.x;
-            z = totalBounds.size.z;
-        }
+            float x = 0;
+            float z = 0;
 
-        foreach (Collider child in Map.GetComponentsInChildren<Collider>())
-        {
-            totalBounds.Encapsulate(child.bounds);
-            map_x = totalBounds.size.x;
-            map_z = totalBounds.size.z;
-        }
-        //Debug.Log($"x : {x}");
-        //Debug.Log($"z : {z}");
-        float max = Mathf.Max(x, z);
-        float scaleMag = max * 0.01f;
-        //float scaleMag = (max - (Mathf.Abs(x - z)) * 0.6f) * 0.01f;
+            float map_x = 0;
+            float map_z = 0;
 
-        Map.transform.localScale = new Vector3(1 * scaleMag, 1, 1 * scaleMag);
-        //Debug.Log($"map_x : {map_x}");
-        //Debug.Log($"map_z : {map_z}");
+            Bounds totalBounds = new Bounds();
+            foreach (Collider child in game.GetComponentsInChildren<Collider>())
+            {
+                totalBounds.Encapsulate(child.bounds);
+                x = totalBounds.size.x;
+                z = totalBounds.size.z;
+            }
+
+            foreach (Collider child in Map.GetComponentsInChildren<Collider>())
+            {
+                totalBounds.Encapsulate(child.bounds);
+                map_x = totalBounds.size.x;
+                map_z = totalBounds.size.z;
+            }
+            Debug.Log($"x : {x}");
+            Debug.Log($"z : {z}");
+            float max = Mathf.Max(x, z);
+            float scaleMag = max * 0.01f;
+            //float scaleMag = (max - (Mathf.Abs(x - z)) * 0.6f) * 0.01f;
+
+            Map.transform.localScale = new Vector3(1 * scaleMag, 1, 1 * scaleMag);
+            //Debug.Log($"map_x : {map_x}");
+            //Debug.Log($"map_z : {map_z}");
+        }
     }
 
 }

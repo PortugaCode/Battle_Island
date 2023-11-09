@@ -100,10 +100,6 @@ public class AIShootingState : AIState
         }
 
 
-        Debug.Log("대기모드 이후");
-
-
-
 
         if (agent.navMeshAgent.speed <= 0 && agent.isRun)
         {
@@ -152,11 +148,11 @@ public class AIShootingState : AIState
         }
 
 
-        if (Physics.CheckSphere(agent.transform.position, 5f, agent.PlayerLayer))
+        if (Physics.CheckSphere(agent.transform.position, 7f, agent.PlayerLayer))
         {
             Vector3 direction = agent.playerTarget.position - agent.transform.position;
 
-            if (Physics.Raycast(agent.transform.position, direction, 5f, agent.WallLayer))
+            if (Physics.Raycast(agent.transform.position, direction, Vector3.Distance(agent.transform.position, agent.playerTarget.position), agent.WallLayer))
             {
                 agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
                 return;
@@ -174,7 +170,7 @@ public class AIShootingState : AIState
                 agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
                 Debug.DrawRay(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward * hit.distance, Color.blue);
             }
-            else
+            else if (hit.collider.CompareTag("Player"))
             {
                 Debug.DrawRay(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward * 1000f, Color.red);
             }
@@ -182,7 +178,7 @@ public class AIShootingState : AIState
         }
 
         Vector3 Playerdirection = agent.playerTarget.position - agent.transform.position;
-        if (Playerdirection.magnitude > agent.config.maxSightDistance + 40f)
+        if (Playerdirection.magnitude > agent.config.maxSightDistance + 25f)
         {
             agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
             return;
@@ -240,20 +236,37 @@ public class AIShootingState : AIState
         
         Debug.Log("발사");
 
+        GameObject b = BulletPooling.Instance.Bullets.Dequeue();
+        b.gameObject.SetActive(true);
+        b.transform.position = agent.SelectStartAim.position;
+        b.transform.rotation = agent.SelectStartAim.rotation;
 
-        GameObject b = MonoBehaviour.Instantiate(agent.Bullet, agent.SelectStartAim.position, agent.SelectStartAim.transform.rotation);
-        GameObject light = MonoBehaviour.Instantiate(agent.FireLight, agent.SelectStartAim.position, Quaternion.identity);
-        MonoBehaviour.Destroy(light, 0.03f);
+
         agent.FireEffect.transform.position = agent.SelectStartAim.position;
         agent.FireEffect1.transform.position = agent.SelectRifleWeapons.transform.position;
         agent.FireEffect.Play();
         agent.FireEffect1.Play();
         animator.SetTrigger("Fire");
         agent.enemyAudio.PlayShot();
+        agent.FireEffect2.transform.position = agent.hit.point;
+
+        if (agent.hit.collider.CompareTag("Wall"))
+        {
+            agent.FireEffect2.Play();
+        }
+
         agent.magAmmo--;
+
+
+        //GameObject b = MonoBehaviour.Instantiate(agent.Bullet, agent.SelectStartAim.position, agent.SelectStartAim.transform.rotation);
+
+
         /*        Vector3 direction = b.transform.position - agent.AimTarget.position;
                 direction.Normalize();
-                b.transform.forward = direction;*/
+                b.transform.forward = direction;
+        
+                 GameObject light = MonoBehaviour.Instantiate(agent.FireLight, agent.SelectStartAim.position, Quaternion.identity);
+        MonoBehaviour.Destroy(light, 0.03f);*/
     }
 
 

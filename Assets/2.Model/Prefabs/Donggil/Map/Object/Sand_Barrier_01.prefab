@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 7755551981300798621}
   - component: {fileID: 7749025389786704191}
   - component: {fileID: 7728113917127808075}
-  m_Layer: 0
+  - component: {fileID: 5987594275563458007}
+  m_Layer: 29
   m_Name: Sand_Barrier_01
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -96,3 +97,17 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43724284152753666, guid: 63ae192cbde000341bf132e010278ee3, type: 2}
+--- !u!114 &5987594275563458007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7772200563024382691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3445becc984b644aa9d615dd2f414d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameObj: {fileID: 7772200563024382691}
+  radius: 2

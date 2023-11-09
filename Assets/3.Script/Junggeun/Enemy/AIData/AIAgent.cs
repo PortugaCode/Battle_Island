@@ -11,6 +11,7 @@ public class AIAgent : MonoBehaviour
     public bool isAmmoReady = false;
     public bool isShot = false;
     public bool isRun = true;
+    public bool isArmor;
 
     [HideInInspector] public AIStateMachine stateMachine;
     [HideInInspector] public EnemyHealth enemyHealth;
@@ -40,8 +41,8 @@ public class AIAgent : MonoBehaviour
     [Header("FireEffect")]
     public ParticleSystem FireEffect;
     public ParticleSystem FireEffect1;
+    public ParticleSystem FireEffect2;
     public GameObject FireLight;
-    public LineRenderer lineRenderer;
 
 
     [Header("TargetAim")]
@@ -60,7 +61,6 @@ public class AIAgent : MonoBehaviour
     [HideInInspector] public Transform SelectStartAim;
 
     [Header("ArmorData")]
-    public bool isArmor;
     public GameObject[] Armor;
     [HideInInspector] public GameObject SelectArmor;
 
@@ -95,7 +95,6 @@ public class AIAgent : MonoBehaviour
         TryGetComponent(out enemyHealth);
         TryGetComponent(out navMeshAgent);
         TryGetComponent(out ragDoll);
-        TryGetComponent(out lineRenderer);
         TryGetComponent(out enemyAudio);
         mesh = GetComponentInChildren<SkinnedMeshRenderer>();
         ui = GetComponentInChildren<UIHealthBar>();
@@ -132,11 +131,10 @@ public class AIAgent : MonoBehaviour
     private void Update()
     {
         stateMachine.Update();
-/*        if(isShot && magAmmo > 0 && isReady && isAmmoReady)
+        if (isShot && magAmmo > 0 && isReady && isAmmoReady)
         {
-            StartCoroutine(ShotEffect(hit.point));
-            
-        }*/
+            StartCoroutine(ShotEffect());
+        }
         isShot = false;
 
         if (isneedReload && !isnowReload && isReady && isAmmoReady)
@@ -145,14 +143,18 @@ public class AIAgent : MonoBehaviour
         }
     }
 
-    private IEnumerator ShotEffect(Vector3 hitPosition)
+    private IEnumerator ShotEffect()
     {
-        lineRenderer.SetPosition(0, SelectStartAim.position);
-        lineRenderer.SetPosition(1, hitPosition);
-        lineRenderer.enabled = true;
-
+        /*        lineRenderer.SetPosition(0, SelectStartAim.position);
+                lineRenderer.SetPosition(1, hitPosition);
+                lineRenderer.enabled = true;
+                lineRenderer.enabled = false;
+        */
+        FireLight.transform.position = SelectStartAim.position;
+        FireLight.transform.rotation = SelectStartAim.rotation;
+        FireLight.SetActive(true);
         yield return new WaitForSeconds(0.03f);
-        lineRenderer.enabled = false;
+        FireLight.SetActive(false);
         isShot = false;
     }
 

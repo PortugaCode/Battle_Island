@@ -7,7 +7,10 @@ public class AIRandomMoveState : AIState
 {
     private Vector3 point;
     private Vector3 distance;
+    private DeadZone deadZone;
 
+    private float rid;
+    private Vector3 center;
 
     public AiStateID GetID()
     {
@@ -17,14 +20,18 @@ public class AIRandomMoveState : AIState
     public void Enter(AIAgent agent)
     {
         Debug.Log("랜덤 이동");
+        GameObject.FindGameObjectWithTag("DeadZone").TryGetComponent(out deadZone);
         point = GetRandomPoint(new Vector3(16, 0, -31), 60f);
         agent.navMeshAgent.destination = point;
         agent.navMeshAgent.speed = 5;
-        Debug.DrawRay(point, Vector3.up, Color.green, 1000f);
+        Debug.DrawRay(point, Vector3.up * 5000f, Color.green, 10f);
     }
 
     public void AIUpdate(AIAgent agent)
     {
+        rid = deadZone.CurrentRadius();
+        center = deadZone.CurrentDeadZonePosition();
+
         agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 2f * Time.deltaTime);
 
         if (FindPlayer(agent) && agent.isReady && agent.isAmmoReady)
@@ -65,10 +72,10 @@ public class AIRandomMoveState : AIState
         if (distance.magnitude <= 4f)
         {
             //point = null; //나중에 Vector 000으로 바꾸기
-            point = GetRandomPoint(new Vector3(16, 0, -31), 60f);
+            point = GetRandomPoint(center, rid);
             agent.navMeshAgent.destination = point;
             agent.navMeshAgent.speed = 5;
-            Debug.DrawRay(point, Vector3.down, Color.green, 1000f);
+            Debug.DrawRay(point, Vector3.up * 5000f, Color.green, 10f);
         }
     }
 
