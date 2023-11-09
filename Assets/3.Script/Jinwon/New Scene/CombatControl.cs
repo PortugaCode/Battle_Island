@@ -115,7 +115,12 @@ public class CombatControl : MonoBehaviour
         if (hasGrenade && Input.GetKeyDown(KeyCode.Y))
         {
             currentWeapon = Weapon.Grenade;
-            // 총 넣는 동작 필요
+
+            animator.SetTrigger("UnEquip");
+            rig.GetComponent<Rig>().weight = 0f;
+            currentGun.transform.SetParent(backGunPivot);
+            currentGun.transform.localPosition = Vector3.zero;
+            currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
         }
 
         // [마우스 입력]
