@@ -14,9 +14,12 @@ public class ZoomControl : MonoBehaviour
     // Cameras
     [Header("Camera Object")]
     [SerializeField] private GameObject cameras;
-    private CinemachineFreeLook normalCamera;
-    private CinemachineVirtualCamera firstPersonCamera;
-    private CinemachineFreeLook thirdPersonCamera;
+    public CinemachineFreeLook normalCamera;
+    public CinemachineVirtualCamera firstPersonCamera;
+    public CinemachineFreeLook thirdPersonCamera;
+
+    // Gun
+    private GameObject gun;
 
     private void Awake()
     {
@@ -48,8 +51,15 @@ public class ZoomControl : MonoBehaviour
         }
     }
 
-    public void First_ZoomIn()
+    public void First_ZoomIn(GameObject currentGun)
     {
+        // [총 모델만 비활성화]
+        gun = currentGun;
+        gun.transform.SetParent(transform);
+        gun.transform.Find("Model").gameObject.SetActive(false);
+        gun.transform.localPosition = Vector3.zero;
+        gun.transform.localRotation = Quaternion.Euler(Vector3.zero);
+
         // [플레이어 모델 비활성화]
         player.transform.Find("Model").gameObject.SetActive(false);
 
@@ -64,6 +74,12 @@ public class ZoomControl : MonoBehaviour
 
     public void First_ZoomOut()
     {
+        // [총 모델 활성화]
+        gun.transform.SetParent(GetComponent<CombatControl>().holdGunPivot);
+        gun.transform.Find("Model").gameObject.SetActive(true);
+        gun.transform.localPosition = Vector3.zero;
+        gun.transform.localRotation = Quaternion.Euler(Vector3.zero);
+
         // [카메라 회전값 동기화]
         normalCamera.m_XAxis.Value = firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.Value;
         normalCamera.m_YAxis.Value = 0.75f;
@@ -79,14 +95,14 @@ public class ZoomControl : MonoBehaviour
     {
         // [카메라 회전값 동기화]
         thirdPersonCamera.m_XAxis.Value = normalCamera.m_XAxis.Value;
-        thirdPersonCamera.m_YAxis.Value = normalCamera.m_YAxis.Value - 0.25f;
+        thirdPersonCamera.m_YAxis.Value = normalCamera.m_YAxis.Value - 0.1f;
         thirdPersonCamera.gameObject.SetActive(true);
 
         // [1인칭 UI 출력]
         UIManager.instance.ThirdPersonCrosshair(true);
 
         // [애니메이션]
-        animator.SetBool("HasGun", true);
+        animator.SetBool("EquipGun", true);
         animator.SetTrigger("Aim");
     }
 
@@ -94,27 +110,27 @@ public class ZoomControl : MonoBehaviour
     {
         // [카메라 회전값 동기화]
         normalCamera.m_XAxis.Value = thirdPersonCamera.m_XAxis.Value;
-        normalCamera.m_YAxis.Value = thirdPersonCamera.m_YAxis.Value + 0.25f;
+        normalCamera.m_YAxis.Value = thirdPersonCamera.m_YAxis.Value + 0.1f;
         thirdPersonCamera.gameObject.SetActive(false);
 
         // [1인칭 UI 출력]
         UIManager.instance.ThirdPersonCrosshair(false);
 
         // [애니메이션]
-        animator.SetBool("HasGun", true);
+        animator.SetBool("EquipGun", true);
         animator.SetTrigger("UnAim");
     }
 
     public void StartLookAround()
     {
-        player.GetComponent<CharacterMovement>().normalCamX = normalCamera.m_XAxis.Value;
-        player.GetComponent<CharacterMovement>().normalCamY = normalCamera.m_YAxis.Value;
+        player.GetComponent<CombatControl>().normalCamX = normalCamera.m_XAxis.Value;
+        player.GetComponent<CombatControl>().normalCamY = normalCamera.m_YAxis.Value;
     }
 
     public void EndLookAround()
     {
-        normalCamera.m_XAxis.Value = player.GetComponent<CharacterMovement>().normalCamX;
-        normalCamera.m_YAxis.Value = player.GetComponent<CharacterMovement>().normalCamY;
+        normalCamera.m_XAxis.Value = player.GetComponent<CombatControl>().normalCamX;
+        normalCamera.m_YAxis.Value = player.GetComponent<CombatControl>().normalCamY;
     }
 
     private IEnumerator SetActivePlayerModel()
