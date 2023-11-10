@@ -10,36 +10,30 @@ public class BulletController : MonoBehaviour
 
     public float speed = 4f;
 
-    private void Start()
+    private void Awake()
     {
         TryGetComponent(out rig);
-        //GameObject.FindGameObjectWithTag("Point").TryGetComponent(out Target);
-
-        direction = transform.forward;
-        direction.Normalize();
-
-
-        rig.AddForce(direction * speed);
     }
 
-    /*    private void Update()
-        {
+    private void OnEnable()
+    {
+        rig.AddForce(transform.forward * speed);
+    }
 
-            transform.Translate(transform.forward * speed * Time.deltaTime);
-        }*/
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Player"))
         {
-            gameObject.SetActive(false);
             BulletPooling.Instance.Bullets.Enqueue(gameObject);
         }
         else if(collision.collider)
         {
-
-            gameObject.SetActive(false);
             BulletPooling.Instance.Bullets.Enqueue(gameObject);
         }
+        gameObject.transform.localPosition = Vector3.zero;
+        gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        rig.velocity = Vector3.zero;
+        gameObject.SetActive(false);
     }
 }

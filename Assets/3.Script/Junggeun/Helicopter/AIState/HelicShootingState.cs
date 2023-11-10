@@ -6,7 +6,10 @@ public class HelicShootingState : HelicState
 {
     private float lastFireTime;
     private Vector3 direction;
-    private float rotationspeed = 5f;
+    private float rotationspeed = 4f;
+
+    float x;
+    float y;
 
 
     public HelicStateID GetID()
@@ -21,18 +24,27 @@ public class HelicShootingState : HelicState
 
     public void AIUpdate(HelicAgent agent)
     {
-        if (agent.PositionTarget.position.y <= 13f)
-        {
-            agent.PositionTarget.Translate(agent.BodyTarget.up * 5f * Time.deltaTime);
-        }
+        FollowPlayer(agent);
 
+        ShotorChase(agent);
 
+    }
+
+    public void Exit(HelicAgent agent)
+    {
+
+    }
+
+    private void FollowPlayer(HelicAgent agent)
+    {
         direction = agent.Player.transform.position - agent.PositionTarget.position;
         Quaternion rotation = Quaternion.LookRotation(direction);
         agent.BodyTarget.rotation = Quaternion.Lerp(agent.BodyTarget.rotation, rotation, rotationspeed * Time.deltaTime);
-        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.Player.transform.position, 5f * Time.deltaTime);
+        agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.Player.transform.position, rotationspeed * Time.deltaTime);
+    }
 
-
+    private void ShotorChase(HelicAgent agent)
+    {
         Vector3 Playerdirection = agent.Player.position - agent.hit.point;
         if (Playerdirection.magnitude > 20f)
         {
@@ -49,21 +61,19 @@ public class HelicShootingState : HelicState
             Fire(agent);
         }
 
-        else if(dotProduct < 0.0f)
+        else if (dotProduct < 0.0f)
         {
             agent.stateMachine.ChangeState(HelicStateID.ChasePlayer);
         }
     }
 
-    public void Exit(HelicAgent agent)
-    {
-
-    }
-
 
     private void Fire(HelicAgent agent)
     {
-        if (Time.time >= lastFireTime + 0.2f)
+
+        x = UnityEngine.Random.Range(-0.3f, 0.3f);
+        y = UnityEngine.Random.Range(-0.3f, 0.3f);
+        if (Time.time >= lastFireTime + 0.1f)
         {
             lastFireTime = Time.time;
 
@@ -75,9 +85,12 @@ public class HelicShootingState : HelicState
     private void Shot(HelicAgent agent)
     {
         GameObject b = BulletPooling.Instance.Bullets.Dequeue();
-        b.gameObject.SetActive(true);
-        b.transform.position = agent.OriginalTarget.position;
+
+        b.transform.position = agent.OriginalTarget.position + new Vector3(x, y, 0);
         b.transform.rotation = agent.OriginalTarget.rotation;
+        b.gameObject.SetActive(true);
+
+
         agent.FireEffect.transform.position = agent.OriginalTarget.position;
         agent.FireEffect1.transform.position = agent.OriginalTarget.transform.position;
         agent.FireEffect.Play();

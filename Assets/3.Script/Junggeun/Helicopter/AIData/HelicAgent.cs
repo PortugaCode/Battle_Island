@@ -10,6 +10,7 @@ public class HelicAgent : MonoBehaviour
     [HideInInspector] public RaycastHit hit;
     [HideInInspector] public RaycastHit bullethit;
     [HideInInspector] public bool isShot;
+    [HideInInspector] public bool isShotPattern = false;
 
     [Header("Helicopter StartState")]
     public HelicStateID initalState;
