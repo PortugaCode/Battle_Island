@@ -13,15 +13,18 @@ public class Gun : MonoBehaviour
 {
     [Header("Player")]
     private GameObject player;
-    [SerializeField] private Transform muzzleTransform;
+    [SerializeField] public Transform muzzleTransform;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private GameObject muzzleFlashEffectPrefab;
     private ZoomControl zoomControl;
     private CombatControl combatControl;
 
+    [Header("Enemy")]
+    private float lastFireTime;
+
     [Header("Both")]
-    [SerializeField] protected GunData[] gunDatas;
-    protected GunType gunType; // 총 타입
+    [SerializeField] public GunData[] gunDatas;
+    public GunType gunType; // 총 타입
     protected float damage; // 데미지
     protected float coolDown; // 발사 쿨타임
     protected int magSize; // 탄창 용량
@@ -100,13 +103,66 @@ public class Gun : MonoBehaviour
 
     }
 
-    public virtual void EnemyShoot() // 적 AI 발사 메서드
+    public virtual void EnemyShoot(AIAgent agent) // 적 AI 발사 메서드
     {
-
+        Fire(agent);
     }
 
     public virtual void EnemyReload() // 적 재장전 메서드
     {
 
+    }
+
+
+    private void Fire(AIAgent agent)
+    {
+        if (Time.time >= lastFireTime + agent.Nowgundata.timebetFire)
+        {
+            lastFireTime = Time.time;
+
+            Shot(agent);
+            agent.isShot = true;
+        }
+    }
+
+    private void Shot(AIAgent agent)
+    {
+
+        Debug.Log("발사");
+
+        GameObject b = BulletPooling.Instance.Bullets.Dequeue();
+        b.gameObject.SetActive(true);
+        b.transform.position = agent.CurrentGun_Gun.muzzleTransform.position;
+        b.transform.rotation = agent.CurrentGun_Gun.muzzleTransform.rotation;
+
+
+        agent.FireEffect.transform.position = muzzleTransform.position;
+        agent.FireEffect1.transform.position = transform.position;
+        agent.FireEffect.Play();
+        agent.FireEffect1.Play();
+        agent.animator.SetTrigger("Fire");
+        agent.enemyAudio.PlayShot();
+        agent.FireEffect2.transform.position = agent.hit.point;
+
+        if (agent.hit.collider)
+        {
+            if (agent.hit.collider.CompareTag("Wall"))
+            {
+                agent.FireEffect2.Play();
+            }
+        }
+
+        agent.magAmmo--;
+
+
+        //GameObject b = MonoBehaviour.Instantiate(agent.Bullet, agent.SelectStartAim.position, agent.SelectStartAim.transform.rotation);
+
+
+        /*        Vector3 direction = b.transform.position - agent.AimTarget.position;
+                direction.Normalize();
+                b.transform.forward = direction;
+        
+                 GameObject light = MonoBehaviour.Instantiate(agent.FireLight, agent.SelectStartAim.position, Quaternion.identity);
+        MonoBehaviour.Destroy(light, 0.03f);*/
     }
 }

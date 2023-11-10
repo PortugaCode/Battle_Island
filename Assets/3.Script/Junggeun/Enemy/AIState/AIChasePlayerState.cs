@@ -107,25 +107,25 @@ public class AIChasePlayerState : AIState
 
     private bool CheckWall(AIAgent agent)
     {
-        if (Physics.Raycast(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward, out RaycastHit hit, Mathf.Infinity))
+        if (Physics.Raycast(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward, out RaycastHit hit, Mathf.Infinity))
         {
             if (hit.collider.CompareTag("Wall"))
             {
-                Debug.DrawRay(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward * hit.distance, Color.blue);
+                Debug.DrawRay(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward * hit.distance, Color.blue);
                 return true;
             }
             else
             {
-                Debug.DrawRay(agent.SelectStartAim.transform.position, agent.SelectStartAim.transform.forward * hit.distance, Color.red);
+                Debug.DrawRay(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward * hit.distance, Color.red);
                 return false;
             }
         }
-        return true;
+        return false;
     }
 
     private bool CheckWall2(AIAgent agent)
     {
-        if (Physics.CheckSphere(agent.SelectStartAim.position, 1f, agent.WallLayer))
+        if (Physics.CheckSphere(agent.CurrentGun_Gun.muzzleTransform.position, 1f, agent.WallLayer))
         {
             return true;
         }

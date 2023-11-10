@@ -10,7 +10,6 @@ public class BulletController : MonoBehaviour
 
     public float speed = 4f;
 
-
     private void Start()
     {
         TryGetComponent(out rig);
@@ -38,6 +37,7 @@ public class BulletController : MonoBehaviour
         }
         else if(collision.collider)
         {
+
             gameObject.SetActive(false);
             BulletPooling.Instance.Bullets.Enqueue(gameObject);
         }

@@ -60,10 +60,9 @@ public class AIFindWeaponState : AIState
             agent.rig.weight = 1f;
 
             //나중에 rifle 정보 가지고 와서 바꾸기
-            agent.SelectRifleWeapons.SetActive(true);
             agent.enemyAudio.PlayReload();
 
-            MonoBehaviour.Destroy(pickup.gameObject);
+            //MonoBehaviour.Destroy(pickup.gameObject);
         }
     }
 
@@ -79,9 +78,14 @@ public class AIFindWeaponState : AIState
                 isPickup = true;
                 agent.isReady = true;
                 agent.isAmmoReady = true;
-                agent.SelectStartAim = agent.StartAim[(int)col.GetComponent<GunEnum>().gunState];
-                agent.SelectRifleWeapons = agent.rifleWeapons[(int)col.GetComponent<GunEnum>().gunState];
-                agent.Nowgundata = agent.gundata[(int)col.GetComponent<GunEnum>().gunState];
+                agent.CurrentGun = col.gameObject;
+                agent.CurrentGun.transform.SetParent(agent.GunPivot.transform);
+                agent.CurrentGun.transform.localPosition = Vector3.zero;
+                agent.CurrentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
+                agent.CurrentGun.GetComponent<Rigidbody>().isKinematic = true;
+                agent.CurrentGun.GetComponent<Rigidbody>().useGravity = false;
+                agent.CurrentGun_Gun = agent.CurrentGun.GetComponent<Gun>();
+                agent.Nowgundata = agent.gundata[(int)col.GetComponent<Gun>().gunType];
                 agent.magAmmo = agent.Nowgundata.magCapcity;
                 agent.ammoRemain += agent.Nowgundata.magCapcity;
             }
