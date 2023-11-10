@@ -15,11 +15,7 @@ public class InventoryController_C : MonoBehaviour
 
     [SerializeField] List<ItemData_C> item;
     [SerializeField] GameObject itemPrefab;
-    private int prefabNum;
-    private string TagName;
-    //[SerializeField] GameObject itemPrefab_wear; //wearable tag가 있는 아이템
-    //[SerializeField] GameObject itemPrefab_etc; // 다른 태그가 붙은 아이템
-
+    
     [SerializeField] Transform canvasT;
 
     private InventoryHighlight_C inventoryHighlight;
@@ -71,7 +67,7 @@ public class InventoryController_C : MonoBehaviour
         }
 
 
-        if (selectedItemGrid == null) //수정
+        if (selectedItemGrid == null) //수정?
         {
             inventoryHighlight.Show(false);
             return;
