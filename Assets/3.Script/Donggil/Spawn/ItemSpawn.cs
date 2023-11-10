@@ -41,7 +41,7 @@ public class ItemSpawn : MonoBehaviour
         rangeX = Random.Range((rangeX / 2) * -1, (rangeX / 2));
         rangeZ = Random.Range((rangeZ / 2) * -1, (rangeZ / 2));
 
-        Vector3 randomPos = new Vector3(rangeX, 0.8f, rangeZ);
+        Vector3 randomPos = new Vector3(rangeX, 1.0f, rangeZ);
 
         return randomPos;
     }

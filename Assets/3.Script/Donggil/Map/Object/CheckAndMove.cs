@@ -8,6 +8,8 @@ public class CheckAndMove : MonoBehaviour
     public Vector3 colliderPos = Vector3.zero;
     public Vector3 size = Vector3.zero;
 
+    public Layers layers;
+
     private void Update()
     {
         IsExistCollider();
@@ -15,16 +17,17 @@ public class CheckAndMove : MonoBehaviour
 
     private void IsExistCollider()
     {
+        int layerMask = 1 << (int)layers;
         Collider[] colliders;
         Vector3 objectCenter = colliderPos + transform.position;
-        colliders = Physics.OverlapBox(objectCenter, size / 2, transform.rotation, 1 << LayerMask.NameToLayer("Ground")) ;      //이 레이어만 탐지
+        colliders = Physics.OverlapBox(objectCenter, size / 2, transform.rotation, layerMask) ;      //이 레이어만 탐지
 
         foreach (Collider col in colliders)
         {
             if (col.CompareTag("Wall"))
             {
-                if (colliders.Length == 1) return;
-                else if (colliders.Length > 1)
+                if (colliders.Length == 0) return;
+                else if (colliders.Length > 0)
                 {
                     Vector3 closestPoint = col.ClosestPoint(objectCenter);
                     Vector3 dir = (closestPoint - objectCenter).normalized;
