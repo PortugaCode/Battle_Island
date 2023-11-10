@@ -70,7 +70,7 @@ public class InventoryControl : MonoBehaviour
     {
         for (int i = 0; i < inventory.Count; i++)
         {
-            Debug.Log(inventory[i].name);
+            Debug.Log($"아이템 이름 : {inventory[i].name}, 아이템 ID : {inventory[i].id}");
         }
     }
 

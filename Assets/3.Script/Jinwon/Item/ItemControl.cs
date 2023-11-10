@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemControl : MonoBehaviour
-{ 
+{
     [Header("Item ID")]
+    public string itemName;
     public int id;
 
     [Header("Status")]
@@ -24,9 +25,12 @@ public class ItemControl : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            canGet = false;
-            InventoryControl.instance.focusedItem = null;
-            UIManager.instance.CloseGetItemUI();
+            if (InventoryControl.instance.focusedItem == gameObject)
+            {
+                canGet = false;
+                InventoryControl.instance.focusedItem = null;
+                UIManager.instance.CloseGetItemUI();
+            }
         }
     }
 
@@ -39,7 +43,7 @@ public class ItemControl : MonoBehaviour
 
         UIManager.instance.CloseGetItemUI();
 
-        InventoryControl.instance.GetItem(name, id);
+        InventoryControl.instance.GetItem(itemName, id);
 
         Destroy(gameObject);
     }

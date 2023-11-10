@@ -85,7 +85,7 @@ public class UIManager : MonoBehaviour
             getItemUI.SetActive(true);
         }
         
-        getItemUI.transform.Find("Text").GetComponent<Text>().text = $"{item.name} 줍기";
+        getItemUI.transform.Find("Text").GetComponent<Text>().text = $"{item.GetComponent<ItemControl>().itemName} 줍기";
     }
 
     public void CloseGetItemUI()
