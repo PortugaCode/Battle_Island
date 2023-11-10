@@ -6,21 +6,28 @@ using UnityEngine.AI;
 public class HelicAgent : MonoBehaviour
 {
     [HideInInspector] public HelicStateMachine stateMachine;
-    [HideInInspector] public NavMeshAgent navMeshAgent;
 
     [Header("Helicopter StartState")]
     public HelicStateID initalState;
 
 
     [Header("TargetAim")]
+    public Transform OriginalTarget;
     public Transform AimTarget;
     public Transform BodyTarget;
+    public Transform PositionTarget;
 
     private void Awake()
     {
-        TryGetComponent(out navMeshAgent);
-
         stateMachine = new HelicStateMachine(this);
+
+        #region 상태추가
+
+        stateMachine.RegsisterState(new HelicRandomMoveState());
+        stateMachine.RegsisterState(new HelicChasePlayerState());
+
+        #endregion
+
 
         stateMachine.ChangeState(initalState);
     }
