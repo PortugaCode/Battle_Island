@@ -103,7 +103,7 @@ public class CombatControl : MonoBehaviour
         // [¿Á¿Â¿¸]
         if (currentWeapon == Weapon.Gun && !isReloading && Input.GetKeyDown(KeyCode.R))
         {
-            if (currentGun != null && currentGun.GetComponent<Gun>().currentMag != currentGun.GetComponent<Gun>().magSize)
+            if (currentGun != null && currentGun.GetComponent<Gun>().currentMag != currentGun.GetComponent<Gun>().magSize && InventoryControl.instance.CheckInventory(108))
             {
                 isReloading = true;
                 StartCoroutine(Reload_co());
