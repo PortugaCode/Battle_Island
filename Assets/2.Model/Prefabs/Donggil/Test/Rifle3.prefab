@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8306807265800687253}
   - component: {fileID: 8314640564606139193}
   - component: {fileID: 8347195634009381537}
+  - component: {fileID: 3605463074487491335}
   m_Layer: 0
   m_Name: Rifle3
   m_TagString: Untagged
@@ -100,6 +101,22 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43213239301437392, guid: 5c31457a4e4b94f42add436cfb76b0a0, type: 2}
+--- !u!54 &3605463074487491335
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8301308901008883399}
+  serializedVersion: 2
+  m_Mass: 3
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!1 &8301552591920684295
 GameObject:
   m_ObjectHideFlags: 0
