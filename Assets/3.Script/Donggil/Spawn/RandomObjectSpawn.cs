@@ -12,7 +12,7 @@ public class RandomObjectSpawn : MonoBehaviour
 
     public Collider spawnRange;
 
-    public float radius = 5.0f;
+    //public float radius = 5.0f;
 
 
     [Range(0, 500)]

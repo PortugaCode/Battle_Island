@@ -41,7 +41,7 @@ public class SpawnMountain : MonoBehaviour
             Vector3 spawnPosition = new Vector3(Random.Range((x / 2) * (-1), (x / 2)), -0.8f, Random.Range((z / 2) * (-1), (z / 2)));
 
             mountain = Instantiate(mountain_Prefabs[Random.Range(0, mountain_Prefabs.Length)], transform.position + spawnPosition, Quaternion.Euler(new Vector3(0, randomAngle, 0)), transform);
-            mountain.transform.localScale += new Vector3(0, Random.Range(1.0f, 4.0f), 0);
+            mountain.transform.localScale += new Vector3(0, Random.Range(1.0f, 3.0f), 0);
         }
 
     }

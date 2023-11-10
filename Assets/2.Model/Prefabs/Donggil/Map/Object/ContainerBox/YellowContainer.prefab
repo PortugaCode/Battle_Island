@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1927385598015375275}
   - component: {fileID: 3971141766118086985}
   - component: {fileID: 6495298348891317949}
-  m_Layer: 29
+  m_Layer: 0
   m_Name: LeftDoor_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 5783960573125517588}
   - component: {fileID: 1156064766648888619}
   - component: {fileID: 436574593276318897}
-  m_Layer: 29
+  m_Layer: 0
   m_Name: LeftDoor_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 5446474732591055992}
   - component: {fileID: 6917951636865071008}
   - component: {fileID: 5514218848353057949}
-  m_Layer: 29
+  m_Layer: 0
   m_Name: RightDoor_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -302,7 +302,7 @@ GameObject:
   - component: {fileID: 2598848554370307850}
   - component: {fileID: 6159445321463552692}
   - component: {fileID: 6159445321463552693}
-  m_Layer: 29
+  m_Layer: 0
   m_Name: YellowContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -324,6 +324,7 @@ Transform:
   - {fileID: 2369050160934353766}
   - {fileID: 6231116456892509881}
   - {fileID: 6508804668741339821}
+  - {fileID: 9175850392852149412}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -468,6 +469,73 @@ MonoBehaviour:
   - {fileID: 7192972293071038697, guid: 2469dd64ead073d48ae3588e783dbed6, type: 3}
   - {fileID: 6140428256164196479, guid: b8c7c39c0c04bc04bbbbae985128b8c9, type: 3}
   - {fileID: 1849495239616691531, guid: 1d07cf48b36ab7f4c864c435eeebbc55, type: 3}
+--- !u!1 &6299387070972736621
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9175850392852149412}
+  - component: {fileID: 1005197436443171710}
+  - component: {fileID: 3872316397175799253}
+  m_Layer: 0
+  m_Name: ItemSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9175850392852149412
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6299387070972736621}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4325617670282053428}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1005197436443171710
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6299387070972736621}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.2, z: 4}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3872316397175799253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6299387070972736621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e45cf4c67817cc24d8933f3a6f588535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GunPrefabs:
+  - {fileID: 2594569492079255030, guid: 186b4676d0640cf43ab07272c7a46c7a, type: 3}
+  - {fileID: 4928649075297080802, guid: 6648d35430a8c4742af5380214a8b821, type: 3}
+  - {fileID: 8301308901008883399, guid: a60aa6d61ffa24a4d9a27d9fe9a9e871, type: 3}
+  - {fileID: 5624450546489106789, guid: 2d28f9f6dfe3826438b5e4e878f00451, type: 3}
+  - {fileID: 2752994935547804718, guid: 2165ff8261390d441b98934a562efc42, type: 3}
+  rangeObject: {fileID: 6299387070972736621}
+  Gun_Object: {fileID: 9175850392852149412}
+  minItem: 2
+  maxItem: 6
 --- !u!1 &6302267452111802831
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,7 +548,7 @@ GameObject:
   - component: {fileID: 8667265981397799152}
   - component: {fileID: 9101839262621160546}
   - component: {fileID: 2379087356831431}
-  m_Layer: 29
+  m_Layer: 0
   m_Name: RightDoor_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
