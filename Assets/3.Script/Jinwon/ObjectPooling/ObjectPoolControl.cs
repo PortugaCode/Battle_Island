@@ -18,16 +18,20 @@ public class ObjectPoolControl : MonoBehaviour
         }
 
         bulletQueue = new Queue<GameObject>();
+        hitEffectQueue = new Queue<GameObject>();
 
         SetQueue();
     }
 
     [Header("Prefab")]
     [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private GameObject hitEffectPrefab;
 
     [Header("ObjectPool")]
     public int bulletCount = 30;
     public Queue<GameObject> bulletQueue;
+    public int hitEffectCount = 10;
+    public Queue<GameObject> hitEffectQueue;
 
     private void SetQueue()
     {
@@ -37,6 +41,14 @@ public class ObjectPoolControl : MonoBehaviour
             currentBullet.transform.SetParent(transform);
             currentBullet.SetActive(false);
             bulletQueue.Enqueue(currentBullet);
+        }
+
+        for (int i = 0; i < hitEffectCount; i++)
+        {
+            GameObject currentEffect = Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
+            currentEffect.transform.SetParent(transform);
+            currentEffect.SetActive(false);
+            hitEffectQueue.Enqueue(currentEffect);
         }
     }
 }
