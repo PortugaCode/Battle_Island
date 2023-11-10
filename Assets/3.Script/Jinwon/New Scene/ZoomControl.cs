@@ -69,7 +69,15 @@ public class ZoomControl : MonoBehaviour
         firstPersonCamera.gameObject.SetActive(true);
 
         // [1인칭 UI 출력]
-        UIManager.instance.FirstPersonRifleCrosshair(true);
+        if (GetComponent<CombatControl>().currentGun.GetComponent<Gun>().gunType == GunType.Rifle1 || GetComponent<CombatControl>().currentGun.GetComponent<Gun>().gunType == GunType.Rifle2)
+        {
+            UIManager.instance.FirstPersonRifleCrosshair(true);
+        }
+        else if (GetComponent<CombatControl>().currentGun.GetComponent<Gun>().gunType == GunType.Sniper1)
+        {
+            UIManager.instance.FirstPersonSniperCrosshair(true);
+        }
+        
     }
 
     public void First_ZoomOut()
@@ -88,7 +96,14 @@ public class ZoomControl : MonoBehaviour
         StartCoroutine(SetActivePlayerModel());
 
         // [1인칭 UI 출력]
-        UIManager.instance.FirstPersonRifleCrosshair(false);
+        if (GetComponent<CombatControl>().currentGun.GetComponent<Gun>().gunType == GunType.Rifle1 || GetComponent<CombatControl>().currentGun.GetComponent<Gun>().gunType == GunType.Rifle2)
+        {
+            UIManager.instance.FirstPersonRifleCrosshair(false);
+        }
+        else if (GetComponent<CombatControl>().currentGun.GetComponent<Gun>().gunType == GunType.Sniper1)
+        {
+            UIManager.instance.FirstPersonSniperCrosshair(false);
+        }
     }
 
     public void Third_ZoomIn()
@@ -98,12 +113,14 @@ public class ZoomControl : MonoBehaviour
         thirdPersonCamera.m_YAxis.Value = normalCamera.m_YAxis.Value - 0.1f;
         thirdPersonCamera.gameObject.SetActive(true);
 
-        // [1인칭 UI 출력]
-        UIManager.instance.ThirdPersonCrosshair(true);
+        if (GetComponent<CombatControl>().currentWeapon == Weapon.Gun)
+        {
+            // [1인칭 UI 출력]
+            UIManager.instance.ThirdPersonCrosshair(true);
 
-        // [애니메이션]
-        animator.SetBool("EquipGun", true);
-        animator.SetTrigger("Aim");
+            // [애니메이션]
+            animator.SetTrigger("Aim");
+        }
     }
 
     public void Third_ZoomOut()
@@ -113,12 +130,14 @@ public class ZoomControl : MonoBehaviour
         normalCamera.m_YAxis.Value = thirdPersonCamera.m_YAxis.Value + 0.1f;
         thirdPersonCamera.gameObject.SetActive(false);
 
-        // [1인칭 UI 출력]
-        UIManager.instance.ThirdPersonCrosshair(false);
+        if (GetComponent<CombatControl>().currentWeapon == Weapon.Gun)
+        {
+            // [1인칭 UI 출력]
+            UIManager.instance.ThirdPersonCrosshair(false);
 
-        // [애니메이션]
-        animator.SetBool("EquipGun", true);
-        animator.SetTrigger("UnAim");
+            // [애니메이션]
+            animator.SetTrigger("UnAim");
+        }
     }
 
     public void StartLookAround()

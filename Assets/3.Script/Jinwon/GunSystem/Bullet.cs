@@ -20,7 +20,7 @@ public class Bullet : MonoBehaviour
         TryGetComponent(out rb);
     }
 
-    private void Start()
+    private void OnEnable()
     {
         rb.velocity = transform.forward * bulletSpeed; // Bullet 앞으로 이동
     }
@@ -38,8 +38,14 @@ public class Bullet : MonoBehaviour
 
             if (!collision.collider.transform.root.CompareTag("Wall")) // 벽, 바닥에만 나오게 변경 필요
             {
-                GameObject hitEffect = Instantiate(hitEffectPrefab, collision.contacts[0].point, Quaternion.Euler(hitDirection));
-                Destroy(hitEffect, 0.5f);
+
+                if (ObjectPoolControl.instance.hitEffectQueue.Count > 0)
+                {
+                    GameObject currentHitEffect = ObjectPoolControl.instance.hitEffectQueue.Dequeue();
+                    currentHitEffect.transform.position = collision.contacts[0].point;
+                    currentHitEffect.transform.rotation = Quaternion.Euler(hitDirection);
+                    currentHitEffect.SetActive(true);
+                }
 
                 if (hit.point != null)
                 {
@@ -56,7 +62,9 @@ public class Bullet : MonoBehaviour
                 Recorder.instance.UpdateData(collision.collider.gameObject, transform.forward);
             }
 
-            Destroy(gameObject);
+            // 오브젝트 풀링
+            gameObject.SetActive(false);
+            ObjectPoolControl.instance.bulletQueue.Enqueue(gameObject);
         }
     }
 }
