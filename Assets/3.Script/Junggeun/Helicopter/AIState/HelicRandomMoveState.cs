@@ -11,7 +11,6 @@ public class HelicRandomMoveState : HelicState
 
     private float rotationspeed = 0.4f;
 
-    private Rigidbody rigidbody;
 
     public HelicStateID GetID()
     {
@@ -22,7 +21,6 @@ public class HelicRandomMoveState : HelicState
     public void Enter(HelicAgent agent)
     {
         point = GetRandomPoint();
-        agent.gameObject.TryGetComponent(out rigidbody);
 
     }
 
