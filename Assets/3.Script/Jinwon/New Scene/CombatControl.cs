@@ -126,15 +126,7 @@ public class CombatControl : MonoBehaviour
 
             currentWeapon = Weapon.Grenade;
 
-            animator.SetTrigger("UnEquip");
-            rig.GetComponent<Rig>().weight = 0f;
-
-            if (currentGun != null)
-            {
-                currentGun.transform.SetParent(backGunPivot);
-                currentGun.transform.localPosition = Vector3.zero;
-                currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
-            }
+            StartCoroutine(UnEquipGun_co());
         }
 
         // [마우스 입력]
@@ -348,6 +340,21 @@ public class CombatControl : MonoBehaviour
     public void EquipGun(GameObject gun)
     {
         currentGun = gun;
+    }
+
+    private IEnumerator UnEquipGun_co()
+    {
+        animator.SetTrigger("UnEquip");
+        rig.GetComponent<Rig>().weight = 0f;
+
+        yield return new WaitForSeconds(0.7f);
+
+        if (currentGun != null)
+        {
+            currentGun.transform.SetParent(backGunPivot);
+            currentGun.transform.localPosition = Vector3.zero;
+            currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        }
     }
 
     public void GunRecoil()
