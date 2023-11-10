@@ -16,7 +16,7 @@ public class ItemControl : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             canGet = true;
-            InventoryControl.instance.focusedItem = gameObject;
+            InventoryControl.instance.focusedItems.Add(gameObject);
             UIManager.instance.ShowGetItemUI(gameObject);
         }
     }
@@ -25,10 +25,11 @@ public class ItemControl : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (InventoryControl.instance.focusedItem == gameObject)
+            canGet = false;
+            InventoryControl.instance.focusedItems.Remove(gameObject);
+
+            if (InventoryControl.instance.focusedItems.Count == 0)
             {
-                canGet = false;
-                InventoryControl.instance.focusedItem = null;
                 UIManager.instance.CloseGetItemUI();
             }
         }
@@ -41,7 +42,16 @@ public class ItemControl : MonoBehaviour
             return;
         }
 
-        UIManager.instance.CloseGetItemUI();
+        InventoryControl.instance.focusedItems.RemoveAt(InventoryControl.instance.focusedItems.Count - 1);
+
+        if (InventoryControl.instance.focusedItems.Count == 0)
+        {
+            UIManager.instance.CloseGetItemUI();
+        }
+        else
+        {
+            UIManager.instance.ShowGetItemUI(InventoryControl.instance.focusedItems[InventoryControl.instance.focusedItems.Count - 1]);
+        }
 
         InventoryControl.instance.GetItem(itemName, id);
 

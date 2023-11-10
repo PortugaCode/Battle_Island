@@ -23,7 +23,7 @@ public class InventoryControl : MonoBehaviour
     [Header("Item")]
     private List<GameObject> nearItemList = new List<GameObject>(); // 주변 아이템 리스트
     public LayerMask itemLayer; // 아이템 체크할 레이어
-    public GameObject focusedItem; // 현재 포커스된 아이템
+    public List<GameObject> focusedItems; // 현재 콜라이더에 접촉된 아이템 리스트
 
     public struct Item
     {
@@ -42,9 +42,11 @@ public class InventoryControl : MonoBehaviour
 
     private void Update()
     {
-        if (focusedItem != null && Input.GetKeyDown(KeyCode.F))
+        //Debug.Log(focusedItems.Count);
+
+        if (focusedItems.Count > 0 && Input.GetKeyDown(KeyCode.F))
         {
-            focusedItem.GetComponent<ItemControl>().PickUpItem();
+            focusedItems[focusedItems.Count - 1].GetComponent<ItemControl>().PickUpItem();
         }
     }
 
