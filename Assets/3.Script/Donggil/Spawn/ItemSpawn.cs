@@ -11,7 +11,15 @@ public class ItemSpawn : MonoBehaviour
     public GameObject rangeObject;
     private BoxCollider rangeCollider;
 
+    [Header("부모오브젝트 설정")]
     [SerializeField] private Transform Gun_Object;
+
+    [Header("아이템 스폰 개수범위 설정")]
+    [Range(0, 10)]
+    [SerializeField] private int minItem;
+    [Range(0, 20)]
+    [SerializeField] private int maxItem;
+
 
     private void Awake()
     {
@@ -33,16 +41,16 @@ public class ItemSpawn : MonoBehaviour
         rangeX = Random.Range((rangeX / 2) * -1, (rangeX / 2));
         rangeZ = Random.Range((rangeZ / 2) * -1, (rangeZ / 2));
 
-        Vector3 randomPos = new Vector3(rangeX, transform.position.y, rangeZ);
+        Vector3 randomPos = new Vector3(rangeX, 0.8f, rangeZ);
 
         return randomPos;
     }
 
     private void SpawnGun()
     {
-        for (int i = 0; i < Random.Range(5, 11); i++)
+        for (int i = 0; i < Random.Range(minItem, maxItem); i++)
         {
-            GameObject gun = Instantiate(GunPrefabs[Random.Range(0, GunPrefabs.Length)], RandomPosition(), Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 90)));
+            GameObject gun = Instantiate(GunPrefabs[Random.Range(0, GunPrefabs.Length)], transform.position + RandomPosition(), Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 90)));
             gun.transform.SetParent(Gun_Object);
         }
     }

@@ -19,6 +19,7 @@ public class AIAgent : MonoBehaviour
     [HideInInspector] public RagDoll ragDoll;
     [HideInInspector] public SkinnedMeshRenderer mesh;
     [HideInInspector] public UIHealthBar ui;
+    [HideInInspector] public Animator animator;
     [HideInInspector] public Transform playerTarget;
 
     [HideInInspector] public bool isneedReload = false;
@@ -54,11 +55,14 @@ public class AIAgent : MonoBehaviour
     public TwoBoneIKConstraint twoBoneIK;
 
     [Header("rifleData")]
-    public GameObject[] rifleWeapons;
-    public Transform[] StartAim;
+    //public GameObject[] rifleWeapons;
+    //public Transform[] StartAim;
+    public GameObject CurrentGun;
+    public Gun CurrentGun_Gun;
+    public GameObject GunPivot;
     public GameObject Bullet;
-    [HideInInspector] public GameObject SelectRifleWeapons;
-    [HideInInspector] public Transform SelectStartAim;
+    //[HideInInspector] public GameObject SelectRifleWeapons;
+    //[HideInInspector] public Transform SelectStartAim;
 
     [Header("ArmorData")]
     public GameObject[] Armor;
@@ -76,11 +80,7 @@ public class AIAgent : MonoBehaviour
 
     private void Awake()
     {
-        //총기 SetActive false 작업
-        for (int i =0; i < rifleWeapons.Length; i++)
-        {
-            rifleWeapons[i].SetActive(false);
-        }
+
 
         //방어구 SetActive false 작업
         for (int i = 0; i < Armor.Length; i++)
@@ -96,6 +96,7 @@ public class AIAgent : MonoBehaviour
         TryGetComponent(out navMeshAgent);
         TryGetComponent(out ragDoll);
         TryGetComponent(out enemyAudio);
+        TryGetComponent(out animator);
         mesh = GetComponentInChildren<SkinnedMeshRenderer>();
         ui = GetComponentInChildren<UIHealthBar>();
         if(GameObject.FindGameObjectWithTag("Player"))
@@ -150,8 +151,8 @@ public class AIAgent : MonoBehaviour
                 lineRenderer.enabled = true;
                 lineRenderer.enabled = false;
         */
-        FireLight.transform.position = SelectStartAim.position;
-        FireLight.transform.rotation = SelectStartAim.rotation;
+        FireLight.transform.position = CurrentGun_Gun.muzzleTransform.position;
+        FireLight.transform.rotation = CurrentGun_Gun.muzzleTransform.rotation;
         FireLight.SetActive(true);
         yield return new WaitForSeconds(0.03f);
         FireLight.SetActive(false);

@@ -12,7 +12,7 @@ public class OpenInvent : MonoBehaviour
     }
     private void Update()
     {
-        if (!Open && Input.GetKeyDown(KeyCode.I))
+        if (!Open && Input.GetKeyDown(KeyCode.E))
         {
             Inventory_ON();
         }
@@ -20,7 +20,7 @@ public class OpenInvent : MonoBehaviour
         {
             Inventory_OFF();
         }
-        else if (Open && Input.GetKeyDown(KeyCode.I))
+        else if (Open && Input.GetKeyDown(KeyCode.E))
         {
             Inventory_OFF();
         }

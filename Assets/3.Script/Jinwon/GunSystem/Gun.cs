@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GunType // ÃÑ Å¸ÀÔ
+public enum GunType // ì´ íƒ€ì…
 {
     Rifle1,
     Rifle2,
@@ -19,14 +19,17 @@ public class Gun : MonoBehaviour
     private CombatControl combatControl;
     private float timer;
 
+    [Header("Enemy")]
+    private float lastFireTime;
+
     [Header("Both")]
-    [SerializeField] protected GunData[] gunDatas;
-    public GunType gunType; // ÃÑ Å¸ÀÔ
-    protected float damage; // µ¥¹ÌÁö
-    protected float coolDown; // ¹ß»ç ÄğÅ¸ÀÓ
-    public int magSize; // ÅºÃ¢ ¿ë·®
-    public int currentMag; // ÇöÀç ÅºÃ¢¿¡ ÀÖ´Â ÃÑ¾Ë °³¼ö
-    public bool canShoot; // ¹ß»ç °¡´É ¿©ºÎ
+    [SerializeField] public GunData[] gunDatas;
+    public GunType gunType; // ì´ íƒ€ì…
+    protected float damage; // ë°ë¯¸ì§€
+    protected float coolDown; // ë°œì‚¬ ì¿¨íƒ€ì„
+    public int magSize; // íƒ„ì°½ ìš©ëŸ‰
+    public int currentMag; // í˜„ì¬ íƒ„ì°½ì— ìˆëŠ” ì´ì•Œ ê°œìˆ˜
+    public bool canShoot; // ë°œì‚¬ ê°€ëŠ¥ ì—¬ë¶€
 
     private void Update()
     {
@@ -48,7 +51,7 @@ public class Gun : MonoBehaviour
         combatControl = player.GetComponent<CombatControl>();
     }
 
-    public virtual void PlayerShoot() // ÇÃ·¹ÀÌ¾î ¹ß»ç ¸Ş¼­µå
+    public virtual void PlayerShoot() // í”Œë ˆì´ì–´ ë°œì‚¬ ë©”ì„œë“œ
     {
         if (canShoot && currentMag > 0)
         {
@@ -58,17 +61,17 @@ public class Gun : MonoBehaviour
 
             UIManager.instance.UpdateAmmoText(currentMag); // Test
 
-            Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2.0f, Screen.height / 2.0f)); // È­¸é Áß¾Ó (Å©·Î½ºÇì¾î À§Ä¡)¿¡ Ray ½î±â
+            Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2.0f, Screen.height / 2.0f)); // í™”ë©´ ì¤‘ì•™ (í¬ë¡œìŠ¤í—¤ì–´ ìœ„ì¹˜)ì— Ray ì˜ê¸°
             if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f))
             {
-                // Bullet »ı¼º
-                if (combatControl.isFirstPerson) // 1ÀÎÄª ½ÃÁ¡ÀÏ ¶§ Ä«¸Ş¶ó Á¶±İ ¾Õ¿¡¼­ ¹ß»ç
+                // Bullet ìƒì„±
+                if (combatControl.isFirstPerson) // 1ì¸ì¹­ ì‹œì ì¼ ë•Œ ì¹´ë©”ë¼ ì¡°ê¸ˆ ì•ì—ì„œ ë°œì‚¬
                 {
                     Vector3 forwardDirection = (raycastHit.point - zoomControl.firstPersonCamera.transform.position).normalized * 0.75f;
 
                     Vector3 muzzleFlashPosition = new Vector3(zoomControl.firstPersonCamera.transform.position.x, zoomControl.firstPersonCamera.transform.position.y - 0.05f, zoomControl.firstPersonCamera.transform.position.z) + forwardDirection;
 
-                    // ¿ÀºêÁ§Æ® Ç®¸µ
+                    // ì˜¤ë¸Œì íŠ¸ í’€ë§
                     if (ObjectPoolControl.instance.bulletQueue.Count > 0)
                     {
                         GameObject currentBullet = ObjectPoolControl.instance.bulletQueue.Dequeue();
@@ -84,9 +87,9 @@ public class Gun : MonoBehaviour
                     muzzleFlashEffect.transform.forward = forwardDirection;
                     Destroy(muzzleFlashEffect, 0.5f);
                 }
-                else if (combatControl.isThirdPerson) // 3ÀÎÄª ½ÃÁ¡ÀÏ ¶§ ÃÑ±¸¿¡¼­ ¹ß»ç
+                else if (combatControl.isThirdPerson) // 3ì¸ì¹­ ì‹œì ì¼ ë•Œ ì´êµ¬ì—ì„œ ë°œì‚¬
                 {
-                    // ¿ÀºêÁ§Æ® Ç®¸µ
+                    // ì˜¤ë¸Œì íŠ¸ í’€ë§
                     if (ObjectPoolControl.instance.bulletQueue.Count > 0)
                     {
                         GameObject currentBullet = ObjectPoolControl.instance.bulletQueue.Dequeue();
@@ -106,7 +109,7 @@ public class Gun : MonoBehaviour
         }
     }
 
-    public virtual void PlayerReload() // ÇÃ·¹ÀÌ¾î ÀçÀåÀü ¸Ş¼­µå
+    public virtual void PlayerReload() // í”Œë ˆì´ì–´ ì¬ì¥ì „ ë©”ì„œë“œ
     {
         if (InventoryControl.instance.ammo > 0)
         {
@@ -127,13 +130,66 @@ public class Gun : MonoBehaviour
         UIManager.instance.UpdateAmmoText(currentMag); // Test
     }
 
-    public virtual void EnemyShoot() // Àû AI ¹ß»ç ¸Ş¼­µå
+    public virtual void EnemyShoot(AIAgent agent) // ì  AI ë°œì‚¬ ë©”ì„œë“œ
+    {
+        Fire(agent);
+    }
+
+    public virtual void EnemyReload() // ì  ì¬ì¥ì „ ë©”ì„œë“œ
     {
 
     }
 
-    public virtual void EnemyReload() // Àû ÀçÀåÀü ¸Ş¼­µå
+
+    private void Fire(AIAgent agent)
+    {
+        if (Time.time >= lastFireTime + agent.Nowgundata.timebetFire)
+        {
+            lastFireTime = Time.time;
+
+            Shot(agent);
+            agent.isShot = true;
+        }
+    }
+
+    private void Shot(AIAgent agent)
     {
 
+        Debug.Log("ë°œì‚¬");
+
+        GameObject b = BulletPooling.Instance.Bullets.Dequeue();
+        b.gameObject.SetActive(true);
+        b.transform.position = agent.CurrentGun_Gun.muzzleTransform.position;
+        b.transform.rotation = agent.CurrentGun_Gun.muzzleTransform.rotation;
+
+
+        agent.FireEffect.transform.position = muzzleTransform.position;
+        agent.FireEffect1.transform.position = transform.position;
+        agent.FireEffect.Play();
+        agent.FireEffect1.Play();
+        agent.animator.SetTrigger("Fire");
+        agent.enemyAudio.PlayShot();
+        agent.FireEffect2.transform.position = agent.hit.point;
+
+        if (agent.hit.collider)
+        {
+            if (agent.hit.collider.CompareTag("Wall"))
+            {
+                agent.FireEffect2.Play();
+            }
+        }
+
+        agent.magAmmo--;
+
+
+        //GameObject b = MonoBehaviour.Instantiate(agent.Bullet, agent.SelectStartAim.position, agent.SelectStartAim.transform.rotation);
+
+
+        /*        Vector3 direction = b.transform.position - agent.AimTarget.position;
+                direction.Normalize();
+                b.transform.forward = direction;
+        
+                 GameObject light = MonoBehaviour.Instantiate(agent.FireLight, agent.SelectStartAim.position, Quaternion.identity);
+        MonoBehaviour.Destroy(light, 0.03f);*/
     }
 }

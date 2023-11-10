@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 160955830294838396}
   - component: {fileID: 148903707414797746}
   - component: {fileID: 191130790399065404}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Env_Road_Straight_Damaged_01
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 160924843365693811}
   - component: {fileID: 148697521003735123}
   - component: {fileID: 190657415739079917}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Env_Road_Straight_Damaged_03
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -202,7 +202,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7873755154966761284}
   - component: {fileID: 2842711980923807599}
-  m_Layer: 0
+  - component: {fileID: 359804142547402142}
+  m_Layer: 6
   m_Name: Road_01
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -238,3 +239,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 12, y: 0.2, z: 10}
   m_Center: {x: 0, y: -0.1, z: 0}
+--- !u!114 &359804142547402142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203779448875967914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dad55641a1f637c498b5424d7f0d9fb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  car: {fileID: 3145407891967639577, guid: 44a169ec02ad22f4a9d5afa8ab7eaf2b, type: 3}
+  destroyedCar: {fileID: 3417063509838652424, guid: 084d3fdab42780c4b8bac22ec8e3ebf2, type: 3}

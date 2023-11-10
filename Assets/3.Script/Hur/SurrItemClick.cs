@@ -19,4 +19,6 @@ public class SurrItemClick : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         image.color = Color.white;
     }
+
+    
 }

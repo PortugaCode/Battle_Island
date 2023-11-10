@@ -19,9 +19,6 @@ public class AIStateMachine
     {
         int index = (int)state.GetID();
         states[index] = state;
-
-        Debug.Log(state.GetID());
-        Debug.Log(index);
     }
 
     public AIState GetState(AiStateID stateID)
