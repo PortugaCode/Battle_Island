@@ -270,9 +270,9 @@ GameObject:
   - component: {fileID: 4159940586126187347}
   - component: {fileID: 4150735092954837769}
   - component: {fileID: 4119552697693377007}
-  m_Layer: 29
+  m_Layer: 6
   m_Name: Plane_Destroyed_01
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -439,6 +439,36 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &4661101025808171455
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7982239633055265241}
+  m_Layer: 0
+  m_Name: Object
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7982239633055265241
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4661101025808171455}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5783881322094330241}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5647663094713716624
 GameObject:
   m_ObjectHideFlags: 0
@@ -450,6 +480,7 @@ GameObject:
   - component: {fileID: 5783881322094330241}
   - component: {fileID: 4639994774133774138}
   - component: {fileID: 4365431206695162263}
+  - component: {fileID: 5746167382103648419}
   m_Layer: 0
   m_Name: Destroyed_Plane
   m_TagString: Untagged
@@ -469,6 +500,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4161394227612416969}
+  - {fileID: 7982239633055265241}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -492,10 +524,33 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5647663094713716624}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 730efdd2e75b9be4cb8d1237c81796de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   colliderPos: {x: 0, y: 0, z: -12}
   size: {x: 50, y: 3, z: 60}
+--- !u!114 &5746167382103648419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5647663094713716624}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e45cf4c67817cc24d8933f3a6f588535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GunPrefabs:
+  - {fileID: 4563461212839562471, guid: c5149659afa45334dac8e79ee80c9734, type: 3}
+  - {fileID: 2499894420874039497, guid: a4dde0845b880734dac45c5f688b071e, type: 3}
+  - {fileID: 8972376327654655725, guid: 139345eac81d1084fb3323b95387ee75, type: 3}
+  - {fileID: 6960757879665262623, guid: 3255fcd0628b5ee4eae7968d582a00b4, type: 3}
+  - {fileID: 1260313111053036828, guid: 7f37d5b3e2245514cadaa6a04be4ae50, type: 3}
+  - {fileID: 6561935326744290184, guid: 6804249edaf0df542b849afcd833879f, type: 3}
+  rangeObject: {fileID: 5647663094713716624}
+  Gun_Object: {fileID: 7982239633055265241}
+  minItem: 7
+  maxItem: 10

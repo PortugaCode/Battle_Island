@@ -28,26 +28,39 @@ public class CheckObject : MonoBehaviour
         {
             colliders = Physics.OverlapSphere(gameObj.transform.position, radius * scale.gameObject.transform.localScale.x, 1 << LayerMask.NameToLayer("Donggil"));
             //만약 레이어 이름이 ~~ 인 콜라이더가 내부에 없을경우
-            if (colliders.Length == 1)      //1은 자기자신도 포함하기 때문
+            foreach (Collider col in colliders)
             {
-                gameObj.SetActive(true);
-            }
-            //만약 레이어 이름이 ~~ 인 콜라이더가 내부에 있을경우
-            else if (colliders.Length > 1)
-            {
-                gameObj.SetActive(false);
+                if (col.CompareTag("Wall") || col.CompareTag("Grenade"))
+                {
+                    if (colliders.Length == 1)      //1은 자기자신도 포함하기 때문
+                    {
+                        gameObj.SetActive(true);
+                    }
+                    //만약 레이어 이름이 ~~ 인 콜라이더가 내부에 있을경우
+                    else if (colliders.Length > 1)
+                    {
+                        gameObj.SetActive(false);
+                    }
+                }
             }
         }
         else
         {
             colliders = Physics.OverlapSphere(gameObj.transform.position, radius, 1 << LayerMask.NameToLayer("Donggil"));
-            if (colliders.Length == 1)
+            foreach (Collider col in colliders)
             {
-                gameObj.SetActive(true);
-            }
-            else if (colliders.Length > 1)
-            {
-                gameObj.SetActive(false);
+                if (col.CompareTag("Wall") || col.CompareTag("Grenade"))
+                {
+                    if (colliders.Length == 1)      //1은 자기자신도 포함하기 때문
+                    {
+                        gameObj.SetActive(true);
+                    }
+                    //만약 레이어 이름이 ~~ 인 콜라이더가 내부에 있을경우
+                    else if (colliders.Length > 1)
+                    {
+                        gameObj.SetActive(false);
+                    }
+                }
             }
         }
 

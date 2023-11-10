@@ -17,7 +17,7 @@ public class CheckAndMove : MonoBehaviour
     {
         Collider[] colliders;
         Vector3 objectCenter = colliderPos + transform.position;
-        colliders = Physics.OverlapBox(objectCenter, size / 2, transform.rotation, 1 << LayerMask.NameToLayer("Ground")) ;
+        colliders = Physics.OverlapBox(objectCenter, size / 2, transform.rotation, 1 << LayerMask.NameToLayer("Ground")) ;      //이 레이어만 탐지
 
         foreach (Collider col in colliders)
         {
