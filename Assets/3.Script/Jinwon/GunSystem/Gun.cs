@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GunType // √— ≈∏¿‘
+public enum GunType // Ï¥ù ÌÉÄÏûÖ
 {
     Rifle1,
     Rifle2,
@@ -13,19 +13,36 @@ public class Gun : MonoBehaviour
 {
     [Header("Player")]
     private GameObject player;
-    [SerializeField] private Transform muzzleTransform;
-    [SerializeField] private GameObject bulletPrefab;
+    public Transform muzzleTransform;
     [SerializeField] private GameObject muzzleFlashEffectPrefab;
     private ZoomControl zoomControl;
     private CombatControl combatControl;
+    private float timer;
+
+    [Header("Enemy")]
+    private float lastFireTime;
 
     [Header("Both")]
-    [SerializeField] protected GunData[] gunDatas;
-    protected GunType gunType; // √— ≈∏¿‘
-    protected float damage; // µ•πÃ¡ˆ
-    protected float coolDown; // πﬂªÁ ƒ≈∏¿”
-    protected int magSize; // ≈∫√¢ øÎ∑Æ
-    protected bool canShoot; // πﬂªÁ ∞°¥… ø©∫Œ
+    [SerializeField] public GunData[] gunDatas;
+    public GunType gunType; // Ï¥ù ÌÉÄÏûÖ
+    protected float damage; // Îç∞ÎØ∏ÏßÄ
+    protected float coolDown; // Î∞úÏÇ¨ Ïø®ÌÉÄÏûÑ
+    public int magSize; // ÌÉÑÏ∞Ω Ïö©Îüâ
+    public int currentMag; // ÌòÑÏû¨ ÌÉÑÏ∞ΩÏóê ÏûàÎäî Ï¥ùÏïå Í∞úÏàò
+    public bool canShoot; // Î∞úÏÇ¨ Í∞ÄÎä• Ïó¨Î∂Ä
+
+    private void Update()
+    {
+        if (!canShoot && timer > 0)
+        {
+            timer -= Time.deltaTime;
+        }
+
+        if (timer < 0)
+        {
+            canShoot = true;
+        }
+    }
 
     private void Start()
     {
@@ -34,79 +51,145 @@ public class Gun : MonoBehaviour
         combatControl = player.GetComponent<CombatControl>();
     }
 
-    public virtual void PlayerShoot() // «√∑π¿ÃæÓ πﬂªÁ ∏ﬁº≠µÂ
+    public virtual void PlayerShoot() // ÌîåÎ†àÏù¥Ïñ¥ Î∞úÏÇ¨ Î©îÏÑúÎìú
     {
-        if (canShoot)
+        if (canShoot && currentMag > 0)
         {
-            StartCoroutine(PlayerShoot_co());
-        }
-    }
+            canShoot = false;
+            timer = coolDown;
+            currentMag -= 1;
 
-    private IEnumerator PlayerShoot_co()
-    {
-        float timer = coolDown; // πﬂªÁ ƒ≈∏¿”
+            UIManager.instance.UpdateAmmoText(currentMag); // Test
 
-        canShoot = false;
-
-        Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2.0f, Screen.height / 2.0f)); // »≠∏È ¡ﬂæ” (≈©∑ŒΩ∫«ÏæÓ ¿ßƒ°)ø° Ray ΩÓ±‚
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f))
-        {
-            // Bullet ª˝º∫
-            if (combatControl.isFirstPerson) // 1¿Œƒ™ Ω√¡°¿œ ∂ß ƒ´∏ﬁ∂Û ¡∂±› æ’ø°º≠ πﬂªÁ
+            Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2.0f, Screen.height / 2.0f)); // ÌôîÎ©¥ Ï§ëÏïô (ÌÅ¨Î°úÏä§Ìó§Ïñ¥ ÏúÑÏπò)Ïóê Ray ÏèòÍ∏∞
+            if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f))
             {
-                Vector3 forwardDirection = (raycastHit.point - zoomControl.firstPersonCamera.transform.position).normalized * 0.75f;
+                // Bullet ÏÉùÏÑ±
+                if (combatControl.isFirstPerson) // 1Ïù∏Ïπ≠ ÏãúÏ†êÏùº Îïå Ïπ¥Î©îÎùº Ï°∞Í∏à ÏïûÏóêÏÑú Î∞úÏÇ¨
+                {
+                    Vector3 forwardDirection = (raycastHit.point - zoomControl.firstPersonCamera.transform.position).normalized * 0.75f;
 
-                Vector3 muzzleFlashPosition = new Vector3(zoomControl.firstPersonCamera.transform.position.x, zoomControl.firstPersonCamera.transform.position.y - 0.05f, zoomControl.firstPersonCamera.transform.position.z) + forwardDirection;
+                    Vector3 muzzleFlashPosition = new Vector3(zoomControl.firstPersonCamera.transform.position.x, zoomControl.firstPersonCamera.transform.position.y - 0.05f, zoomControl.firstPersonCamera.transform.position.z) + forwardDirection;
 
-                GameObject currentBullet = Instantiate(bulletPrefab, zoomControl.firstPersonCamera.transform.position + forwardDirection, Quaternion.identity);
-                currentBullet.transform.forward = forwardDirection;
-                currentBullet.GetComponent<Bullet>().bulletDamage = damage;
-                currentBullet.GetComponent<Bullet>().hit = raycastHit;
-                currentBullet.GetComponentInChildren<TrailRenderer>().enabled = false;
+                    // Ïò§Î∏åÏ†ùÌä∏ ÌíÄÎßÅ
+                    if (ObjectPoolControl.instance.bulletQueue.Count > 0)
+                    {
+                        GameObject currentBullet = ObjectPoolControl.instance.bulletQueue.Dequeue();
+                        currentBullet.transform.position = zoomControl.firstPersonCamera.transform.position + forwardDirection;
+                        currentBullet.transform.forward = forwardDirection;
+                        currentBullet.GetComponent<Bullet>().bulletDamage = damage;
+                        currentBullet.GetComponent<Bullet>().hit = raycastHit;
+                        currentBullet.GetComponentInChildren<TrailRenderer>().enabled = false;
+                        currentBullet.SetActive(true);
+                    }
 
-                GameObject muzzleFlashEffect = Instantiate(muzzleFlashEffectPrefab, muzzleFlashPosition, Quaternion.identity);
-                muzzleFlashEffect.transform.forward = forwardDirection;
-                Destroy(muzzleFlashEffect, 0.5f);
-            }
-            else if (combatControl.isThirdPerson) // 3¿Œƒ™ Ω√¡°¿œ ∂ß √—±∏ø°º≠ πﬂªÁ
-            {
-                GameObject currentBullet = Instantiate(bulletPrefab, muzzleTransform.position, Quaternion.identity);
-                currentBullet.transform.forward = raycastHit.point - muzzleTransform.position;
-                currentBullet.GetComponent<Bullet>().bulletDamage = damage;
-                currentBullet.GetComponent<Bullet>().hit = raycastHit;
+                    GameObject muzzleFlashEffect = Instantiate(muzzleFlashEffectPrefab, muzzleFlashPosition, Quaternion.identity);
+                    muzzleFlashEffect.transform.forward = forwardDirection;
+                    Destroy(muzzleFlashEffect, 0.5f);
+                }
+                else if (combatControl.isThirdPerson) // 3Ïù∏Ïπ≠ ÏãúÏ†êÏùº Îïå Ï¥ùÍµ¨ÏóêÏÑú Î∞úÏÇ¨
+                {
+                    // Ïò§Î∏åÏ†ùÌä∏ ÌíÄÎßÅ
+                    if (ObjectPoolControl.instance.bulletQueue.Count > 0)
+                    {
+                        GameObject currentBullet = ObjectPoolControl.instance.bulletQueue.Dequeue();
+                        currentBullet.transform.position = muzzleTransform.position;
+                        currentBullet.transform.forward = raycastHit.point - muzzleTransform.position;
+                        currentBullet.GetComponent<Bullet>().bulletDamage = damage;
+                        currentBullet.GetComponent<Bullet>().hit = raycastHit;
+                        currentBullet.GetComponentInChildren<TrailRenderer>().enabled = true;
+                        currentBullet.SetActive(true);
+                    }
 
-                GameObject muzzleFlashEffect = Instantiate(muzzleFlashEffectPrefab, muzzleTransform.position, Quaternion.identity);
-                muzzleFlashEffect.transform.forward = raycastHit.point - muzzleTransform.position;
-                Destroy(muzzleFlashEffect, 0.5f);
+                    GameObject muzzleFlashEffect = Instantiate(muzzleFlashEffectPrefab, muzzleTransform.position, Quaternion.identity);
+                    muzzleFlashEffect.transform.forward = raycastHit.point - muzzleTransform.position;
+                    Destroy(muzzleFlashEffect, 0.5f);
+                }
             }
         }
+    }
 
-        //
-        // ≥≤¿∫ √—æÀ ∞ËªÍ « ø‰
-        //
-
-        // ƒ≈∏¿” ∞ËªÍ
-        while (timer > 0)
+    public virtual void PlayerReload() // ÌîåÎ†àÏù¥Ïñ¥ Ïû¨Ïû•Ï†Ñ Î©îÏÑúÎìú
+    {
+        if (InventoryControl.instance.ammo > 0)
         {
-            timer -= Time.deltaTime;
-            yield return null;
+            if (InventoryControl.instance.ammo >= magSize - currentMag)
+            {
+                int needAmmo = magSize - currentMag;
+
+                InventoryControl.instance.ammo -= needAmmo;
+                currentMag = magSize;
+            }
+            else
+            {
+                currentMag += InventoryControl.instance.ammo;
+                InventoryControl.instance.ammo = 0;
+            }
         }
 
-        canShoot = true;
+        UIManager.instance.UpdateAmmoText(currentMag); // Test
     }
 
-    public virtual void PlayerReload() // «√∑π¿ÃæÓ ¿Á¿Â¿¸ ∏ﬁº≠µÂ
+    public virtual void EnemyShoot(AIAgent agent) // Ï†Å AI Î∞úÏÇ¨ Î©îÏÑúÎìú
+    {
+        Fire(agent);
+    }
+
+    public virtual void EnemyReload() // Ï†Å Ïû¨Ïû•Ï†Ñ Î©îÏÑúÎìú
     {
 
     }
 
-    public virtual void EnemyShoot() // ¿˚ AI πﬂªÁ ∏ﬁº≠µÂ
-    {
 
+    private void Fire(AIAgent agent)
+    {
+        if (Time.time >= lastFireTime + agent.Nowgundata.timebetFire)
+        {
+            lastFireTime = Time.time;
+
+            Shot(agent);
+            agent.isShot = true;
+        }
     }
 
-    public virtual void EnemyReload() // ¿˚ ¿Á¿Â¿¸ ∏ﬁº≠µÂ
+    private void Shot(AIAgent agent)
     {
 
+        Debug.Log("Î∞úÏÇ¨");
+
+        GameObject b = BulletPooling.Instance.Bullets.Dequeue();
+        b.gameObject.SetActive(true);
+        b.transform.position = agent.CurrentGun_Gun.muzzleTransform.position;
+        b.transform.rotation = agent.CurrentGun_Gun.muzzleTransform.rotation;
+
+
+        agent.FireEffect.transform.position = muzzleTransform.position;
+        agent.FireEffect1.transform.position = transform.position;
+        agent.FireEffect.Play();
+        agent.FireEffect1.Play();
+        agent.animator.SetTrigger("Fire");
+        agent.enemyAudio.PlayShot();
+        agent.FireEffect2.transform.position = agent.hit.point;
+
+        if (agent.hit.collider)
+        {
+            if (agent.hit.collider.CompareTag("Wall"))
+            {
+                agent.FireEffect2.Play();
+            }
+        }
+
+        agent.magAmmo--;
+
+
+        //GameObject b = MonoBehaviour.Instantiate(agent.Bullet, agent.SelectStartAim.position, agent.SelectStartAim.transform.rotation);
+
+
+        /*        Vector3 direction = b.transform.position - agent.AimTarget.position;
+                direction.Normalize();
+                b.transform.forward = direction;
+        
+                 GameObject light = MonoBehaviour.Instantiate(agent.FireLight, agent.SelectStartAim.position, Quaternion.identity);
+        MonoBehaviour.Destroy(light, 0.03f);*/
     }
 }

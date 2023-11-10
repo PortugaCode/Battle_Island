@@ -7,7 +7,7 @@ public class DrawProjection : MonoBehaviour
     private LineRenderer lineRenderer;
 
     // Number of points on the line
-    public int numPoints = 10;
+    public int numPoints = 30;
 
     // distance between those points on the line
     public float timeBetweenPoints = 0.1f;
@@ -17,9 +17,12 @@ public class DrawProjection : MonoBehaviour
 
     public bool drawProjection = false;
 
+    private CombatControl cc;
+
     void Start()
     {
         TryGetComponent(out lineRenderer);
+        TryGetComponent(out cc);
     }
 
     void Update()
@@ -36,9 +39,9 @@ public class DrawProjection : MonoBehaviour
 
         lineRenderer.positionCount = (int)numPoints;
         List<Vector3> points = new List<Vector3>();
-        //Vector3 startingPosition = tpsControl.grenadePivot.position;
-        //Vector3 startingVelocity = tpsControl.throwDirection * tpsControl.throwPower;
-        /*for (float t = 0; t < numPoints; t += timeBetweenPoints)
+        Vector3 startingPosition = cc.grenadePivot.position;
+        Vector3 startingVelocity = cc.throwDirection * cc.throwPower;
+        for (float t = 0; t < numPoints; t += timeBetweenPoints)
         {
             Vector3 newPoint = startingPosition + t * startingVelocity;
             newPoint.y = startingPosition.y + startingVelocity.y * t + Physics.gravity.y / 2f * t * t;
@@ -49,7 +52,7 @@ public class DrawProjection : MonoBehaviour
                 lineRenderer.positionCount = points.Count;
                 break;
             }
-        }*/
+        }
         lineRenderer.SetPositions(points.ToArray());
     }
 }

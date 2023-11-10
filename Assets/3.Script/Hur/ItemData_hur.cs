@@ -38,7 +38,6 @@ using UnityEngine.UI;
    *      입력값
    */
 #endregion
-
 public class ItemData_hur
 {
     public bool notice; //감지
@@ -46,6 +45,7 @@ public class ItemData_hur
     public int itemID;
     public string itemName;
     public bool isUsed; //사용했나요?
+    public int itemCount;
     
     public ItemType itemType; // 아이템 종류 타입
     public UsingType usingType; // 아이템 쓸모 타입
@@ -60,7 +60,8 @@ public class ItemData_hur
         Consumable, Wearable
     }
 
-    public ItemData_hur(bool _notice, int _itemID, string _itemName, bool _isUsed, ItemType _itemType, UsingType _usingType)
+    public ItemData_hur(bool _notice, int _itemID, string _itemName, bool _isUsed, ItemType _itemType, UsingType _usingType, int _count)
+        //초기화
     {
         notice = _notice;
         itemID = _itemID;
@@ -69,5 +70,6 @@ public class ItemData_hur
         itemType = _itemType;
         usingType = _usingType;
         itemIcon = Resources.Load("resource_hur/" + _itemID.ToString(), typeof(Sprite)) as Sprite;
+        itemCount = _count;
     }
 }

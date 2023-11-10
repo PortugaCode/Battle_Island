@@ -54,6 +54,11 @@ public class CharacterMovement : MonoBehaviour
             GetInput();
             GroundCheck();
         }
+
+        if (Input.GetKeyDown(KeyCode.Insert)) // TEST
+        {
+            InventoryControl.instance.ShowInventory();
+        }
     }
 
     private void FixedUpdate()

@@ -25,6 +25,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject inventoryPanel; // 인벤토리 패널
     [SerializeField] private GameObject itemTextPrefab; // 텍스트 생성용 프리팹
     [SerializeField] private GameObject contentUI; // 텍스트가 담길 부모 UI 오브젝트
+    [SerializeField] private GameObject getItemUI; // 아이템 줍기 UI
+    [SerializeField] private GameObject ammoText; // 총알 표시 UI
 
     public void FirstPersonRifleCrosshair(bool on) // Rifle UI Toggle
     {
@@ -75,5 +77,28 @@ public class UIManager : MonoBehaviour
             GameObject currentText = Instantiate(itemTextPrefab, transform.position, Quaternion.identity, contentUI.transform);
             currentText.GetComponent<Text>().text = nearItems[i].name;
         }
+    }
+
+    public void ShowGetItemUI(GameObject item)
+    {
+        if (!getItemUI.activeSelf)
+        {
+            getItemUI.SetActive(true);
+        }
+        
+        getItemUI.transform.Find("Text").GetComponent<Text>().text = $"{item.GetComponent<ItemControl>().itemName} 줍기";
+    }
+
+    public void CloseGetItemUI()
+    {
+        if (getItemUI.activeSelf)
+        {
+            getItemUI.SetActive(false);
+        }
+    }
+
+    public void UpdateAmmoText(int ammo)
+    {
+        ammoText.GetComponent<Text>().text = $"{ammo} / {InventoryControl.instance.ammo}";
     }
 }

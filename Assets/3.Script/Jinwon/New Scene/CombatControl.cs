@@ -4,14 +4,37 @@ using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using Cinemachine;
 
+public enum Weapon
+{
+    None,
+    Gun,
+    Grenade
+}
+
 public class CombatControl : MonoBehaviour
 {
+    // Camera
+    [Header("Camera")]
+    [SerializeField] private Transform mainCamera; // 메인카메라
+
+    // Weapon Stat
+    public Weapon currentWeapon = Weapon.None;
+
     // Gun
     [Header("Gun")]
-    private GameObject currentGun;
+    public GameObject currentGun;
     [SerializeField] private GameObject testGunPrefab;
     private bool hasGun = false; // 인벤토리에 장착할 총이 있는가?
-    private bool equipGun = false; // 총을 장착중인가?
+    private bool isReloading = false; // 재장전 중인가?
+
+    // Grenade
+    [Header("Grenade")]
+    public Transform grenadePivot; // 수류탄 피벗
+    private bool hasGrenade = false; // 인벤토리에 수류탄이 있는가?
+    [SerializeField] private GameObject testGrenadePrefab; // 수류탄 프리팹
+    public float throwPower = 7.5f; // 던지는 힘
+    public Vector3 throwDirection; // 던질 방향
+    private bool canThrow = true; // 던지기 가능 여부
 
     [Header("Recoil")]
     public float recoilX;
@@ -65,9 +88,9 @@ public class CombatControl : MonoBehaviour
         }
 
         // [총 장착] - TEST
-        if (hasGun && !equipGun && Input.GetKeyDown(KeyCode.Keypad1))
+        if (hasGun && (currentWeapon != Weapon.Gun) && Input.GetKeyDown(KeyCode.Keypad1))
         {
-            equipGun = true;
+            currentWeapon = Weapon.Gun;
             rig.GetComponent<Rig>().weight = 1.0f;
             animator.SetBool("EquipGun", true);
             animator.SetTrigger("Equip");
@@ -78,9 +101,32 @@ public class CombatControl : MonoBehaviour
         }
 
         // [재장전]
-        if (equipGun && Input.GetKeyDown(KeyCode.R))
+        if (currentWeapon == Weapon.Gun && !isReloading && Input.GetKeyDown(KeyCode.R))
         {
+            if (currentGun != null && currentGun.GetComponent<Gun>().currentMag != currentGun.GetComponent<Gun>().magSize && InventoryControl.instance.CheckInventory(108))
+            {
+                isReloading = true;
+                StartCoroutine(Reload_co());
+            }
+        }
 
+        // [수류탄 획득] - TEST
+        if (!hasGrenade && Input.GetKeyDown(KeyCode.T))
+        {
+            hasGrenade = true;
+        }
+
+        // [수류탄 장착]
+        if (hasGrenade && Input.GetKeyDown(KeyCode.Y))
+        {
+            if (isFirstPerson || isThirdPerson)
+            {
+                return;
+            }
+
+            currentWeapon = Weapon.Grenade;
+
+            StartCoroutine(UnEquipGun_co());
         }
 
         // [마우스 입력]
@@ -91,8 +137,21 @@ public class CombatControl : MonoBehaviour
         // 원래 1인칭 상태였으면 1인칭 해제
         // 3. 우클릭 한 채로 오래 있으면 3인칭 진입
 
-        // [우클릭]
-        if (equipGun && cm.isGround)
+        float camAngle;
+        if (mainCamera.eulerAngles.x > 300)
+        {
+            camAngle = mainCamera.eulerAngles.x - 360.0f;
+        }
+        else
+        {
+            camAngle = mainCamera.eulerAngles.x;
+        }
+
+        float upPower = 1.0f - camAngle / 30.0f;
+        throwDirection = transform.up * upPower + transform.forward; // 마우스 회전에 따라 수류탄 투척 방향 결정
+
+        // [총 & 우클릭]
+        if (currentWeapon == Weapon.Gun && cm.isGround && !isReloading)
         {
             if (Input.GetMouseButtonDown(1))
             {
@@ -116,12 +175,12 @@ public class CombatControl : MonoBehaviour
                     cm.currentSpeed = cm.thirdPersonSpeed;
                     zoomControl.Third_ZoomIn();
 
-                    rig.transform.Find("Aim").GetComponent<MultiAimConstraint>().weight = 1.0f;
-                    rig.transform.Find("Body").GetComponent<MultiAimConstraint>().weight = 1.0f;
-
                     currentGun.transform.SetParent(shootGunPivot);
                     currentGun.transform.localPosition = Vector3.zero;
                     currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
+
+                    rig.transform.Find("Aim").GetComponent<MultiAimConstraint>().weight = 1.0f;
+                    rig.transform.Find("Body").GetComponent<MultiAimConstraint>().weight = 1.0f;
                 }
             }
 
@@ -171,16 +230,48 @@ public class CombatControl : MonoBehaviour
             }
         }
 
-        // [좌클릭]
-        if (equipGun && Input.GetMouseButton(0))
+        // [총 & 좌클릭]
+        if (currentWeapon == Weapon.Gun && Input.GetMouseButton(0))
         {
             if (isFirstPerson || isThirdPerson)
             {
-                if (currentGun != null)
+                if (currentGun != null && currentGun.GetComponent<Gun>().currentMag > 0)
                 {
                     currentGun.GetComponent<Gun>().PlayerShoot();
                     GunRecoil();
                 }
+            }
+        }
+
+        // [수류탄 & 우클릭]
+        if (currentWeapon == Weapon.Grenade && cm.isGround && !isReloading)
+        {
+            if (Input.GetMouseButtonDown(1))
+            {
+                isThirdPerson = true;
+                zoomControl.Third_ZoomIn();
+                // 궤적 On
+                GetComponent<DrawProjection>().drawProjection = true;
+            }
+
+            if (Input.GetMouseButtonUp(1))
+            {
+                isThirdPerson = false;
+                zoomControl.Third_ZoomOut();
+                // 궤적 Off
+                GetComponent<DrawProjection>().drawProjection = false;
+            }
+        }
+
+        // [수류탄 & 좌클릭]
+        if (currentWeapon == Weapon.Grenade && Input.GetMouseButtonDown(0))
+        {
+            if (isThirdPerson && canThrow)
+            {
+                canThrow = false;
+                StartCoroutine(ThrowGrenade());
+                // 궤적 Off
+                GetComponent<DrawProjection>().drawProjection = false;
             }
         }
 
@@ -197,19 +288,53 @@ public class CombatControl : MonoBehaviour
         }
 
         // [Aim 설정]
-        if (isFirstPerson || isThirdPerson)
+        Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2.0f, Screen.height / 2.0f)); // 화면 중앙 (크로스헤어 위치)에 Ray 쏘기
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, 100f, ~(1 << LayerMask.NameToLayer("Player"))))
         {
-            Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2.0f, Screen.height / 2.0f)); // 화면 중앙 (크로스헤어 위치)에 Ray 쏘기
-            if (Physics.Raycast(ray, out RaycastHit raycastHit, 100f))
-            {
-                aimTarget.transform.position = raycastHit.point;
-            }
+            aimTarget.transform.position = raycastHit.point;
         }
-        else
+
+        if (!isFirstPerson && !isThirdPerson)
         {
             // body weight = 0
             rig.transform.Find("Body").GetComponent<MultiAimConstraint>().weight = 0.0f;
         }
+    }
+
+    private IEnumerator Reload_co()
+    {
+        if (isFirstPerson)
+        {
+            isFirstPerson = false;
+            cm.currentSpeed = cm.walkSpeed;
+            zoomControl.First_ZoomOut();
+
+            rig.transform.Find("Aim").GetComponent<MultiAimConstraint>().weight = 0f;
+            rig.transform.Find("Body").GetComponent<MultiAimConstraint>().weight = 0f;
+        }
+        else if (isThirdPerson)
+        {
+            isThirdPerson = false;
+            cm.currentSpeed = cm.walkSpeed;
+            zoomControl.Third_ZoomOut();
+
+            rig.transform.Find("Aim").GetComponent<MultiAimConstraint>().weight = 0f;
+            rig.transform.Find("LeftHand").GetComponent<TwoBoneIKConstraint>().weight = 1.0f;
+
+            currentGun.transform.SetParent(holdGunPivot);
+            currentGun.transform.localPosition = Vector3.zero;
+            currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        }
+
+        rig.GetComponent<Rig>().weight = 0f;
+
+        animator.SetTrigger("Reload");
+        currentGun.GetComponent<Gun>().PlayerReload();
+
+        yield return new WaitForSeconds(1.725f);
+        rig.GetComponent<Rig>().weight = 1.0f;
+
+        isReloading = false;
     }
 
     public void EquipGun(GameObject gun)
@@ -217,7 +342,22 @@ public class CombatControl : MonoBehaviour
         currentGun = gun;
     }
 
-    private void GunRecoil()
+    private IEnumerator UnEquipGun_co()
+    {
+        animator.SetTrigger("UnEquip");
+        rig.GetComponent<Rig>().weight = 0f;
+
+        yield return new WaitForSeconds(0.7f);
+
+        if (currentGun != null)
+        {
+            currentGun.transform.SetParent(backGunPivot);
+            currentGun.transform.localPosition = Vector3.zero;
+            currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        }
+    }
+
+    public void GunRecoil()
     {
         if (isFirstPerson)
         {
@@ -230,5 +370,22 @@ public class CombatControl : MonoBehaviour
             zoomControl.thirdPersonCamera.m_XAxis.Value += Random.Range(-recoilX * 0.01f, recoilX * 0.01f); // x축 반동;
             zoomControl.thirdPersonCamera.m_YAxis.Value -= Random.Range(0, recoilY * 0.01f); // y축 반동;
         }
+    }
+
+    private IEnumerator ThrowGrenade() // 수류탄 던지기
+    {
+        Vector3 direction = throwDirection * throwPower; // 방향 미리 지정
+
+        animator.SetTrigger("ThrowGrenade"); // 애니메이션 재생
+
+        yield return new WaitForSeconds(0.55f);
+
+        GameObject currentGrenade = Instantiate(testGrenadePrefab, grenadePivot.position, Quaternion.identity); // 수류탄 생성
+        currentGrenade.GetComponent<Rigidbody>().velocity = direction; // 방향으로 던지기
+        currentGrenade.GetComponent<Grenade>().StartTimer(); // 수류탄 타이머 시작
+
+        yield return new WaitForSeconds(1.0f);
+
+        canThrow = true;
     }
 }

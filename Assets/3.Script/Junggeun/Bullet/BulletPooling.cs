@@ -9,7 +9,7 @@ public class BulletPooling : MonoBehaviour
     //오브젝트 풀링 인스턴스
     [SerializeField] private GameObject bulletPreb;
     public Queue<GameObject> Bullets = new Queue<GameObject>();
-    private int totalbullet = 120;
+    private int totalbullet = 200;
 
     private void Awake()
     {
