@@ -26,6 +26,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject itemTextPrefab; // 텍스트 생성용 프리팹
     [SerializeField] private GameObject contentUI; // 텍스트가 담길 부모 UI 오브젝트
     [SerializeField] private GameObject getItemUI; // 아이템 줍기 UI
+    [SerializeField] private GameObject ammoText; // 총알 표시 UI
 
     public void FirstPersonRifleCrosshair(bool on) // Rifle UI Toggle
     {
@@ -94,5 +95,10 @@ public class UIManager : MonoBehaviour
         {
             getItemUI.SetActive(false);
         }
+    }
+
+    public void UpdateAmmoText(int ammo)
+    {
+        ammoText.GetComponent<Text>().text = $"{ammo} / {InventoryControl.instance.ammo}";
     }
 }

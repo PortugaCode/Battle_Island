@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class ItemControl : MonoBehaviour
 {
-    [Header("Item ID")]
+    [Header("Item Info")]
     public string itemName;
     public int id;
+    public int amount;
 
     [Header("Status")]
     public bool canGet = false;
@@ -53,7 +54,7 @@ public class ItemControl : MonoBehaviour
             UIManager.instance.ShowGetItemUI(InventoryControl.instance.focusedItems[InventoryControl.instance.focusedItems.Count - 1]);
         }
 
-        InventoryControl.instance.GetItem(itemName, id);
+        InventoryControl.instance.GetItem(itemName, id, amount);
 
         Destroy(gameObject);
     }

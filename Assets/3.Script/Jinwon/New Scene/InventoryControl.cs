@@ -25,34 +25,51 @@ public class InventoryControl : MonoBehaviour
     public LayerMask itemLayer; // 아이템 체크할 레이어
     public List<GameObject> focusedItems; // 현재 콜라이더에 접촉된 아이템 리스트
 
+    [Header("Bag")]
+    [SerializeField] private GameObject bagModel;
+
     public struct Item
     {
         public string name;
         public int id;
+        public int amount;
 
-        public Item(string name, int id)
+        public Item(string name, int id, int amount)
         {
             this.name = name;
             this.id = id;
+            this.amount = amount;
             // 필요한 정보 있으면 이후에 추가
         }
     }
 
+    // [소지한 아이템 리스트]
     public List<Item> inventory;
+
+    // [총알 개수]
+    public int ammo;
 
     private void Update()
     {
-        //Debug.Log(focusedItems.Count);
-
         if (focusedItems.Count > 0 && Input.GetKeyDown(KeyCode.F))
         {
             focusedItems[focusedItems.Count - 1].GetComponent<ItemControl>().PickUpItem();
         }
     }
 
-    public void GetItem(string name, int id)
+    public void GetItem(string name, int id, int amount)
     {
-        Item currentItem = new Item(name, id);
+        Item currentItem = new Item(name, id, amount);
+
+        if (id == 104)
+        {
+            bagModel.SetActive(true);
+        }
+        else if (id == 108)
+        {
+            ammo += amount;
+        }
+
         inventory.Add(currentItem);
     }
 
@@ -82,7 +99,6 @@ public class InventoryControl : MonoBehaviour
         {
             if (item.id == id)
             {
-                // 존재한다
                 return true;
             }
         }

@@ -25,6 +25,7 @@ public class CombatControl : MonoBehaviour
     public GameObject currentGun;
     [SerializeField] private GameObject testGunPrefab;
     private bool hasGun = false; // 인벤토리에 장착할 총이 있는가?
+    private bool isReloading = false; // 재장전 중인가?
 
     // Grenade
     [Header("Grenade")]
@@ -100,9 +101,13 @@ public class CombatControl : MonoBehaviour
         }
 
         // [재장전]
-        if (currentWeapon == Weapon.Gun && Input.GetKeyDown(KeyCode.R))
+        if (currentWeapon == Weapon.Gun && !isReloading && Input.GetKeyDown(KeyCode.R))
         {
-
+            if (currentGun != null && currentGun.GetComponent<Gun>().currentMag != currentGun.GetComponent<Gun>().magSize)
+            {
+                isReloading = true;
+                StartCoroutine(Reload_co());
+            }
         }
 
         // [수류탄 획득] - TEST
@@ -114,13 +119,22 @@ public class CombatControl : MonoBehaviour
         // [수류탄 장착]
         if (hasGrenade && Input.GetKeyDown(KeyCode.Y))
         {
+            if (isFirstPerson || isThirdPerson)
+            {
+                return;
+            }
+
             currentWeapon = Weapon.Grenade;
 
             animator.SetTrigger("UnEquip");
             rig.GetComponent<Rig>().weight = 0f;
-            currentGun.transform.SetParent(backGunPivot);
-            currentGun.transform.localPosition = Vector3.zero;
-            currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
+
+            if (currentGun != null)
+            {
+                currentGun.transform.SetParent(backGunPivot);
+                currentGun.transform.localPosition = Vector3.zero;
+                currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
+            }
         }
 
         // [마우스 입력]
@@ -145,7 +159,7 @@ public class CombatControl : MonoBehaviour
         throwDirection = transform.up * upPower + transform.forward; // 마우스 회전에 따라 수류탄 투척 방향 결정
 
         // [총 & 우클릭]
-        if (currentWeapon == Weapon.Gun && cm.isGround)
+        if (currentWeapon == Weapon.Gun && cm.isGround && !isReloading)
         {
             if (Input.GetMouseButtonDown(1))
             {
@@ -229,7 +243,7 @@ public class CombatControl : MonoBehaviour
         {
             if (isFirstPerson || isThirdPerson)
             {
-                if (currentGun != null)
+                if (currentGun != null && currentGun.GetComponent<Gun>().currentMag > 0)
                 {
                     currentGun.GetComponent<Gun>().PlayerShoot();
                     GunRecoil();
@@ -238,7 +252,7 @@ public class CombatControl : MonoBehaviour
         }
 
         // [수류탄 & 우클릭]
-        if (currentWeapon == Weapon.Grenade && cm.isGround)
+        if (currentWeapon == Weapon.Grenade && cm.isGround && !isReloading)
         {
             if (Input.GetMouseButtonDown(1))
             {
@@ -295,12 +309,48 @@ public class CombatControl : MonoBehaviour
         }
     }
 
+    private IEnumerator Reload_co()
+    {
+        if (isFirstPerson)
+        {
+            isFirstPerson = false;
+            cm.currentSpeed = cm.walkSpeed;
+            zoomControl.First_ZoomOut();
+
+            rig.transform.Find("Aim").GetComponent<MultiAimConstraint>().weight = 0f;
+            rig.transform.Find("Body").GetComponent<MultiAimConstraint>().weight = 0f;
+        }
+        else if (isThirdPerson)
+        {
+            isThirdPerson = false;
+            cm.currentSpeed = cm.walkSpeed;
+            zoomControl.Third_ZoomOut();
+
+            rig.transform.Find("Aim").GetComponent<MultiAimConstraint>().weight = 0f;
+            rig.transform.Find("LeftHand").GetComponent<TwoBoneIKConstraint>().weight = 1.0f;
+
+            currentGun.transform.SetParent(holdGunPivot);
+            currentGun.transform.localPosition = Vector3.zero;
+            currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        }
+
+        rig.GetComponent<Rig>().weight = 0f;
+
+        animator.SetTrigger("Reload");
+        currentGun.GetComponent<Gun>().PlayerReload();
+
+        yield return new WaitForSeconds(1.725f);
+        rig.GetComponent<Rig>().weight = 1.0f;
+
+        isReloading = false;
+    }
+
     public void EquipGun(GameObject gun)
     {
         currentGun = gun;
     }
 
-    private void GunRecoil()
+    public void GunRecoil()
     {
         if (isFirstPerson)
         {
