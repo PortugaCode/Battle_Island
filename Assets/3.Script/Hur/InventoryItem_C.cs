@@ -42,7 +42,7 @@ public class InventoryItem_C : MonoBehaviour
 
     public bool rotated = false;
 
-    internal void Set(ItemData_C itemData)
+    public void Set(ItemData_C itemData)
     {
         this.itemData = itemData;
         GetComponent<Image>().sprite = itemData.itemIcon;
@@ -57,7 +57,7 @@ public class InventoryItem_C : MonoBehaviour
 
     }
 
-    internal void Rotate()
+    public void Rotate()
     {
         rotated = !rotated;
         RectTransform rect = GetComponent<RectTransform>();

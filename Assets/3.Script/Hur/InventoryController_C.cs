@@ -166,9 +166,10 @@ public class InventoryController_C : MonoBehaviour
 
 
     public void CreateRandomItem()//수정 - 생략
-                                  //걍 애초에 slot프리팹에 이 함수를 넣으면 되잖아
+     //걍 애초에 slot프리팹에 이 함수를 넣으면 되잖아
     {
-
+        Debug.Log("아이템 감지 in InventoryController");
+        
         InventoryItem_C inventoryItem =
         Instantiate(itemPrefab).GetComponent<InventoryItem_C>();
         selectedItem = inventoryItem;
@@ -180,8 +181,8 @@ public class InventoryController_C : MonoBehaviour
         int selectedItemID = UnityEngine.Random.Range(0, item.Count); //랜덤 수정 - 변경
         inventoryItem.Set(item[selectedItemID]);
 
-
     }
+
     //public void CreateItem_wear()
     //{
     //    InventoryItem_C inventoryItem_wear =
@@ -254,7 +255,6 @@ public class InventoryController_C : MonoBehaviour
                 rect.SetAsLastSibling();
             }
         }
-
     }
     private void PickUpItem(Vector2Int tileGridPosition)
     {
