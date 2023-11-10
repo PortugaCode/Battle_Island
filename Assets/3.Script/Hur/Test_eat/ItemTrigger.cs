@@ -22,28 +22,28 @@ public class ItemTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            ItemPrefab itemPrefabScript = itemPrefab.GetComponent<ItemPrefab>();
+           // ItemPrefab itemPrefabScript = itemPrefab.GetComponent<ItemPrefab>();
 
-            if (itemPrefabScript != null)
-            {
-                ItemData_hur itemData = itemPrefabScript.ItemData;
+            //if (itemPrefabScript != null)
+            //{
+            //    ItemData_hur itemData = itemPrefabScript.ItemData;
 
-                if (itemData != null)
-                {
-                    Debug.Log($"아이템의 이름: {itemData.itemName}");
-                    // 여기에서 다른 아이템 데이터 사용 가능
-                }
-                else
-                {
-                    Debug.LogWarning("ItemData not found!");
-                }
-            }
-            else
-            {
-                Debug.LogWarning("ItemPrefab script not found!");
-            }
+            //    if (itemData != null)
+            //    {
+            //        Debug.Log($"아이템의 이름: {itemData.itemName}");
+            //        // 여기에서 다른 아이템 데이터 사용 가능
+            //    }
+            //    else
+            //    {
+            //        Debug.LogWarning("ItemData not found!");
+            //    }
+            //}
+            //else
+            //{
+            //    Debug.LogWarning("ItemPrefab script not found!");
+            //}
 
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
         }
     }
 }
