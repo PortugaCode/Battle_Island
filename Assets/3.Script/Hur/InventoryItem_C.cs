@@ -5,24 +5,19 @@ using UnityEngine.UI;
 
 public class InventoryItem_C : MonoBehaviour
 {
-    [SerializeField] private Database_hur database;
+    //이 스크립트는 Diablo식 인벤토리에 둘 아이템의 크기를 결정함
+
     public ItemData_C itemData;
 
-    private void Start()
-    {
-        database = FindObjectOfType<Database_hur>();
-
-    }
-    
     public int HEIGHT
     {
         get
         {
-            if (rotated == false)
+            if (rotated == false)//회전이 아니라면 높이는 높이
             {
                 return itemData.height;
             }
-            return itemData.width;
+            return itemData.width;//회전을 했다면 높이 -> 넓이로 변환
         }
     }
     public int WIDTH
@@ -45,10 +40,12 @@ public class InventoryItem_C : MonoBehaviour
     public void Set(ItemData_C itemData)
     {
         this.itemData = itemData;
-        GetComponent<Image>().sprite = itemData.itemIcon;
 
-        //무조건 주변 인벤토리의 슬롯과 같아야 함
+        GetComponent<Image>().sprite = itemData.itemIcon;//이거 원래는 누구의 itemIcon임? 원래 C거
+
+        //무조건 주변 인벤토리에서 끌어온 아이템과 같아야 함
         Debug.Log("아이템 뿅");
+        Debug.Log($"Diablo에 전해진 정보 : {PlayerPrefs.GetInt("Item_ID")}");
 
         Vector2 size = new Vector2();
         size.x = itemData.width * ItemGrid_C.tileSizeWidth;

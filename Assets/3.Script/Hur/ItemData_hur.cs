@@ -40,7 +40,6 @@ using UnityEngine.UI;
 #endregion
 public class ItemData_hur
 {
-    public bool notice; //감지
     public Sprite itemIcon;
     public int itemID;
     public string itemName;
@@ -60,10 +59,9 @@ public class ItemData_hur
         Consumable, Wearable
     }
 
-    public ItemData_hur(bool _notice, int _itemID, string _itemName, bool _isUsed, ItemType _itemType, UsingType _usingType, int _count)
+    public ItemData_hur(int _itemID, string _itemName, bool _isUsed, ItemType _itemType, UsingType _usingType, int _count)
         //초기화
     {
-        notice = _notice;
         itemID = _itemID;
         itemName = _itemName;
         isUsed = _isUsed;

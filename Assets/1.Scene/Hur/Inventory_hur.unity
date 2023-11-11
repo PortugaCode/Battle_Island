@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -179,6 +179,10 @@ PrefabInstance:
       value: Item_Pills (1)
       objectReference: {fileID: 0}
     - target: {fileID: 3801873565472169224, guid: d0c1a768c543088479faa8395cd77b3e, type: 3}
+      propertyPath: itemData_c
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d50fab36ba4b6140be1d70020a8bf8f, type: 2}
+    - target: {fileID: 3801873565472169224, guid: d0c1a768c543088479faa8395cd77b3e, type: 3}
       propertyPath: itemData.itemCount
       value: 1
       objectReference: {fileID: 0}
@@ -216,7 +220,7 @@ MonoBehaviour:
   database: {fileID: 0}
   slotprefab: {fileID: 537177086}
   parentTransform: {fileID: 1355491116276425753}
-  player: {fileID: 435858886}
+  player: {fileID: 0}
   ItemDragOn: 0
 --- !u!4 &170780506
 Transform:
@@ -427,6 +431,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Item_Medical
       objectReference: {fileID: 0}
+    - target: {fileID: 2173138487201047827, guid: 38b7b35eec131134791e9cef40f2a301, type: 3}
+      propertyPath: itemData_c
+      value: 
+      objectReference: {fileID: 11400000, guid: dae6482ff4d5b8843aa0e42872f2b618, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38b7b35eec131134791e9cef40f2a301, type: 3}
 --- !u!1 &418953372
@@ -798,6 +806,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4804332050370997021, guid: 0cdc40f8979230147ba67c864dd1dc28, type: 3}
+      propertyPath: itemData_c
+      value: 
+      objectReference: {fileID: 11400000, guid: 84e8785c7382c2248a1a8000e62af269, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0cdc40f8979230147ba67c864dd1dc28, type: 3}
 --- !u!1 &537177086
@@ -1338,6 +1350,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1411668543906069507, guid: 67dc4db65e669814ab0f61fcc23f30df, type: 3}
+      propertyPath: itemData_c
+      value: 
+      objectReference: {fileID: 11400000, guid: 60ed157e2b26ff146a0654e96dc22e4a, type: 2}
     - target: {fileID: 4257989312924440491, guid: 67dc4db65e669814ab0f61fcc23f30df, type: 3}
       propertyPath: m_Name
       value: Item_Needle
@@ -1395,6 +1411,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3082338825055899754, guid: b60bd125216f16c42aef40c95e1aeebc, type: 3}
+      propertyPath: itemData_c
+      value: 
+      objectReference: {fileID: 11400000, guid: 53187e2073fda52408ea933df72c5b77, type: 2}
+    - target: {fileID: 3082338825055899754, guid: b60bd125216f16c42aef40c95e1aeebc, type: 3}
+      propertyPath: itemData_C.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3082338825055899754, guid: b60bd125216f16c42aef40c95e1aeebc, type: 3}
+      propertyPath: itemData_C.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 60ed157e2b26ff146a0654e96dc22e4a, type: 2}
     - target: {fileID: 3510175228174771716, guid: b60bd125216f16c42aef40c95e1aeebc, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -1500,6 +1528,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Item_bagLv.2
       objectReference: {fileID: 0}
+    - target: {fileID: 6142263369666083628, guid: 942921cc14ab7aa49a5294851aa0212c, type: 3}
+      propertyPath: itemData_c
+      value: 
+      objectReference: {fileID: 11400000, guid: eb67a20b87b6a8248b653ff6f9b0701c, type: 2}
     - target: {fileID: 6142263369666083628, guid: 942921cc14ab7aa49a5294851aa0212c, type: 3}
       propertyPath: itemData.itemID
       value: 105
@@ -1640,6 +1672,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Item_Pills
       objectReference: {fileID: 0}
+    - target: {fileID: 3801873565472169224, guid: d0c1a768c543088479faa8395cd77b3e, type: 3}
+      propertyPath: itemData_c
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d50fab36ba4b6140be1d70020a8bf8f, type: 2}
     - target: {fileID: 3801873565472169224, guid: d0c1a768c543088479faa8395cd77b3e, type: 3}
       propertyPath: itemData.itemCount
       value: 1

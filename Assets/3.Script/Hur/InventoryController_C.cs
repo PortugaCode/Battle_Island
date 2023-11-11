@@ -91,31 +91,6 @@ public class InventoryController_C : MonoBehaviour
         selectedItem.Rotate();
     }
 
-    //private void InsertRandomItem() //수정 - 생략
-    //{
-    //    if (selectedItemGrid == null)
-    //    {
-    //        return;
-    //    }
-
-    //    CreateRandomItem();
-    //    InventoryItem_C itemToInsert = selectedItem;
-    //    selectedItem = null;
-    //    InsertItem(itemToInsert);
-    //}
-
-    //private void InsertItem(InventoryItem_C itemToInsert)//수정 - 생략
-    //{
-    //    Vector2Int? posOnGrid = selectedItemGrid.FindSpaceForObject(itemToInsert);
-
-    //    if (posOnGrid == null)
-    //    {
-    //        return;
-    //    }
-
-    //    selectedItemGrid.PlaceItem(itemToInsert, posOnGrid.Value.x, posOnGrid.Value.y);
-    //}
-
     Vector2Int oldPosition;
     InventoryItem_C itemToHighlight;
 
@@ -160,7 +135,6 @@ public class InventoryController_C : MonoBehaviour
 
     }
 
-
     public void CreateRandomItem()//수정 - 생략
      //걍 애초에 slot프리팹에 이 함수를 넣으면 되잖아
     {
@@ -174,37 +148,14 @@ public class InventoryController_C : MonoBehaviour
         rect.SetParent(canvasT);
         rect.SetAsLastSibling();
 
-        int selectedItemID = UnityEngine.Random.Range(0, item.Count); //랜덤 수정 - 변경
+        //int selectedItemID = UnityEngine.Random.Range(0, item.Count); //랜덤 수정 - 변경
+        //inventoryItem.Set(item[selectedItemID]);
+
+        int selectedItemID = PlayerPrefs.GetInt("Item_ID");
+
         inventoryItem.Set(item[selectedItemID]);
 
     }
-
-    //public void CreateItem_wear()
-    //{
-    //    InventoryItem_C inventoryItem_wear =
-    //    Instantiate(itemPrefab_wear).GetComponent<InventoryItem_C>();
-    //    selectedItem = inventoryItem_wear;
-
-    //    rect = inventoryItem_wear.GetComponent<RectTransform>();
-    //    rect.SetParent(canvasT);
-    //    rect.SetAsLastSibling();
-
-    //    int selectedItemID_wear = UnityEngine.Random.Range(0, item.Count); //랜덤 수정 - 변경
-    //    inventoryItem_wear.Set(item[selectedItemID_wear]);
-    //}
-    //public void CreateItem_etc()
-    //{
-    //    InventoryItem_C inventoryItem_etc =
-    //       Instantiate(itemPrefab_etc).GetComponent<InventoryItem_C>();
-    //    selectedItem = inventoryItem_etc;
-
-    //    rect = inventoryItem_etc.GetComponent<RectTransform>();
-    //    rect.SetParent(canvasT);
-    //    rect.SetAsLastSibling();
-
-    //    int selectedItemID_etc = UnityEngine.Random.Range(0, item.Count); //랜덤 수정 - 변경
-    //    inventoryItem_etc.Set(item[selectedItemID_etc]);
-    //}
 
     private void LeftMouseButtonPress()//수정 - 변경
     {
