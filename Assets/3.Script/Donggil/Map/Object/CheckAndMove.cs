@@ -8,6 +8,8 @@ public class CheckAndMove : MonoBehaviour
     public Vector3 colliderPos = Vector3.zero;
     public Vector3 size = Vector3.zero;
 
+
+    [Header("탐지할 레이어 선택")]
     public Layers layers;
 
     private void Update()

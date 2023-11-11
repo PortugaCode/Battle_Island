@@ -20,7 +20,7 @@ public class CarSpawn : MonoBehaviour
 
         Vector3 randomAngle = new Vector3(0, Random.Range(0, 360), 0);
 
-        if (percentage > 85)
+        if (percentage > 92)
         {
             Instantiate(car, transform.position + new Vector3(0, 3, 0), Quaternion.Euler(randomAngle), transform);
         }
