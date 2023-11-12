@@ -13,7 +13,7 @@ public class InventoryItem_C : MonoBehaviour
     {
         get
         {
-            if (rotated == false)//회전이 아니라면 높이는 높이
+            if (!rotated)//회전이 아니라면 높이는 높이
             {
                 return itemData.height;
             }
@@ -24,7 +24,7 @@ public class InventoryItem_C : MonoBehaviour
     {
         get
         {
-            if (rotated == false)
+            if (!rotated)
             {
                 return itemData.width;
             }
@@ -41,7 +41,7 @@ public class InventoryItem_C : MonoBehaviour
     {
         this.itemData = itemData;
 
-        GetComponent<Image>().sprite = itemData.itemIcon;//이거 원래는 누구의 itemIcon임? 원래 C거
+        GetComponent<Image>().sprite = itemData.itemIcon;
 
         //무조건 주변 인벤토리에서 끌어온 아이템과 같아야 함
         Debug.Log("아이템 뿅");

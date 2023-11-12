@@ -148,13 +148,74 @@ public class InventoryController_C : MonoBehaviour
         rect.SetParent(canvasT);
         rect.SetAsLastSibling();
 
-        //int selectedItemID = UnityEngine.Random.Range(0, item.Count); //랜덤 수정 - 변경
+        //int selectedItemID = Random.Range(0, item.Count); //랜덤 수정 - 변경 
         //inventoryItem.Set(item[selectedItemID]);
 
-        int selectedItemID = PlayerPrefs.GetInt("Item_ID");
 
-        inventoryItem.Set(item[selectedItemID]);
+        int matchingID = PlayerPrefs.GetInt("Item_ID");
+        int selectedItemID = 0;
 
+        switch (matchingID)
+        {
+            case(100): 
+                selectedItemID = 0;
+                break;
+            case (101): 
+                selectedItemID = 1;
+                break;
+            case (102):
+                selectedItemID = 2;
+                break;
+            case (103):
+                selectedItemID = 3;
+                break;
+            case (104):
+                selectedItemID = 4;
+                break;
+            case (105):
+                selectedItemID = 5;
+                break;
+            case (106):
+                selectedItemID = 6;
+                break;
+            case (107):
+                selectedItemID = 7;
+                break;
+            case (108):
+                selectedItemID = 8;
+                break;
+            case (109):
+                selectedItemID = 9;
+                break;
+            case (110):
+                selectedItemID = 10;
+                break;
+            case (111):
+                selectedItemID = 11;
+                break;
+            case (112):
+                selectedItemID = 12;
+                break;
+            case (113):
+                selectedItemID = 13;
+                break;
+            case (114):
+                selectedItemID = 14;
+                break;
+            case (115):
+                selectedItemID = 15;
+                break;
+            case (116):
+                selectedItemID = 16;
+                break;
+            case (117):
+                selectedItemID = 17;
+                break;
+            default: Debug.Log("디폴트값");
+                break;
+        }
+
+        inventoryItem.Set(item[selectedItemID]);//원래는 아이템의 순서에서 하나 랜덤으로 뽑는건데, 내가 바꾼건 ID를 찾는 용도라 당연히 안 맞음
     }
 
     private void LeftMouseButtonPress()//수정 - 변경
@@ -179,6 +240,7 @@ public class InventoryController_C : MonoBehaviour
         {
             position.x -= (selectedItem.WIDTH - 1) * ItemGrid_C.tileSizeWidth / 2;
             position.y += (selectedItem.HEIGHT - 1) * ItemGrid_C.tileSizeHeight / 2;
+
         }
 
         return selectedItemGrid.GetTileGridPosition(position);

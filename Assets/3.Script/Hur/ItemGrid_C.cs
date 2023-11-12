@@ -73,14 +73,14 @@ public class ItemGrid_C : MonoBehaviour
         int height = gridSizeHeight - itemToInsert.HEIGHT + 1;
         int width = gridSizeWidth - itemToInsert.WIDTH + 1;
 
-
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
                 if (CheckAvailableSpace(x, y,
                     itemToInsert.WIDTH,
-                    itemToInsert.HEIGHT))
+                    itemToInsert.HEIGHT
+                    ))
                 {
                     return new Vector2Int(x, y);
                 }
@@ -91,7 +91,7 @@ public class ItemGrid_C : MonoBehaviour
         return null;
     }
 
-    Vector2Int tileGridPosition = new Vector2Int(); 
+    Vector2Int tileGridPosition = new Vector2Int();
     //타일 그리드에서의 위치
     //Vector2Int는 정수로 된 2D벡터
     public Vector2Int GetTileGridPosition(Vector2 mousePosition)
@@ -108,8 +108,8 @@ public class ItemGrid_C : MonoBehaviour
     public bool PlaceItem(InventoryItem_C inventoryItem, int posX, int posY,
         ref InventoryItem_C overlapItem)
     {
-        if (BoundryCheck(posX, posY, inventoryItem.WIDTH,
-            inventoryItem.HEIGHT) == false)
+        if (!BoundryCheck(posX, posY, inventoryItem.WIDTH,
+            inventoryItem.HEIGHT))
         {
             return false;
         }
@@ -159,8 +159,10 @@ public class ItemGrid_C : MonoBehaviour
         Vector2 position = new Vector2();
         position.x =
             posX * tileSizeWidth + tileSizeWidth * inventoryItem.WIDTH / 2;
+
         position.y =
             -(posY * tileSizeHeight + tileSizeHeight * inventoryItem.HEIGHT / 2);
+
         return position;
     }
 

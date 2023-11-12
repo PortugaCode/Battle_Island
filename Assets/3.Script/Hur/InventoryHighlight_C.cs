@@ -16,6 +16,7 @@ public class InventoryHighlight_C : MonoBehaviour
         Vector2 size = new Vector2();
         size.x = targetItem.WIDTH * ItemGrid_C.tileSizeWidth;
         size.y = targetItem.HEIGHT * ItemGrid_C.tileSizeHeight;
+
         hightlighter.sizeDelta = size;
     }
 
