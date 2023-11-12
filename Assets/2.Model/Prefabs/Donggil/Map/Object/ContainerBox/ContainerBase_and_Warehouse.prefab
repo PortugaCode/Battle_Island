@@ -2504,6 +2504,7 @@ GameObject:
   - component: {fileID: 2267985200299379876}
   - component: {fileID: 2453693630729334215}
   - component: {fileID: 6618627067675059305}
+  - component: {fileID: -8784742616138163816}
   m_Layer: 29
   m_Name: ContainerBase_and_Warehouse
   m_TagString: Untagged
@@ -2558,6 +2559,23 @@ MonoBehaviour:
   isInMap: 0
   scale: {fileID: 0}
   layers: 6
+--- !u!114 &-8784742616138163816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4854990061864274090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 730efdd2e75b9be4cb8d1237c81796de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderPos: {x: 0, y: 4.817645, z: -15.611095}
+  size: {x: 35, y: 14, z: 70}
+  isInMap: 0
+  scale: {fileID: 0}
+  layers: 7
 --- !u!1 &5334849126642882378
 GameObject:
   m_ObjectHideFlags: 0
