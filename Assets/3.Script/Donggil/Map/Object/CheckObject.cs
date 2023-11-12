@@ -10,6 +10,10 @@ public class CheckObject : MonoBehaviour
     [SerializeField] private MapSize scale;
     [SerializeField] private bool isInMap = false;
 
+    [Header("탐지할 레이어 선택")]
+    public Layers layers;
+    public bool isThislayerSame = false;
+
     private void Start()
     {
         scale = FindObjectOfType<MapSize>();
@@ -23,42 +27,73 @@ public class CheckObject : MonoBehaviour
 
     public void IsObjectExist()
     {
+        int layerMask = 1 << (int)layers;
         Collider[] colliders;
         if (isInMap)        //맵의 자식오브젝트일경우
         {
-            colliders = Physics.OverlapSphere(gameObj.transform.position, radius * scale.gameObject.transform.localScale.x, 1 << LayerMask.NameToLayer("Donggil"));
+            colliders = Physics.OverlapSphere(gameObj.transform.position, radius * scale.gameObject.transform.localScale.x, layerMask);
             //만약 레이어 이름이 ~~ 인 콜라이더가 내부에 없을경우
             foreach (Collider col in colliders)
             {
-                if (col.CompareTag("Wall") || col.CompareTag("Grenade"))
+                if (col.CompareTag("Wall"))
                 {
-                    if (colliders.Length == 1)      //1은 자기자신도 포함하기 때문
+                    if (isThislayerSame)            //먄약 서로의 레이어가 같을 시
                     {
-                        gameObj.SetActive(true);
+                        if (colliders.Length == 1)      //1은 자기자신도 포함하기 때문
+                        {
+                            gameObj.SetActive(true);
+                        }
+                        //만약 레이어 이름이 ~~ 인 콜라이더가 내부에 있을경우
+                        else if (colliders.Length > 1)
+                        {
+                            gameObj.SetActive(false);
+                        }
                     }
-                    //만약 레이어 이름이 ~~ 인 콜라이더가 내부에 있을경우
-                    else if (colliders.Length > 1)
+                    else                        //만약 충돌체크하는 레이어가 다를 시
                     {
-                        gameObj.SetActive(false);
+                        if (colliders.Length == 0)      
+                        {
+                            gameObj.SetActive(true);
+                        }
+                        //만약 레이어 이름이 ~~ 인 콜라이더가 내부에 있을경우
+                        else if (colliders.Length > 0)
+                        {
+                            gameObj.SetActive(false);
+                        }
                     }
                 }
             }
         }
         else
         {
-            colliders = Physics.OverlapSphere(gameObj.transform.position, radius, 1 << LayerMask.NameToLayer("Donggil"));
+            colliders = Physics.OverlapSphere(gameObj.transform.position, radius, layerMask);
             foreach (Collider col in colliders)
             {
-                if (col.CompareTag("Wall") || col.CompareTag("Grenade"))
+                if (col.CompareTag("Wall"))
                 {
-                    if (colliders.Length == 1)      //1은 자기자신도 포함하기 때문
+                    if (isThislayerSame)            //먄약 서로의 레이어가 같을 시
                     {
-                        gameObj.SetActive(true);
+                        if (colliders.Length == 1)      //1은 자기자신도 포함하기 때문
+                        {
+                            gameObj.SetActive(true);
+                        }
+                        //만약 레이어 이름이 ~~ 인 콜라이더가 내부에 있을경우
+                        else if (colliders.Length > 1)
+                        {
+                            gameObj.SetActive(false);
+                        }
                     }
-                    //만약 레이어 이름이 ~~ 인 콜라이더가 내부에 있을경우
-                    else if (colliders.Length > 1)
+                    else                        //만약 충돌체크하는 레이어가 다를 시
                     {
-                        gameObj.SetActive(false);
+                        if (colliders.Length == 0)
+                        {
+                            gameObj.SetActive(true);
+                        }
+                        //만약 레이어 이름이 ~~ 인 콜라이더가 내부에 있을경우
+                        else if (colliders.Length > 0)
+                        {
+                            gameObj.SetActive(false);
+                        }
                     }
                 }
             }

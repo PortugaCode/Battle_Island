@@ -31,7 +31,7 @@ public class CheckAndMove : MonoBehaviour
                 if (colliders.Length == 0) return;
                 else if (colliders.Length > 0)
                 {
-                    Vector3 closestPoint = col.ClosestPoint(objectCenter);
+                    Vector3 closestPoint = col.ClosestPointOnBounds(objectCenter);
                     Vector3 dir = (closestPoint - objectCenter).normalized;
                     Vector3 whereToMove = new Vector3(dir.x, 0, dir.z);
                     transform.position -= whereToMove;
