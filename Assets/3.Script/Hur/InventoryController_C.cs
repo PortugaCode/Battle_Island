@@ -7,8 +7,6 @@ public class InventoryController_C : MonoBehaviour
     [SerializeField] private ItemGrid_C selectedItemGrid;
     [SerializeField] private NoticeItem noticeItem;
 
-    //주변에서 끌어오는 걸 구현할 경우 CreateRandomItem을 없애야 함
-
     InventoryItem_C selectedItem;
     InventoryItem_C overlapItem;
     RectTransform rect;
@@ -43,23 +41,10 @@ public class InventoryController_C : MonoBehaviour
             if (selectedItem == null)
             {
                 noticeItem.ItemDragOn = false;
-                CreateRandomItem();
+                CreateItem();
 
             }
         }
-
-        //if (Input.GetKeyDown(KeyCode.Q)) //수정 - 생략
-        //{
-        //    if (selectedItem == null)
-        //    {
-        //        CreateRandomItem();
-        //    }
-        //}
-
-        //if (Input.GetKeyDown(KeyCode.W)) //수정 - 생략
-        //{
-        //    InsertRandomItem();
-        //}
 
         if (Input.GetMouseButtonDown(1))
         {
@@ -67,7 +52,7 @@ public class InventoryController_C : MonoBehaviour
         }
 
 
-        if (selectedItemGrid == null) //수정?
+        if (selectedItemGrid == null)
         {
             inventoryHighlight.Show(false);
             return;
@@ -135,8 +120,8 @@ public class InventoryController_C : MonoBehaviour
 
     }
 
-    public void CreateRandomItem()//수정 - 생략
-     //걍 애초에 slot프리팹에 이 함수를 넣으면 되잖아
+    public void CreateItem()//수정 - 생략
+     //slot프리팹에 넣을 함수
     {
         Debug.Log("아이템 감지 in InventoryController");
         
@@ -147,10 +132,6 @@ public class InventoryController_C : MonoBehaviour
         rect = inventoryItem.GetComponent<RectTransform>();
         rect.SetParent(canvasT);
         rect.SetAsLastSibling();
-
-        //int selectedItemID = Random.Range(0, item.Count); //랜덤 수정 - 변경 
-        //inventoryItem.Set(item[selectedItemID]);
-
 
         int matchingID = PlayerPrefs.GetInt("Item_ID");
         int selectedItemID = 0;
@@ -215,10 +196,10 @@ public class InventoryController_C : MonoBehaviour
                 break;
         }
 
-        inventoryItem.Set(item[selectedItemID]);//원래는 아이템의 순서에서 하나 랜덤으로 뽑는건데, 내가 바꾼건 ID를 찾는 용도라 당연히 안 맞음
+        inventoryItem.Set(item[selectedItemID]);
     }
 
-    private void LeftMouseButtonPress()//수정 - 변경
+    private void LeftMouseButtonPress()
     {
         Vector2Int tileGridPosition = GetTileGridPosition();
 

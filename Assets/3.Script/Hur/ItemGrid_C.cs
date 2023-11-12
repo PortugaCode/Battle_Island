@@ -57,8 +57,7 @@ public class ItemGrid_C : MonoBehaviour
         inventoryItemSlot = new InventoryItem_C[width, height];
         Vector2 size = new Vector2(width * tileSizeWidth,
             height * tileSizeHeight);
-        rectTransform.sizeDelta = size;
-        //sizeDelta : RectTransform 크기를 결정하는 속성 중 하나
+        rectTransform.sizeDelta = size;//sizeDelta : RectTransform 크기를 결정하는 속성 중 하나
     }
 
     internal InventoryItem_C GetItem(int x, int y)

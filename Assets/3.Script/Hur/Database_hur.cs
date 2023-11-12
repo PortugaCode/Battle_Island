@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Database_hur : MonoBehaviour
 {
-    public static Database_hur instance; // 싱글톤 패턴을 사용하여 인스턴스에 접근
+    public static Database_hur instance;
 
     public List<ItemData_hur> itemList = new List<ItemData_hur>();//플레이어가 소지한 아이템 리스트
     public Image _itemIcon;
@@ -18,12 +18,12 @@ public class Database_hur : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject); // 이미 다른 인스턴스가 존재하면 새로 생성된 것을 파괴
+            Destroy(gameObject);
         }
     }
 
     private void Start()
-    //아이템 데이터베이스
+    //아이템 데이터베이스 초기화
     {
         Initialize_itemData();
     }
