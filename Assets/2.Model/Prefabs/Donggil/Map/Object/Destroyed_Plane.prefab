@@ -531,6 +531,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colliderPos: {x: 0, y: 0, z: -12}
   size: {x: 50, y: 3, z: 60}
+  isInMap: 0
+  scale: {fileID: 0}
   layers: 0
 --- !u!114 &5746167382103648419
 MonoBehaviour:
@@ -553,5 +555,5 @@ MonoBehaviour:
   - {fileID: 6561935326744290184, guid: 6804249edaf0df542b849afcd833879f, type: 3}
   rangeObject: {fileID: 5647663094713716624}
   Gun_Object: {fileID: 7982239633055265241}
-  minItem: 7
-  maxItem: 10
+  minItem: 10
+  maxItem: 20
