@@ -128,6 +128,11 @@ public class CharacterMovement : MonoBehaviour
         // [¾É±â]
         if (isGround && combatControl.currentWeapon == Weapon.Gun && Input.GetKeyDown(KeyCode.C))
         {
+            if (combatControl.isFirstPerson || combatControl.isThirdPerson)
+            {
+                return;
+            }
+
             if (isCrouch)
             {
                 isCrouch = false;
