@@ -27,7 +27,8 @@ public class InventoryController_C : MonoBehaviour
             inventoryHighlight.SetParent(value);
         }
     }
-    private void Awake()
+
+    private void Start()
     {
         inventoryHighlight = GetComponent<InventoryHighlight_C>();
         noticeItem = FindObjectOfType<NoticeItem>();
@@ -42,7 +43,6 @@ public class InventoryController_C : MonoBehaviour
             {
                 noticeItem.ItemDragOn = false;
                 CreateItem();
-
             }
         }
 
@@ -123,7 +123,7 @@ public class InventoryController_C : MonoBehaviour
     public void CreateItem()//수정 - 생략
      //slot프리팹에 넣을 함수
     {
-        Debug.Log("아이템 감지 in InventoryController");
+        //Debug.Log("아이템 감지 in InventoryController");
         
         InventoryItem_C inventoryItem =
         Instantiate(itemPrefab).GetComponent<InventoryItem_C>();

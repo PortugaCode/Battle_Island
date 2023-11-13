@@ -6,9 +6,14 @@ public class OpenInvent : MonoBehaviour
 {
     [SerializeField] GameObject inventoryObj;
     public bool Open = false;
+
+    public Slot[] slots;
+    public Transform slotHolder;
+
     private void Start()
     {
         inventoryObj.SetActive(false);
+        slots = slotHolder.GetComponentsInChildren<Slot>();
     }
     private void Update()
     {
