@@ -22,7 +22,7 @@ public class HelicChasePlayerState : HelicState
     public void AIUpdate(HelicAgent agent)
     {
         Vector3 Playerdirection = agent.Player.position - agent.hit.point;
-        if (Playerdirection.magnitude > 20f)
+        if (Playerdirection.magnitude > 30f)
         {
             MovetoPlayer(agent);
             return;
@@ -58,11 +58,11 @@ public class HelicChasePlayerState : HelicState
         Quaternion rotation = Quaternion.LookRotation(direction);
         agent.BodyTarget.rotation = Quaternion.Lerp(agent.BodyTarget.rotation, rotation, rotationspeed * Time.deltaTime);
 
-        agent.PositionTarget.Translate(agent.BodyTarget.forward * 3f * Time.deltaTime);
+        agent.PositionTarget.Translate(agent.BodyTarget.forward * 4f * Time.deltaTime);
 
         if (agent.PositionTarget.position.y <= 13f)
         {
-            agent.PositionTarget.Translate(agent.BodyTarget.up * 3f * Time.deltaTime);
+            agent.PositionTarget.Translate(agent.BodyTarget.up * 4f * Time.deltaTime);
         }
     }
 

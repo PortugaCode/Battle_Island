@@ -29,7 +29,7 @@ public class HelicStateMachine
 
     public void Update()
     {
-        GetState(currentState)?.AIUpdate(agent);
+        GetState(currentState)?.AIUpdate(agent); 
     }
 
     public void ChangeState(HelicStateID newstate)
