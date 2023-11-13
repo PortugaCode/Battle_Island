@@ -68,6 +68,7 @@ public class InventoryControl : MonoBehaviour
         else if (id == 108) // ÃÑ¾Ë»óÀÚ
         {
             ammo += amount;
+            UIManager.instance.UpdateAmmoText(0); // Test
         }
 
         inventory.Add(currentItem);
