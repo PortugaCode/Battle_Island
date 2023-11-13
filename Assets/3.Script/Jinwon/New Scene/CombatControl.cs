@@ -28,7 +28,7 @@ public class CombatControl : MonoBehaviour
     [Header("Gun")]
     public GameObject currentGun;
     [SerializeField] private GameObject testGunPrefab;
-    private bool hasGun = false; // 인벤토리에 장착할 총이 있는가?
+    private bool hasGun = false; // 등 뒤에 총을 장착했는가?
     private bool isReloading = false; // 재장전 중인가?
 
     // Grenade
@@ -43,6 +43,8 @@ public class CombatControl : MonoBehaviour
     [Header("Recoil")]
     public float recoilX;
     public float recoilY;
+    public float crouchRecoilX;
+    public float crouchRecoilY;
 
     // Components
     private Animator animator;
@@ -369,16 +371,33 @@ public class CombatControl : MonoBehaviour
 
     public void GunRecoil()
     {
-        if (isFirstPerson)
+        if (GetComponent<CharacterMovement>().isCrouch)
         {
-            CinemachinePOV pov = zoomControl.firstPersonCamera.GetCinemachineComponent<CinemachinePOV>();
-            pov.m_HorizontalAxis.Value += Random.Range(-recoilX, recoilX); // x축 반동;
-            pov.m_VerticalAxis.Value -= Random.Range(0, recoilY); // y축 반동
+            if (isFirstPerson)
+            {
+                CinemachinePOV pov = zoomControl.firstPersonCamera.GetCinemachineComponent<CinemachinePOV>();
+                pov.m_HorizontalAxis.Value += Random.Range(-crouchRecoilX, crouchRecoilX); // x축 반동;
+                pov.m_VerticalAxis.Value -= Random.Range(0, crouchRecoilY); // y축 반동
+            }
+            else if (isThirdPerson)
+            {
+                zoomControl.thirdPersonCamera.m_XAxis.Value += Random.Range(-crouchRecoilX * 0.01f, crouchRecoilX * 0.01f); // x축 반동;
+                zoomControl.thirdPersonCamera.m_YAxis.Value -= Random.Range(0, crouchRecoilY * 0.01f); // y축 반동;
+            }
         }
-        else if (isThirdPerson)
+        else
         {
-            zoomControl.thirdPersonCamera.m_XAxis.Value += Random.Range(-recoilX * 0.01f, recoilX * 0.01f); // x축 반동;
-            zoomControl.thirdPersonCamera.m_YAxis.Value -= Random.Range(0, recoilY * 0.01f); // y축 반동;
+            if (isFirstPerson)
+            {
+                CinemachinePOV pov = zoomControl.firstPersonCamera.GetCinemachineComponent<CinemachinePOV>();
+                pov.m_HorizontalAxis.Value += Random.Range(-recoilX, recoilX); // x축 반동;
+                pov.m_VerticalAxis.Value -= Random.Range(0, recoilY); // y축 반동
+            }
+            else if (isThirdPerson)
+            {
+                zoomControl.thirdPersonCamera.m_XAxis.Value += Random.Range(-recoilX * 0.01f, recoilX * 0.01f); // x축 반동;
+                zoomControl.thirdPersonCamera.m_YAxis.Value -= Random.Range(0, recoilY * 0.01f); // y축 반동;
+            }
         }
     }
 

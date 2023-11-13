@@ -22,6 +22,8 @@ public class CharacterMovement : MonoBehaviour
     public float forwardSpeed = 0f;
     public float firstPersonSpeed = 0.5f;
     public float thirdPersonSpeed = 1.0f;
+    public bool isCrouch = false;
+    private float crouchTimer = 0f;
 
     // Jump
     private float jumpForce = 5.0f;
@@ -60,6 +62,11 @@ public class CharacterMovement : MonoBehaviour
         {
             GetInput();
             GroundCheck();
+        }
+
+        if (isCrouch)
+        {
+            crouchTimer += Time.deltaTime;
         }
 
         if (!isRun && currentSpeed > walkSpeed) // 속도 천천히 줄어들게
@@ -101,6 +108,13 @@ public class CharacterMovement : MonoBehaviour
         // [속도 변경] - 걷기, 달리기
         if (Input.GetKey(KeyCode.LeftShift) && z > 0 && isGround)
         {
+            if (isCrouch && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+            {
+                isCrouch = false;
+                crouchTimer = 0;
+                animator.SetTrigger("UnCrouch");
+            }
+
             isRun = true;
 
             if (forwardSpeed < runSpeed)
@@ -111,6 +125,24 @@ public class CharacterMovement : MonoBehaviour
             currentSpeed = forwardSpeed;
         }
         
+        // [앉기]
+        if (isGround && combatControl.currentWeapon == Weapon.Gun && Input.GetKeyDown(KeyCode.C))
+        {
+            if (isCrouch)
+            {
+                isCrouch = false;
+                crouchTimer = 0;
+                animator.SetTrigger("UnCrouch");
+                animator.SetBool("isCrouch", isCrouch);
+            }
+            else
+            {
+                isCrouch = true;
+                animator.SetTrigger("Crouch");
+                animator.SetBool("isCrouch", isCrouch);
+            }
+        }
+
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             isRun = false;
@@ -134,6 +166,9 @@ public class CharacterMovement : MonoBehaviour
                 currentSpeed = walkSpeed;
                 zoomControl.Third_ZoomOut();
             }
+
+            isCrouch = false;
+            animator.SetBool("isCrouch", isCrouch);
 
             animator.SetTrigger("Jump");
 
@@ -171,7 +206,19 @@ public class CharacterMovement : MonoBehaviour
 
         // [이동]
         Vector3 targetDirection = transform.forward * z * currentSpeed + transform.right * x * strafeSpeed;
-        rb.velocity = new Vector3(targetDirection.x, rb.velocity.y, targetDirection.z);
+
+        if (isCrouch && crouchTimer > 0.95f && Vector3.Magnitude(targetDirection) > 0)
+        {
+            isCrouch = false;
+            crouchTimer = 0;
+            animator.SetTrigger("UnCrouch");
+        }
+
+        if (!isCrouch || (isCrouch && crouchTimer > 0.95f))
+        {
+            rb.velocity = new Vector3(targetDirection.x, rb.velocity.y, targetDirection.z);
+        }
+        
     }
 
     private void GroundCheck()
