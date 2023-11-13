@@ -76,7 +76,7 @@ public class CombatControl : MonoBehaviour
 
     private void Update()
     {
-        // [ÃÑ È¹µæ] - TEST
+        // [ÃÑÀ» µî µÚ¿¡ ÀåÂø] - TEST
         if (!hasGun && Input.GetKeyDown(KeyCode.Return))
         {
             hasGun = true;
@@ -87,7 +87,7 @@ public class CombatControl : MonoBehaviour
             currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
         }
 
-        // [ÃÑ ÀåÂø] - TEST
+        // [ÃÑÀ» ¼Õ¿¡ ÀåÂø] - TEST
         if (hasGun && (currentWeapon != Weapon.Gun) && Input.GetKeyDown(KeyCode.Keypad1))
         {
             currentWeapon = Weapon.Gun;

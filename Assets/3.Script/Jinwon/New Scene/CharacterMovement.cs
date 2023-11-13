@@ -67,6 +67,11 @@ public class CharacterMovement : MonoBehaviour
         {
             InventoryControl.instance.ShowInventory();
         }
+
+        if (Input.GetKeyDown(KeyCode.Home)) // Test
+        {
+            animator.SetTrigger("Dance");
+        }
     }
 
     private void FixedUpdate()
