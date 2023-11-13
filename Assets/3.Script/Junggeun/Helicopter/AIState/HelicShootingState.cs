@@ -62,7 +62,7 @@ public class HelicShootingState : HelicState
     private void ShotorChase(HelicAgent agent)
     {
         Vector3 Playerdirection = agent.Player.position - agent.hit.point;
-        if (Playerdirection.magnitude > 30f)
+        if (Playerdirection.magnitude > 40f)
         {
             agent.stateMachine.ChangeState(HelicStateID.ChasePlayer);
             return;

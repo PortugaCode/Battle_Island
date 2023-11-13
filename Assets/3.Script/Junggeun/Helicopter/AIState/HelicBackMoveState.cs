@@ -52,7 +52,7 @@ public class HelicBackMoveState : HelicState
         Godirection = (agent.hit.point - agent.Player.transform.position).normalized;
         agent.PositionTarget.Translate(Godirection * 4f * Time.deltaTime);
 
-        if (agent.PositionTarget.position.y <= 20f)
+        if (agent.PositionTarget.position.y <= 15f)
         {
             agent.PositionTarget.Translate(agent.BodyTarget.up * 4f * Time.deltaTime);
         }
