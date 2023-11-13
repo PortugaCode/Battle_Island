@@ -14,6 +14,9 @@ public class CheckAndMove : MonoBehaviour
     [Header("탐지할 레이어 선택 (태그는 Wall)")]
     public Layers layers;
 
+    [Header("오브젝트 비활성화 체크할때 서로 같은 레이어인가")]
+    public bool isThislayerSame = false;
+
     private void Start()
     {
         scale = FindObjectOfType<MapSize>();
@@ -43,14 +46,29 @@ public class CheckAndMove : MonoBehaviour
         {
             if (col.CompareTag("Wall"))
             {
-                if (colliders.Length == 0) return;
-                else if (colliders.Length > 0)
+                if (isThislayerSame)
                 {
-                    Vector3 closestPoint = col.ClosestPointOnBounds(objectCenter);
-                    Vector3 dir = (closestPoint - objectCenter).normalized;
-                    Vector3 whereToMove = new Vector3(dir.x, 0, dir.z);
-                    transform.position -= whereToMove;
-                    Debug.Log(dir);
+                    if (colliders.Length == 1) return;
+                    else if (colliders.Length > 1)
+                    {
+                        Vector3 closestPoint = col.ClosestPointOnBounds(objectCenter);
+                        Vector3 dir = (closestPoint - objectCenter).normalized;
+                        Vector3 whereToMove = new Vector3(dir.x, 0, dir.z);
+                        transform.position -= whereToMove;
+                        //Debug.Log(dir);
+                    }
+                }
+                else
+                {
+                    if (colliders.Length == 0) return;
+                    else if (colliders.Length > 0)
+                    {
+                        Vector3 closestPoint = col.ClosestPointOnBounds(objectCenter);
+                        Vector3 dir = (closestPoint - objectCenter).normalized;
+                        Vector3 whereToMove = new Vector3(dir.x, 0, dir.z);
+                        transform.position -= whereToMove;
+                        //Debug.Log(dir);
+                    }
                 }
             }
         }

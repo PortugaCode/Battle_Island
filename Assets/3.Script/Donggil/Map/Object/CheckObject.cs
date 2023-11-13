@@ -54,7 +54,10 @@ public class CheckObject : MonoBehaviour
                     //만약 레이어 이름이 ~~ 인 콜라이더가 내부에 있을경우
                     else if (colliders.Length > 1)
                     {
-                        gameObj.SetActive(false);
+                        if (Random.value > 0.7f)
+                        {
+                            gameObj.SetActive(false);
+                        }
                     }
                 }
                 else                        //만약 충돌체크하는 레이어가 다를 시
@@ -66,7 +69,10 @@ public class CheckObject : MonoBehaviour
                     //만약 레이어 이름이 ~~ 인 콜라이더가 내부에 있을경우
                     else if (colliders.Length > 0)
                     {
-                        gameObj.SetActive(false);
+                        if (Random.value > 0.7f)
+                        {
+                            gameObj.SetActive(false);
+                        }
                     }
                 }
             }
