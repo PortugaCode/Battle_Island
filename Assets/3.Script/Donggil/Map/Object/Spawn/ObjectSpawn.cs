@@ -34,7 +34,10 @@ public class ObjectSpawn : MonoBehaviour
         }
         else
         {
-            Instantiate(MapObjectPrefabs[0], spawnPositions[Random.Range(0, spawnPositions.Length)].transform.position - new Vector3(0, 0.68f, 0), Quaternion.identity, transform);
+            for (int i = 0; i < spawnPositions.Length; i++)
+            {
+                Instantiate(MapObjectPrefabs[0], spawnPositions[i].transform.position - new Vector3(0, 0.68f, 0), Quaternion.identity, transform);
+            }
         }
     }
 }

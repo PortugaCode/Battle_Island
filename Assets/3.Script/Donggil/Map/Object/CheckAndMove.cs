@@ -17,6 +17,9 @@ public class CheckAndMove : MonoBehaviour
     [Header("오브젝트 비활성화 체크할때 서로 같은 레이어인가")]
     public bool isThislayerSame = false;
 
+    private bool isPushEnd = false;
+
+
     private void Start()
     {
         scale = FindObjectOfType<MapSize>();
@@ -24,7 +27,10 @@ public class CheckAndMove : MonoBehaviour
 
     private void Update()
     {
-        IsExistCollider();
+        if (!isPushEnd)
+        {
+            IsExistCollider();
+        }
     }
 
     private void IsExistCollider()
@@ -48,26 +54,34 @@ public class CheckAndMove : MonoBehaviour
             {
                 if (isThislayerSame)
                 {
-                    if (colliders.Length == 1) return;
+                    if (colliders.Length == 1) isPushEnd = true;
                     else if (colliders.Length > 1)
                     {
                         Vector3 closestPoint = col.ClosestPointOnBounds(objectCenter);
                         Vector3 dir = (closestPoint - objectCenter).normalized;
                         Vector3 whereToMove = new Vector3(dir.x, 0, dir.z);
                         transform.position -= whereToMove;
-                        //Debug.Log(dir);
+                        Debug.Log(dir);
+                        if (closestPoint == Vector3.up)
+                        {
+                            isPushEnd = true;
+                        }
                     }
                 }
                 else
                 {
-                    if (colliders.Length == 0) return;
+                    if (colliders.Length == 0) isPushEnd = true;
                     else if (colliders.Length > 0)
                     {
                         Vector3 closestPoint = col.ClosestPointOnBounds(objectCenter);
                         Vector3 dir = (closestPoint - objectCenter).normalized;
                         Vector3 whereToMove = new Vector3(dir.x, 0, dir.z);
                         transform.position -= whereToMove;
-                        //Debug.Log(dir);
+                        Debug.Log(dir);
+                        if(closestPoint == Vector3.up)
+                        {
+                            isPushEnd = true;
+                        }
                     }
                 }
             }
