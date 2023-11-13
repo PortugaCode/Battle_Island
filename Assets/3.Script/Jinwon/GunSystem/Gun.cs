@@ -125,6 +125,11 @@ public class Gun : MonoBehaviour
                 currentMag += InventoryControl.instance.ammo;
                 InventoryControl.instance.ammo = 0;
             }
+
+            if (InventoryControl.instance.ammo == 0)
+            {
+                InventoryControl.instance.RemoveItem(108);
+            }
         }
 
         UIManager.instance.UpdateAmmoText(currentMag); // Test

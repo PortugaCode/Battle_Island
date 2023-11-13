@@ -51,6 +51,11 @@ public class CharacterMovement : MonoBehaviour
 
     private void Update()
     {
+        if (combatControl.isDead)
+        {
+            return;
+        }
+
         if (canMove)
         {
             GetInput();

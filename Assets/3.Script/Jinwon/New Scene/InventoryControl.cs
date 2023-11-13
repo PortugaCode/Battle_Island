@@ -30,13 +30,13 @@ public class InventoryControl : MonoBehaviour
 
     public struct Item
     {
-        public string name;
+        public string itemName;
         public int id;
         public int amount;
 
         public Item(string name, int id, int amount)
         {
-            this.name = name;
+            this.itemName = name;
             this.id = id;
             this.amount = amount;
             // 필요한 정보 있으면 이후에 추가
@@ -61,11 +61,11 @@ public class InventoryControl : MonoBehaviour
     {
         Item currentItem = new Item(name, id, amount);
 
-        if (id == 104)
+        if (id == 104) // 가방
         {
             bagModel.SetActive(true);
         }
-        else if (id == 108)
+        else if (id == 108) // 총알상자
         {
             ammo += amount;
         }
@@ -89,7 +89,7 @@ public class InventoryControl : MonoBehaviour
     {
         for (int i = 0; i < inventory.Count; i++)
         {
-            Debug.Log($"아이템 이름 : {inventory[i].name}, 아이템 ID : {inventory[i].id}");
+            Debug.Log($"아이템 이름 : {inventory[i].itemName}, 아이템 ID : {inventory[i].id}");
         }
     }
 
