@@ -94,7 +94,7 @@ public class CharacterMovement : MonoBehaviour
         animator.SetFloat("MoveSpeedZ", z * currentSpeed);
 
         // [속도 변경] - 걷기, 달리기
-        if (Input.GetKey(KeyCode.LeftShift) && z > 0)
+        if (Input.GetKey(KeyCode.LeftShift) && z > 0 && isGround)
         {
             isRun = true;
 
@@ -129,6 +129,8 @@ public class CharacterMovement : MonoBehaviour
                 currentSpeed = walkSpeed;
                 zoomControl.Third_ZoomOut();
             }
+
+            forwardSpeed = walkSpeed;
 
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
