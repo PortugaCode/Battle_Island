@@ -19,6 +19,7 @@ public class CharacterMovement : MonoBehaviour
     public float currentSpeed;
     public float walkSpeed = 2.5f;
     public float runSpeed = 6.5f;
+    public float forwardSpeed = 0f;
     public float firstPersonSpeed = 0.5f;
     public float thirdPersonSpeed = 1.0f;
 
@@ -44,6 +45,7 @@ public class CharacterMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         // [이동 속도 초기화]
+        forwardSpeed = walkSpeed;
         currentSpeed = walkSpeed;
     }
 
@@ -53,6 +55,12 @@ public class CharacterMovement : MonoBehaviour
         {
             GetInput();
             GroundCheck();
+        }
+
+        if (!isRun && currentSpeed > walkSpeed) // 속도 천천히 줄어들게
+        {
+            currentSpeed -= Time.deltaTime * 10.0f;
+            forwardSpeed = currentSpeed;
         }
 
         if (Input.GetKeyDown(KeyCode.Insert)) // TEST
@@ -81,16 +89,21 @@ public class CharacterMovement : MonoBehaviour
         animator.SetFloat("MoveSpeedZ", z * currentSpeed);
 
         // [속도 변경] - 걷기, 달리기
-        if (!isRun && Input.GetKey(KeyCode.LeftShift) && z > 0)
+        if (Input.GetKey(KeyCode.LeftShift) && z > 0)
         {
             isRun = true;
-            currentSpeed = runSpeed;
+
+            if (forwardSpeed < runSpeed)
+            {
+                forwardSpeed += Time.deltaTime * 7.5f;
+            }
+
+            currentSpeed = forwardSpeed;
         }
         
-        if (isRun && Input.GetKeyUp(KeyCode.LeftShift))
+        if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             isRun = false;
-            currentSpeed = walkSpeed;
         }
 
         // [점프]
