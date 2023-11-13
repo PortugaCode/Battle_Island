@@ -135,6 +135,8 @@ public class CharacterMovement : MonoBehaviour
                 zoomControl.Third_ZoomOut();
             }
 
+            animator.SetTrigger("Jump");
+
             forwardSpeed = walkSpeed;
 
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
