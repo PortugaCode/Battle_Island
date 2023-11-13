@@ -114,6 +114,8 @@ public class CombatControl : MonoBehaviour
             currentGun.transform.SetParent(holdGunPivot);
             currentGun.transform.localPosition = Vector3.zero;
             currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
+
+            grenadeModel.SetActive(false);
         }
 
         // [¿Á¿Â¿¸]
