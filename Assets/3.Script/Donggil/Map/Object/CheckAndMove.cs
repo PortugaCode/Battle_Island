@@ -19,6 +19,7 @@ public class CheckAndMove : MonoBehaviour
 
     private bool isPushEnd = false;
 
+    public int targetFrame = 1000;
 
     private void Start()
     {
@@ -62,9 +63,10 @@ public class CheckAndMove : MonoBehaviour
                         Vector3 whereToMove = new Vector3(dir.x, 0, dir.z);
                         transform.position -= whereToMove;
                         Debug.Log(dir);
-                        if (closestPoint == Vector3.up)
+                        if (dir == Vector3.up || Time.frameCount > targetFrame)
                         {
                             isPushEnd = true;
+                            Debug.Log(isPushEnd);
                         }
                     }
                 }
@@ -78,9 +80,10 @@ public class CheckAndMove : MonoBehaviour
                         Vector3 whereToMove = new Vector3(dir.x, 0, dir.z);
                         transform.position -= whereToMove;
                         Debug.Log(dir);
-                        if(closestPoint == Vector3.up)
+                        if(dir == Vector3.up || Time.frameCount > targetFrame)
                         {
                             isPushEnd = true;
+                            Debug.Log(isPushEnd);
                         }
                     }
                 }

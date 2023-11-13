@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9056293716192096873}
   - component: {fileID: 9015808866154440363}
   - component: {fileID: 1466800940129108941}
+  - component: {fileID: 4122659666628999313}
   m_Layer: 29
   m_Name: Barrel_02
   m_TagString: Wall
@@ -115,3 +116,21 @@ MonoBehaviour:
   isInMap: 0
   layers: 29
   isThislayerSame: 1
+--- !u!114 &4122659666628999313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9078515022226931437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3445becc984b644aa9d615dd2f414d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameObj: {fileID: 9078515022226931437}
+  radius: 1
+  scale: {fileID: 0}
+  isInMap: 0
+  layers: 7
+  isThislayerSame: 0

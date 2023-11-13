@@ -28696,6 +28696,7 @@ GameObject:
   - component: {fileID: 7174861053828182185}
   - component: {fileID: 7167321349503813006}
   - component: {fileID: 9196261091800599625}
+  - component: {fileID: -5373848900385035377}
   m_Layer: 0
   m_Name: Tank_Russia_Destroyed_01
   m_TagString: Untagged
@@ -28846,6 +28847,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cf0752bfbff9d745b440884f36e7bf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-5373848900385035377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7167321349503813007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3445becc984b644aa9d615dd2f414d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameObj: {fileID: 7167321349503813007}
+  radius: 7
+  scale: {fileID: 0}
+  isInMap: 0
+  layers: 7
+  isThislayerSame: 0
 --- !u!1 &7167412674084152955
 GameObject:
   m_ObjectHideFlags: 0
