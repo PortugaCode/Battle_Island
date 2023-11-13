@@ -31,7 +31,7 @@ public class HelicChasePlayerState : HelicState
         Playerdirection.Normalize();
         float dotProduct = Vector3.Dot(Playerdirection, agnetDirection);
 
-        if(dotProduct > 0.0f)
+        if (dotProduct > 0.0f)
         {
             agent.stateMachine.ChangeState(HelicStateID.Shooting);
         }
@@ -58,18 +58,12 @@ public class HelicChasePlayerState : HelicState
         Quaternion rotation = Quaternion.LookRotation(direction);
         agent.BodyTarget.rotation = Quaternion.Lerp(agent.BodyTarget.rotation, rotation, rotationspeed * Time.deltaTime);
 
-        agent.PositionTarget.Translate(agent.BodyTarget.forward * 4f * Time.deltaTime);
+        agent.PositionTarget.Translate(agent.BodyTarget.forward * 6f * Time.deltaTime);
 
-        if (agent.PositionTarget.position.y <= 13f)
+        if (agent.PositionTarget.position.y <= 15f)
         {
-            agent.PositionTarget.Translate(agent.BodyTarget.up * 4f * Time.deltaTime);
+            agent.PositionTarget.Translate(agent.BodyTarget.up * 6f * Time.deltaTime);
         }
     }
-
-
-    private void WallCheck(HelicAgent agent)
-    {
-
-    }
-
 }
+

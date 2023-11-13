@@ -44,7 +44,7 @@ public class HelicShootingState : HelicState
     private void BackMove(HelicAgent agent)
     {
         Vector3 Playerdirection = agent.Player.position - agent.hit.point;
-        if (Playerdirection.magnitude < 10f)
+        if (Playerdirection.magnitude < 15f)
         {
             agent.stateMachine.ChangeState(HelicStateID.BackMove);
             return;
