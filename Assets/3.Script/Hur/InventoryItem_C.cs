@@ -37,15 +37,15 @@ public class InventoryItem_C : MonoBehaviour
 
     public bool rotated = false;
 
-    public void Set(ItemData_C itemData)
+    public void Set(ItemData_C itemData)//아이템 정보 가져오는 곳
     {
         this.itemData = itemData;
 
         GetComponent<Image>().sprite = itemData.itemIcon;
 
         //무조건 주변 인벤토리에서 끌어온 아이템과 같아야 함
-        Debug.Log("아이템 뿅");
-        Debug.Log($"Diablo에 전해진 정보 : {PlayerPrefs.GetInt("Item_ID")}");
+        //Debug.Log("아이템 뿅");
+        //Debug.Log($"Diablo에 전해진 정보 : {PlayerPrefs.GetInt("Item_ID")}");
 
         Vector2 size = new Vector2();
         size.x = itemData.width * ItemGrid_C.tileSizeWidth;

@@ -36,4 +36,6 @@ public class ItemData_hur
         itemIcon = Resources.Load("resource_hur/" + _itemID.ToString(), typeof(Sprite)) as Sprite;
         itemCount = _count;
     }
+
+
 }

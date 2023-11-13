@@ -38,14 +38,14 @@ public class PlayerController : MonoBehaviour
         {
             eatItem = true;
             Destroy(other.gameObject);
-            Debug.Log("1. 장착가능한 아이템을 얻었다");
+            //Debug.Log("1. 장착가능한 아이템을 얻었다");
         }
         else if (!eatItem && other.CompareTag("Consumer"))
         {
             //database.GetItem(itemID, _count);
             eatItem = true;
             Destroy(other.gameObject);
-            Debug.Log("1. extra 아이템을 얻었다");
+            //Debug.Log("1. extra 아이템을 얻었다");
         }
 
     }

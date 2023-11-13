@@ -14,5 +14,4 @@ public class ItemData_C : ScriptableObject
     public string itemName;
     public bool isUsed;
     public int itemCount;
-
 }
