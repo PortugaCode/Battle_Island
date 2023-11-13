@@ -519,36 +519,6 @@ Transform:
   m_Father: {fileID: 602893099}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: -369.211, y: 826.404, z: 409.854}
---- !u!1 &138255474
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 138255475}
-  m_Layer: 0
-  m_Name: Shoot Start Point
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &138255475
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 138255474}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.25, z: 0.375}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1470956561}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &174810523
 GameObject:
   m_ObjectHideFlags: 0
@@ -1819,7 +1789,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1470956561}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &507138118
 GameObject:
@@ -5055,6 +5025,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 657338615}
   currentWeapon: 0
+  isDead: 0
+  playerHealth: 100
   currentGun: {fileID: 0}
   testGunPrefab: {fileID: 7115515128426510549, guid: e250e1a33b43f8e4d9dd17b27e9d1bb2, type: 3}
   grenadePivot: {fileID: 504017800}
@@ -5178,7 +5150,6 @@ Transform:
   - {fileID: 233219650}
   - {fileID: 1273812244}
   - {fileID: 1920105126}
-  - {fileID: 138255475}
   - {fileID: 504017800}
   m_Father: {fileID: 0}
   m_RootOrder: 3

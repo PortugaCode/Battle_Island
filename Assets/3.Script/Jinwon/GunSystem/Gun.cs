@@ -76,6 +76,7 @@ public class Gun : MonoBehaviour
                     {
                         GameObject currentBullet = ObjectPoolControl.instance.bulletQueue.Dequeue();
                         currentBullet.transform.position = zoomControl.firstPersonCamera.transform.position + forwardDirection;
+                        currentBullet.GetComponent<Bullet>().startPostion = zoomControl.firstPersonCamera.transform.position + forwardDirection;
                         currentBullet.transform.forward = forwardDirection;
                         currentBullet.GetComponent<Bullet>().bulletDamage = damage;
                         currentBullet.GetComponent<Bullet>().hit = raycastHit;
@@ -94,6 +95,7 @@ public class Gun : MonoBehaviour
                     {
                         GameObject currentBullet = ObjectPoolControl.instance.bulletQueue.Dequeue();
                         currentBullet.transform.position = muzzleTransform.position;
+                        currentBullet.GetComponent<Bullet>().startPostion = muzzleTransform.position;
                         currentBullet.transform.forward = raycastHit.point - muzzleTransform.position;
                         currentBullet.GetComponent<Bullet>().bulletDamage = damage;
                         currentBullet.GetComponent<Bullet>().hit = raycastHit;
