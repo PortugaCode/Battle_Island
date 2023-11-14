@@ -10,7 +10,7 @@ public class NavMeshBaker : MonoBehaviour
 
     private Vector3 generatePosition = Vector3.zero;
 
-    private float bakeTime = 100.0f;
+    private float bakeTime = 4.0f;
 
     private void Start()
     {

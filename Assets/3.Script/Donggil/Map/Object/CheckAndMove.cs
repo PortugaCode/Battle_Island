@@ -62,11 +62,11 @@ public class CheckAndMove : MonoBehaviour
                         Vector3 dir = (closestPoint - objectCenter).normalized;
                         Vector3 whereToMove = new Vector3(dir.x, 0, dir.z);
                         transform.position -= whereToMove;
-                        Debug.Log(dir);
+                        //Debug.Log(dir);
                         if (dir == Vector3.up || Time.frameCount > targetFrame)
                         {
                             isPushEnd = true;
-                            Debug.Log(isPushEnd);
+                            //Debug.Log(isPushEnd);
                         }
                     }
                 }
@@ -79,11 +79,11 @@ public class CheckAndMove : MonoBehaviour
                         Vector3 dir = (closestPoint - objectCenter).normalized;
                         Vector3 whereToMove = new Vector3(dir.x, 0, dir.z);
                         transform.position -= whereToMove;
-                        Debug.Log(dir);
+                        //Debug.Log(dir);
                         if(dir == Vector3.up || Time.frameCount > targetFrame)
                         {
                             isPushEnd = true;
-                            Debug.Log(isPushEnd);
+                            //Debug.Log(isPushEnd);
                         }
                     }
                 }

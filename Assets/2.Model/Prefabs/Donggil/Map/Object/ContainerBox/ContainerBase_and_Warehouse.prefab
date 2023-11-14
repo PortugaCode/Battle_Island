@@ -2538,10 +2538,10 @@ BoxCollider:
   m_GameObject: {fileID: 4854990061864274090}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 35, y: 14, z: 70}
-  m_Center: {x: 0, y: 4.817645, z: -15.611095}
+  m_Size: {x: 35, y: 4, z: 70}
+  m_Center: {x: 0, y: -0.69, z: -15.611095}
 --- !u!114 &6618627067675059305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2560,6 +2560,7 @@ MonoBehaviour:
   scale: {fileID: 0}
   layers: 6
   isThislayerSame: 0
+  targetFrame: 1000
 --- !u!114 &-8784742616138163816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2578,6 +2579,7 @@ MonoBehaviour:
   scale: {fileID: 0}
   layers: 7
   isThislayerSame: 1
+  targetFrame: 1000
 --- !u!1 &5334849126642882378
 GameObject:
   m_ObjectHideFlags: 0
