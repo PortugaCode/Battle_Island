@@ -8,29 +8,84 @@ public class CheckAndMove : MonoBehaviour
     public Vector3 colliderPos = Vector3.zero;
     public Vector3 size = Vector3.zero;
 
+    [SerializeField] private bool isInMap = false;
+    [SerializeField] private MapSize scale;
+
+    [Header("탐지할 레이어 선택 (태그는 Wall)")]
+    public Layers layers;
+
+    [Header("오브젝트 비활성화 체크할때 서로 같은 레이어인가")]
+    public bool isThislayerSame = false;
+
+    private bool isPushEnd = false;
+
+    public int targetFrame = 1000;
+
+    private void Start()
+    {
+        scale = FindObjectOfType<MapSize>();
+    }
+
     private void Update()
     {
-        IsExistCollider();
+        if (!isPushEnd)
+        {
+            IsExistCollider();
+        }
     }
 
     private void IsExistCollider()
     {
+        int layerMask = 1 << (int)layers;
         Collider[] colliders;
         Vector3 objectCenter = colliderPos + transform.position;
-        colliders = Physics.OverlapBox(objectCenter, size / 2, transform.rotation, 1 << LayerMask.NameToLayer("Ground")) ;      //이 레이어만 탐지
+
+        if (isInMap)
+        {
+            colliders = Physics.OverlapBox(objectCenter, (size / 2) * scale.gameObject.transform.localScale.x, transform.rotation, layerMask);      //이 레이어만 탐지
+        }
+        else
+        {
+            colliders = Physics.OverlapBox(objectCenter, size / 2, transform.rotation, layerMask);      //이 레이어만 탐지
+        }
 
         foreach (Collider col in colliders)
         {
             if (col.CompareTag("Wall"))
             {
-                if (colliders.Length == 1) return;
-                else if (colliders.Length > 1)
+                if (isThislayerSame)
                 {
-                    Vector3 closestPoint = col.ClosestPoint(objectCenter);
-                    Vector3 dir = (closestPoint - objectCenter).normalized;
-                    Vector3 whereToMove = new Vector3(dir.x, 0, dir.z);
-                    transform.position -= whereToMove;
-                    Debug.Log(dir);
+                    if (colliders.Length == 1) isPushEnd = true;
+                    else if (colliders.Length > 1)
+                    {
+                        Vector3 closestPoint = col.ClosestPointOnBounds(objectCenter);
+                        Vector3 dir = (closestPoint - objectCenter).normalized;
+                        Vector3 whereToMove = new Vector3(dir.x, 0, dir.z);
+                        transform.position -= whereToMove;
+                        Debug.Log(dir);
+                        if (dir == Vector3.up || Time.frameCount > targetFrame)
+                        {
+                            isPushEnd = true;
+                            Debug.Log(isPushEnd);
+                        }
+                    }
+                }
+                else
+                {
+                    if (colliders.Length == 0) isPushEnd = true;
+                    else if (colliders.Length > 0)
+                    {
+                        Vector3 closestPoint = col.ClosestPointOnBounds(objectCenter);
+                        Vector3 dir = (closestPoint - objectCenter).normalized;
+                        Vector3 whereToMove = new Vector3(dir.x, 0, dir.z);
+                        transform.position -= whereToMove;
+                        Debug.Log(dir);
+                        if(dir == Vector3.up || Time.frameCount > targetFrame)
+                        {
+                            isPushEnd = true;
+                            Debug.Log(isPushEnd);
+                        }
+                    }
                 }
             }
         }
@@ -40,7 +95,14 @@ public class CheckAndMove : MonoBehaviour
     {
         Gizmos.color = Color.red;
 
-        Gizmos.DrawCube(colliderPos + transform.position, size);
+        if (isInMap)
+        {
+            Gizmos.DrawCube(colliderPos + transform.position, size * scale.gameObject.transform.localScale.x);
+        }
+        else
+        {
+            Gizmos.DrawCube(colliderPos + transform.position, size);
+        }
 
     }
 }

@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class RandomObjectSpawn : MonoBehaviour
 {
+    [Header("맵에 넣을 오브젝트")]
     public GameObject[] mapObjects;
 
+    [Header("여기는 추가 안해도 됨")]
     public List<GameObject> mapObj;
 
+    [Header("맵(범위)을 넣으면 됨")]
     public Transform spawnPosition;
-
     public Collider spawnRange;
 
     //public float radius = 5.0f;
 
+    public bool isRoad = false;
 
     [Range(0, 500)]
     public int rangeStart = 0;
@@ -36,7 +39,14 @@ public class RandomObjectSpawn : MonoBehaviour
         float randomX = Random.Range((rangeX / 2) * (-1), (rangeX / 2));
         float randomZ = Random.Range((rangeZ / 2) * (-1), (rangeZ / 2));
 
-        randomPos = new Vector3(randomX, -0.68f, randomZ);
+        if (isRoad)
+        {
+            randomPos = new Vector3(randomX, 0, randomZ);
+        }
+        else
+        {
+            randomPos = new Vector3(randomX, -0.68f, randomZ);
+        }
 
         return randomPos;
     }

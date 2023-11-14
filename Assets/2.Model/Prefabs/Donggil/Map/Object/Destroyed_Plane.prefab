@@ -512,10 +512,10 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5647663094713716624}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 50, y: 3, z: 60}
+  m_Size: {x: 50, y: 0, z: 60}
   m_Center: {x: 0, y: 0, z: -12}
 --- !u!114 &4365431206695162263
 MonoBehaviour:
@@ -531,6 +531,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colliderPos: {x: 0, y: 0, z: -12}
   size: {x: 50, y: 3, z: 60}
+  isInMap: 0
+  scale: {fileID: 0}
+  layers: 0
 --- !u!114 &5746167382103648419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -538,7 +541,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5647663094713716624}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e45cf4c67817cc24d8933f3a6f588535, type: 3}
   m_Name: 
@@ -552,5 +555,5 @@ MonoBehaviour:
   - {fileID: 6561935326744290184, guid: 6804249edaf0df542b849afcd833879f, type: 3}
   rangeObject: {fileID: 5647663094713716624}
   Gun_Object: {fileID: 7982239633055265241}
-  minItem: 7
-  maxItem: 10
+  minItem: 10
+  maxItem: 20
