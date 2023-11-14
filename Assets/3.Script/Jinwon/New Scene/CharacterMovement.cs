@@ -119,6 +119,7 @@ public class CharacterMovement : MonoBehaviour
                 }
 
                 isRun = true;
+                combatControl.isHealing = false;
 
                 if (forwardSpeed < runSpeed)
                 {
@@ -205,15 +206,22 @@ public class CharacterMovement : MonoBehaviour
             strafeSpeed = currentSpeed;
         }
 
-        // [속도 변경] - 점프 시 속도
+        // [속도 변경] - 점프 중 속도
         if (!isGround)
         {
             currentSpeed = walkSpeed;
         }
 
+        // [속도 변경] - 치료 중 속도
+        if (combatControl.isHealing)
+        {
+            currentSpeed = walkSpeed * 0.5f;
+        }
+
         // [이동]
         Vector3 targetDirection = transform.forward * z * currentSpeed + transform.right * x * strafeSpeed;
 
+        // [앉기 해제]
         if (Vector3.Magnitude(targetDirection) > 0)
         {
             if (isCrouch && crouchTimer > 0.95f)

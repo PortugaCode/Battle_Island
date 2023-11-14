@@ -74,7 +74,7 @@ public class CombatControl : MonoBehaviour
 
     // Heal
     [Header("Heal")]
-    private bool isHealing = false;
+    public bool isHealing = false;
 
     private void Awake()
     {
@@ -459,6 +459,7 @@ public class CombatControl : MonoBehaviour
 
             if (!isHealing)
             {
+                animator.SetTrigger("Cancel");
                 yield break;
             }
 
