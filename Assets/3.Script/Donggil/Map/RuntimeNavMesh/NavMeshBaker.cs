@@ -8,46 +8,30 @@ public class NavMeshBaker : MonoBehaviour
 {
     public GameObject map;
 
-    private Vector3 generatePosition = new Vector3(50, 0, 50);
+    private Vector3 generatePosition = Vector3.zero;
 
+    private float bakeTime = 100.0f;
 
     private void Start()
     {
-        //GenerateNavMesh();
+        StartCoroutine(GenerateNavMesh());
     }
 
-    private void GenerateNavMesh()
+    private IEnumerator GenerateNavMesh()
     {
         GameObject obj = Instantiate(map, generatePosition, Quaternion.identity, transform);
-        generatePosition += new Vector3(50, 0, 50);
+        //generatePosition += new Vector3(50, 0, 50);
 
+        yield return new WaitForSeconds(bakeTime);
 
-    }
-
-    private void GenerateNavMeshBake()
-    {
         NavMeshSurface[] surfaces = gameObject.GetComponentsInChildren<NavMeshSurface>();
-
-        if (Time.frameCount > 600)
+        foreach (var s in surfaces)
         {
-            foreach (var s in surfaces)
-            {
-                s.RemoveData();
-                s.BuildNavMesh();
-            }
+            s.RemoveData();
+            s.BuildNavMesh();
         }
+
+
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            GenerateNavMesh();
-        }
-
-        if(Input.GetKeyDown(KeyCode.L))
-        {
-            GenerateNavMeshBake();
-        }
-    }
 }
