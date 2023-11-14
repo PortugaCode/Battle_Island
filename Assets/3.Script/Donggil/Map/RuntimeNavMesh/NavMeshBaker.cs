@@ -28,14 +28,12 @@ public class NavMeshBaker : MonoBehaviour
     {
         NavMeshSurface[] surfaces = gameObject.GetComponentsInChildren<NavMeshSurface>();
 
-        if (Time.frameCount > 600)
+        foreach (var s in surfaces)
         {
-            foreach (var s in surfaces)
-            {
-                s.RemoveData();
-                s.BuildNavMesh();
-            }
+            s.RemoveData();
+            s.BuildNavMesh();
         }
+
     }
 
     private void Update()
@@ -45,7 +43,7 @@ public class NavMeshBaker : MonoBehaviour
             GenerateNavMesh();
         }
 
-        if(Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.L))
         {
             GenerateNavMeshBake();
         }
