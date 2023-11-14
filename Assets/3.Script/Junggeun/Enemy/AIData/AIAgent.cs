@@ -122,6 +122,7 @@ public class AIAgent : MonoBehaviour
         stateMachine.RegsisterState(new AIFindArmorState());
         stateMachine.RegsisterState(new AIStandbyState());
         stateMachine.RegsisterState(new AIRuntoWall());
+        stateMachine.RegsisterState(new AIAlreadyDieState());
         #endregion
 
 

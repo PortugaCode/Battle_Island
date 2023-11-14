@@ -26,6 +26,8 @@ public class AIChasePlayerState : AIState
 
     public void AIUpdate(AIAgent agent)
     {
+
+
         Chasetimer += Time.deltaTime;
         if (agent.enemyHealth.IsDie)
         {
@@ -111,7 +113,7 @@ public class AIChasePlayerState : AIState
 
     public void Exit(AIAgent agent)
     {
-        
+
     }
 
     private bool CheckWall(AIAgent agent)
