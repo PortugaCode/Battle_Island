@@ -26,9 +26,9 @@ public class ItemGrid_C : MonoBehaviour
         Init(gridSizeWidth, gridSizeHeight);
     }
 
-    public InventoryItem_C PickUpItem(int x, int y)
+    public InventoryItem_C PickUpItem(int x, int y) //아이템을 놓고 다시 집을 때
     {
-        InventoryItem_C toReturn = inventoryItemSlot[x, y];
+        InventoryItem_C toReturn = inventoryItemSlot[x, y]; //수정?
 
         if (toReturn == null)
         {
@@ -107,8 +107,7 @@ public class ItemGrid_C : MonoBehaviour
     public bool PlaceItem(InventoryItem_C inventoryItem, int posX, int posY,
         ref InventoryItem_C overlapItem)
     {
-        if (!BoundryCheck(posX, posY, inventoryItem.WIDTH,
-            inventoryItem.HEIGHT))
+        if (!BoundryCheck(posX, posY, inventoryItem.WIDTH, inventoryItem.HEIGHT))
         {
             return false;
         }
@@ -192,7 +191,7 @@ public class ItemGrid_C : MonoBehaviour
         return true;
     }
 
-    private bool CheckAvailableSpace(int posX, int posY, int width, int height)
+    private bool CheckAvailableSpace(int posX, int posY, int width, int height) //수정 - 중첩되면 하이라이트 빨갛게 만들기
     {
         for (int x = 0; x < width; x++)
         {

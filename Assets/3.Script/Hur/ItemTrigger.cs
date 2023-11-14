@@ -14,16 +14,15 @@ public class ItemTrigger : MonoBehaviour
             if (itemData != null)
             {
                 //최근에 저장한 정보 하나만 뜸
-                PlayerPrefs.SetInt("아이템 ID", itemData.itemID);
+                //PlayerPrefs.SetInt("아이템 ID", itemData.itemID);
                 //PlayerPrefs.SetString("아이템 이름", itemData.itemName);
 
                 //Diablo 인벤토리에도 정보를 줘야 함
                 //최근에 저장한 정보 하나만 뜸
-                PlayerPrefs.SetInt("Item_ID", itemData_c.itemID);
+                //PlayerPrefs.SetInt("Item_ID", itemData_c.itemID);
                 //Debug.Log($"Diblo에게 전할 것 : {PlayerPrefs.GetInt("Item_ID")}");
                 
                 //Debug.Log($"2. 이것은 {PlayerPrefs.GetString("아이템 이름")}이다.");
-
                 //=====================================================================
 
             }
