@@ -53,7 +53,6 @@ public class CombatControl : MonoBehaviour
 
     // Mouse Input
     [Header("Mouse Input")]
-    public bool timerOn = false;
     public float clickTimer = 0f;
 
     // Zoom
@@ -167,19 +166,13 @@ public class CombatControl : MonoBehaviour
         // [ÃÑ & ¿ìÅ¬¸¯]
         if (currentWeapon == Weapon.Gun && cm.isGround && !isReloading)
         {
-            if (Input.GetMouseButtonDown(1))
-            {
-                timerOn = true;
-            }
-
-            if (timerOn)
+            if (Input.GetMouseButton(1))
             {
                 clickTimer += Time.deltaTime;
             }
 
             if (clickTimer >= thirdPersonEnterTime)
             {
-                timerOn = false;
                 clickTimer = 0;
 
                 if (!isFirstPerson && !isThirdPerson)
@@ -200,7 +193,6 @@ public class CombatControl : MonoBehaviour
 
             if (Input.GetMouseButtonUp(1))
             {
-                timerOn = false;
                 clickTimer = 0;
 
                 if (isFirstPerson)
