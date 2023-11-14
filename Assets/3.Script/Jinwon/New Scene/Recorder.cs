@@ -51,7 +51,7 @@ public class Recorder : MonoBehaviour
         GetComponent<CharacterMovement>().canMove = false;
 
         // 적 위치 설정
-        Instantiate(enemy, enemyTransform.position, Quaternion.identity);
+        //Instantiate(enemy, enemyTransform.position, Quaternion.identity);
 
         // 총알 발사
         GameObject endBullet = Instantiate(bulletPrefab, bulletStartPosition, Quaternion.identity);
