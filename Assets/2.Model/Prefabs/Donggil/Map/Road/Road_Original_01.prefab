@@ -1,5 +1,49 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1801616705037510503
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8705153536823907666}
+  - component: {fileID: 7562122035116757485}
+  m_Layer: 6
+  m_Name: Rubbish
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8705153536823907666
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801616705037510503}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2731433468402107851}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7562122035116757485
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801616705037510503}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 0.2, z: 10}
+  m_Center: {x: 0, y: -0.1, z: 0}
 --- !u!1 &3695876610219643561
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,8 +53,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2731433468402107851}
-  - component: {fileID: -6121007358323219698}
   - component: {fileID: 3609408856016311238}
+  - component: {fileID: 3458970087114831627}
   m_Layer: 6
   m_Name: Road_Original_01
   m_TagString: Wall
@@ -31,23 +75,10 @@ Transform:
   m_Children:
   - {fileID: 8765284534935182191}
   - {fileID: 6889295229883456656}
+  - {fileID: 8705153536823907666}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-6121007358323219698
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3695876610219643561}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dad55641a1f637c498b5424d7f0d9fb9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  car: {fileID: 3145407891967639577, guid: 44a169ec02ad22f4a9d5afa8ab7eaf2b, type: 3}
-  destroyedCar: {fileID: 886726284466287234, guid: 8135d20e6d728464982eddc82f39a453, type: 3}
 --- !u!65 &3609408856016311238
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -56,11 +87,39 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3695876610219643561}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 20, y: 0.2, z: 10}
   m_Center: {x: 0, y: -0.1, z: 0}
+--- !u!114 &3458970087114831627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3695876610219643561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eae7e6db6e920bb44b12f8e472344433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapObjects:
+  - {fileID: 7345728220412417428, guid: c27f256cb991f0849988731baca289fb, type: 3}
+  - {fileID: 7912723880885510918, guid: 0a44b983af30a7b4382e6bf9cf9a97ec, type: 3}
+  - {fileID: 4039330595771197704, guid: d5360c9ca44fa574cadae5c8aa910a51, type: 3}
+  - {fileID: 6746168968417587371, guid: 02b628c3380fb56418f4f6a0454db92f, type: 3}
+  - {fileID: 1057607703463762011, guid: 943311fda8f14f545bd9baac864c970a, type: 3}
+  - {fileID: 4591437680388726000, guid: 45a48a0b733ab2140b27131e89c7307c, type: 3}
+  - {fileID: 7950522786832729484, guid: 965ca49a88c49414088b02d9d81704ab, type: 3}
+  - {fileID: 7606907907277218845, guid: 40dc4fa8925a3c646960d2969f640b57, type: 3}
+  - {fileID: 2092500224253737708, guid: 09eb011826a750448b02e9604dd34e5f, type: 3}
+  mapObj: []
+  spawnPosition: {fileID: 8705153536823907666}
+  spawnRange: {fileID: 7562122035116757485}
+  isRoad: 1
+  rangeStart: 8
+  rangeEnd: 15
 --- !u!1 &6883770717861395238
 GameObject:
   m_ObjectHideFlags: 0

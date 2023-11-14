@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 884353788880196082}
   - component: {fileID: 881642044560485184}
   - component: {fileID: 871907796465831726}
-  - component: {fileID: 912282713848865844}
   - component: {fileID: 885772175368162387}
   - component: {fileID: 60981790440777231}
+  - component: {fileID: 5150305673002385930}
   m_Layer: 0
   m_Name: Car_Destroyed_01
-  m_TagString: Untagged
+  m_TagString: Dongil01
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87,20 +87,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &912282713848865844
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 886726284466287234}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43711813637374332, guid: 7c034f9ea91841146beb7de7876b37b9, type: 2}
 --- !u!54 &885772175368162387
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -133,6 +119,19 @@ MonoBehaviour:
   - {fileID: 2357587423808510298}
   - {fileID: 6066761359108322568}
   - {fileID: 7326348868768402201}
+--- !u!65 &5150305673002385930
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886726284466287234}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.8, y: 1.25, z: 4.75}
+  m_Center: {x: 0, y: 0.65, z: 0}
 --- !u!1 &2357587423808510298
 GameObject:
   m_ObjectHideFlags: 0
