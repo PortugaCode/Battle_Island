@@ -40,9 +40,14 @@ public class EnemyHealth : MonoBehaviour
     private void Update()
     {
         blinkTimer -= Time.deltaTime;
+        BlinkBody();
+    }
+
+    private void BlinkBody()
+    {
         float lerp = Mathf.Clamp01(blinkTimer / blinkDu);
         float intensity = (lerp * blinkIn) + 1.0f;
-        for(int i = 0; i < skinnedMeshRenderer.Length; i++)
+        for (int i = 0; i < skinnedMeshRenderer.Length; i++)
         {
             skinnedMeshRenderer[i].material.color = Color.white * intensity;
         }

@@ -42,7 +42,6 @@ public class AIAgent : MonoBehaviour
     [Header("FireEffect")]
     public ParticleSystem FireEffect;
     public ParticleSystem FireEffect1;
-    public ParticleSystem FireEffect2;
     public GameObject FireLight;
 
 

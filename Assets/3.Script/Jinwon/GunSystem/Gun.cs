@@ -176,15 +176,6 @@ public class Gun : MonoBehaviour
         agent.FireEffect1.Play();
         agent.animator.SetTrigger("Fire");
         agent.enemyAudio.PlayShot();
-        agent.FireEffect2.transform.position = agent.hit.point;
-
-        if (agent.hit.collider)
-        {
-            if (agent.hit.collider.CompareTag("Wall"))
-            {
-                agent.FireEffect2.Play();
-            }
-        }
 
         agent.magAmmo--;
 
