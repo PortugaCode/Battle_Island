@@ -18,11 +18,9 @@ public class InventoryController_C : MonoBehaviour
 
     private InventoryHighlight_C inventoryHighlight;
 
-    //Test 18:29
-    private InventorySlot[] slots;
-    private List<ItemData_hur> sur_inventoryItemList; //플레어아가 소지한 아이템 리스트(주변)
-    private List<ItemData_hur> diablo_inventoryItemList; //플레어아가 소지한 아이템 리스트ㅁ(디아블로)
-
+    //주변 슬롯
+    public Slot[] slots;
+    public Transform slotHolder;
 
     public ItemGrid_C SelectedItemGrid
     {
@@ -37,6 +35,7 @@ public class InventoryController_C : MonoBehaviour
     {
         inventoryHighlight = GetComponent<InventoryHighlight_C>();
         noticeItem = FindObjectOfType<NoticeItem>();
+        slots = slotHolder.GetComponentsInChildren<Slot>();
     }
     private void Update()
     {

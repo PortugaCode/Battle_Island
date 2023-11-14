@@ -6,6 +6,7 @@ public class OpenInvent : MonoBehaviour
 {
     [SerializeField] GameObject inventoryObj;
     public bool Open = false;
+
     private void Start()
     {
         inventoryObj.SetActive(false);

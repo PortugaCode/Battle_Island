@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
      */
     [SerializeField] private Rigidbody player_r;
     [SerializeField] private float Speed = 8f;
-    [SerializeField] private Database_hur database;
+    //[SerializeField] private Database_hur database;
     //public ItemData_C itemData;
 
     public bool eatItem = false;
@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         player_r = GetComponent<Rigidbody>();
-        database = FindObjectOfType<Database_hur>();
+        //database = FindObjectOfType<Database_hur>();
     }
     private void Update()
     {
@@ -39,14 +39,16 @@ public class PlayerController : MonoBehaviour
             eatItem = true;
             Destroy(other.gameObject);
             //Debug.Log("1. 장착가능한 아이템을 얻었다");
+            Debug.Log(eatItem);
         }
         else if (!eatItem && other.CompareTag("Consumer"))
         {
-            //database.GetItem(itemID, _count);
             eatItem = true;
             Destroy(other.gameObject);
             //Debug.Log("1. extra 아이템을 얻었다");
+            Debug.Log(eatItem);
         }
 
     }
+
 }
