@@ -295,6 +295,7 @@ GameObject:
   - component: {fileID: 8114154349968955308}
   - component: {fileID: 964360804150250270}
   - component: {fileID: 4008648090644062554}
+  - component: {fileID: 4661683361629715414}
   m_Layer: 29
   m_Name: SmallHouse_01_Collider
   m_TagString: Wall
@@ -519,6 +520,7 @@ MonoBehaviour:
   scale: {fileID: 0}
   layers: 29
   isThislayerSame: 1
+  targetFrame: 1000
 --- !u!114 &964360804150250270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,6 +539,7 @@ MonoBehaviour:
   scale: {fileID: 0}
   layers: 6
   isThislayerSame: 0
+  targetFrame: 1000
 --- !u!114 &4008648090644062554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -555,6 +558,23 @@ MonoBehaviour:
   isInMap: 0
   layers: 29
   isThislayerSame: 1
+--- !u!114 &4661683361629715414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307744244480943549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4513fc1a5ee6d340a442dd4ea1150fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materials:
+  - {fileID: 2100000, guid: a74066172cf19cd4bacae3c6600a7217, type: 2}
+  - {fileID: 2100000, guid: f773f9e7d08bedd44b73534af5c327e2, type: 2}
+  - {fileID: 2100000, guid: 97a96693c2c6e934cb4c090fe8d0d36c, type: 2}
+  - {fileID: 2100000, guid: 104879306de394242abb32cffee7abcd, type: 2}
 --- !u!1 &3999590758403764096
 GameObject:
   m_ObjectHideFlags: 0

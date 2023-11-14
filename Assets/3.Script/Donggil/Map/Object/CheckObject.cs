@@ -82,7 +82,7 @@ public class CheckObject : MonoBehaviour
 
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
         if (isInMap)

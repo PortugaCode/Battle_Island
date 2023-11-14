@@ -35,6 +35,7 @@ GameObject:
   - component: {fileID: 4181261099399455225}
   - component: {fileID: -351394300185567968}
   - component: {fileID: 8665732861117760785}
+  - component: {fileID: -2403415651570838182}
   m_Layer: 29
   m_Name: House_03_Collider
   m_TagString: Wall
@@ -403,6 +404,7 @@ MonoBehaviour:
   scale: {fileID: 0}
   layers: 29
   isThislayerSame: 1
+  targetFrame: 1000
 --- !u!114 &-351394300185567968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -421,6 +423,7 @@ MonoBehaviour:
   scale: {fileID: 0}
   layers: 6
   isThislayerSame: 0
+  targetFrame: 1000
 --- !u!114 &8665732861117760785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,6 +442,23 @@ MonoBehaviour:
   isInMap: 0
   layers: 29
   isThislayerSame: 1
+--- !u!114 &-2403415651570838182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3974452800248597353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4513fc1a5ee6d340a442dd4ea1150fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materials:
+  - {fileID: 2100000, guid: a74066172cf19cd4bacae3c6600a7217, type: 2}
+  - {fileID: 2100000, guid: f773f9e7d08bedd44b73534af5c327e2, type: 2}
+  - {fileID: 2100000, guid: 97a96693c2c6e934cb4c090fe8d0d36c, type: 2}
+  - {fileID: 2100000, guid: 104879306de394242abb32cffee7abcd, type: 2}
 --- !u!1 &3974861832003785885
 GameObject:
   m_ObjectHideFlags: 0
