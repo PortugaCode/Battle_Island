@@ -7,39 +7,46 @@ public class BulletController : MonoBehaviour
     private Rigidbody rig;
     //private Transform Target;
     private Vector3 direction;
+    private EffectManager effectManager;
 
     public float speed = 4f;
+    public float Damage;
 
-    private void Start()
+    private void Awake()
     {
+        GameObject.FindGameObjectWithTag("Effect").TryGetComponent(out effectManager);
         TryGetComponent(out rig);
-        //GameObject.FindGameObjectWithTag("Point").TryGetComponent(out Target);
-
-        direction = transform.forward;
-        direction.Normalize();
-
-
-        rig.AddForce(direction * speed);
     }
 
-    /*    private void Update()
-        {
 
-            transform.Translate(transform.forward * speed * Time.deltaTime);
-        }*/
+    private void FixedUpdate()
+    {
+        rig.velocity = transform.forward * speed;
+    }
+
+
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Player"))
         {
-            gameObject.SetActive(false);
+            collision.gameObject.GetComponent<CombatControl>().TakeDamage(Damage);
             BulletPooling.Instance.Bullets.Enqueue(gameObject);
+            gameObject.transform.localPosition = Vector3.zero;
+            gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
+            rig.velocity = Vector3.zero;
+            gameObject.SetActive(false);
         }
-        else if(collision.collider)
+        else if (collision.collider)
         {
-
-            gameObject.SetActive(false);
+            effectManager.fireEffect.transform.position = gameObject.transform.position;
+            effectManager.fireEffect.Play();
             BulletPooling.Instance.Bullets.Enqueue(gameObject);
+            gameObject.transform.localPosition = Vector3.zero;
+            gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
+            rig.velocity = Vector3.zero;
+            gameObject.SetActive(false);
         }
+
     }
 }

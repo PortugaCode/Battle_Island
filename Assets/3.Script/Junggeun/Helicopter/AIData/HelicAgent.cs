@@ -10,6 +10,8 @@ public class HelicAgent : MonoBehaviour
     [HideInInspector] public RaycastHit hit;
     [HideInInspector] public RaycastHit bullethit;
     [HideInInspector] public bool isShot;
+    [HideInInspector] public bool isShotPattern = false;
+    [HideInInspector] public EnemyAudio enemyAudio;
 
     [Header("Helicopter StartState")]
     public HelicStateID initalState;
@@ -22,6 +24,7 @@ public class HelicAgent : MonoBehaviour
 
     [Header("TargetAim")]
     public Transform OriginalTarget;
+    public Transform OriginalAimTarget;
     public Transform AimTarget;
     public Transform BodyTarget;
     public Transform PositionTarget;
@@ -40,6 +43,8 @@ public class HelicAgent : MonoBehaviour
         stateMachine.RegsisterState(new HelicRandomMoveState());
         stateMachine.RegsisterState(new HelicChasePlayerState());
         stateMachine.RegsisterState(new HelicShootingState());
+        stateMachine.RegsisterState(new HelicBackMoveState());
+        stateMachine.RegsisterState(new HelicDieState());
 
         #endregion
 
@@ -48,6 +53,8 @@ public class HelicAgent : MonoBehaviour
         {
             GameObject.FindGameObjectWithTag("Player").TryGetComponent(out Player);
         }
+
+        transform.GetChild(0).TryGetComponent(out enemyAudio);
 
         stateMachine.ChangeState(initalState);
     }

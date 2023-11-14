@@ -86,7 +86,7 @@ public class Visualizer : MonoBehaviour
                     currentPosition += direction * length;
                     roadHelper.PlaceStreetPosition(tempPosition, Vector3Int.RoundToInt(direction), length);
                     Length -= 2;
-                    positions.Add(currentPosition);
+                    //positions.Add(currentPosition);
                     break;
                 case EncodingLetters.turnRight:
                     direction = Quaternion.AngleAxis(angle, Vector3.up) * direction;

@@ -21,6 +21,11 @@ public class AIFindWeaponState : AIState
 
         animator = agent.gameObject.GetComponent<Animator>();
         pickup = FindClosestWeapon(agent);
+        if (pickup == null)
+        {
+            agent.stateMachine.ChangeState(AiStateID.RandomMove);
+            return;
+        }
         agent.navMeshAgent.destination = pickup.transform.position;
         agent.navMeshAgent.speed = 5;
     }
@@ -30,6 +35,7 @@ public class AIFindWeaponState : AIState
         if (pickup == null)
         {
             agent.stateMachine.ChangeState(AiStateID.RandomMove);
+            return;
         }
 
         else if (pickup.GetComponent<EquipCheck>().isEquip)
@@ -38,6 +44,7 @@ public class AIFindWeaponState : AIState
             if(pickup != null)
             {
                 agent.stateMachine.ChangeState(AiStateID.RandomMove);
+                return;
             }
         }
 

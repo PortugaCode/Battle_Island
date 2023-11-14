@@ -19,8 +19,11 @@ public class CharacterMovement : MonoBehaviour
     public float currentSpeed;
     public float walkSpeed = 2.5f;
     public float runSpeed = 6.5f;
+    public float forwardSpeed = 0f;
     public float firstPersonSpeed = 0.5f;
     public float thirdPersonSpeed = 1.0f;
+    public bool isCrouch = false;
+    private float crouchTimer = 0f;
 
     // Jump
     private float jumpForce = 5.0f;
@@ -44,20 +47,42 @@ public class CharacterMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         // [이동 속도 초기화]
+        forwardSpeed = walkSpeed;
         currentSpeed = walkSpeed;
     }
 
     private void Update()
     {
+        if (combatControl.isDead)
+        {
+            return;
+        }
+
         if (canMove)
         {
             GetInput();
             GroundCheck();
         }
 
+        if (isCrouch)
+        {
+            crouchTimer += Time.deltaTime;
+        }
+
+        if (!isRun && currentSpeed > walkSpeed) // 속도 천천히 줄어들게
+        {
+            currentSpeed -= Time.deltaTime * 10.0f;
+            forwardSpeed = currentSpeed;
+        }
+
         if (Input.GetKeyDown(KeyCode.Insert)) // TEST
         {
             InventoryControl.instance.ShowInventory();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Home)) // Test
+        {
+            animator.SetTrigger("Dance");
         }
     }
 
@@ -81,22 +106,60 @@ public class CharacterMovement : MonoBehaviour
         animator.SetFloat("MoveSpeedZ", z * currentSpeed);
 
         // [속도 변경] - 걷기, 달리기
-        if (!isRun && Input.GetKey(KeyCode.LeftShift) && z > 0)
+        if (Input.GetKey(KeyCode.LeftShift) && z > 0 && isGround)
         {
-            isRun = true;
-            currentSpeed = runSpeed;
+            if (!combatControl.isFirstPerson && !combatControl.isThirdPerson)
+            {
+                if (isCrouch && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+                {
+                    isCrouch = false;
+                    crouchTimer = 0;
+                    animator.SetTrigger("UnCrouch");
+                    animator.SetBool("isCrouch", isCrouch);
+                }
+
+                isRun = true;
+
+                if (forwardSpeed < runSpeed)
+                {
+                    forwardSpeed += Time.deltaTime * 7.5f;
+                }
+
+                currentSpeed = forwardSpeed;
+            }
         }
         
-        if (isRun && Input.GetKeyUp(KeyCode.LeftShift))
+        // [앉기]
+        if (isGround && combatControl.currentWeapon == Weapon.Gun && Input.GetKeyDown(KeyCode.C))
+        {
+            if (combatControl.isFirstPerson || combatControl.isThirdPerson)
+            {
+                return;
+            }
+
+            if (isCrouch)
+            {
+                isCrouch = false;
+                crouchTimer = 0;
+                animator.SetTrigger("UnCrouch");
+                animator.SetBool("isCrouch", isCrouch);
+            }
+            else
+            {
+                isCrouch = true;
+                animator.SetTrigger("Crouch");
+                animator.SetBool("isCrouch", isCrouch);
+            }
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             isRun = false;
-            currentSpeed = walkSpeed;
         }
 
         // [점프]
         if (isGround && Input.GetKeyDown(KeyCode.Space))
         {
-            combatControl.timerOn = false;
             combatControl.clickTimer = 0;
 
             if (combatControl.isFirstPerson)
@@ -111,6 +174,12 @@ public class CharacterMovement : MonoBehaviour
                 currentSpeed = walkSpeed;
                 zoomControl.Third_ZoomOut();
             }
+
+            isCrouch = false;
+
+            animator.SetTrigger("Jump");
+
+            forwardSpeed = walkSpeed;
 
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
@@ -144,7 +213,31 @@ public class CharacterMovement : MonoBehaviour
 
         // [이동]
         Vector3 targetDirection = transform.forward * z * currentSpeed + transform.right * x * strafeSpeed;
-        rb.velocity = new Vector3(targetDirection.x, rb.velocity.y, targetDirection.z);
+
+        if (Vector3.Magnitude(targetDirection) > 0)
+        {
+            if (isCrouch && crouchTimer > 0.95f)
+            {
+                if (combatControl.isThirdPerson)
+                {
+                    combatControl.isThirdPerson = false;
+                    currentSpeed = walkSpeed;
+                    zoomControl.Third_ZoomOut();
+                }
+
+                isCrouch = false;
+                crouchTimer = 0;
+                animator.SetTrigger("UnCrouch");
+                animator.SetBool("isCrouch", isCrouch);
+            }
+            
+            if (!isCrouch)
+            {
+                rb.velocity = new Vector3(targetDirection.x, rb.velocity.y, targetDirection.z);
+            }
+            
+        }
+        
     }
 
     private void GroundCheck()

@@ -76,6 +76,7 @@ public class Gun : MonoBehaviour
                     {
                         GameObject currentBullet = ObjectPoolControl.instance.bulletQueue.Dequeue();
                         currentBullet.transform.position = zoomControl.firstPersonCamera.transform.position + forwardDirection;
+                        currentBullet.GetComponent<Bullet>().startPostion = zoomControl.firstPersonCamera.transform.position + forwardDirection;
                         currentBullet.transform.forward = forwardDirection;
                         currentBullet.GetComponent<Bullet>().bulletDamage = damage;
                         currentBullet.GetComponent<Bullet>().hit = raycastHit;
@@ -94,6 +95,7 @@ public class Gun : MonoBehaviour
                     {
                         GameObject currentBullet = ObjectPoolControl.instance.bulletQueue.Dequeue();
                         currentBullet.transform.position = muzzleTransform.position;
+                        currentBullet.GetComponent<Bullet>().startPostion = muzzleTransform.position;
                         currentBullet.transform.forward = raycastHit.point - muzzleTransform.position;
                         currentBullet.GetComponent<Bullet>().bulletDamage = damage;
                         currentBullet.GetComponent<Bullet>().hit = raycastHit;
@@ -124,6 +126,11 @@ public class Gun : MonoBehaviour
             {
                 currentMag += InventoryControl.instance.ammo;
                 InventoryControl.instance.ammo = 0;
+            }
+
+            if (InventoryControl.instance.ammo == 0)
+            {
+                InventoryControl.instance.RemoveItem(108);
             }
         }
 
@@ -161,7 +168,7 @@ public class Gun : MonoBehaviour
         b.gameObject.SetActive(true);
         b.transform.position = agent.CurrentGun_Gun.muzzleTransform.position;
         b.transform.rotation = agent.CurrentGun_Gun.muzzleTransform.rotation;
-
+        b.GetComponent<BulletController>().Damage = agent.CurrentGun_Gun.damage;
 
         agent.FireEffect.transform.position = muzzleTransform.position;
         agent.FireEffect1.transform.position = transform.position;
@@ -169,15 +176,6 @@ public class Gun : MonoBehaviour
         agent.FireEffect1.Play();
         agent.animator.SetTrigger("Fire");
         agent.enemyAudio.PlayShot();
-        agent.FireEffect2.transform.position = agent.hit.point;
-
-        if (agent.hit.collider)
-        {
-            if (agent.hit.collider.CompareTag("Wall"))
-            {
-                agent.FireEffect2.Play();
-            }
-        }
 
         agent.magAmmo--;
 

@@ -16,8 +16,8 @@ public class Recorder : MonoBehaviour
     private Transform enemyTransform;
     private Vector3 bulletDirection;
 
-    private GameObject player;
     private GameObject enemy;
+    private Vector3 bulletStartPosition;
 
     public GameObject bulletPrefab;
 
@@ -32,16 +32,15 @@ public class Recorder : MonoBehaviour
             Destroy(gameObject);
         }
 
-        player = GameObject.FindGameObjectWithTag("Player");
-
         bulletCamera = cameras.transform.Find("Bullet Camera").GetComponent<CinemachineFreeLook>();
     }
 
-    public void UpdateData(GameObject enemy, Vector3 bulletDirection)
+    public void UpdateData(GameObject enemy, Vector3 bulletStartPosition , Vector3 bulletDirection)
     {
         Debug.Log("UPDATE DATA");
 
         this.enemy = enemy;
+        this.bulletStartPosition = bulletStartPosition;
         this.enemyTransform = enemy.transform;
         this.bulletDirection = bulletDirection;
     }
@@ -49,13 +48,13 @@ public class Recorder : MonoBehaviour
     public void Replay()
     {
         UIManager.instance.TurnOffUI();
-        player.GetComponent<CharacterMovement>().canMove = false;
+        GetComponent<CharacterMovement>().canMove = false;
 
         // 적 위치 설정
         Instantiate(enemy, enemyTransform.position, Quaternion.identity);
 
         // 총알 발사
-        GameObject endBullet = Instantiate(bulletPrefab, player.GetComponent<ShootTest>().shootStartPoint.position, Quaternion.identity);
+        GameObject endBullet = Instantiate(bulletPrefab, bulletStartPosition, Quaternion.identity);
         endBullet.transform.forward = bulletDirection;
 
         // 카메라가 총알 추적

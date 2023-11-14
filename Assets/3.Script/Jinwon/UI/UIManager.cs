@@ -79,14 +79,14 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ShowGetItemUI(GameObject item)
+    public void ShowGetItemUI()
     {
         if (!getItemUI.activeSelf)
         {
             getItemUI.SetActive(true);
         }
         
-        getItemUI.transform.Find("Text").GetComponent<Text>().text = $"{item.GetComponent<ItemControl>().itemName} 줍기";
+        getItemUI.transform.Find("Text").GetComponent<Text>().text = $"{InventoryControl.instance.focusedItems[InventoryControl.instance.focusedItems.Count - 1].GetComponent<ItemControl>().itemName} 줍기";
     }
 
     public void CloseGetItemUI()

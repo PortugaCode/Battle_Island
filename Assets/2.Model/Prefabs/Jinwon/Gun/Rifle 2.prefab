@@ -500,9 +500,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   muzzleTransform: {fileID: 4441207518060015459}
-  bulletPrefab: {fileID: 7752664833668816889, guid: ed1b94f43a5a7f947abb6ddc42ac1a31, type: 3}
   muzzleFlashEffectPrefab: {fileID: 1023579220386104652, guid: 839014eebe9194f40a38e36875037241, type: 3}
   gunDatas:
   - {fileID: 11400000, guid: 4e1e3f8ccb79d4545b789ad9fb15bce0, type: 2}
   - {fileID: 11400000, guid: 510c86938595bd448bd09deeb968fa1b, type: 2}
   - {fileID: 11400000, guid: 265bf9dd06543eb40b9483854c3b7203, type: 2}
+  gunType: 0
+  magSize: 30
+  currentMag: 0
+  canShoot: 1

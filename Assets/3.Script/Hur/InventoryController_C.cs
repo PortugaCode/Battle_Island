@@ -7,22 +7,20 @@ public class InventoryController_C : MonoBehaviour
     [SerializeField] private ItemGrid_C selectedItemGrid;
     [SerializeField] private NoticeItem noticeItem;
 
-    //주변에서 끌어오는 걸 구현할 경우 CreateRandomItem을 없애야 함
-
     InventoryItem_C selectedItem;
     InventoryItem_C overlapItem;
     RectTransform rect;
 
     [SerializeField] List<ItemData_C> item;
     [SerializeField] GameObject itemPrefab;
-    private int prefabNum;
-    private string TagName;
-    //[SerializeField] GameObject itemPrefab_wear; //wearable tag가 있는 아이템
-    //[SerializeField] GameObject itemPrefab_etc; // 다른 태그가 붙은 아이템
-
+    
     [SerializeField] Transform canvasT;
 
     private InventoryHighlight_C inventoryHighlight;
+
+    //주변 슬롯
+    public Slot[] slots;
+    public Transform slotHolder;
 
     public ItemGrid_C SelectedItemGrid
     {
@@ -37,6 +35,7 @@ public class InventoryController_C : MonoBehaviour
     {
         inventoryHighlight = GetComponent<InventoryHighlight_C>();
         noticeItem = FindObjectOfType<NoticeItem>();
+        slots = slotHolder.GetComponentsInChildren<Slot>();
     }
     private void Update()
     {
@@ -47,23 +46,10 @@ public class InventoryController_C : MonoBehaviour
             if (selectedItem == null)
             {
                 noticeItem.ItemDragOn = false;
-                CreateRandomItem();
+                CreateItem();
 
             }
         }
-
-        //if (Input.GetKeyDown(KeyCode.Q)) //수정 - 생략
-        //{
-        //    if (selectedItem == null)
-        //    {
-        //        CreateRandomItem();
-        //    }
-        //}
-
-        //if (Input.GetKeyDown(KeyCode.W)) //수정 - 생략
-        //{
-        //    InsertRandomItem();
-        //}
 
         if (Input.GetMouseButtonDown(1))
         {
@@ -71,7 +57,7 @@ public class InventoryController_C : MonoBehaviour
         }
 
 
-        if (selectedItemGrid == null) //수정
+        if (selectedItemGrid == null)
         {
             inventoryHighlight.Show(false);
             return;
@@ -94,31 +80,6 @@ public class InventoryController_C : MonoBehaviour
 
         selectedItem.Rotate();
     }
-
-    //private void InsertRandomItem() //수정 - 생략
-    //{
-    //    if (selectedItemGrid == null)
-    //    {
-    //        return;
-    //    }
-
-    //    CreateRandomItem();
-    //    InventoryItem_C itemToInsert = selectedItem;
-    //    selectedItem = null;
-    //    InsertItem(itemToInsert);
-    //}
-
-    //private void InsertItem(InventoryItem_C itemToInsert)//수정 - 생략
-    //{
-    //    Vector2Int? posOnGrid = selectedItemGrid.FindSpaceForObject(itemToInsert);
-
-    //    if (posOnGrid == null)
-    //    {
-    //        return;
-    //    }
-
-    //    selectedItemGrid.PlaceItem(itemToInsert, posOnGrid.Value.x, posOnGrid.Value.y);
-    //}
 
     Vector2Int oldPosition;
     InventoryItem_C itemToHighlight;
@@ -164,11 +125,10 @@ public class InventoryController_C : MonoBehaviour
 
     }
 
-
-    public void CreateRandomItem()//수정 - 생략
-     //걍 애초에 slot프리팹에 이 함수를 넣으면 되잖아
+    public void CreateItem()//수정 - 생략 //슬롯 스크립트랑 연결할것
+     //slot프리팹에 넣을 함수
     {
-        Debug.Log("아이템 감지 in InventoryController");
+        //Debug.Log("아이템 감지 in InventoryController");
         
         InventoryItem_C inventoryItem =
         Instantiate(itemPrefab).GetComponent<InventoryItem_C>();
@@ -178,39 +138,76 @@ public class InventoryController_C : MonoBehaviour
         rect.SetParent(canvasT);
         rect.SetAsLastSibling();
 
-        int selectedItemID = UnityEngine.Random.Range(0, item.Count); //랜덤 수정 - 변경
-        inventoryItem.Set(item[selectedItemID]);
+        int matchingID = PlayerPrefs.GetInt("Item_ID"); //아이템 정보 - 슬롯 몇번째를 눌렀는지 정보를 알아내면 됨
 
+        //여러 개 같이 묶여서 덮어쓰는 중. 따로 눌러서 할 수 있음?
+
+        int selectedItemID = 0;
+
+        switch (matchingID)
+        {
+            case(100): 
+                selectedItemID = 0;
+                break;
+            case (101): 
+                selectedItemID = 1;
+                break;
+            case (102):
+                selectedItemID = 2;
+                break;
+            case (103):
+                selectedItemID = 3;
+                break;
+            case (104):
+                selectedItemID = 4;
+                break;
+            case (105):
+                selectedItemID = 5;
+                break;
+            case (106):
+                selectedItemID = 6;
+                break;
+            case (107):
+                selectedItemID = 7;
+                break;
+            case (108):
+                selectedItemID = 8;
+                break;
+            case (109):
+                selectedItemID = 9;
+                break;
+            case (110):
+                selectedItemID = 10;
+                break;
+            case (111):
+                selectedItemID = 11;
+                break;
+            case (112):
+                selectedItemID = 12;
+                break;
+            case (113):
+                selectedItemID = 13;
+                break;
+            case (114):
+                selectedItemID = 14;
+                break;
+            case (115):
+                selectedItemID = 15;
+                break;
+            case (116):
+                selectedItemID = 16;
+                break;
+            case (117):
+                selectedItemID = 17;
+                break;
+            default: Debug.Log("디폴트값");
+                break;
+        }
+
+        inventoryItem.Set(item[selectedItemID]);
     }
 
-    //public void CreateItem_wear()
-    //{
-    //    InventoryItem_C inventoryItem_wear =
-    //    Instantiate(itemPrefab_wear).GetComponent<InventoryItem_C>();
-    //    selectedItem = inventoryItem_wear;
-
-    //    rect = inventoryItem_wear.GetComponent<RectTransform>();
-    //    rect.SetParent(canvasT);
-    //    rect.SetAsLastSibling();
-
-    //    int selectedItemID_wear = UnityEngine.Random.Range(0, item.Count); //랜덤 수정 - 변경
-    //    inventoryItem_wear.Set(item[selectedItemID_wear]);
-    //}
-    //public void CreateItem_etc()
-    //{
-    //    InventoryItem_C inventoryItem_etc =
-    //       Instantiate(itemPrefab_etc).GetComponent<InventoryItem_C>();
-    //    selectedItem = inventoryItem_etc;
-
-    //    rect = inventoryItem_etc.GetComponent<RectTransform>();
-    //    rect.SetParent(canvasT);
-    //    rect.SetAsLastSibling();
-
-    //    int selectedItemID_etc = UnityEngine.Random.Range(0, item.Count); //랜덤 수정 - 변경
-    //    inventoryItem_etc.Set(item[selectedItemID_etc]);
-    //}
-
-    private void LeftMouseButtonPress()//수정 - 변경
+    private void LeftMouseButtonPress()
     {
         Vector2Int tileGridPosition = GetTileGridPosition();
 
@@ -232,6 +229,7 @@ public class InventoryController_C : MonoBehaviour
         {
             position.x -= (selectedItem.WIDTH - 1) * ItemGrid_C.tileSizeWidth / 2;
             position.y += (selectedItem.HEIGHT - 1) * ItemGrid_C.tileSizeHeight / 2;
+
         }
 
         return selectedItemGrid.GetTileGridPosition(position);
@@ -273,4 +271,5 @@ public class InventoryController_C : MonoBehaviour
             rect.position = Input.mousePosition;
         }
     }
+    
 }

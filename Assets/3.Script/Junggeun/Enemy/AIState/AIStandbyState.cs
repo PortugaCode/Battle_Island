@@ -32,7 +32,7 @@ public class AIStandbyState : AIState
         agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position, 3f * Time.deltaTime);
         agent.transform.LookAt(agent.playerTarget);
         Vector3 Playerdirection = agent.playerTarget.position - agent.CurrentGun_Gun.muzzleTransform.position;
-        if (Playerdirection.magnitude < agent.config.maxSightDistance + 5f)
+        if (Playerdirection.magnitude < agent.config.maxSightDistance + 10f)
         {
             agent.stateMachine.ChangeState(AiStateID.Shooting);
         }
