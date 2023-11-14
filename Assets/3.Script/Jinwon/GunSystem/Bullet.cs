@@ -59,8 +59,8 @@ public class Bullet : MonoBehaviour
             if (collision.collider.transform.root.CompareTag("Enemy"))
             {
                 // 수정 필요
-                //collision.collider.transform.root.GetComponent<EnemyHealth>().TakeDamage(bulletDamage, hitDirection);
-                collision.collider.GetComponent<Damagable>().TakeDamage(bulletDamage);
+                collision.collider.transform.root.GetComponent<EnemyHealth>().TakeDamage(bulletDamage, hitDirection);
+                //collision.collider.GetComponent<Damagable>().TakeDamage(bulletDamage);
                 Recorder.instance.UpdateData(collision.collider.gameObject, startPostion ,transform.forward);
             }
 

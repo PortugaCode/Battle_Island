@@ -416,7 +416,7 @@ public class CombatControl : MonoBehaviour
         currentWeapon = Weapon.None;
     }
 
-    private void TakeDamage(float damage)
+    public void TakeDamage(float damage)
     {
         playerHealth -= damage;
 

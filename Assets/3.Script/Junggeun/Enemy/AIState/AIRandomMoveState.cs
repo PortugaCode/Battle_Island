@@ -116,7 +116,7 @@ public class AIRandomMoveState : AIState
         Collider[] w = Physics.OverlapSphere(agent.transform.position, 20f);
         foreach (Collider col in w)
         {
-            if (col.CompareTag("Bullet"))
+            if (col.CompareTag("AmmoBox"))
             {
                 return true;
             }

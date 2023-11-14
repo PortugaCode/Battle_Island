@@ -20,7 +20,8 @@ public class AIAgent : MonoBehaviour
     [HideInInspector] public SkinnedMeshRenderer mesh;
     [HideInInspector] public UIHealthBar ui;
     [HideInInspector] public Animator animator;
-    [HideInInspector] public Transform playerTarget;
+    [HideInInspector] public Transform playerTarget_Tr;
+    public Transform playerTarget;
 
     [HideInInspector] public bool isneedReload = false;
     [HideInInspector] public bool isnowReload = false;
@@ -100,8 +101,9 @@ public class AIAgent : MonoBehaviour
         ui = GetComponentInChildren<UIHealthBar>();
         if(GameObject.FindGameObjectWithTag("Player"))
         {
-            GameObject.FindGameObjectWithTag("Player").TryGetComponent(out playerTarget);
+            GameObject.FindGameObjectWithTag("Player").TryGetComponent(out playerTarget_Tr);
         }
+        GameObject.FindGameObjectWithTag("PlayerTarget").TryGetComponent(out playerTarget);
         //GameObject.FindGameObjectWithTag("Player").TryGetComponent(out playerTarget);
         //===========================================================================
 
@@ -130,7 +132,10 @@ public class AIAgent : MonoBehaviour
 
     private void Update()
     {
+
         stateMachine.Update();
+        playerTarget.position = playerTarget_Tr.position + new Vector3(0f, 1.2f, 0f);
+
         if (isShot && magAmmo > 0 && isReady && isAmmoReady)
         {
             StartCoroutine(ShotEffect());

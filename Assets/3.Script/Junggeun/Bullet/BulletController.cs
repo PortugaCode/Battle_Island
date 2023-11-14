@@ -10,10 +10,11 @@ public class BulletController : MonoBehaviour
     private EffectManager effectManager;
 
     public float speed = 4f;
+    public float Damage;
 
     private void Awake()
     {
-        GameObject.FindGameObjectWithTag("Helicopter").TryGetComponent(out effectManager);
+        GameObject.FindGameObjectWithTag("Effect").TryGetComponent(out effectManager);
         TryGetComponent(out rig);
     }
 
@@ -29,17 +30,23 @@ public class BulletController : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
         {
+            collision.gameObject.GetComponent<CombatControl>().TakeDamage(Damage);
             BulletPooling.Instance.Bullets.Enqueue(gameObject);
+            gameObject.transform.localPosition = Vector3.zero;
+            gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
+            rig.velocity = Vector3.zero;
+            gameObject.SetActive(false);
         }
-        else if(collision.collider)
+        else if (collision.collider)
         {
             effectManager.fireEffect.transform.position = gameObject.transform.position;
             effectManager.fireEffect.Play();
             BulletPooling.Instance.Bullets.Enqueue(gameObject);
+            gameObject.transform.localPosition = Vector3.zero;
+            gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
+            rig.velocity = Vector3.zero;
+            gameObject.SetActive(false);
         }
-        gameObject.transform.localPosition = Vector3.zero;
-        gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
-        rig.velocity = Vector3.zero;
-        gameObject.SetActive(false);
+
     }
 }

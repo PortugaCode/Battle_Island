@@ -168,7 +168,7 @@ public class Gun : MonoBehaviour
         b.gameObject.SetActive(true);
         b.transform.position = agent.CurrentGun_Gun.muzzleTransform.position;
         b.transform.rotation = agent.CurrentGun_Gun.muzzleTransform.rotation;
-
+        b.GetComponent<BulletController>().Damage = agent.CurrentGun_Gun.damage;
 
         agent.FireEffect.transform.position = muzzleTransform.position;
         agent.FireEffect1.transform.position = transform.position;

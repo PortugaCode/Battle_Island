@@ -77,7 +77,7 @@ public class AIFindBulletState : AIState
         Collider[] a = Physics.OverlapSphere(agent.transform.position, 0.5f);
         foreach (Collider col in a)
         {
-            if (col.CompareTag("Bullet") && !col.GetComponent<EquipCheck>().isEquip)
+            if (col.CompareTag("AmmoBox") && !col.GetComponent<EquipCheck>().isEquip)
             {
                 isPickup = true;
             }
@@ -87,7 +87,7 @@ public class AIFindBulletState : AIState
 
     private GameObject FindClosestBullet(AIAgent agnet)
     {
-        GameObject[] Bullets = GameObject.FindGameObjectsWithTag("Bullet");
+        GameObject[] Bullets = GameObject.FindGameObjectsWithTag("AmmoBox");
         GameObject closestBullet = null;
         float closestDistance = float.MaxValue;
 
