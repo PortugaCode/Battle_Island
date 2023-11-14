@@ -81,7 +81,6 @@ public class AIAgent : MonoBehaviour
     private void Awake()
     {
 
-
         //방어구 SetActive false 작업
         for (int i = 0; i < Armor.Length; i++)
         {
@@ -101,9 +100,9 @@ public class AIAgent : MonoBehaviour
         ui = GetComponentInChildren<UIHealthBar>();
         if(GameObject.FindGameObjectWithTag("Player"))
         {
-            GameObject.FindGameObjectWithTag("Player").TryGetComponent(out playerTarget_Tr);
+            GameObject.FindGameObjectWithTag("Player").TryGetComponent(out playerTarget); //나중에 바꿔야함
         }
-        GameObject.FindGameObjectWithTag("PlayerTarget").TryGetComponent(out playerTarget);
+        //GameObject.FindGameObjectWithTag("PlayerTarget").TryGetComponent(out playerTarget);
         //GameObject.FindGameObjectWithTag("Player").TryGetComponent(out playerTarget);
         //===========================================================================
 
@@ -134,7 +133,7 @@ public class AIAgent : MonoBehaviour
     {
 
         stateMachine.Update();
-        playerTarget.position = playerTarget_Tr.position + new Vector3(0f, 1.2f, 0f);
+        //playerTarget.position = playerTarget_Tr.position + new Vector3(0f, 1.2f, 0f);
 
         if (isShot && magAmmo > 0 && isReady && isAmmoReady)
         {

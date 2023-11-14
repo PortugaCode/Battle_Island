@@ -24,7 +24,7 @@ public class AIRuntoWall : AIState
     public void Enter(AIAgent agent)
     {
         Debug.Log("º® Ã£±â");
-        agent.navMeshAgent.speed = 5.5f;
+        agent.navMeshAgent.speed = 3.5f;
         ClosetWall = CheckCloseWall(agent);
 
 

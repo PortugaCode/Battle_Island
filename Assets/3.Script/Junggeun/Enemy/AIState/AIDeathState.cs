@@ -25,6 +25,8 @@ public class AIDeathState : AIState
         {
             agent.CurrentGun.GetComponent<Rigidbody>().useGravity = true;
             agent.CurrentGun.GetComponent<Rigidbody>().isKinematic = false;
+            agent.CurrentGun.GetComponent<EquipCheck>().isEquip = false;
+            agent.CurrentGun.GetComponent<EquipCheck>().isEnemyEquip = false;
             agent.CurrentGun.transform.SetParent(null);
         }
     }

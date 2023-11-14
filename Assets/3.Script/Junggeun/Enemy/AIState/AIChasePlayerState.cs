@@ -8,6 +8,7 @@ public class AIChasePlayerState : AIState
 
     int a;
     private float timer = 0.0f;
+    private float Chasetimer = 0.0f;
     private EnemyHealth enemyHealth;
 
     public AiStateID GetID()
@@ -25,6 +26,7 @@ public class AIChasePlayerState : AIState
 
     public void AIUpdate(AIAgent agent)
     {
+        Chasetimer += Time.deltaTime;
         if (agent.enemyHealth.IsDie)
         {
             agent.navMeshAgent.velocity = Vector3.zero;
@@ -32,6 +34,13 @@ public class AIChasePlayerState : AIState
         }
 
         agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 3f * Time.deltaTime);
+
+        if(Chasetimer >= 10f)
+        {
+            agent.stateMachine.ChangeState(AiStateID.RandomMove);
+            Chasetimer = 0f;
+            return;
+        }
 
         timer -= Time.deltaTime;
         if (timer < 0.0f)

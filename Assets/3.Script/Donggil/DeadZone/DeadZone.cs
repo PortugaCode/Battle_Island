@@ -327,7 +327,7 @@ public class DeadZone : MonoBehaviour
 
     public void EnemyDamage(Phase phase)
     {
-        enemyList = randomSpawner.GetComponent<RendomSpawner>().enemyList;
+/*        enemyList = randomSpawner.GetComponent<RendomSpawner>().enemyList;
         DamageTic += Time.deltaTime;
 
         for (int i = 0; i < enemyList.Count; i++)
@@ -341,7 +341,7 @@ public class DeadZone : MonoBehaviour
                     DamageTic = 0;                  //시간초 초기화
                 }
             }
-        }
+        }*/
 
     }
 

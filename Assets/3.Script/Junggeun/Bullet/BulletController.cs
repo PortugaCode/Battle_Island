@@ -30,7 +30,7 @@ public class BulletController : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<CombatControl>().TakeDamage(Damage);
+            //collision.gameObject.GetComponent<CombatControl>().TakeDamage(Damage);
             BulletPooling.Instance.Bullets.Enqueue(gameObject);
             gameObject.transform.localPosition = Vector3.zero;
             gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);

@@ -34,6 +34,11 @@ public class AIRandomMoveState : AIState
 
         agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 2f * Time.deltaTime);
 
+        if(ifTakeDamage(agent) && agent.isReady && agent.isAmmoReady)
+        {
+            agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
+            return;
+        }
         if (FindPlayer(agent) && agent.isReady && agent.isAmmoReady)
         {
             agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
@@ -61,11 +66,11 @@ public class AIRandomMoveState : AIState
 
         if (FindPlayer(agent))
         {
-            agent.navMeshAgent.speed = 5.5f;
+            agent.navMeshAgent.speed = 4f;
         }
         else
         {
-            agent.navMeshAgent.speed = 5f;
+            agent.navMeshAgent.speed = 3.5f;
         }
 
         distance = agent.transform.position - point;
@@ -84,6 +89,19 @@ public class AIRandomMoveState : AIState
 
     }
 
+    private bool ifTakeDamage(AIAgent agent)
+    {
+        if(agent.enemyHealth.isDamage)
+        {
+            agent.enemyHealth.isDamage = false;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 
     private bool FindPlayer(AIAgent agent)
     {
@@ -92,7 +110,25 @@ public class AIRandomMoveState : AIState
         {
             if (col.CompareTag("Player"))
             {
-                return true;
+                
+                Vector3 Playerdirection = col.transform.position - agent.transform.position;
+
+                Vector3 agnetDirection = agent.transform.forward;
+                Playerdirection.Normalize();
+                float dotProduct = Vector3.Dot(Playerdirection, agnetDirection);
+
+                if(Physics.Raycast(agent.transform.position, Playerdirection, 20f, agent.WallLayer))
+                {
+                    return false;
+                }
+                else if (Playerdirection.magnitude < 7f)
+                {
+                    return true;
+                }
+                else if (dotProduct > 0.0f)
+                {
+                    return true;
+                }
             }
         }
         return false;
@@ -103,7 +139,7 @@ public class AIRandomMoveState : AIState
         Collider[] w = Physics.OverlapSphere(agent.transform.position, 20f);
         foreach(Collider col in w)
         {
-            if(col.CompareTag("Weapon"))
+            if(col.CompareTag("Weapon") && !col.GetComponent<EquipCheck>().isEquip)
             {
                 return true;
             }
@@ -129,7 +165,7 @@ public class AIRandomMoveState : AIState
         Collider[] w = Physics.OverlapSphere(agent.transform.position, 20f);
         foreach (Collider col in w)
         {
-            if (col.CompareTag("Armor"))
+            if (col.CompareTag("Armor") && !col.GetComponent<EquipCheck>().isEquip)
             {
                 return true;
             }
