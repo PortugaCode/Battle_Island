@@ -43,6 +43,6 @@ public class Grenade : MonoBehaviour
         model.SetActive(false);
 
         Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-        Destroy(gameObject, 2.0f);
+        Destroy(gameObject);
     }
 }

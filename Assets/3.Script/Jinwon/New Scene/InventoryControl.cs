@@ -53,8 +53,16 @@ public class InventoryControl : MonoBehaviour
 
     private void Update()
     {
-        if (focusedItems.Count > 0 && Input.GetKeyDown(KeyCode.F))
+        if (focusedItems.Count > 0 && Input.GetKeyDown(KeyCode.F)) // TEST
         {
+            if (focusedItems[focusedItems.Count - 1].CompareTag("Weapon"))
+            {
+                if (focusedItems[focusedItems.Count - 1].GetComponent<EquipCheck>().isEquip)
+                {
+                    return;
+                }
+            }
+
             focusedItems[focusedItems.Count - 1].GetComponent<ItemControl>().PickUpItem();
         }
     }
@@ -75,6 +83,11 @@ public class InventoryControl : MonoBehaviour
         {
             ammo += amount;
             UIManager.instance.UpdateAmmoText(0); // Test
+
+            if (InventoryControl.instance.CheckInventory(108))
+            {
+                return; // 이미 박스 있으면 추가 안함
+            }
         }
         else if (id == 111) // 헬멧
         {

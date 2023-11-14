@@ -72,6 +72,10 @@ public class CombatControl : MonoBehaviour
     public float normalCamX;
     public float normalCamY;
 
+    // Heal
+    [Header("Heal")]
+    private bool isHealing = false;
+
     private void Awake()
     {
         TryGetComponent(out animator);
@@ -89,6 +93,12 @@ public class CombatControl : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.PageUp)) // Damage Test
         {
             TakeDamage(20.0f);
+        }
+
+        if (!isHealing && Input.GetKeyDown(KeyCode.Keypad4)) // Heal
+        {
+            isHealing = true;
+            StartCoroutine(Heal_Co());
         }
 
         // [총을 등 뒤에 장착] - TEST
@@ -409,6 +419,9 @@ public class CombatControl : MonoBehaviour
         currentGrenade.GetComponent<Rigidbody>().velocity = direction; // 방향으로 던지기
         currentGrenade.GetComponent<Grenade>().StartTimer(); // 수류탄 타이머 시작
 
+        GetComponent<IndicatorControl>().target = currentGrenade;
+        GetComponent<IndicatorControl>().ToggleIndicator(true);
+
         yield return new WaitForSeconds(1.0f);
 
         canThrow = true;
@@ -432,5 +445,26 @@ public class CombatControl : MonoBehaviour
         isDead = true;
         rig.GetComponent<Rig>().weight = 0f;
         animator.SetTrigger("Dead");
+    }
+
+    private IEnumerator Heal_Co()
+    {
+        float timer = 3.0f;
+
+        animator.SetTrigger("Heal");
+
+        while (timer > 0)
+        {
+            timer -= Time.deltaTime;
+
+            if (!isHealing)
+            {
+                yield break;
+            }
+
+            yield return null;
+        }
+
+        Debug.Log("Heal 완료");
     }
 }

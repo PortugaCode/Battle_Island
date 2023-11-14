@@ -34,11 +34,11 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision) // 충돌 처리
     {
-        if (!collision.collider.transform.root.CompareTag("Player")) // 무시
+        if (!collision.collider.transform.root.CompareTag("Player") && !collision.collider.transform.root.CompareTag("Weapon")) // 무시
         {
             Vector3 hitDirection = (collision.contacts[0].point - transform.position).normalized;
 
-            if (!collision.collider.transform.root.CompareTag("Wall")) // 벽, 바닥에만 나오게 변경 필요
+            if (collision.collider.transform.root.CompareTag("Wall")) // 벽에만 나오게
             {
 
                 if (ObjectPoolControl.instance.hitEffectQueue.Count > 0)
