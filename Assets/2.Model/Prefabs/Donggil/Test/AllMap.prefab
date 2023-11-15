@@ -7306,8 +7306,8 @@ MonoBehaviour:
   - prefabs:
     - {fileID: 3974452800248597353, guid: ef5931cba6d35064d925113b093aa4a6, type: 3}
     - {fileID: 307744244480943549, guid: cdde597536307b8499ef4cd93543dc5a, type: 3}
-    sizeRequired: 0.1
-    quantity: -1
+    sizeRequired: 2
+    quantity: 40
     quantityAlreadyPlaced: 0
   TreePrefabs:
   - {fileID: 5240678120662380482, guid: c6f7dc15de8fd8c4a85bb44b9903deca, type: 3}
@@ -7316,7 +7316,7 @@ MonoBehaviour:
   - {fileID: 2561879270493610154, guid: d83247194e79b984fa1baf7fb73e683b, type: 3}
   - {fileID: 7167321349503813007, guid: 0ae87f843ab15954bb750679e29cb192, type: 3}
   randomNaturePlacement: 1
-  randomNatureThreshold: 0.5
+  randomNatureThreshold: 0.3
 --- !u!1 &4941504065237896963
 GameObject:
   m_ObjectHideFlags: 0
@@ -7573,7 +7573,8 @@ MonoBehaviour:
   size: {x: 10, y: 5, z: 75}
   isInMap: 1
   scale: {fileID: 1555002179946445116}
-  layers: 6
+  layers: 7
+  tagName: 0
   isThislayerSame: 0
   targetFrame: 1000
 --- !u!1 &4941504065495825451
@@ -7704,7 +7705,8 @@ MonoBehaviour:
   size: {x: 75, y: 5, z: 25}
   isInMap: 1
   scale: {fileID: 1555002179946445116}
-  layers: 6
+  layers: 7
+  tagName: 0
   isThislayerSame: 0
   targetFrame: 1000
 --- !u!1 &4941504065540930658
@@ -7752,7 +7754,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rules:
   - {fileID: 11400000, guid: f15381c02b9b628488da784a8a28f5b3, type: 2}
-  rootSentence: '[+-F-+]--F'
+  rootSentence: '[F]--F'
   iterationLimit: 2
   randomIgnoreRuleModifier: 1
   chanceToIgnoreRule: 0.3
@@ -7849,6 +7851,7 @@ MonoBehaviour:
   isInMap: 1
   scale: {fileID: 1555002179946445116}
   layers: 6
+  tagName: 0
   isThislayerSame: 0
   targetFrame: 1000
 --- !u!114 &4941504065602736243
@@ -8878,7 +8881,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 536871105
   m_UseGeometry: 1
   m_DefaultArea: 0
   m_IgnoreNavMeshAgent: 1

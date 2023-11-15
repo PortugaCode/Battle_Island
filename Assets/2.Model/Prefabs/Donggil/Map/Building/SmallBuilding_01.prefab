@@ -109,9 +109,9 @@ GameObject:
   - component: {fileID: 3157939389473681029}
   - component: {fileID: 5908033123623277730}
   - component: {fileID: 477387291535571699}
-  m_Layer: 29
+  m_Layer: 7
   m_Name: SmallBuilding_01
-  m_TagString: Wall
+  m_TagString: Dongil02
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -213,8 +213,10 @@ MonoBehaviour:
   size: {x: 5, y: 6, z: 7}
   isInMap: 0
   scale: {fileID: 0}
-  layers: 29
+  layers: 7
+  tagName: 2
   isThislayerSame: 1
+  targetFrame: 1000
 --- !u!114 &477387291535571699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,7 +234,9 @@ MonoBehaviour:
   isInMap: 0
   scale: {fileID: 0}
   layers: 6
+  tagName: 1
   isThislayerSame: 0
+  targetFrame: 1000
 --- !u!1 &3113342485322573283
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,9 +395,9 @@ GameObject:
   - component: {fileID: 9080711356605098695}
   - component: {fileID: 2801191894490705387}
   - component: {fileID: 2114129612879998865}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Collider
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

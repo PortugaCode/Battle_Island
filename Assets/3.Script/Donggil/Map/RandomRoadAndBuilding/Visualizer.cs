@@ -17,7 +17,7 @@ public class Visualizer : MonoBehaviour
     public bool isMap = false;
 
     //차후 수정 예정
-    private int length = 6;
+    private int length = 8;
     private float angle = 90;
 
     public int Length
@@ -134,7 +134,15 @@ public class Visualizer : MonoBehaviour
             float scaleMag = max * 0.01f;
             //float scaleMag = (max - (Mathf.Abs(x - z)) * 0.6f) * 0.01f;
 
-            Map.transform.localScale = new Vector3(1 * scaleMag, 1, 1 * scaleMag);
+            if (scaleMag < 2.5f)
+            {
+                Map.transform.localScale = new Vector3(1 * scaleMag, 1, 1 * scaleMag);
+            }
+            else
+            {
+                Map.transform.localScale = new Vector3(1 * 2.5f, 1, 1 * 2.5f);
+            }
+
             //Debug.Log($"map_x : {map_x}");
             //Debug.Log($"map_z : {map_z}");
         }

@@ -32,7 +32,7 @@ public static class PlacementHelper
 
     internal static Vector3Int GetOffsetFromDirection(Direction direction)
     {
-        int distance = 12;
+        int distance = 18;
         switch (direction)
         {
             case Direction.Up:

@@ -14361,7 +14361,7 @@ GameObject:
   - component: {fileID: 6099628610371986219}
   - component: {fileID: 725020632309255334}
   - component: {fileID: 3800902842502571558}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ShootObject_Fence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14511,6 +14511,7 @@ MonoBehaviour:
   scale: {fileID: 0}
   layers: 6
   isThislayerSame: 0
+  targetFrame: 1000
 --- !u!114 &3800902842502571558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14528,7 +14529,8 @@ MonoBehaviour:
   isInMap: 0
   scale: {fileID: 0}
   layers: 7
-  isThislayerSame: 0
+  isThislayerSame: 1
+  targetFrame: 1000
 --- !u!1 &6099628610385958033
 GameObject:
   m_ObjectHideFlags: 0

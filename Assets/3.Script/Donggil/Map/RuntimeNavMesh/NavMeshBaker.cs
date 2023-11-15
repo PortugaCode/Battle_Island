@@ -11,8 +11,9 @@ public class NavMeshBaker : MonoBehaviour
     private Vector3 generatePosition = Vector3.zero;
 
     private float bakeTime = 4.0f;
+    private float gameTime = 0;
 
-    private void Start()
+    private void Awake()
     {
         StartCoroutine(GenerateNavMesh());
     }
@@ -24,6 +25,12 @@ public class NavMeshBaker : MonoBehaviour
 
         yield return new WaitForSeconds(bakeTime);
 
+
+        BakeWorld();
+    }
+
+    private void BakeWorld()
+    {
         NavMeshSurface[] surfaces = gameObject.GetComponentsInChildren<NavMeshSurface>();
         foreach (var s in surfaces)
         {
@@ -31,7 +38,16 @@ public class NavMeshBaker : MonoBehaviour
             s.BuildNavMesh();
         }
 
-
     }
-
+/*
+    private void Update()
+    {
+        gameTime += Time.deltaTime;
+        if (gameTime > 1.0f)
+        {
+            BakeWorld();
+            gameTime = 0;
+        }
+    }
+*/
 }
