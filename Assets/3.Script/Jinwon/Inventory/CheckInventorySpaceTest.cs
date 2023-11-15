@@ -102,7 +102,7 @@ public class CheckInventorySpaceTest : MonoBehaviour
         }
         else
         {
-            Debug.Log($"{place_x}, {place_y}에 놓는다");
+            Debug.Log($"{place_y}, {place_x}에 놓는다");
             PlaceColor();
         }
     }
