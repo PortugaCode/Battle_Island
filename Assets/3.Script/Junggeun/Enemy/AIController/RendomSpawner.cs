@@ -36,7 +36,7 @@ public class RendomSpawner : MonoBehaviour
     private Vector3 GetRandomPoint(Vector3 center, float MaxDistance)
     {
         Vector3 randomPos = Random.insideUnitSphere * MaxDistance + center;
-        randomPos.y = 2f;
+        randomPos.y = 1f;
         NavMeshHit hit;
 
         NavMesh.SamplePosition(randomPos, out hit, MaxDistance, NavMesh.AllAreas);
