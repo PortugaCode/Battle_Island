@@ -17,10 +17,11 @@ public class IndicatorControl : MonoBehaviour
 
     private void Update()
     {
-        if (target != null && hasTarget)
+        if (target != null && hasTarget) // 표시할 타겟(수류탄)이 있는 경우
         {
-            CheckDistance();
+            CheckDistance(); // 수류탄과 플레이어 거리 체크
 
+            // 2차원 UI의 rotation값과 3차원에서의 rotation값 계산
             Vector3 direction = target.transform.position - transform.position;
             Quaternion rotation = Quaternion.LookRotation(direction);
             rotation.z = -rotation.y;

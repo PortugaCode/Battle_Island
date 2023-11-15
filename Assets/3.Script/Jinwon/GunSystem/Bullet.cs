@@ -29,18 +29,18 @@ public class Bullet : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
+        rb.AddForce(Vector3.down * gravity, ForceMode.Acceleration); // 중력 작용 (탄도학)
     }
 
     private void OnCollisionEnter(Collision collision) // 충돌 처리
     {
         if (!collision.collider.transform.root.CompareTag("Player") && !collision.collider.transform.root.CompareTag("Weapon")) // 무시
         {
-            Vector3 hitDirection = (collision.contacts[0].point - transform.position).normalized;
+            Vector3 hitDirection = (collision.contacts[0].point - transform.position).normalized; // 충돌 방향
 
-            if (collision.collider.transform.root.CompareTag("Wall")) // 벽에만 나오게
+            if (collision.collider.transform.root.CompareTag("Wall")) // 총알 이펙트 벽에만 나오게
             {
-
+                // 오브젝트 풀에서 꺼내서 사용
                 if (ObjectPoolControl.instance.hitEffectQueue.Count > 0)
                 {
                     GameObject currentHitEffect = ObjectPoolControl.instance.hitEffectQueue.Dequeue();
@@ -58,13 +58,11 @@ public class Bullet : MonoBehaviour
 
             if (collision.collider.transform.root.CompareTag("Enemy"))
             {
-                // 수정 필요
                 collision.collider.transform.root.GetComponent<EnemyHealth>().TakeDamage(bulletDamage, hitDirection);
-                //collision.collider.GetComponent<Damagable>().TakeDamage(bulletDamage);
                 Recorder.instance.UpdateData(collision.collider.gameObject, startPostion ,transform.forward);
             }
 
-            // 오브젝트 풀링
+            // 오브젝트 풀에 넣기
             gameObject.SetActive(false);
             ObjectPoolControl.instance.bulletQueue.Enqueue(gameObject);
         }

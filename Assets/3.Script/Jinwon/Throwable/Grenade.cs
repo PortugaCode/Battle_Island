@@ -30,7 +30,7 @@ public class Grenade : MonoBehaviour
 
     private void Explode()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, explodeRange);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, explodeRange); // 폭발 범위 콜라이더 검출
 
         foreach (Collider c in colliders)
         {
@@ -38,6 +38,7 @@ public class Grenade : MonoBehaviour
             {
                 float damage = 0f;
 
+                // [ 거리에 따른 데미지 계산]
                 if (explodeRange * 0.75f >= Vector3.Magnitude(c.transform.position - transform.position))
                 {
                     damage = 200.0f;
@@ -49,13 +50,14 @@ public class Grenade : MonoBehaviour
 
                 c.GetComponent<EnemyHealth>().TakeDamage((int)damage, c.transform.position - transform.position);
 
-                Debug.Log($"수류탄 : {c.name}에게 {(int)damage}의 데미지");
+                //Debug.Log($"수류탄 : {c.name}에게 {(int)damage}의 데미지");
             }
 
             if (c.CompareTag("Player"))
             {
                 float damage = 0f;
 
+                // [ 거리에 따른 데미지 계산]
                 if (explodeRange * 0.75f >= Vector3.Magnitude(c.transform.position - transform.position))
                 {
                     damage = 200.0f;
@@ -67,15 +69,14 @@ public class Grenade : MonoBehaviour
 
                 c.GetComponent<CombatControl>().TakeDamage((int)damage);
 
-                Debug.Log($"수류탄 : {c.name}에게 {(int)damage}의 데미지");
-
-                Debug.Log($"player health : {c.GetComponent<CombatControl>().playerHealth}");
+                //Debug.Log($"수류탄 : {c.name}에게 {(int)damage}의 데미지");
+                //Debug.Log($"player health : {c.GetComponent<CombatControl>().playerHealth}");
             }
         }
 
         model.SetActive(false);
 
-        Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        Instantiate(explosionPrefab, transform.position, Quaternion.identity); // 폭발 이펙트 생성
         Destroy(gameObject);
     }
 }

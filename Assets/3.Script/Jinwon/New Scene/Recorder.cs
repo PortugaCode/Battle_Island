@@ -62,4 +62,10 @@ public class Recorder : MonoBehaviour
         bulletCamera.LookAt = endBullet.transform;
         bulletCamera.gameObject.SetActive(true);
     }
+
+    public void EndReplay()
+    {
+        GetComponent<CharacterMovement>().canMove = true;
+        bulletCamera.gameObject.SetActive(false);
+    }
 }

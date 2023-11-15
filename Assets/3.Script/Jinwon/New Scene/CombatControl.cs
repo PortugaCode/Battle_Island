@@ -436,6 +436,8 @@ public class CombatControl : MonoBehaviour
             return;
         }
 
+        UIManager.instance.DamageIndicator(damage);
+
         playerHealth -= damage;
 
         if (playerHealth <= 0)
@@ -449,7 +451,11 @@ public class CombatControl : MonoBehaviour
     {
         isDead = true;
         rig.GetComponent<Rig>().weight = 0f;
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
+        GetComponent<Rigidbody>().isKinematic = true;
         animator.SetTrigger("Dead");
+
+        // 죽은 다음 동작 함수 호출
     }
 
     private IEnumerator Heal_Co()
@@ -471,6 +477,6 @@ public class CombatControl : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("Heal 완료");
+        //Debug.Log("Heal 완료");
     }
 }
