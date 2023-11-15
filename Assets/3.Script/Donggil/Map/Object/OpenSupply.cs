@@ -12,24 +12,85 @@ public class OpenSupply : MonoBehaviour
     public Collider Front;
     public Collider Back;
 
+
+    Quaternion OpenLeft = Quaternion.Euler(0, 120f, 0);
+    Quaternion OpenRight = Quaternion.Euler(0, -120f, 0);
+
+    Quaternion CloseLeft = Quaternion.Euler(0, 0, 0);
+    Quaternion CloseRight = Quaternion.Euler(0, 0, 0);
+
+    public bool isFrontOpen = false;
+    public bool isBackOpen = false;
+
+    private float smooth = 5.0f;
+
     public LayerMask layer;
 
     private void Update()
     {
-        
+        OpenFrontDoor();
+        OpenBackDoor();
     }
 
-    private void FrontOpenDoor()
+    private void OpenFrontDoor()
     {
-        Vector3 size = Vector3.one;
-        Collider[] colls = Physics.OverlapBox(Front.transform.position, size / 2, Quaternion.identity, layer);
+        Vector3 sizeF = Front.bounds.size;
 
-        foreach(Collider col in colls)
+        Collider[] collsFront = Physics.OverlapBox(Front.transform.position, sizeF / 2, Quaternion.identity, layer);
+
+
+
+        foreach (Collider col in collsFront)
         {
-            if(colls.Length >=1 && Input.GetKeyDown(KeyCode.F))
+            if (col.CompareTag("Player"))
             {
-                FrontLeftDoor.transform.Rotate(new Vector3(0, 120, 0));
+                if (collsFront.Length >= 1 && Input.GetKeyDown(KeyCode.F))
+                {
+                    isFrontOpen = !isFrontOpen;
+                }
             }
+        }
+
+        if (isFrontOpen)
+        {
+            FrontLeftDoor.transform.localRotation = Quaternion.Slerp(FrontLeftDoor.transform.localRotation, OpenLeft, smooth * Time.deltaTime);
+            FrontRightDoor.transform.localRotation = Quaternion.Slerp(FrontRightDoor.transform.localRotation, OpenRight, smooth * Time.deltaTime);
+        }
+        else
+        {
+            FrontLeftDoor.transform.localRotation = Quaternion.Slerp(FrontLeftDoor.transform.localRotation, CloseLeft, smooth * Time.deltaTime);
+            FrontRightDoor.transform.localRotation = Quaternion.Slerp(FrontRightDoor.transform.localRotation, CloseRight, smooth * Time.deltaTime);
+        }
+    }
+
+    private void OpenBackDoor()
+    {
+        Vector3 sizeB = Back.bounds.size;
+
+        Collider[] collsBack = Physics.OverlapBox(Back.transform.position, sizeB / 2, Quaternion.identity, layer);
+
+
+
+        foreach (Collider col in collsBack)
+        {
+            if (col.CompareTag("Player"))
+            {
+                if (collsBack.Length >= 1 && Input.GetKeyDown(KeyCode.F))
+                {
+                    isBackOpen = !isBackOpen;
+                }
+            }
+        }
+
+        if (isBackOpen)
+        {
+            BackLeftDoor.transform.localRotation = Quaternion.Slerp(BackLeftDoor.transform.localRotation, OpenLeft, smooth * Time.deltaTime);
+            BackRightDoor.transform.localRotation = Quaternion.Slerp(BackRightDoor.transform.localRotation, OpenRight, smooth * Time.deltaTime);
+        }
+        else
+        {
+            BackLeftDoor.transform.localRotation = Quaternion.Slerp(BackLeftDoor.transform.localRotation, CloseLeft, smooth * Time.deltaTime);
+            BackRightDoor.transform.localRotation = Quaternion.Slerp(BackRightDoor.transform.localRotation, CloseRight, smooth * Time.deltaTime);
         }
     }
 }
