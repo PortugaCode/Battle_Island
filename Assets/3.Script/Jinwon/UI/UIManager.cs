@@ -131,9 +131,8 @@ public class UIManager : MonoBehaviour
 
         while (color.a < amount)
         {
-            color.a += Time.deltaTime;
+            color.a += Time.deltaTime * 2.0f;
             damageUI.GetComponent<Image>().color = color;
-            Debug.Log(color.a);
             yield return null;
         }
 
