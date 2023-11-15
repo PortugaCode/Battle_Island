@@ -44,7 +44,13 @@ public class InventoryController_C : MonoBehaviour
     {
         ItemIconDrag();
 
-        if (noticeItem.ItemDragOn) //수정 - 생략
+        //확인용
+        if (Input.GetMouseButton(0))
+        {
+            Debug.Log(selectedItemGrid.GetTileGridPosition(Input.mousePosition));
+        }
+
+        if (noticeItem.ItemDragOn)
         {
             if (selectedItem == null)
             {
