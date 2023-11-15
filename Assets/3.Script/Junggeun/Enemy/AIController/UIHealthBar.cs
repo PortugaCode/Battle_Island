@@ -27,10 +27,10 @@ public class UIHealthBar : MonoBehaviour
 
     private void BehindHpBar()
     {
-        Vector3 direction = ((target.position + new Vector3(0f, 1f, 0f)) - Camera.main.transform.position).normalized;
+        Vector3 direction = (target.position- Camera.main.transform.position).normalized;
         bool isBehind = Vector3.Dot(direction, Camera.main.transform.forward) <= 0.0f;
 
-        Vector3 direction2 = player.position - (target.position + new Vector3(0f, 1f, 0f));
+        Vector3 direction2 = player.position - target.position;
         bool isBehind2 = Physics.Raycast(target.position, direction2, Vector3.Distance(player.position, target.position), WallLayer);
 
         if(isBehind || isBehind2)

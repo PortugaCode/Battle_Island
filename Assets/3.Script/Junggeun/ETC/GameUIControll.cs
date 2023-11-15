@@ -35,6 +35,10 @@ public class GameUIControll : MonoBehaviour
     [Header("HP 바")]
     public Slider hpbar;
 
+
+    [Header("남은 적")]
+    public Text countEnemy;
+
     private void Update()
     {
         helmatImg.enabled = isHelmet;
