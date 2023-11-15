@@ -97,8 +97,11 @@ public class CombatControl : MonoBehaviour
 
         if (!isHealing && Input.GetKeyDown(KeyCode.Keypad4)) // Heal
         {
-            isHealing = true;
-            StartCoroutine(Heal_Co());
+            if (InventoryControl.instance.CheckInventory(109))
+            {
+                isHealing = true;
+                StartCoroutine(Heal_Co());
+            }
         }
 
         // [ÃÑÀ» µî µÚ¿¡ ÀåÂø] - TEST
@@ -477,6 +480,7 @@ public class CombatControl : MonoBehaviour
             yield return null;
         }
 
+        InventoryControl.instance.RemoveItem(109);
         //Debug.Log("Heal ¿Ï·á");
     }
 }
