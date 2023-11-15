@@ -12,7 +12,7 @@ public class IndicatorControl : MonoBehaviour
     // Target
     private bool hasTarget = true;
     public GameObject target;
-    public float detectRange = 3.0f;
+    public float detectRange = 5.0f;
 
 
     private void Update()

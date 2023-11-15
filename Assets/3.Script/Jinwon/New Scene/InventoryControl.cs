@@ -79,6 +79,13 @@ public class InventoryControl : MonoBehaviour
         {
             bagModel.SetActive(true);
         }
+        else if (id == 107) // ½´·ùÅº (TEST)
+        {
+            for (int i = 0; i < amount - 1; i++)
+            {
+                inventory.Add(currentItem);
+            }
+        }
         else if (id == 108) // ÃÑ¾Ë»óÀÚ
         {
             ammo += amount;

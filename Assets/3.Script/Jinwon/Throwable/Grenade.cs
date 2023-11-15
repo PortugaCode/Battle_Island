@@ -8,6 +8,7 @@ public class Grenade : MonoBehaviour
     [SerializeField] private GameObject model;
 
     public float timeDelay = 5.0f; // 폭발까지 걸리는 시간
+    private float explodeRange = 5.0f;
 
     public void StartTimer()
     {
@@ -29,14 +30,46 @@ public class Grenade : MonoBehaviour
 
     private void Explode()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 2.5f);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, explodeRange);
 
         foreach (Collider c in colliders)
         {
-            if (c.GetComponent<Damagable>())  // 데미지 받을 수 있으면 호출 (Damageble은 현재 테스트로 작성해놓은 스크립트, 합칠때 수정)
+            if (c.CompareTag("Enemy"))
             {
-                c.GetComponent<Damagable>().TakeDamage(100.0f);
-                //Debug.Log($"{c.name}에게 100 의 데미지 입힘");
+                float damage = 0f;
+
+                if (explodeRange * 0.75f >= Vector3.Magnitude(c.transform.position - transform.position))
+                {
+                    damage = 200.0f;
+                }
+                else if (explodeRange * 0.75f < Vector3.Magnitude(c.transform.position - transform.position))
+                {
+                    damage = Vector3.Magnitude(c.transform.position - transform.position) * (-200.0f / 3.0f) + (1000.0f / 3.0f);
+                }
+
+                c.GetComponent<EnemyHealth>().TakeDamage((int)damage, c.transform.position - transform.position);
+
+                Debug.Log($"수류탄 : {c.name}에게 {(int)damage}의 데미지");
+            }
+
+            if (c.CompareTag("Player"))
+            {
+                float damage = 0f;
+
+                if (explodeRange * 0.75f >= Vector3.Magnitude(c.transform.position - transform.position))
+                {
+                    damage = 200.0f;
+                }
+                else if (explodeRange * 0.75f < Vector3.Magnitude(c.transform.position - transform.position))
+                {
+                    damage = Vector3.Magnitude(c.transform.position - transform.position) * (-200.0f / 3.0f) + (1000.0f / 3.0f);
+                }
+
+                c.GetComponent<CombatControl>().TakeDamage((int)damage);
+
+                Debug.Log($"수류탄 : {c.name}에게 {(int)damage}의 데미지");
+
+                Debug.Log($"player health : {c.GetComponent<CombatControl>().playerHealth}");
             }
         }
 

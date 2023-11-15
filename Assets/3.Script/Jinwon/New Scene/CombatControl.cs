@@ -431,6 +431,11 @@ public class CombatControl : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        if (isDead)
+        {
+            return;
+        }
+
         playerHealth -= damage;
 
         if (playerHealth <= 0)
