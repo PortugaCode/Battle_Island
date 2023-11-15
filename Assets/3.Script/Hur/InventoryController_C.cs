@@ -16,7 +16,10 @@ public class InventoryController_C : MonoBehaviour
     
     [SerializeField] Transform canvasT;
 
+
     private InventoryHighlight_C inventoryHighlight;
+
+    public int matchingID;
 
     //주변 슬롯
     public Slot[] slots;
@@ -130,7 +133,7 @@ public class InventoryController_C : MonoBehaviour
     {
         Debug.Log("아이템 감지 in InventoryController");
         
-        InventoryItem_C inventoryItem =
+        InventoryItem_C inventoryItem = 
         Instantiate(itemPrefab).GetComponent<InventoryItem_C>();
         selectedItem = inventoryItem;
 
@@ -138,7 +141,7 @@ public class InventoryController_C : MonoBehaviour
         rect.SetParent(canvasT);
         rect.SetAsLastSibling();
 
-        int matchingID = PlayerPrefs.GetInt("아이템 아이디"); //아이템 정보 - 슬롯 몇번째를 눌렀는지 정보를 알아내면 됨
+        //int matchingID = PlayerPrefs.GetInt("아이템 아이디"); //아이템 정보 - 슬롯 몇번째를 눌렀는지 정보를 알아내면 됨 //아이템아이디
 
         //여러 개 같이 묶여서 덮어쓰는 중. 따로 눌러서 할 수 있음?
 
