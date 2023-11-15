@@ -37,7 +37,7 @@ public class AIReloadState : AIState
 
     public void AIUpdate(AIAgent agent)
     {
-        if(agent.isneedReload == false && agent.isAmmoReady)
+        if(agent.isneedReload == false)
         {
             agent.stateMachine.ChangeState(AiStateID.RandomMove);
         }
@@ -45,7 +45,6 @@ public class AIReloadState : AIState
 
     public void Exit(AIAgent agent)
     {
-
     }
 
 

@@ -5,7 +5,6 @@ using UnityEngine;
 
 public static class PlacementHelper
 {
-    
     public static List<Direction> FindNeighbor(Vector3Int position, ICollection<Vector3Int> collection)
     {
         List<Direction> neighborDirection = new List<Direction>();

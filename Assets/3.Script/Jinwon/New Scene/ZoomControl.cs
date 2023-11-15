@@ -51,14 +51,6 @@ public class ZoomControl : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (normalCamera.m_YAxis.Value <= 0.01f)
-        {
-            normalCamera.m_YAxis.Value = 0.01f;
-        }
-    }
-
     public void First_ZoomIn(GameObject currentGun)
     {
         // [총 모델만 비활성화]
@@ -73,7 +65,7 @@ public class ZoomControl : MonoBehaviour
 
         // [카메라 회전값 동기화]
         firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.Value = normalCamera.m_XAxis.Value;
-        firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.Value = 100.0f *  normalCamera.m_YAxis.Value - 50.0f;
+        firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.Value = 2.0f;
         firstPersonCamera.gameObject.SetActive(true);
 
         // [1인칭 UI 출력]
@@ -98,7 +90,7 @@ public class ZoomControl : MonoBehaviour
 
         // [카메라 회전값 동기화]
         normalCamera.m_XAxis.Value = firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.Value;
-        normalCamera.m_YAxis.Value = 0.01f * firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.Value + 0.5f;
+        normalCamera.m_YAxis.Value = 0.75f;
         firstPersonCamera.gameObject.SetActive(false);
 
         StartCoroutine(SetActivePlayerModel());
@@ -118,7 +110,7 @@ public class ZoomControl : MonoBehaviour
     {
         // [카메라 회전값 동기화]
         thirdPersonCamera.m_XAxis.Value = normalCamera.m_XAxis.Value;
-        thirdPersonCamera.m_YAxis.Value = normalCamera.m_YAxis.Value;
+        thirdPersonCamera.m_YAxis.Value = normalCamera.m_YAxis.Value - 0.1f;
         thirdPersonCamera.gameObject.SetActive(true);
 
         if (GetComponent<CombatControl>().currentWeapon == Weapon.Gun)
@@ -135,7 +127,7 @@ public class ZoomControl : MonoBehaviour
     {
         // [카메라 회전값 동기화]
         normalCamera.m_XAxis.Value = thirdPersonCamera.m_XAxis.Value;
-        normalCamera.m_YAxis.Value = thirdPersonCamera.m_YAxis.Value;
+        normalCamera.m_YAxis.Value = thirdPersonCamera.m_YAxis.Value + 0.1f;
         thirdPersonCamera.gameObject.SetActive(false);
 
         if (GetComponent<CombatControl>().currentWeapon == Weapon.Gun)

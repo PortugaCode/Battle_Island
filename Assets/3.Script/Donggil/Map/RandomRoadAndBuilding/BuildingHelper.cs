@@ -6,14 +6,8 @@ using UnityEngine;
 public class BuildingHelper : MonoBehaviour
 {
     public HouseType[] buildingTypes;
-    public GameObject[] TreePrefabs;
-    public bool randomNaturePlacement = false;
-
-    [Range(0, 1)]
-    public float randomNatureThreshold = 0.3f;
 
     public Dictionary<Vector3Int, GameObject> buildingDic = new Dictionary<Vector3Int, GameObject>();
-    public Dictionary<Vector3Int, GameObject> NatureDic = new Dictionary<Vector3Int, GameObject>();
 
     private Vector3 fix = new Vector3(0, 0.8f, 0);
 
@@ -46,17 +40,6 @@ public class BuildingHelper : MonoBehaviour
             {
                 if (buildingTypes[i].quantity == -1)
                 {
-                    if(randomNaturePlacement)
-                    {
-                        var random = UnityEngine.Random.value;
-                        if(random < randomNatureThreshold)
-                        {
-                            var nature = SpawnPrefab(TreePrefabs[UnityEngine.Random.Range(0, TreePrefabs.Length)], freeSpot.Key, rotation);
-                            NatureDic.Add(freeSpot.Key, nature);
-                            break;
-                        }
-
-                    }
                     var building = SpawnPrefab(buildingTypes[i].GetPrefabs(), freeSpot.Key, rotation);
                     buildingDic.Add(freeSpot.Key, building);
                     break;

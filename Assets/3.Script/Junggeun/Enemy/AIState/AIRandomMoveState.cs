@@ -69,7 +69,7 @@ public class AIRandomMoveState : AIState
         }
 
         distance = agent.transform.position - point;
-        if (distance.magnitude <= 5f)
+        if (distance.magnitude <= 4f)
         {
             //point = null; //나중에 Vector 000으로 바꾸기
             point = GetRandomPoint(center, rid);
@@ -116,7 +116,7 @@ public class AIRandomMoveState : AIState
         Collider[] w = Physics.OverlapSphere(agent.transform.position, 20f);
         foreach (Collider col in w)
         {
-            if (col.CompareTag("AmmoBox"))
+            if (col.CompareTag("Bullet"))
             {
                 return true;
             }
@@ -153,7 +153,6 @@ public class AIRandomMoveState : AIState
         NavMeshHit hit;
 
         NavMesh.SamplePosition(randomPos, out hit, MaxDistance, NavMesh.AllAreas);
-        #region
         /*        while (true)
                 {
                     NavMesh.SamplePosition(randomPos, out hit, MaxDistance, NavMesh.AllAreas);
@@ -162,7 +161,6 @@ public class AIRandomMoveState : AIState
                         break;
                     }
                 }*/
-        #endregion
         return hit.position;
     }
 

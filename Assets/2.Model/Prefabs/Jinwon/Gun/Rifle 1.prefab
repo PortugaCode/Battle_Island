@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1770925643802698899}
   - component: {fileID: 1798606129496944811}
   - component: {fileID: 1788901666755401167}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: SM_Wep_Rifle_Assault_Sight_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 1770993927137333341}
   - component: {fileID: 1798511018389148317}
   - component: {fileID: 1788375761791578069}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: SM_Wep_Rifle_Assault_Flash_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -172,13 +172,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1766153975377552809}
   - component: {fileID: 1766153975377552811}
-  - component: {fileID: 7766691202399835091}
-  - component: {fileID: 2741807522092615843}
-  - component: {fileID: 7320901538008383478}
-  - component: {fileID: 4316010748041806020}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Rifle 1
-  m_TagString: Weapon
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -212,75 +208,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   muzzleTransform: {fileID: 5161008988212474396}
+  bulletPrefab: {fileID: 7752664833668816889, guid: ed1b94f43a5a7f947abb6ddc42ac1a31, type: 3}
   muzzleFlashEffectPrefab: {fileID: 1023579220386104652, guid: 839014eebe9194f40a38e36875037241, type: 3}
   gunDatas:
   - {fileID: 11400000, guid: 4e1e3f8ccb79d4545b789ad9fb15bce0, type: 2}
   - {fileID: 11400000, guid: 510c86938595bd448bd09deeb968fa1b, type: 2}
   - {fileID: 11400000, guid: 265bf9dd06543eb40b9483854c3b7203, type: 2}
   gunType: 0
+  damage: 10
+  coolDown: 0.1
   magSize: 30
-  currentMag: 0
   canShoot: 1
---- !u!114 &7766691202399835091
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1766153975377552810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8edc7ff4788bae24cad0aa2fdf8cdbc2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isEquip: 0
-  isEnemyEquip: 0
-  isPlayerEquip: 0
---- !u!114 &2741807522092615843
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1766153975377552810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d9c865afd6fd6046b860ca348f489a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemName: "\uB77C\uC774\uD50C1"
-  id: 116
-  amount: 1
-  canGet: 0
---- !u!135 &7320901538008383478
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1766153975377552810}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &4316010748041806020
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1766153975377552810}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &1766606294874837967
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,7 +230,7 @@ GameObject:
   - component: {fileID: 1770734656687768905}
   - component: {fileID: 1799160144129980747}
   - component: {fileID: 1788029032875206703}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: SM_Wep_Rifle_Assault_Mag_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -373,7 +311,7 @@ GameObject:
   - component: {fileID: 1770692019292425051}
   - component: {fileID: 1798595970130281411}
   - component: {fileID: 1789841478205994149}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: SM_Wep_Rifle_Assault_Trigger_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -454,7 +392,7 @@ GameObject:
   - component: {fileID: 1770798357210376117}
   - component: {fileID: 1798977322382727153}
   - component: {fileID: 1787990511431315875}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: SM_Wep_Rifle_Assault_Sight_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -535,7 +473,7 @@ GameObject:
   - component: {fileID: 1770633798763355513}
   - component: {fileID: 1798315240893292237}
   - component: {fileID: 1788184044518915719}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: SM_Wep_Rifle_Assault_Slide_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -617,7 +555,7 @@ GameObject:
   - component: {fileID: 1798168060949452569}
   - component: {fileID: 1789851824998511401}
   - component: {fileID: 1758489284464530223}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -703,7 +641,7 @@ MeshCollider:
   m_GameObject: {fileID: 1767162149168517631}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
@@ -719,7 +657,7 @@ GameObject:
   - component: {fileID: 1769324852849336387}
   - component: {fileID: 1798380782325970299}
   - component: {fileID: 1790075416079421253}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: SM_Wep_Rifle_Assault_Stock_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -798,7 +736,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5161008988212474396}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -813,7 +751,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5152478050387266424}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.085, z: 0.723}
+  m_LocalPosition: {x: 0, y: 0.085, z: 0.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1766153975377552809}

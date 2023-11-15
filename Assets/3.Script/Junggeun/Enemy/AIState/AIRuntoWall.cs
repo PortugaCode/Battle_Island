@@ -39,7 +39,7 @@ public class AIRuntoWall : AIState
 
         agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.originTarget.position, 2f * Time.deltaTime);
         distance = agent.transform.position - resultPoint;
-        if (distance.magnitude <= 2f)
+        if (distance.magnitude <= 1.5f)
         {
             agent.stateMachine.ChangeState(AiStateID.Standby);
             return;
@@ -60,7 +60,7 @@ public class AIRuntoWall : AIState
     {
         start = ClosetWall.transform.position;
         direction = ClosetWall.transform.position - agent.playerTarget.position;
-        end = start + (direction.normalized * 20f);
+        end = start += direction.normalized * 20f;
 
 /*        if (CheckCol(agent, end))
         {

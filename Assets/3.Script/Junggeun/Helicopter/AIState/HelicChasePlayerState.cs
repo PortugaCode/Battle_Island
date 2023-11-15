@@ -7,7 +7,7 @@ public class HelicChasePlayerState : HelicState
     private Transform point;
     private Vector3 distance;
     private Vector3 direction;
-    private float rotationspeed = 1f;
+    private float rotationspeed = 2f;
 
     public HelicStateID GetID()
     {
@@ -21,8 +21,14 @@ public class HelicChasePlayerState : HelicState
 
     public void AIUpdate(HelicAgent agent)
     {
+        if (agent.PositionTarget.position.y <= 13f)
+        {
+            agent.PositionTarget.Translate(agent.BodyTarget.up * 5f * Time.deltaTime);
+        }
+
+
         Vector3 Playerdirection = agent.Player.position - agent.hit.point;
-        if (Playerdirection.magnitude > 30f)
+        if (Playerdirection.magnitude > 20f)
         {
             MovetoPlayer(agent);
             return;
@@ -31,7 +37,7 @@ public class HelicChasePlayerState : HelicState
         Playerdirection.Normalize();
         float dotProduct = Vector3.Dot(Playerdirection, agnetDirection);
 
-        if (dotProduct > 0.0f)
+        if(dotProduct > 0.0f)
         {
             agent.stateMachine.ChangeState(HelicStateID.Shooting);
         }
@@ -58,12 +64,18 @@ public class HelicChasePlayerState : HelicState
         Quaternion rotation = Quaternion.LookRotation(direction);
         agent.BodyTarget.rotation = Quaternion.Lerp(agent.BodyTarget.rotation, rotation, rotationspeed * Time.deltaTime);
 
-        agent.PositionTarget.Translate(agent.BodyTarget.forward * 6f * Time.deltaTime);
+        agent.PositionTarget.Translate(agent.BodyTarget.forward * 5f * Time.deltaTime);
 
-        if (agent.PositionTarget.position.y <= 15f)
+        if (agent.PositionTarget.position.y <= 13f)
         {
-            agent.PositionTarget.Translate(agent.BodyTarget.up * 6f * Time.deltaTime);
+            agent.PositionTarget.Translate(agent.BodyTarget.up * 5f * Time.deltaTime);
         }
     }
-}
 
+
+    private void WallCheck(HelicAgent agent)
+    {
+
+    }
+
+}

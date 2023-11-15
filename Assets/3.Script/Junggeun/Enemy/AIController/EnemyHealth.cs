@@ -11,7 +11,7 @@ public class EnemyHealth : MonoBehaviour
     private bool isDie = false;
     public bool IsDie => isDie;
 
-    [SerializeField] private SkinnedMeshRenderer[] skinnedMeshRenderer;
+    private SkinnedMeshRenderer[] skinnedMeshRenderer;
 
     [SerializeField] private float blinkIn;
     [SerializeField] private float blinkDu;
@@ -20,12 +20,15 @@ public class EnemyHealth : MonoBehaviour
     private UIHealthBar healthBar;
 
 
-    private void Start()
+    private void Awake()
     {
         healthBar = GetComponentInChildren<UIHealthBar>();
         currentHealth = maxHealth;
         TryGetComponent(out agent);
         skinnedMeshRenderer = GetComponentsInChildren<SkinnedMeshRenderer>();
+    }
+    private void Start()
+    {
         var rigbodies = GetComponentsInChildren<Rigidbody>();
         foreach (var rig in rigbodies)
         {
@@ -39,7 +42,7 @@ public class EnemyHealth : MonoBehaviour
         blinkTimer -= Time.deltaTime;
         float lerp = Mathf.Clamp01(blinkTimer / blinkDu);
         float intensity = (lerp * blinkIn) + 1.0f;
-        for (int i = 0; i < skinnedMeshRenderer.Length; i++)
+        for(int i = 0; i < skinnedMeshRenderer.Length; i++)
         {
             skinnedMeshRenderer[i].material.color = Color.white * intensity;
         }

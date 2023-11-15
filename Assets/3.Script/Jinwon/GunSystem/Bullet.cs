@@ -7,8 +7,6 @@ public class Bullet : MonoBehaviour
     [SerializeField] private GameObject hitEffectPrefab;
     [SerializeField] private GameObject bulletHolePrefab;
 
-    public Vector3 startPostion;
-
     public float gravity = 9.8f;
     public float bulletSpeed = 1.0f;
     public float bulletDamage = 0;
@@ -61,7 +59,7 @@ public class Bullet : MonoBehaviour
                 // 수정 필요
                 collision.collider.transform.root.GetComponent<EnemyHealth>().TakeDamage(bulletDamage, hitDirection);
                 //collision.collider.GetComponent<Damagable>().TakeDamage(bulletDamage);
-                Recorder.instance.UpdateData(collision.collider.gameObject, startPostion ,transform.forward);
+                Recorder.instance.UpdateData(collision.collider.gameObject, transform.forward);
             }
 
             // 오브젝트 풀링

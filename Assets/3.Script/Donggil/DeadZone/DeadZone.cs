@@ -40,15 +40,15 @@ public class DeadZone : MonoBehaviour
         switch (phase)
         {
             case Phase.Phase1:
-                return 60.0f;           //기존 60.0f
+                return 60.0f;
             case Phase.Phase2:
-                return 60.0f;           //기존 60.0f
+                return 60.0f;
             case Phase.Phase3:
-                return 60.0f;           //기존 60.0f
+                return 60.0f;
             case Phase.Phase4:
-                return 30.0f;           //기존 30.0f
+                return 30.0f;
             case Phase.Phase5:
-                return 20.0f;           //기존 20.0f
+                return 20.0f;
             case Phase.Wait:                    //테스트시 5초 테스트 완료시 60초로 변경
                 return 5.0f;
             default:
@@ -107,7 +107,7 @@ public class DeadZone : MonoBehaviour
 
     [Header("다음 자기장 오브젝트(부모만 넣기)")]
     [SerializeField] private GameObject NextDeadZone;                     //목표위치 표시를 위한 빈 오브젝트
-
+    
     [Header("자기장 시작 범위(Collider)(콜라이더 포함된 맵 오브젝트 넣기)")]
     [SerializeField] private Collider mapRange;
 
@@ -117,11 +117,6 @@ public class DeadZone : MonoBehaviour
 
     [Header("플레이어와 자기장 거리탐지")]
     public GameObject player;
-
-    public GameObject randomSpawner;
-    public List<GameObject> enemyList;
-
-    public LayerMask enemyLayer;
 
 
     private bool isGameStart = true;                //게임 시작 여부
@@ -161,7 +156,6 @@ public class DeadZone : MonoBehaviour
 
     private float Distance()        //중심 거리 계산 메소드
     {
-
         float dist = Vector3.Distance(DeadZoneObject.transform.position, DeadZonePosition);
         return dist;
     }
@@ -249,8 +243,6 @@ public class DeadZone : MonoBehaviour
                 DamageTic = 0;                  //시간초 초기화
             }
         }
-
-        EnemyDamage(Phase.Phase1 + index);
     }
 
 
@@ -321,28 +313,8 @@ public class DeadZone : MonoBehaviour
 
     public void Damage(Phase phase)
     {
-        player.GetComponent<CombatControl>().TakeDamage(SetDeadZoneDamage(phase));
-        Debug.Log("HP : " + player.GetComponent<CombatControl>().playerHealth);
-    }
-
-    public void EnemyDamage(Phase phase)
-    {
-        enemyList = randomSpawner.GetComponent<RendomSpawner>().enemyList;
-        DamageTic += Time.deltaTime;
-
-        for (int i = 0; i < enemyList.Count; i++)
-        {
-            if (Vector3.SqrMagnitude(DeadZoneObject.transform.position - enemyList[i].transform.position) > Mathf.Pow(mesh.bounds.size.x / 2, 2))
-            {
-                if (DamageTic >= 1.0f)              //1초당 데미지 입음
-                {
-                    Debug.Log("적 자기장 데미지");
-                    enemyList[i].transform.root.GetComponent<EnemyHealth>().TakeDamage(SetDeadZoneDamage(phase), Vector3.zero);
-                    DamageTic = 0;                  //시간초 초기화
-                }
-            }
-        }
-
+        //HP -= SetDeadZoneDamage(phase);
+        Debug.Log(SetDeadZoneDamage(phase) + " 데미지");
     }
 
     public float CurrentRadius()                    //실시간 자기장 크기 가져오기

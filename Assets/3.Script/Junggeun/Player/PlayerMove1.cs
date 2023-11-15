@@ -9,12 +9,10 @@ public class PlayerMove1 : MonoBehaviour
     [SerializeField] private float Movespeed;
     [SerializeField] private Rigidbody rig;
     [SerializeField] private EnemyHealth enemyHealth;
-    [SerializeField] private HelicopterHealth helicopterHealth;
 
     private void Start()
     {
         //GameObject.FindObjectOfType<EnemyHealth>().TryGetComponent(out enemyHealth);
-        GameObject.FindObjectOfType<HelicopterHealth>().TryGetComponent(out helicopterHealth);
         TryGetComponent(out rig);
     }
 
@@ -30,7 +28,7 @@ public class PlayerMove1 : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            helicopterHealth.TakeDamage(10f);
+            enemyHealth.TakeDamage(10f, new Vector3 (0f, 0f, 0f));
         }
     }
 }

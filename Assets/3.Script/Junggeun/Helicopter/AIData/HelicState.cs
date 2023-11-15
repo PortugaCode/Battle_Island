@@ -6,9 +6,7 @@ public enum HelicStateID
 {
     RandomMove,
     ChasePlayer,
-    Shooting,
-    BackMove,
-    Die
+    Shooting
 }
 
 public interface HelicState

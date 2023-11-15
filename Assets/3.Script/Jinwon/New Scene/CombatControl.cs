@@ -20,22 +20,18 @@ public class CombatControl : MonoBehaviour
     // Weapon Stat
     public Weapon currentWeapon = Weapon.None;
 
-    // Health Stat
-    public bool isDead = false;
-    public float playerHealth = 100.0f;
-
     // Gun
     [Header("Gun")]
     public GameObject currentGun;
     [SerializeField] private GameObject testGunPrefab;
-    private bool hasGun = false; // 등 뒤에 총을 장착했는가?
+    private bool hasGun = false; // 인벤토리에 장착할 총이 있는가?
     private bool isReloading = false; // 재장전 중인가?
 
     // Grenade
     [Header("Grenade")]
     public Transform grenadePivot; // 수류탄 피벗
+    private bool hasGrenade = false; // 인벤토리에 수류탄이 있는가?
     [SerializeField] private GameObject testGrenadePrefab; // 수류탄 프리팹
-    [SerializeField] private GameObject grenadeModel; // 수류탄 모델
     public float throwPower = 7.5f; // 던지는 힘
     public Vector3 throwDirection; // 던질 방향
     private bool canThrow = true; // 던지기 가능 여부
@@ -43,8 +39,6 @@ public class CombatControl : MonoBehaviour
     [Header("Recoil")]
     public float recoilX;
     public float recoilY;
-    public float crouchRecoilX;
-    public float crouchRecoilY;
 
     // Components
     private Animator animator;
@@ -53,6 +47,7 @@ public class CombatControl : MonoBehaviour
 
     // Mouse Input
     [Header("Mouse Input")]
+    public bool timerOn = false;
     public float clickTimer = 0f;
 
     // Zoom
@@ -81,17 +76,7 @@ public class CombatControl : MonoBehaviour
 
     private void Update()
     {
-        if (isDead)
-        {
-            return;
-        }
-
-        if (Input.GetKeyDown(KeyCode.PageUp)) // Damage Test
-        {
-            TakeDamage(20.0f);
-        }
-
-        // [총을 등 뒤에 장착] - TEST
+        // [총 획득] - TEST
         if (!hasGun && Input.GetKeyDown(KeyCode.Return))
         {
             hasGun = true;
@@ -102,7 +87,7 @@ public class CombatControl : MonoBehaviour
             currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
         }
 
-        // [총을 손에 장착] - TEST
+        // [총 장착] - TEST
         if (hasGun && (currentWeapon != Weapon.Gun) && Input.GetKeyDown(KeyCode.Keypad1))
         {
             currentWeapon = Weapon.Gun;
@@ -113,8 +98,6 @@ public class CombatControl : MonoBehaviour
             currentGun.transform.SetParent(holdGunPivot);
             currentGun.transform.localPosition = Vector3.zero;
             currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
-
-            grenadeModel.SetActive(false);
         }
 
         // [재장전]
@@ -127,8 +110,14 @@ public class CombatControl : MonoBehaviour
             }
         }
 
+        // [수류탄 획득] - TEST
+        if (!hasGrenade && Input.GetKeyDown(KeyCode.T))
+        {
+            hasGrenade = true;
+        }
+
         // [수류탄 장착]
-        if (currentWeapon != Weapon.Grenade && InventoryControl.instance.CheckInventory(107) && Input.GetKeyDown(KeyCode.Keypad2))
+        if (hasGrenade && Input.GetKeyDown(KeyCode.Y))
         {
             if (isFirstPerson || isThirdPerson)
             {
@@ -138,8 +127,6 @@ public class CombatControl : MonoBehaviour
             currentWeapon = Weapon.Grenade;
 
             StartCoroutine(UnEquipGun_co());
-
-            grenadeModel.SetActive(true);
         }
 
         // [마우스 입력]
@@ -166,13 +153,19 @@ public class CombatControl : MonoBehaviour
         // [총 & 우클릭]
         if (currentWeapon == Weapon.Gun && cm.isGround && !isReloading)
         {
-            if (Input.GetMouseButton(1))
+            if (Input.GetMouseButtonDown(1))
+            {
+                timerOn = true;
+            }
+
+            if (timerOn)
             {
                 clickTimer += Time.deltaTime;
             }
 
             if (clickTimer >= thirdPersonEnterTime)
             {
+                timerOn = false;
                 clickTimer = 0;
 
                 if (!isFirstPerson && !isThirdPerson)
@@ -193,6 +186,7 @@ public class CombatControl : MonoBehaviour
 
             if (Input.GetMouseButtonUp(1))
             {
+                timerOn = false;
                 clickTimer = 0;
 
                 if (isFirstPerson)
@@ -275,7 +269,6 @@ public class CombatControl : MonoBehaviour
             if (isThirdPerson && canThrow)
             {
                 canThrow = false;
-                InventoryControl.instance.RemoveItem(107);
                 StartCoroutine(ThrowGrenade());
                 // 궤적 Off
                 GetComponent<DrawProjection>().drawProjection = false;
@@ -303,6 +296,7 @@ public class CombatControl : MonoBehaviour
 
         if (!isFirstPerson && !isThirdPerson)
         {
+            // body weight = 0
             rig.transform.Find("Body").GetComponent<MultiAimConstraint>().weight = 0.0f;
         }
     }
@@ -365,33 +359,16 @@ public class CombatControl : MonoBehaviour
 
     public void GunRecoil()
     {
-        if (GetComponent<CharacterMovement>().isCrouch)
+        if (isFirstPerson)
         {
-            if (isFirstPerson)
-            {
-                CinemachinePOV pov = zoomControl.firstPersonCamera.GetCinemachineComponent<CinemachinePOV>();
-                pov.m_HorizontalAxis.Value += Random.Range(-crouchRecoilX, crouchRecoilX); // x축 반동;
-                pov.m_VerticalAxis.Value -= Random.Range(0, crouchRecoilY); // y축 반동
-            }
-            else if (isThirdPerson)
-            {
-                zoomControl.thirdPersonCamera.m_XAxis.Value += Random.Range(-crouchRecoilX * 0.01f, crouchRecoilX * 0.01f); // x축 반동;
-                zoomControl.thirdPersonCamera.m_YAxis.Value -= Random.Range(0, crouchRecoilY * 0.01f); // y축 반동;
-            }
+            CinemachinePOV pov = zoomControl.firstPersonCamera.GetCinemachineComponent<CinemachinePOV>();
+            pov.m_HorizontalAxis.Value += Random.Range(-recoilX, recoilX); // x축 반동;
+            pov.m_VerticalAxis.Value -= Random.Range(0, recoilY); // y축 반동
         }
-        else
+        else if (isThirdPerson)
         {
-            if (isFirstPerson)
-            {
-                CinemachinePOV pov = zoomControl.firstPersonCamera.GetCinemachineComponent<CinemachinePOV>();
-                pov.m_HorizontalAxis.Value += Random.Range(-recoilX, recoilX); // x축 반동;
-                pov.m_VerticalAxis.Value -= Random.Range(0, recoilY); // y축 반동
-            }
-            else if (isThirdPerson)
-            {
-                zoomControl.thirdPersonCamera.m_XAxis.Value += Random.Range(-recoilX * 0.01f, recoilX * 0.01f); // x축 반동;
-                zoomControl.thirdPersonCamera.m_YAxis.Value -= Random.Range(0, recoilY * 0.01f); // y축 반동;
-            }
+            zoomControl.thirdPersonCamera.m_XAxis.Value += Random.Range(-recoilX * 0.01f, recoilX * 0.01f); // x축 반동;
+            zoomControl.thirdPersonCamera.m_YAxis.Value -= Random.Range(0, recoilY * 0.01f); // y축 반동;
         }
     }
 
@@ -403,8 +380,6 @@ public class CombatControl : MonoBehaviour
 
         yield return new WaitForSeconds(0.55f);
 
-        grenadeModel.SetActive(false);
-
         GameObject currentGrenade = Instantiate(testGrenadePrefab, grenadePivot.position, Quaternion.identity); // 수류탄 생성
         currentGrenade.GetComponent<Rigidbody>().velocity = direction; // 방향으로 던지기
         currentGrenade.GetComponent<Grenade>().StartTimer(); // 수류탄 타이머 시작
@@ -412,25 +387,5 @@ public class CombatControl : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
 
         canThrow = true;
-
-        currentWeapon = Weapon.None;
-    }
-
-    public void TakeDamage(float damage)
-    {
-        playerHealth -= damage;
-
-        if (playerHealth <= 0)
-        {
-            playerHealth = 0;
-            PlayerDead();
-        }
-    }
-
-    private void PlayerDead()
-    {
-        isDead = true;
-        rig.GetComponent<Rig>().weight = 0f;
-        animator.SetTrigger("Dead");
     }
 }

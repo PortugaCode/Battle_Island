@@ -56,7 +56,7 @@ public class AIChasePlayerState : AIState
         }
 
 
-        if (Physics.CheckSphere(agent.transform.position, 15f, agent.PlayerLayer))
+        if (Physics.CheckSphere(agent.transform.position, 7f, agent.PlayerLayer))
         {
             Vector3 direction = agent.playerTarget.position - agent.transform.position ;
 
@@ -76,7 +76,7 @@ public class AIChasePlayerState : AIState
 
 
         Vector3 Playerdirection = agent.playerTarget.position - agent.transform.position;
-        if (Playerdirection.magnitude > agent.config.maxSightDistance+30f)
+        if (Playerdirection.magnitude > agent.config.maxSightDistance+25f)
         {
             return;
         }
@@ -114,13 +114,13 @@ public class AIChasePlayerState : AIState
                 Debug.DrawRay(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward * hit.distance, Color.blue);
                 return true;
             }
-            else if(hit.collider.CompareTag("Player"))
+            else
             {
                 Debug.DrawRay(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward * hit.distance, Color.red);
                 return false;
             }
         }
-        return true;
+        return false;
     }
 
     private bool CheckWall2(AIAgent agent)

@@ -18,7 +18,7 @@ public class ItemControl : MonoBehaviour
         {
             canGet = true;
             InventoryControl.instance.focusedItems.Add(gameObject);
-            UIManager.instance.ShowGetItemUI();
+            UIManager.instance.ShowGetItemUI(gameObject);
         }
     }
 
@@ -45,13 +45,13 @@ public class ItemControl : MonoBehaviour
 
         InventoryControl.instance.focusedItems.RemoveAt(InventoryControl.instance.focusedItems.Count - 1);
 
-        if (InventoryControl.instance.focusedItems.Count > 0)
+        if (InventoryControl.instance.focusedItems.Count == 0)
         {
-            UIManager.instance.ShowGetItemUI();
+            UIManager.instance.CloseGetItemUI();
         }
         else
         {
-            UIManager.instance.CloseGetItemUI();
+            UIManager.instance.ShowGetItemUI(InventoryControl.instance.focusedItems[InventoryControl.instance.focusedItems.Count - 1]);
         }
 
         InventoryControl.instance.GetItem(itemName, id, amount);

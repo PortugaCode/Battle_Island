@@ -4,32 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class SurrItemClick : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class SurrItemClick : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     //여긴 슬롯에 있어야만 하는 스크립트임
 
     [SerializeField] private Image image;
-
-    public bool onClickSlot; //클릭
-
+    
     public void OnPointerEnter(PointerEventData eventData)
     {
         image.color = Color.cyan;
-
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         image.color = Color.white;
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (onClickSlot)
-        {
-            Debug.Log("클릭!");
-            onClickSlot = false;
-        }
-       
     }
 }
