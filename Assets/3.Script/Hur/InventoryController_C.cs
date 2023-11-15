@@ -128,7 +128,7 @@ public class InventoryController_C : MonoBehaviour
     public void CreateItem()//수정 - 생략 //슬롯 스크립트랑 연결할것
      //slot프리팹에 넣을 함수
     {
-        //Debug.Log("아이템 감지 in InventoryController");
+        Debug.Log("아이템 감지 in InventoryController");
         
         InventoryItem_C inventoryItem =
         Instantiate(itemPrefab).GetComponent<InventoryItem_C>();
@@ -138,7 +138,7 @@ public class InventoryController_C : MonoBehaviour
         rect.SetParent(canvasT);
         rect.SetAsLastSibling();
 
-        int matchingID = PlayerPrefs.GetInt("Item_ID"); //아이템 정보 - 슬롯 몇번째를 눌렀는지 정보를 알아내면 됨
+        int matchingID = PlayerPrefs.GetInt("아이템 아이디"); //아이템 정보 - 슬롯 몇번째를 눌렀는지 정보를 알아내면 됨
 
         //여러 개 같이 묶여서 덮어쓰는 중. 따로 눌러서 할 수 있음?
 

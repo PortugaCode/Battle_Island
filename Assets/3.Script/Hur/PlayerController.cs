@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     //public ItemData_C itemData;
 
     public bool eatItem = false;
+    public bool getItem = false;
 
     //---------------
     private void Start()
@@ -37,16 +38,18 @@ public class PlayerController : MonoBehaviour
         if (!eatItem && other.CompareTag("Wearable"))
         {
             eatItem = true;
+            getItem = true;
             Destroy(other.gameObject);
-            //Debug.Log("1. 장착가능한 아이템을 얻었다");
-            Debug.Log(eatItem);
+            Debug.Log("1. 장착가능한 아이템을 얻었다");
+            //Debug.Log(eatItem);
         }
         else if (!eatItem && other.CompareTag("Consumer"))
         {
             eatItem = true;
+            getItem = true;
             Destroy(other.gameObject);
-            //Debug.Log("1. extra 아이템을 얻었다");
-            Debug.Log(eatItem);
+            Debug.Log("1. extra 아이템을 얻었다");
+            //Debug.Log(eatItem);
         }
 
     }
