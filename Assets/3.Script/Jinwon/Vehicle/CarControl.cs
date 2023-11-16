@@ -18,6 +18,8 @@ public class CarControl : MonoBehaviour
     private float x; // 좌우 (각도)
     private float z; // 앞뒤 (속력)
 
+    public int carSpeed; // 자동차 속력
+
     public bool isPlayerEntered = false; // 차량에 탑승했는지 확인
 
     private bool isLightOn = false; // 라이트 On, Off 여부
@@ -34,6 +36,13 @@ public class CarControl : MonoBehaviour
         {
             ToggleLight();
         }
+
+        if (z != 0)
+        {
+            carSpeed = Mathf.Abs((int)(z * 4.0f));
+        }
+
+        //Debug.Log($"carSpeed = {carSpeed}");
     }
 
     private void FixedUpdate()
@@ -52,7 +61,7 @@ public class CarControl : MonoBehaviour
         // 앞뒤 입력
         if (Input.GetKey(KeyCode.W)) // 앞으로 갈 때
         {
-            if (z < 50)
+            if (z < 25)
             {
                 if (z < 0)
                 {
@@ -64,7 +73,7 @@ public class CarControl : MonoBehaviour
                 }
             }
 
-            if (z > 50) z = 50;
+            if (z > 25) z = 25;
         }
         else if (Input.GetKey(KeyCode.S)) // 뒤로 갈 때
         {
@@ -159,15 +168,19 @@ public class CarControl : MonoBehaviour
         Vector3 frontDirection = frontHandle.forward * z; // 앞으로 갈 때 방향
         Vector3 backDirection = backHandle.forward * z; // 뒤로 갈 때 방향
 
+        Vector3 targetDirection = frontDirection + backDirection;
+
         if (z > 0)
         {
             transform.forward = frontHandle.forward;
-            rb.MovePosition(rb.position + frontDirection * Time.deltaTime); // 차량 이동
+            //rb.MovePosition(rb.position + frontDirection * Time.deltaTime); // 차량 이동
+            rb.velocity = new Vector3(targetDirection.x, rb.velocity.y, targetDirection.z);
         }
         else if (z < 0)
         {
             transform.forward = backHandle.forward;
-            rb.MovePosition(rb.position + backDirection * Time.deltaTime); // 차량 이동
+            //rb.MovePosition(rb.position + backDirection * Time.deltaTime); // 차량 이동
+            rb.velocity = new Vector3(targetDirection.x, rb.velocity.y, targetDirection.z);
         }
     }
 
@@ -209,5 +222,10 @@ public class CarControl : MonoBehaviour
         isPlayerEntered = false;
         rb.isKinematic = true;
         carCamera.gameObject.SetActive(false);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        z = 0;
     }
 }
