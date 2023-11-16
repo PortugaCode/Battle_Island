@@ -6,12 +6,10 @@ using UnityEngine.AI;
 
 public class NavMeshBaker : MonoBehaviour
 {
-    public GameObject map;
+    public NavMeshSurface surface;
 
-    private Vector3 generatePosition = Vector3.zero;
 
     private float bakeTime = 4.0f;
-    private float gameTime = 0;
 
     private void Awake()
     {
@@ -20,7 +18,6 @@ public class NavMeshBaker : MonoBehaviour
 
     private IEnumerator GenerateNavMesh()
     {
-        GameObject obj = Instantiate(map, generatePosition, Quaternion.identity, transform);
         //generatePosition += new Vector3(50, 0, 50);
 
         yield return new WaitForSeconds(bakeTime);
@@ -43,23 +40,17 @@ public class NavMeshBaker : MonoBehaviour
 
     private void BakeWorld()
     {
-        NavMeshSurface[] surfaces = gameObject.GetComponentsInChildren<NavMeshSurface>();
-        foreach (var s in surfaces)
-        {
-            s.RemoveData();
-            s.BuildNavMesh();
-        }
+        surface.RemoveData();
+        surface.BuildNavMesh();
 
     }
-/*
+
     private void Update()
     {
-        gameTime += Time.deltaTime;
-        if (gameTime > 1.0f)
+        if (Input.GetKeyDown(KeyCode.T))
         {
             BakeWorld();
-            gameTime = 0;
         }
     }
-*/
+
 }
