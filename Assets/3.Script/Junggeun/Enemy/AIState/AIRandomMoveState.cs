@@ -121,7 +121,7 @@ public class AIRandomMoveState : AIState
                 {
                     return false;
                 }
-                else if (Playerdirection.magnitude < 7f)
+                else if (Playerdirection.magnitude < 10f)
                 {
                     return true;
                 }
