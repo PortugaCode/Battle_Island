@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class RandomRotation : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] private int minAngle = 0;
+    [SerializeField] private int maxAngle = 360;
     void Start()
     {
-        transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
+        Vector3 angle = new Vector3(0, Random.Range(minAngle, maxAngle), 0);
+        transform.rotation *= Quaternion.Euler(angle);
     }
 }

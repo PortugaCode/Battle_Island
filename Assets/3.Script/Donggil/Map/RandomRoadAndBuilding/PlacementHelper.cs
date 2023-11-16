@@ -5,7 +5,7 @@ using UnityEngine;
 
 public static class PlacementHelper
 {
-    
+
     public static List<Direction> FindNeighbor(Vector3Int position, ICollection<Vector3Int> collection)
     {
         List<Direction> neighborDirection = new List<Direction>();
@@ -32,16 +32,17 @@ public static class PlacementHelper
 
     internal static Vector3Int GetOffsetFromDirection(Direction direction)
     {
+        int distance = 18;
         switch (direction)
         {
             case Direction.Up:
-                return new Vector3Int(0, 0, 1) * 12;
+                return new Vector3Int(0, 0, 1) * distance;
             case Direction.Down:
-                return new Vector3Int(0, 0, -1) * 12;
+                return new Vector3Int(0, 0, -1) * distance;
             case Direction.Left:
-                return Vector3Int.left * 12;
+                return Vector3Int.left * distance;
             case Direction.Right:
-                return Vector3Int.right * 12;
+                return Vector3Int.right * distance;
             default:
                 break;
         }

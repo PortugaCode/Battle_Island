@@ -39,7 +39,7 @@ public class AIReloadState : AIState
     {
         if(agent.isneedReload == false && agent.isAmmoReady)
         {
-            agent.stateMachine.ChangeState(AiStateID.RandomMove);
+            agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
         }
     }
 

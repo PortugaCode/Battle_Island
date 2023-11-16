@@ -5,6 +5,8 @@ using UnityEngine;
 public class SupplyPlane : MonoBehaviour
 {
     public GameObject supplyBox;
+
+    [Header("보급상자 나오는 위치(Plane에 있음)")]
     public Transform dropSupplyPosition;
 
     public float speed = 10.0f;
@@ -13,18 +15,24 @@ public class SupplyPlane : MonoBehaviour
     float droptime = 0;
     float gameTime = 0;
 
-    private void Start()
-    {
-        planePosition = transform.position;
-        destination = new Vector3(planePosition.x * -1, planePosition.y, planePosition.z * -1);
-        droptime = Random.Range(12.0f, 18.0f);
-        Debug.Log(droptime);
-    }
+    public bool isPlaneSpawn = false;
+    public bool setTimeAndDestination = false;
 
 
     private void Update()
     {
-        MovePlane();
+        if (isPlaneSpawn)
+        {
+            if(setTimeAndDestination)
+            {
+                planePosition = transform.position;
+                destination = new Vector3(planePosition.x * -1, planePosition.y, planePosition.z * -1);
+                droptime = Random.Range(12.0f, 18.0f);
+                setTimeAndDestination = false;
+                Debug.Log(droptime);
+            }
+            MovePlane();
+        }
     }
 
     private void MovePlane()
@@ -36,6 +44,8 @@ public class SupplyPlane : MonoBehaviour
 
         if (transform.position == destination)
         {
+            isPlaneSpawn = false;
+            gameTime = 0;
             gameObject.SetActive(false);
         }
     }

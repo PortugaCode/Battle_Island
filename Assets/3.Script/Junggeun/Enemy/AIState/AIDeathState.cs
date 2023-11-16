@@ -20,11 +20,19 @@ public class AIDeathState : AIState
         agent.twoBoneIK.weight = 0f;
         agent.rig.weight = 0f;
 
+
+
+
+
+
+
         //나중에 건 데이터에 맞게 밖으로 보내기 (죽을 때 총 밖으로 꺼내는 작업)
         if(agent.CurrentGun != null)
         {
             agent.CurrentGun.GetComponent<Rigidbody>().useGravity = true;
             agent.CurrentGun.GetComponent<Rigidbody>().isKinematic = false;
+            agent.CurrentGun.GetComponent<EquipCheck>().isEquip = false;
+            agent.CurrentGun.GetComponent<EquipCheck>().isEnemyEquip = false;
             agent.CurrentGun.transform.SetParent(null);
         }
     }

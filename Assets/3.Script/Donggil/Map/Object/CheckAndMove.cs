@@ -1,9 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CheckAndMove : MonoBehaviour
 {
+    public enum selectTag
+    {
+        Wall = 0,
+        Dongil01 = 1,
+        Dongil02 = 2
+    }
+
     [Header("BoxCollider의 Center, Size 똑같이 입력")]
     public Vector3 colliderPos = Vector3.zero;
     public Vector3 size = Vector3.zero;
@@ -11,11 +19,15 @@ public class CheckAndMove : MonoBehaviour
     [SerializeField] private bool isInMap = false;
     [SerializeField] private MapSize scale;
 
-    [Header("탐지할 레이어 선택 (태그는 Wall)")]
+    [Header("탐지할 레이어 선택")]
     public Layers layers;
 
-    [Header("오브젝트 비활성화 체크할때 서로 같은 레이어인가")]
+    [Header("탐지할 태그 선택")]
+    public selectTag tagName;
+
+    [Header("검사하는 오브젝트가 서로 같은 레이어인가")]
     public bool isThislayerSame = false;
+
 
     private bool isPushEnd = false;
 
@@ -37,6 +49,7 @@ public class CheckAndMove : MonoBehaviour
     private void IsExistCollider()
     {
         int layerMask = 1 << (int)layers;
+        string tagString = Enum.GetName(typeof(selectTag), tagName);
         Collider[] colliders;
         Vector3 objectCenter = colliderPos + transform.position;
 
@@ -51,7 +64,7 @@ public class CheckAndMove : MonoBehaviour
 
         foreach (Collider col in colliders)
         {
-            if (col.CompareTag("Wall"))
+            if (col.CompareTag(tagString))
             {
                 if (isThislayerSame)
                 {
@@ -62,11 +75,11 @@ public class CheckAndMove : MonoBehaviour
                         Vector3 dir = (closestPoint - objectCenter).normalized;
                         Vector3 whereToMove = new Vector3(dir.x, 0, dir.z);
                         transform.position -= whereToMove;
-                        Debug.Log(dir);
+                        //Debug.Log(dir);
                         if (dir == Vector3.up || Time.frameCount > targetFrame)
                         {
                             isPushEnd = true;
-                            Debug.Log(isPushEnd);
+                            //Debug.Log(isPushEnd);
                         }
                     }
                 }
@@ -79,11 +92,11 @@ public class CheckAndMove : MonoBehaviour
                         Vector3 dir = (closestPoint - objectCenter).normalized;
                         Vector3 whereToMove = new Vector3(dir.x, 0, dir.z);
                         transform.position -= whereToMove;
-                        Debug.Log(dir);
+                        //Debug.Log(dir);
                         if(dir == Vector3.up || Time.frameCount > targetFrame)
                         {
                             isPushEnd = true;
-                            Debug.Log(isPushEnd);
+                            //Debug.Log(isPushEnd);
                         }
                     }
                 }
