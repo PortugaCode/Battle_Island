@@ -71,6 +71,7 @@ public class CombatControl : MonoBehaviour
     public bool lookAround = false;
     public float normalCamX;
     public float normalCamY;
+    [SerializeField] private CrosshairControl crosshairControl;
 
     // Heal
     [Header("Heal")]
@@ -81,6 +82,8 @@ public class CombatControl : MonoBehaviour
         TryGetComponent(out animator);
         TryGetComponent(out cm);
         TryGetComponent(out zoomControl);
+
+        crosshairControl = FindObjectOfType<CrosshairControl>();
     }
 
     private void Update()
@@ -256,6 +259,7 @@ public class CombatControl : MonoBehaviour
             {
                 if (currentGun != null && currentGun.GetComponent<Gun>().currentMag > 0)
                 {
+                    crosshairControl.Expand();
                     currentGun.GetComponent<Gun>().PlayerShoot();
                     GunRecoil();
                 }
