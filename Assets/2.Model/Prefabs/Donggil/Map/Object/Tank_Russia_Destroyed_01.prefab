@@ -28848,6 +28848,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cf0752bfbff9d745b440884f36e7bf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minAngle: 0
+  maxAngle: 360
 --- !u!114 &-5373848900385035377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28865,7 +28867,9 @@ MonoBehaviour:
   scale: {fileID: 0}
   isInMap: 0
   layers: 7
+  tagName: 0
   isThislayerSame: 0
+  isRoad: 0
 --- !u!114 &193735430310192448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28882,8 +28886,10 @@ MonoBehaviour:
   radius: 7
   scale: {fileID: 0}
   isInMap: 0
-  layers: 0
+  layers: 29
+  tagName: 2
   isThislayerSame: 1
+  isRoad: 0
 --- !u!1 &7167412674084152955
 GameObject:
   m_ObjectHideFlags: 0

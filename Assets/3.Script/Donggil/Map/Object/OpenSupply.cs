@@ -46,7 +46,7 @@ public class OpenSupply : MonoBehaviour
             {
                 if (collsFront.Length >= 1 && Input.GetKeyDown(KeyCode.F))
                 {
-                    isFrontOpen = !isFrontOpen;
+                    isFrontOpen = true;
                 }
             }
         }
@@ -55,11 +55,6 @@ public class OpenSupply : MonoBehaviour
         {
             FrontLeftDoor.transform.localRotation = Quaternion.Slerp(FrontLeftDoor.transform.localRotation, OpenLeft, smooth * Time.deltaTime);
             FrontRightDoor.transform.localRotation = Quaternion.Slerp(FrontRightDoor.transform.localRotation, OpenRight, smooth * Time.deltaTime);
-        }
-        else
-        {
-            FrontLeftDoor.transform.localRotation = Quaternion.Slerp(FrontLeftDoor.transform.localRotation, CloseLeft, smooth * Time.deltaTime);
-            FrontRightDoor.transform.localRotation = Quaternion.Slerp(FrontRightDoor.transform.localRotation, CloseRight, smooth * Time.deltaTime);
         }
     }
 
@@ -77,7 +72,7 @@ public class OpenSupply : MonoBehaviour
             {
                 if (collsBack.Length >= 1 && Input.GetKeyDown(KeyCode.F))
                 {
-                    isBackOpen = !isBackOpen;
+                    isBackOpen = true;
                 }
             }
         }
@@ -86,11 +81,6 @@ public class OpenSupply : MonoBehaviour
         {
             BackLeftDoor.transform.localRotation = Quaternion.Slerp(BackLeftDoor.transform.localRotation, OpenLeft, smooth * Time.deltaTime);
             BackRightDoor.transform.localRotation = Quaternion.Slerp(BackRightDoor.transform.localRotation, OpenRight, smooth * Time.deltaTime);
-        }
-        else
-        {
-            BackLeftDoor.transform.localRotation = Quaternion.Slerp(BackLeftDoor.transform.localRotation, CloseLeft, smooth * Time.deltaTime);
-            BackRightDoor.transform.localRotation = Quaternion.Slerp(BackRightDoor.transform.localRotation, CloseRight, smooth * Time.deltaTime);
         }
     }
 }

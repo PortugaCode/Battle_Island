@@ -25,7 +25,7 @@ public class CheckAndMove : MonoBehaviour
     [Header("탐지할 태그 선택")]
     public selectTag tagName;
 
-    [Header("오브젝트 비활성화 체크할때 서로 같은 레이어인가")]
+    [Header("검사하는 오브젝트가 서로 같은 레이어인가")]
     public bool isThislayerSame = false;
 
 

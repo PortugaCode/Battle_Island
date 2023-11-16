@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class SpawnSupplyPlane : MonoBehaviour
 {
-    public GameObject plane;
+    [SerializeField] private GameObject plane;
+    [SerializeField] private Transform PlaneTransform;
 
-    public Transform PlaneTransform;
 
-    public float radius = 5.0f;
+    [Header("다음 자기장 게임 오브젝트 넣기")]
+    public GameObject layover;
+
+    public float radius = 250.0f;
 
     private void Start()
     {
@@ -40,5 +43,7 @@ public class SpawnSupplyPlane : MonoBehaviour
 
 
         PlaneTransform.GetChild(0).gameObject.SetActive(true);
+        PlaneTransform.GetChild(0).gameObject.GetComponent<SupplyPlane>().setTimeAndDestination = true;
+        PlaneTransform.GetChild(0).gameObject.GetComponent<SupplyPlane>().isPlaneSpawn = true;
     }
 }
