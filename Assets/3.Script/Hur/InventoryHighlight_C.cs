@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryHighlight_C : MonoBehaviour
-{
+{ 
     [SerializeField] RectTransform hightlighter;
-
+    public bool sinho = false;
     public void Show(bool b)
     {
         hightlighter.gameObject.SetActive(b);
@@ -27,9 +27,16 @@ public class InventoryHighlight_C : MonoBehaviour
             targetItem.onGridPositionX,
             targetItem.onGridPositionY);
 
-        Debug.Log("하이라이트 ON"); //인벤토리 grid에 닿을 때마다 뜸 (같은 아이템도 마찬가지)
-        Debug.Log("X : " + targetItem.onGridPositionX);
-        Debug.Log("Y : " + targetItem.onGridPositionY);
+        if (!sinho)
+        {
+            Debug.Log("하이라이트 ON"); //인벤토리 grid에 닿을 때마다 뜸 (같은 아이템도 마찬가지)
+            Debug.Log("X좌표, Y좌표 : " + 
+                (targetItem.onGridPositionX, targetItem.onGridPositionY));
+            
+            sinho = true;
+            
+        }
+        
         hightlighter.localPosition = pos;
     }
 

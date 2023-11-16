@@ -16,7 +16,6 @@ public class InventoryController_C : MonoBehaviour
     
     [SerializeField] Transform canvasT;
 
-
     private InventoryHighlight_C inventoryHighlight;
 
     public int matchingID;
@@ -25,6 +24,8 @@ public class InventoryController_C : MonoBehaviour
     public Slot[] slots;
     public Transform slotHolder;
 
+    //Grid값 - 아이템 없으면 0, 있으면 1
+    public int value_grid;
     public ItemGrid_C SelectedItemGrid
     {
         get => selectedItemGrid;
@@ -39,6 +40,7 @@ public class InventoryController_C : MonoBehaviour
         inventoryHighlight = GetComponent<InventoryHighlight_C>();
         noticeItem = FindObjectOfType<NoticeItem>();
         slots = slotHolder.GetComponentsInChildren<Slot>();
+        value_grid = 0;
     }
     private void Update()
     {
@@ -47,7 +49,7 @@ public class InventoryController_C : MonoBehaviour
         //확인용 - Grid, 좌표
         if (Input.GetMouseButton(0))
         {
-            Debug.Log(selectedItemGrid.GetTileGridPosition(Input.mousePosition));
+            //Debug.Log(selectedItemGrid.GetTileGridPosition(Input.mousePosition));
         }
 
         if (noticeItem.ItemDragOn)
