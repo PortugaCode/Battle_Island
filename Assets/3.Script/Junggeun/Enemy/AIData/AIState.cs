@@ -14,7 +14,8 @@ public enum AiStateID
     FindBullet,
     FindArmor,
     Standby,
-    RuntoWall
+    RuntoWall,
+    AlreadyDie
 }
 
 public interface AIState

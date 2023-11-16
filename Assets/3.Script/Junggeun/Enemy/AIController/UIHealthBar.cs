@@ -27,7 +27,7 @@ public class UIHealthBar : MonoBehaviour
 
     private void BehindHpBar()
     {
-        Vector3 direction = (target.position - Camera.main.transform.position).normalized;
+        Vector3 direction = (target.position- Camera.main.transform.position).normalized;
         bool isBehind = Vector3.Dot(direction, Camera.main.transform.forward) <= 0.0f;
 
         Vector3 direction2 = player.position - target.position;
