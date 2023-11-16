@@ -7,7 +7,11 @@ public class SupplyBox : MonoBehaviour
     public GameObject smoke;
     public GameObject parachute;
 
+    public GameObject RareItemSpawn;
+
     private Rigidbody rigid;
+
+    public bool isGrounded = true;
 
     private void Start()
     {
@@ -18,7 +22,10 @@ public class SupplyBox : MonoBehaviour
 
     private void Update()
     {
-        Grounded();
+        if (isGrounded)
+        {
+            Grounded();
+        }
     }
 
     private void Grounded()
@@ -31,6 +38,8 @@ public class SupplyBox : MonoBehaviour
             rigid.drag = 0;
             parachute.SetActive(false);
             smoke.SetActive(true);
+            RareItemSpawn.SetActive(true);
+            isGrounded = false;
         }
     }
 }

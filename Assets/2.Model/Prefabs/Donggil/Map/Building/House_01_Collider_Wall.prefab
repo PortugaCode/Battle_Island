@@ -361,10 +361,10 @@ GameObject:
   - component: {fileID: 1322581312151798865}
   - component: {fileID: 6770228708212638703}
   - component: {fileID: 2557468135932220191}
-  - component: {fileID: 4729617392616324439}
-  m_Layer: 29
+  - component: {fileID: -4307532950590590089}
+  m_Layer: 7
   m_Name: House_01_Collider_Wall
-  m_TagString: Wall
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -387,6 +387,7 @@ Transform:
   - {fileID: 1160705741229156752}
   - {fileID: 7685871031770003770}
   - {fileID: 5202723053069757358}
+  - {fileID: 1017761800820582131}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -469,9 +470,10 @@ MonoBehaviour:
   size: {x: 22, y: 15, z: 22}
   isInMap: 0
   scale: {fileID: 0}
-  layers: 29
+  layers: 7
+  tagName: 2
   isThislayerSame: 1
-  targetFrame: 1000
+  targetFrame: 300
 --- !u!114 &2557468135932220191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,9 +491,10 @@ MonoBehaviour:
   isInMap: 0
   scale: {fileID: 0}
   layers: 6
+  tagName: 1
   isThislayerSame: 0
-  targetFrame: 1000
---- !u!114 &4729617392616324439
+  targetFrame: 300
+--- !u!114 &-4307532950590590089
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -500,15 +503,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1349933202909684885}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3445becc984b644aa9d615dd2f414d6, type: 3}
+  m_Script: {fileID: 11500000, guid: a4513fc1a5ee6d340a442dd4ea1150fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameObj: {fileID: 1349933202909684885}
-  radius: 12
-  scale: {fileID: 0}
-  isInMap: 0
-  layers: 29
-  isThislayerSame: 1
+  materials:
+  - {fileID: 2100000, guid: a74066172cf19cd4bacae3c6600a7217, type: 2}
+  - {fileID: 2100000, guid: f773f9e7d08bedd44b73534af5c327e2, type: 2}
+  - {fileID: 2100000, guid: 97a96693c2c6e934cb4c090fe8d0d36c, type: 2}
+  - {fileID: 2100000, guid: 104879306de394242abb32cffee7abcd, type: 2}
 --- !u!1 &3605799293498629894
 GameObject:
   m_ObjectHideFlags: 0
@@ -5421,6 +5423,70 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 2.7778685, z: 0.5070886}
   m_Center: {x: -1, y: 1.3889343, z: 0}
+--- !u!1 &8609805853032658816
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1017761800820582131}
+  - component: {fileID: 3666072111791183253}
+  - component: {fileID: 1556416529135450186}
+  m_Layer: 29
+  m_Name: CheckObject
+  m_TagString: Dongil02
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1017761800820582131
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8609805853032658816}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1346967680444230987}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3666072111791183253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8609805853032658816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3445becc984b644aa9d615dd2f414d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameObj: {fileID: 1349933202909684885}
+  radius: 18
+  scale: {fileID: 0}
+  isInMap: 0
+  layers: 29
+  tagName: 2
+  isThislayerSame: 1
+--- !u!65 &1556416529135450186
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8609805853032658816}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 24, y: 20, z: 24}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8970584639620416724
 GameObject:
   m_ObjectHideFlags: 0
