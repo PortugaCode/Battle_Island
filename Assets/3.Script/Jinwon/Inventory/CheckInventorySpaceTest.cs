@@ -26,6 +26,8 @@ public class CheckInventorySpaceTest : MonoBehaviour
     private int place_x = -1; // 아이템을 놓을 수 있는 위치 x
     private int place_y = -1; // 아이템을 놓을 수 있는 위치 y
 
+    private bool haveToTurn = false; // 회전해야 하는가
+
     private void Awake()
     {
         inventory = new int[y, x];
@@ -78,7 +80,7 @@ public class CheckInventorySpaceTest : MonoBehaviour
         {
             for (int j = 0; j < x; j++)
             {
-                if (i + currentItem.y -1 < y && j + currentItem.x -1  < x)
+                if (i + currentItem.y - 1 < y && j + currentItem.x - 1 < x)
                 {
                     if (inventory[i, j] == 0) // 해당 위치가 비어있으면 체크 시작
                     {
@@ -86,6 +88,30 @@ public class CheckInventorySpaceTest : MonoBehaviour
                         {
                             place_y = i;
                             place_x = j;
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        int temp = currentItem.x;
+        currentItem.x = currentItem.y;
+        currentItem.y = temp;
+
+        for (int i = 0; i < y; i++)
+        {
+            for (int j = 0; j < x; j++)
+            {
+                if (i + currentItem.y - 1 < y && j + currentItem.x - 1 < x)
+                {
+                    if (inventory[i, j] == 0) // 해당 위치가 비어있으면 체크 시작
+                    {
+                        if (CheckSpace(i, j))
+                        {
+                            place_y = i;
+                            place_x = j;
+                            haveToTurn = true;
                             return;
                         }
                     }

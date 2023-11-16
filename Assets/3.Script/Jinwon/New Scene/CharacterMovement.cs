@@ -47,6 +47,10 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private GameObject holdGunPivot;
     [SerializeField] private GameObject backGunPivot;
 
+    // Night Vision
+    [Header("Night Vision")]
+    [SerializeField] private GameObject nightVision;
+
     private void Awake()
     {
         TryGetComponent(out rb);
@@ -101,6 +105,11 @@ public class CharacterMovement : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.G)) // 승차
             {
                 EnterCar();
+            }
+
+            if (Input.GetKeyDown(KeyCode.N)) // 야간투시경 On, Off
+            {
+                ToggleNightVision();
             }
         }
         else
@@ -310,6 +319,8 @@ public class CharacterMovement : MonoBehaviour
         rb.velocity = Vector3.zero;
         rb.isKinematic = true;
 
+        nightVision.SetActive(false);
+
         isCarEntered = true;
         isRun = false;
         currentSpeed = walkSpeed;
@@ -357,5 +368,17 @@ public class CharacterMovement : MonoBehaviour
 
         transform.position = nearCar.GetComponent<CarControl>().playerPosition.position;
         transform.forward = nearCar.GetComponent<CarControl>().playerPosition.forward;
+    }
+
+    private void ToggleNightVision()
+    {
+        if (nightVision.activeSelf)
+        {
+            nightVision.SetActive(false);
+        }
+        else
+        {
+            nightVision.SetActive(true);
+        }
     }
 }
