@@ -941,6 +941,58 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
+=======
+--- !u!1 &1016064421
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1016064423}
+  - component: {fileID: 1016064422}
+  m_Layer: 0
+  m_Name: Test_slot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1016064422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016064421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 853e85df4ba69794cb5d466bfd3e2a3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotPrefab: {fileID: 8880059653132759302, guid: 0319e4ab670123843abe8a17d159376e, type: 3}
+  slotHolder: {fileID: 1355491116276425753}
+  player: {fileID: 435858886}
+  database: {fileID: 323847704}
+  notice: {fileID: 0}
+  count: 0
+--- !u!4 &1016064423
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016064421}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 221.31857, y: 482.628, z: -4.4816074}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1942292611}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+>>>>>>> Stashed changes
 --- !u!1 &1157346265
 GameObject:
   m_ObjectHideFlags: 0
@@ -1068,6 +1120,7 @@ Transform:
   m_Father: {fileID: 1942292611}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+<<<<<<< Updated upstream
 --- !u!1 &1169471411
 GameObject:
   m_ObjectHideFlags: 0
@@ -1125,6 +1178,8 @@ MonoBehaviour:
     usingType: 0
   count: 0
   ItemID: 
+=======
+>>>>>>> Stashed changes
 --- !u!1001 &1210113475
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1497,7 +1552,11 @@ Transform:
   m_Children:
   - {fileID: 1157346271}
   - {fileID: 435858881}
+<<<<<<< Updated upstream
   - {fileID: 1169471412}
+=======
+  - {fileID: 1016064423}
+>>>>>>> Stashed changes
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
