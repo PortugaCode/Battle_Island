@@ -9,13 +9,16 @@ public class CrosshairControl : MonoBehaviour
     [SerializeField] private GameObject down;
     [SerializeField] private GameObject left;
     [SerializeField] private GameObject right;
+    [SerializeField] private GameObject dot;
 
     private float originalDistance;
 
     private float target;
 
     public float expandAmount = 20.0f;
-    public float expandSpeed = 30.0f;
+    public float expandSpeed = 35.0f;
+
+    private bool isRed = false;
 
     private void Awake()
     {
@@ -53,5 +56,36 @@ public class CrosshairControl : MonoBehaviour
     public void Expand()
     {
         target = originalDistance + expandAmount;
+    }
+
+    public void TurnRed()
+    {
+        if (isRed)
+        {
+            return;
+        }
+
+        isRed = true;
+
+        up.GetComponent<Image>().color = Color.red;
+        down.GetComponent<Image>().color = Color.red;
+        left.GetComponent<Image>().color = Color.red;
+        right.GetComponent<Image>().color = Color.red;
+        dot.GetComponent<Image>().color = Color.red;
+
+        StartCoroutine(TurnWhite());
+    }
+
+    private IEnumerator TurnWhite()
+    {
+        yield return new WaitForSeconds(1.0f);
+
+        up.GetComponent<Image>().color = Color.white;
+        down.GetComponent<Image>().color = Color.white;
+        left.GetComponent<Image>().color = Color.white;
+        right.GetComponent<Image>().color = Color.white;
+        dot.GetComponent<Image>().color = Color.white;
+
+        isRed = false;
     }
 }
