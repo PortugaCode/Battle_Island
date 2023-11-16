@@ -335,8 +335,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 15, y: 0.2, z: 15}
-  m_Center: {x: 2.5, y: -0.1, z: 2.5}
+  m_Size: {x: 15, y: 0.01, z: 15}
+  m_Center: {x: 2.5, y: -0.5, z: 2.5}
 --- !u!114 &413191838911540520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,3 +356,4 @@ MonoBehaviour:
   layers: 29
   tagName: 1
   isThislayerSame: 0
+  isRoad: 0

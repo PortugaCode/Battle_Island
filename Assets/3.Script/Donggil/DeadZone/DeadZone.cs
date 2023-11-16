@@ -174,6 +174,7 @@ public class DeadZone : MonoBehaviour
 
     private void Start()
     {
+        mapRange = FindObjectOfType<FindRange>().GetComponent<Collider>();
         Debug.Log(SetPhaseTime(Phase.Phase1));
         Init();
         //StartCoroutine(DeadZoneStart());
@@ -358,7 +359,7 @@ public class DeadZone : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawLine(DeadZoneObject.transform.position, player.transform.position);
+        //Gizmos.DrawLine(DeadZoneObject.transform.position, player.transform.position);
     }
 }
 
