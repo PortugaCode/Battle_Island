@@ -13,15 +13,27 @@ public class CarControl : MonoBehaviour
     [SerializeField] private Transform backHandle; // 차가 뒤로 갈 때 적용할 방향
     [SerializeField] private GameObject leftWheel; // 왼쪽 바퀴
     [SerializeField] private GameObject rightWheel; // 오른쪽 바퀴
+    [SerializeField] private GameObject headLight; // 라이트
 
     private float x; // 좌우 (각도)
     private float z; // 앞뒤 (속력)
 
     public bool isPlayerEntered = false; // 차량에 탑승했는지 확인
 
+    private bool isLightOn = false; // 라이트 On, Off 여부
+
     private void Awake()
     {
         TryGetComponent(out rb);
+    }
+
+    private void Update()
+    {
+        // 라이트 On, Off
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            ToggleLight();
+        }
     }
 
     private void FixedUpdate()
@@ -42,7 +54,14 @@ public class CarControl : MonoBehaviour
         {
             if (z < 50)
             {
-                z += Time.deltaTime * 5.0f;
+                if (z < 0)
+                {
+                    z += Time.deltaTime * 20.0f;
+                }
+                else
+                {
+                    z += Time.deltaTime * 5.0f;
+                }
             }
 
             if (z > 50) z = 50;
@@ -51,7 +70,14 @@ public class CarControl : MonoBehaviour
         {
             if (z > -10)
             {
-                z -= Time.deltaTime * 5.0f;
+                if (z > 0)
+                {
+                    z -= Time.deltaTime * 20.0f;
+                }
+                else
+                {
+                    z -= Time.deltaTime * 5.0f;
+                }
             }
 
             if (z < -10) z = -10;
@@ -145,8 +171,31 @@ public class CarControl : MonoBehaviour
         }
     }
 
+    private void ToggleLight()
+    {
+        if (isLightOn)
+        {
+            isLightOn = false;
+
+            for (int i = 0; i < headLight.transform.childCount; i++)
+            {
+                headLight.transform.GetChild(i).gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            isLightOn = true;
+
+            for (int i = 0; i < headLight.transform.childCount; i++)
+            {
+                headLight.transform.GetChild(i).gameObject.SetActive(true);
+            }
+        }
+    }
+
     public void EnterCar()
     {
+        rb.velocity = Vector3.zero;
         isPlayerEntered = true;
         rb.isKinematic = false;
         carCamera.gameObject.SetActive(true);
@@ -154,6 +203,9 @@ public class CarControl : MonoBehaviour
 
     public void ExitCar()
     {
+        x = 0;
+        z = 0;
+        rb.velocity = Vector3.zero;
         isPlayerEntered = false;
         rb.isKinematic = true;
         carCamera.gameObject.SetActive(false);

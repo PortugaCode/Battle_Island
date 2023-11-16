@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    [Header("UI")]
     [SerializeField] private GameObject rifleCrosshair; // 1인칭 라이플 시점 UI
     [SerializeField] private GameObject sniperCrosshair; // 1인칭 스나이퍼 시점 UI
     [SerializeField] private GameObject thirdPersonCrosshair; // 3인칭 크로스헤어 UI

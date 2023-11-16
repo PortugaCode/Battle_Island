@@ -36,6 +36,17 @@ public class CharacterMovement : MonoBehaviour
     // Movement Bool
     private bool isRun = false;
 
+    // Car
+    [Header("Car")]
+    private GameObject nearCar; // 주변 차
+    private bool isCarEntered = false; // 차 탑승 여부
+
+    // Model, Pivot
+    [Header("Model")]
+    [SerializeField] private GameObject playerModel;
+    [SerializeField] private GameObject holdGunPivot;
+    [SerializeField] private GameObject backGunPivot;
+
     private void Awake()
     {
         TryGetComponent(out rb);
@@ -58,31 +69,46 @@ public class CharacterMovement : MonoBehaviour
             return;
         }
 
-        if (canMove)
+        if (!isCarEntered)
         {
-            GetInput();
-            GroundCheck();
-        }
+            if (canMove)
+            {
+                GetInput();
+                GroundCheck();
+            }
 
-        if (isCrouch)
-        {
-            crouchTimer += Time.deltaTime;
-        }
+            if (isCrouch)
+            {
+                crouchTimer += Time.deltaTime;
+            }
 
-        if (!isRun && currentSpeed > walkSpeed) // 속도 천천히 줄어들게
-        {
-            currentSpeed -= Time.deltaTime * 10.0f;
-            forwardSpeed = currentSpeed;
-        }
+            if (!isRun && currentSpeed > walkSpeed) // 속도 천천히 줄어들게
+            {
+                currentSpeed -= Time.deltaTime * 10.0f;
+                forwardSpeed = currentSpeed;
+            }
 
-        if (Input.GetKeyDown(KeyCode.Insert)) // TEST
-        {
-            InventoryControl.instance.ShowInventory();
-        }
+            if (Input.GetKeyDown(KeyCode.Insert)) // TEST
+            {
+                InventoryControl.instance.ShowInventory();
+            }
 
-        if (Input.GetKeyDown(KeyCode.Home)) // Test
+            if (Input.GetKeyDown(KeyCode.Home)) // Test
+            {
+                animator.SetTrigger("Dance");
+            }
+
+            if (Input.GetKeyDown(KeyCode.G)) // 승차
+            {
+                EnterCar();
+            }
+        }
+        else
         {
-            animator.SetTrigger("Dance");
+            if (Input.GetKeyDown(KeyCode.G)) // 하차
+            {
+                ExitCar();
+            }
         }
     }
 
@@ -255,5 +281,81 @@ public class CharacterMovement : MonoBehaviour
 
         // [플레이어가 땅에 닿아있는지 체크]
         isGround = Physics.OverlapSphere(transform.position, 0.2f, layerMask).Length > 0;
+    }
+
+    private void CheckCar() // 플레이어 주변 차량 확인
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 3.0f);
+
+        foreach (Collider c in colliders)
+        {
+            if (c.CompareTag("Car"))
+            {
+                nearCar = c.gameObject; // 주변 차 할당
+                return;
+            }
+        }
+    }
+
+    private void EnterCar() // 승차
+    {
+        CheckCar(); // 주변 차 확인
+
+        if (nearCar == null)
+        {
+            return;
+        }
+
+        animator.speed = 0;
+        rb.velocity = Vector3.zero;
+        rb.isKinematic = true;
+
+        isCarEntered = true;
+        isRun = false;
+        currentSpeed = walkSpeed;
+
+        playerModel.SetActive(false); // 플레이어 모델링 Off
+
+        // 총 모델링 Off
+        if (holdGunPivot.transform.childCount != 0)
+        {
+            holdGunPivot.transform.GetChild(0).gameObject.SetActive(false); 
+        }
+        else if (backGunPivot.transform.childCount != 0)
+        {
+            backGunPivot.transform.GetChild(0).gameObject.SetActive(false);
+        }
+
+        nearCar.GetComponent<CarControl>().EnterCar();
+    }
+
+    private void ExitCar() // 하차
+    {
+        if (nearCar == null)
+        {
+            return;
+        }
+
+        isCarEntered = false;
+
+        nearCar.GetComponent<CarControl>().ExitCar();
+
+        animator.speed = 1.0f;
+        rb.isKinematic = false;
+
+        playerModel.SetActive(true); // 플레이어 모델링 On
+
+        // 총 모델링 On
+        if (holdGunPivot.transform.childCount != 0)
+        {
+            holdGunPivot.transform.GetChild(0).gameObject.SetActive(true); 
+        }
+        else if (backGunPivot.transform.childCount != 0)
+        {
+            backGunPivot.transform.GetChild(0).gameObject.SetActive(true);
+        }
+
+        transform.position = nearCar.GetComponent<CarControl>().playerPosition.position;
+        transform.forward = nearCar.GetComponent<CarControl>().playerPosition.forward;
     }
 }
