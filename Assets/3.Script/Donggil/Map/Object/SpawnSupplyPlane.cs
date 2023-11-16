@@ -7,7 +7,7 @@ public class SpawnSupplyPlane : MonoBehaviour
     [SerializeField] private GameObject plane;
     [SerializeField] private Transform PlaneTransform;
 
-
+    //Merge할때 수정예정
     [Header("다음 자기장 게임 오브젝트 넣기")]
     public GameObject layover;
 

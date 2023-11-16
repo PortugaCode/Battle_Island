@@ -50,7 +50,15 @@ public class RoadHelper : MonoBehaviour
             {
                 continue;
             }
-            var road = Instantiate(roadStraights[Random.Range(0, roadStraights.Length)], position - fix, rotation, transform);
+            GameObject road = new GameObject();
+            if (i % 4 == 0)
+            {
+                road = Instantiate(roadStraights[0], position - fix, rotation, transform);
+            }
+            else
+            {
+                road = Instantiate(roadStraights[1], position - fix, rotation, transform);
+            }
             roadDic.Add(position, road);
             if (i == 0 || i == length - 1)
             {
