@@ -32,7 +32,7 @@ public class CarControl : MonoBehaviour
     private void Update()
     {
         // ∂Û¿Ã∆Æ On, Off
-        if (Input.GetKeyDown(KeyCode.N))
+        if (isPlayerEntered && Input.GetKeyDown(KeyCode.N))
         {
             ToggleLight();
         }

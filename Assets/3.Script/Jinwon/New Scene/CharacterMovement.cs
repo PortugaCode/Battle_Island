@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.Rendering;
 
 public class CharacterMovement : MonoBehaviour
 {
@@ -50,6 +51,7 @@ public class CharacterMovement : MonoBehaviour
     // Night Vision
     [Header("Night Vision")]
     [SerializeField] private GameObject nightVision;
+    private bool isFading = false;
 
     private void Awake()
     {
@@ -372,13 +374,55 @@ public class CharacterMovement : MonoBehaviour
 
     private void ToggleNightVision()
     {
+        if (isFading)
+        {
+            return;
+        }
+
         if (nightVision.activeSelf)
         {
-            nightVision.SetActive(false);
+            StartCoroutine(TurnOffNightVision());
         }
         else
         {
-            nightVision.SetActive(true);
+            StartCoroutine(TurnOnNightVision());
         }
+    }
+
+    private IEnumerator TurnOnNightVision()
+    {
+        isFading = true;
+
+        nightVision.SetActive(true);
+
+        while (nightVision.GetComponent<Volume>().weight < 1)
+        {
+            nightVision.GetComponent<Volume>().weight += Time.deltaTime * 10.0f;
+            yield return null;
+        }
+
+        nightVision.transform.GetChild(0).gameObject.SetActive(true);
+        nightVision.GetComponent<Volume>().weight = 1.0f;
+
+        isFading = false;
+    }
+
+    private IEnumerator TurnOffNightVision()
+    {
+        isFading = true;
+
+        nightVision.transform.GetChild(0).gameObject.SetActive(false);
+
+        while (nightVision.GetComponent<Volume>().weight > 0)
+        {
+            nightVision.GetComponent<Volume>().weight -= Time.deltaTime * 5.0f;
+            yield return null;
+        }
+
+        nightVision.GetComponent<Volume>().weight = 0f;
+
+        nightVision.SetActive(false);
+
+        isFading = false;
     }
 }
