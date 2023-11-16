@@ -25,8 +25,20 @@ public class NavMeshBaker : MonoBehaviour
 
         yield return new WaitForSeconds(bakeTime);
 
+        SetStatic(transform);
+        yield return new WaitForSeconds(0.5f);
 
         BakeWorld();
+    }
+
+    private void SetStatic(Transform parent)
+    {
+        parent.gameObject.isStatic = true;
+
+        foreach (Transform child in parent)
+        {
+            SetStatic(child);
+        }
     }
 
     private void BakeWorld()

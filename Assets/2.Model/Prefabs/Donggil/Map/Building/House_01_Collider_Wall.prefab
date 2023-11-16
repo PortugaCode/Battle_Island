@@ -80,7 +80,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1347121602081626225
 Transform:
   m_ObjectHideFlags: 0
@@ -175,7 +175,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1346482450932590185
 Transform:
   m_ObjectHideFlags: 0
@@ -270,7 +270,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1346372057015649447
 Transform:
   m_ObjectHideFlags: 0
@@ -599,6 +599,7 @@ GameObject:
   - component: {fileID: 3460974632418591960}
   - component: {fileID: 5450239962832317629}
   - component: {fileID: 7622340911395409966}
+  - component: {fileID: 1647419518413076462}
   m_Layer: 7
   m_Name: Collider
   m_TagString: Wall
@@ -841,6 +842,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.383748, y: 3.1487312, z: 0.075868845}
   m_Center: {x: -4.6216846, y: 1.8028965, z: -0.6795212}
+--- !u!65 &1647419518413076462
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4295318440700347947}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 9.97, y: 0.2895633, z: 7.22}
+  m_Center: {x: 0, y: 0.26, z: 0.59}
 --- !u!1 &4452111506826304682
 GameObject:
   m_ObjectHideFlags: 0
@@ -5474,6 +5488,7 @@ MonoBehaviour:
   layers: 29
   tagName: 2
   isThislayerSame: 1
+  isRoad: 0
 --- !u!65 &1556416529135450186
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5485,8 +5500,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 24, y: 20, z: 24}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 24, y: 10, z: 24}
+  m_Center: {x: 0, y: 3.83, z: 0}
 --- !u!1 &8970584639620416724
 GameObject:
   m_ObjectHideFlags: 0

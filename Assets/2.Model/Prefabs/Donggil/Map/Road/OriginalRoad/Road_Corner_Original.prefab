@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1347125840234199832}
   - component: {fileID: 1358359197549573754}
   - component: {fileID: 1365215582606152116}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Env_Road_Corner_02_Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 1357540788064717198}
   - component: {fileID: 1366160839193454038}
   - component: {fileID: 1316402056915089816}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Road_Corner_Original
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 1357494706791976524}
   - component: {fileID: 1365404771477407302}
   - component: {fileID: 1316434010484022408}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Env_Road_Corner_02_Dirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -287,7 +287,7 @@ GameObject:
   - component: {fileID: 7152975997543100998}
   - component: {fileID: 1301471571744087378}
   - component: {fileID: 413191838911540520}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Road_Corner_Original
   m_TagString: Dongil01
   m_Icon: {fileID: 0}
@@ -335,8 +335,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 15, y: 0.01, z: 15}
-  m_Center: {x: 2.5, y: -0.5, z: 2.5}
+  m_Size: {x: 10, y: 0, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &413191838911540520
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -99,7 +99,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &308781357299179329
 Transform:
   m_ObjectHideFlags: 0
@@ -194,7 +194,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &312647471119625549
 Transform:
   m_ObjectHideFlags: 0
@@ -608,6 +608,7 @@ MonoBehaviour:
   layers: 29
   tagName: 2
   isThislayerSame: 1
+  isRoad: 0
 --- !u!65 &5112417013170729426
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -619,8 +620,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 12, y: 10, z: 12}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 10, y: 6, z: 8}
+  m_Center: {x: 0, y: 1.67, z: 0}
 --- !u!1 &7370146530591451971
 GameObject:
   m_ObjectHideFlags: 0
