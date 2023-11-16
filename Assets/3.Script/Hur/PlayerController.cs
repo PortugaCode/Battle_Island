@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
             eatItem = true;
             getItem = true;
             Destroy(other.gameObject);
-            Debug.Log("1. 장착가능한 아이템을 얻었다");
+            //Debug.Log("1. 장착가능한 아이템을 얻었다");
             //Debug.Log(eatItem);
         }
         else if (!eatItem && other.CompareTag("Consumer"))
@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
             eatItem = true;
             getItem = true;
             Destroy(other.gameObject);
-            Debug.Log("1. extra 아이템을 얻었다");
+            //Debug.Log("1. extra 아이템을 얻었다");
             //Debug.Log(eatItem);
         }
 

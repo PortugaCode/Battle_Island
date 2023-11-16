@@ -33,7 +33,7 @@ public class NoticeItem : MonoBehaviour
         player.eatItem = false;
 
         //만약 감지했던 아이템 데이터가 Surround 인벤토리에 뜬다면
-        Debug.Log("3. 아이템 감지 in NoticeItem");
+        //Debug.Log("3. 아이템 감지 in NoticeItem");
 
         ItemData_hur itemData = MatchInfo(3);
         GameObject SurSlotPrefab = Instantiate(slotprefab, parentTransform);

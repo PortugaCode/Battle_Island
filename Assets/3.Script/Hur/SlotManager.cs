@@ -13,7 +13,7 @@ public class SlotManager : MonoBehaviour
 
     public int count; //초기 슬롯 개수
 
-    public new List<int> ItemID = new List<int>();
+    public List<int> ItemID = new List<int>();
 
     private void Awake()
     {

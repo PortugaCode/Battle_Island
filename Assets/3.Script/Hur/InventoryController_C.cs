@@ -44,7 +44,7 @@ public class InventoryController_C : MonoBehaviour
     {
         ItemIconDrag();
 
-        //확인용
+        //확인용 - Grid, 좌표
         if (Input.GetMouseButton(0))
         {
             Debug.Log(selectedItemGrid.GetTileGridPosition(Input.mousePosition));
@@ -137,7 +137,7 @@ public class InventoryController_C : MonoBehaviour
     public void CreateItem()//수정 - 생략 //슬롯 스크립트랑 연결할것
      //slot프리팹에 넣을 함수
     {
-        Debug.Log("아이템 감지 in InventoryController");
+        //Debug.Log("아이템 감지 in InventoryController");
         
         InventoryItem_C inventoryItem = 
         Instantiate(itemPrefab).GetComponent<InventoryItem_C>();

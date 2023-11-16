@@ -27,6 +27,9 @@ public class InventoryHighlight_C : MonoBehaviour
             targetItem.onGridPositionX,
             targetItem.onGridPositionY);
 
+        Debug.Log("하이라이트 ON"); //인벤토리 grid에 닿을 때마다 뜸 (같은 아이템도 마찬가지)
+        Debug.Log("X : " + targetItem.onGridPositionX);
+        Debug.Log("Y : " + targetItem.onGridPositionY);
         hightlighter.localPosition = pos;
     }
 
