@@ -8,6 +8,7 @@ public class NavMeshBaker : MonoBehaviour
 {
     public NavMeshSurface surface;
 
+    public Transform Map;
 
     private float bakeTime = 4.0f;
 
@@ -22,7 +23,7 @@ public class NavMeshBaker : MonoBehaviour
 
         yield return new WaitForSeconds(bakeTime);
 
-        SetStatic(transform);
+        SetStatic(Map);
         yield return new WaitForSeconds(0.5f);
 
         BakeWorld();

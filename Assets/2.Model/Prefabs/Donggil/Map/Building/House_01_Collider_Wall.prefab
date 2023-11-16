@@ -362,7 +362,7 @@ GameObject:
   - component: {fileID: 6770228708212638703}
   - component: {fileID: 2557468135932220191}
   - component: {fileID: -4307532950590590089}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: House_01_Collider_Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -493,7 +493,7 @@ MonoBehaviour:
   isInMap: 0
   scale: {fileID: 0}
   layers: 6
-  tagName: 1
+  tagName: 2
   isThislayerSame: 0
   targetFrame: 300
 --- !u!114 &-4307532950590590089
@@ -5540,7 +5540,7 @@ GameObject:
   - component: {fileID: 1556416529135450186}
   m_Layer: 29
   m_Name: CheckObject
-  m_TagString: Dongil02
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5576,7 +5576,7 @@ MonoBehaviour:
   scale: {fileID: 0}
   isInMap: 0
   layers: 29
-  tagName: 2
+  tagName: 0
   isThislayerSame: 1
   isRoad: 0
 --- !u!65 &1556416529135450186

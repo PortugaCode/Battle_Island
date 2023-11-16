@@ -22,7 +22,7 @@ public class SpawnSupplyPlane : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.U))
+        if (Input.GetKeyDown(KeyCode.U))
         {
             PlaneSpawn();
         }
@@ -37,7 +37,7 @@ public class SpawnSupplyPlane : MonoBehaviour
 
         float x = Mathf.Cos(randomAngle * Mathf.Deg2Rad) * radius;
         float z = Mathf.Sin(randomAngle * Mathf.Deg2Rad) * radius;
-        Vector3 spawnPosition = new Vector3(x, 80, z);
+        Vector3 spawnPosition = new Vector3(x + layover.transform.position.x, 80, z + layover.transform.position.z);
 
         PlaneTransform.GetChild(0).transform.position = spawnPosition;
 
