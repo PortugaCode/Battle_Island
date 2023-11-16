@@ -118,7 +118,7 @@ public class AIChasePlayerState : AIState
 
     private bool CheckWall(AIAgent agent)
     {
-        if (Physics.Raycast(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward, out RaycastHit hit, Mathf.Infinity))
+        if (Physics.Raycast(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward, out RaycastHit hit, Vector3.Distance(agent.CurrentGun_Gun.muzzleTransform.position, agent.playerTarget.position)))
         {
             if (hit.collider.CompareTag("Wall"))
             {
