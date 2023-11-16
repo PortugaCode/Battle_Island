@@ -5,11 +5,14 @@ using UnityEngine;
 public class OpenInvent : MonoBehaviour
 {
     [SerializeField] GameObject inventoryObj;
+    [SerializeField] private SlotManager slot;
+    [SerializeField] private GameObject slotHolder;
     public bool Open = false;
 
     private void Start()
     {
         inventoryObj.SetActive(false);
+        slot = FindObjectOfType<SlotManager>();
     }
     private void Update()
     {
@@ -29,7 +32,16 @@ public class OpenInvent : MonoBehaviour
     public void Inventory_ON()
     {
         Open = true;
+
+        Debug.Log(slotHolder.transform.childCount);
+
+        for(int i = 0; i < slotHolder.transform.childCount; i++)
+        {
+            Destroy(slotHolder.transform.GetChild(i).gameObject);
+        }
+
         inventoryObj.SetActive(true);
+        slot.AddSlot();
     }
     public void Inventory_OFF()
     {
