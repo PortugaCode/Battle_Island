@@ -5,4 +5,5 @@ using UnityEngine;
 public class EffectManager : MonoBehaviour
 {
     public ParticleSystem fireEffect;
+    public ParticleSystem boomEffect;
 }

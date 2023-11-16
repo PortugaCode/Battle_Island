@@ -174,7 +174,7 @@ public class DeadZone : MonoBehaviour
 
     private void Start()
     {
-        mapRange = FindObjectOfType<FindRange>().GetComponent<Collider>();
+        //mapRange = FindObjectOfType<FindRange>().GetComponent<Collider>();
         Debug.Log(SetPhaseTime(Phase.Phase1));
         Init();
         //StartCoroutine(DeadZoneStart());

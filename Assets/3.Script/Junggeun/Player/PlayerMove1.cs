@@ -13,8 +13,8 @@ public class PlayerMove1 : MonoBehaviour
 
     private void Start()
     {
-        GameObject.FindObjectOfType<EnemyHealth>().TryGetComponent(out enemyHealth);
-        //GameObject.FindObjectOfType<HelicopterHealth>().TryGetComponent(out helicopterHealth);
+        //GameObject.FindObjectOfType<EnemyHealth>().TryGetComponent(out enemyHealth);
+        GameObject.FindObjectOfType<HelicopterHealth>().TryGetComponent(out helicopterHealth);
         TryGetComponent(out rig);
     }
 
@@ -30,7 +30,7 @@ public class PlayerMove1 : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            enemyHealth.TakeDamage(10f, Vector3.zero);
+            helicopterHealth.TakeDamage(10f);
         }
     }
 }
