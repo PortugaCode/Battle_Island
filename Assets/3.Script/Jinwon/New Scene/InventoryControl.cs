@@ -53,8 +53,16 @@ public class InventoryControl : MonoBehaviour
 
     private void Update()
     {
-        if (focusedItems.Count > 0 && Input.GetKeyDown(KeyCode.F))
+        if (focusedItems.Count > 0 && Input.GetKeyDown(KeyCode.F)) // TEST
         {
+            if (focusedItems[focusedItems.Count - 1].CompareTag("Weapon"))
+            {
+                if (focusedItems[focusedItems.Count - 1].GetComponent<EquipCheck>().isEquip)
+                {
+                    return;
+                }
+            }
+
             focusedItems[focusedItems.Count - 1].GetComponent<ItemControl>().PickUpItem();
         }
     }
@@ -71,10 +79,22 @@ public class InventoryControl : MonoBehaviour
         {
             bagModel.SetActive(true);
         }
+        else if (id == 107) // ½´·ùÅº (TEST)
+        {
+            for (int i = 0; i < amount - 1; i++)
+            {
+                inventory.Add(currentItem);
+            }
+        }
         else if (id == 108) // ÃÑ¾Ë»óÀÚ
         {
             ammo += amount;
             UIManager.instance.UpdateAmmoText(0); // Test
+
+            if (InventoryControl.instance.CheckInventory(108))
+            {
+                return; // ÀÌ¹Ì ¹Ú½º ÀÖÀ¸¸é Ãß°¡ ¾ÈÇÔ
+            }
         }
         else if (id == 111) // Çï¸ä
         {

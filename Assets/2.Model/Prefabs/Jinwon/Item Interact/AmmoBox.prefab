@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8737204669745761328
+--- !u!1 &5167319594979455536
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,10 +8,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8742625879988836056}
-  - component: {fileID: 8732977101208772586}
-  - component: {fileID: 8725703404404738442}
-  - component: {fileID: 8764145662378918068}
+  - component: {fileID: 5167319594979455537}
+  - component: {fileID: 5167319594979455540}
+  - component: {fileID: 5167319594979455539}
+  - component: {fileID: 5167319594979455538}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -19,35 +19,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8742625879988836056
+--- !u!4 &5167319594979455537
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8737204669745761328}
+  m_GameObject: {fileID: 5167319594979455536}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_Children: []
-  m_Father: {fileID: 8738126994390111785}
+  m_Father: {fileID: 5167319595456415949}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &8732977101208772586
+--- !u!33 &5167319594979455540
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8737204669745761328}
+  m_GameObject: {fileID: 5167319594979455536}
   m_Mesh: {fileID: 4300000, guid: 60201869746d13145a400a0495dea671, type: 3}
---- !u!23 &8725703404404738442
+--- !u!23 &5167319594979455539
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8737204669745761328}
+  m_GameObject: {fileID: 5167319594979455536}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -82,13 +82,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8764145662378918068
+--- !u!64 &5167319594979455538
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8737204669745761328}
+  m_GameObject: {fileID: 5167319594979455536}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
@@ -96,7 +96,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43668721744388404, guid: 7642c79683a85ab4a962ed9029e47cbf, type: 2}
---- !u!1 &8738126994390111784
+--- !u!1 &5167319595456415944
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -104,11 +104,11 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8738126994390111785}
-  - component: {fileID: 8738126994390111790}
-  - component: {fileID: 8738126994390111791}
-  - component: {fileID: 2140466828141279807}
-  - component: {fileID: 6984542662365631997}
+  - component: {fileID: 5167319595456415949}
+  - component: {fileID: 5167319595456415948}
+  - component: {fileID: 5167319595456415947}
+  - component: {fileID: 5167319595456415946}
+  - component: {fileID: 5167319595456415945}
   m_Layer: 10
   m_Name: AmmoBox
   m_TagString: AmmoBox
@@ -116,41 +116,41 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8738126994390111785
+--- !u!4 &5167319595456415949
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8738126994390111784}
+  m_GameObject: {fileID: 5167319595456415944}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 8742625879988836056}
+  - {fileID: 5167319594979455537}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &8738126994390111790
+--- !u!135 &5167319595456415948
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8738126994390111784}
+  m_GameObject: {fileID: 5167319595456415944}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8738126994390111791
+--- !u!114 &5167319595456415947
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8738126994390111784}
+  m_GameObject: {fileID: 5167319595456415944}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d9c865afd6fd6046b860ca348f489a1, type: 3}
@@ -158,15 +158,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: "\uCD1D\uC54C \uBC15\uC2A4"
   id: 108
-  amount: 30
+  amount: 120
   canGet: 0
---- !u!54 &2140466828141279807
+--- !u!54 &5167319595456415946
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8738126994390111784}
+  m_GameObject: {fileID: 5167319595456415944}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -176,13 +176,13 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6984542662365631997
+--- !u!114 &5167319595456415945
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8738126994390111784}
+  m_GameObject: {fileID: 5167319595456415944}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8edc7ff4788bae24cad0aa2fdf8cdbc2, type: 3}

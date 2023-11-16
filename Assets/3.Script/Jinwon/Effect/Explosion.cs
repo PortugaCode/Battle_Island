@@ -6,6 +6,6 @@ public class Explosion : MonoBehaviour
 {
     private void Awake()
     {
-        Destroy(gameObject, 5.0f);
+        Destroy(gameObject, 3.0f);
     }
 }

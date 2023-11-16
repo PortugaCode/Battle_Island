@@ -51,7 +51,7 @@ public class Recorder : MonoBehaviour
         GetComponent<CharacterMovement>().canMove = false;
 
         // 적 위치 설정
-        Instantiate(enemy, enemyTransform.position, Quaternion.identity);
+        //Instantiate(enemy, enemyTransform.position, Quaternion.identity);
 
         // 총알 발사
         GameObject endBullet = Instantiate(bulletPrefab, bulletStartPosition, Quaternion.identity);
@@ -61,5 +61,11 @@ public class Recorder : MonoBehaviour
         bulletCamera.Follow = endBullet.transform;
         bulletCamera.LookAt = endBullet.transform;
         bulletCamera.gameObject.SetActive(true);
+    }
+
+    public void EndReplay()
+    {
+        GetComponent<CharacterMovement>().canMove = true;
+        bulletCamera.gameObject.SetActive(false);
     }
 }

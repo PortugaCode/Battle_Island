@@ -73,7 +73,7 @@ public class ZoomControl : MonoBehaviour
 
         // [카메라 회전값 동기화]
         firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.Value = normalCamera.m_XAxis.Value;
-        firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.Value = 100.0f *  normalCamera.m_YAxis.Value - 50.0f;
+        firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.Value = 0f;
         firstPersonCamera.gameObject.SetActive(true);
 
         // [1인칭 UI 출력]
@@ -118,7 +118,7 @@ public class ZoomControl : MonoBehaviour
     {
         // [카메라 회전값 동기화]
         thirdPersonCamera.m_XAxis.Value = normalCamera.m_XAxis.Value;
-        thirdPersonCamera.m_YAxis.Value = normalCamera.m_YAxis.Value;
+        thirdPersonCamera.m_YAxis.Value = 0.5f;
         thirdPersonCamera.gameObject.SetActive(true);
 
         if (GetComponent<CombatControl>().currentWeapon == Weapon.Gun)
