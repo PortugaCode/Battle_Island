@@ -15,7 +15,8 @@ public class NavMeshBaker : MonoBehaviour
     public GameObject nextDeadZone;
     public GameObject currentDeadZone;
 
-    private float bakeTime = 4.0f;
+    public float bakeTime = 4.0f;
+    public float ActiveTime = 2.0f;
 
     public bool isBakedEnd = false;
 
@@ -37,7 +38,7 @@ public class NavMeshBaker : MonoBehaviour
 
         if (isBakedEnd)
         {
-            yield return new WaitForSeconds(5.0f);
+            yield return new WaitForSeconds(ActiveTime);
             deadZoneManager.SetActive(true);
             nextDeadZone.SetActive(true);
             currentDeadZone.SetActive(true);
