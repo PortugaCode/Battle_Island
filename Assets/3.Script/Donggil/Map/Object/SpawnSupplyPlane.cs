@@ -11,7 +11,9 @@ public class SpawnSupplyPlane : MonoBehaviour
     [Header("다음 자기장 게임 오브젝트 넣기")]
     public GameObject layover;
 
-    public float radius = 250.0f;
+    public float radius = 350.0f;
+    public float nextDeadzoneRadius = 0;
+
 
     private void Start()
     {
@@ -22,10 +24,27 @@ public class SpawnSupplyPlane : MonoBehaviour
 
     private void Update()
     {
+        nextDeadzoneRadius = layover.transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size.x / 2;
+        transform.position = new Vector3(layover.transform.position.x, 80, layover.transform.position.z);
+
+
         if (Input.GetKeyDown(KeyCode.U))
         {
             PlaneSpawn();
         }
+    }
+
+    public float CalcMinTime()
+    {
+        float dropMinTime = (radius - nextDeadzoneRadius) / plane.GetComponent<SupplyPlane>().speed;
+        return dropMinTime;
+    }
+
+    public float CalcMaxTime()
+    {
+
+        float dropMaxTime = (radius + nextDeadzoneRadius) / plane.GetComponent<SupplyPlane>().speed;
+        return dropMaxTime;
     }
 
 
@@ -39,8 +58,10 @@ public class SpawnSupplyPlane : MonoBehaviour
         float z = Mathf.Sin(randomAngle * Mathf.Deg2Rad) * radius;
         Vector3 spawnPosition = new Vector3(x + layover.transform.position.x, 80, z + layover.transform.position.z);
 
-        PlaneTransform.GetChild(0).transform.position = spawnPosition;
+        CalcMinTime();
+        CalcMaxTime();
 
+        PlaneTransform.GetChild(0).transform.position = spawnPosition;
 
         PlaneTransform.GetChild(0).gameObject.SetActive(true);
         PlaneTransform.GetChild(0).gameObject.GetComponent<SupplyPlane>().setTimeAndDestination = true;
