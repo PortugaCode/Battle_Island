@@ -50,6 +50,7 @@ public class CombatControl : MonoBehaviour
     private Animator animator;
     private CharacterMovement cm;
     private ZoomControl zoomControl;
+    private AudioSource audioSource;
 
     // Mouse Input
     [Header("Mouse Input")]
@@ -77,11 +78,16 @@ public class CombatControl : MonoBehaviour
     [Header("Heal")]
     public bool isHealing = false;
 
+    // AudioClip
+    [Header("AudioClip")]
+    [SerializeField] private AudioClip reloadClip;
+
     private void Awake()
     {
         TryGetComponent(out animator);
         TryGetComponent(out cm);
         TryGetComponent(out zoomControl);
+        TryGetComponent(out audioSource);
     }
 
     private void Update()
@@ -362,9 +368,13 @@ public class CombatControl : MonoBehaviour
         rig.GetComponent<Rig>().weight = 0f;
 
         animator.SetTrigger("Reload");
+
+        yield return new WaitForSeconds(0.25f);
+
+        audioSource.PlayOneShot(reloadClip);
         currentGun.GetComponent<Gun>().PlayerReload();
 
-        yield return new WaitForSeconds(1.725f);
+        yield return new WaitForSeconds(1.5f);
         rig.GetComponent<Rig>().weight = 1.0f;
 
         isReloading = false;
