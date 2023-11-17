@@ -11,6 +11,9 @@ public class NavMeshBaker : MonoBehaviour
     public Transform Map;
 
     public GameObject randomSpawn;
+    public GameObject deadZoneManager;
+    public GameObject nextDeadZone;
+    public GameObject currentDeadZone;
 
     private float bakeTime = 4.0f;
 
@@ -32,8 +35,12 @@ public class NavMeshBaker : MonoBehaviour
         BakeWorld();
         isBakedEnd = true;
 
-        if(isBakedEnd)
+        if (isBakedEnd)
         {
+            yield return new WaitForSeconds(5.0f);
+            deadZoneManager.SetActive(true);
+            nextDeadZone.SetActive(true);
+            currentDeadZone.SetActive(true);
             randomSpawn.SetActive(true);
         }
     }
@@ -54,13 +61,13 @@ public class NavMeshBaker : MonoBehaviour
         surface.RemoveData();
         surface.BuildNavMesh();
     }
-/*
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
+    /*
+        private void Update()
         {
-            BakeWorld();
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                BakeWorld();
+            }
         }
-    }
-*/
+    */
 }

@@ -995,6 +995,7 @@ GameObject:
   - component: {fileID: 923746223}
   - component: {fileID: 923746222}
   - component: {fileID: 923746221}
+  - component: {fileID: 923746225}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Untagged
@@ -1078,6 +1079,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &923746225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 923746220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85104d101d4dc774cb3188e9800ac150, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &931548883
 GameObject:
   m_ObjectHideFlags: 0
@@ -3071,6 +3084,8 @@ MonoBehaviour:
   - {fileID: 1508934165754910, guid: 68317e2c4c57a6e45be7063240f91cbb, type: 3}
   rangeObject: {fileID: 2509710003584664790}
   Gun_Object: {fileID: 817052994}
+  minItem: 0
+  maxItem: 0
 --- !u!65 &2509710003748653409
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3145,6 +3160,8 @@ MonoBehaviour:
   - {fileID: 1508934165754910, guid: 68317e2c4c57a6e45be7063240f91cbb, type: 3}
   rangeObject: {fileID: 2509710003748653415}
   Gun_Object: {fileID: 817052994}
+  minItem: 0
+  maxItem: 0
 --- !u!1 &2509710004973902540
 GameObject:
   m_ObjectHideFlags: 0
@@ -3192,6 +3209,8 @@ MonoBehaviour:
   - {fileID: 1508934165754910, guid: 68317e2c4c57a6e45be7063240f91cbb, type: 3}
   rangeObject: {fileID: 2509710004973902540}
   Gun_Object: {fileID: 817052994}
+  minItem: 0
+  maxItem: 0
 --- !u!65 &2509710004973902542
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -422,7 +422,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 822054716}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 55, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -457,6 +457,9 @@ MonoBehaviour:
   surface: {fileID: 7641057612669457217}
   Map: {fileID: 7641057612669457216}
   randomSpawn: {fileID: 2758908897643945172}
+  deadZoneManager: {fileID: 8940489944534055921}
+  nextDeadZone: {fileID: 6158971727346104173}
+  currentDeadZone: {fileID: 5524245589102387325}
   isBakedEnd: 0
 --- !u!1 &1689165951365530766
 GameObject:
@@ -10395,8 +10398,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7259436386288345399}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: -0.75, z: -13}
-  m_LocalScale: {x: 140, y: 0, z: 130}
+  m_LocalPosition: {x: 4, y: -0.75, z: -7.1}
+  m_LocalScale: {x: 115.3, y: 0, z: 132.57335}
   m_Children: []
   m_Father: {fileID: 2770502597577555069}
   m_RootOrder: 8
@@ -10589,7 +10592,7 @@ GameObject:
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!33 &5524245589340819856
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -10778,7 +10781,7 @@ GameObject:
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &6158971727346104174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13838,7 +13841,7 @@ GameObject:
   m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &8940489944534055922
 MonoBehaviour:
   m_ObjectHideFlags: 0
