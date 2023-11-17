@@ -14490,6 +14490,7 @@ Transform:
   - {fileID: 6099628609563391027}
   - {fileID: 6099628609664522073}
   - {fileID: 6099628608971166998}
+  - {fileID: 3732934800608170118}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -18270,6 +18271,71 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.0232697, y: 3.2864075, z: 0.30508995}
   m_Center: {x: -1.0116343, y: 1.1432037, z: 0}
+--- !u!1 &8599090153137373564
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3732934800608170118}
+  - component: {fileID: 8521065466555860821}
+  - component: {fileID: 129388752834786361}
+  m_Layer: 29
+  m_Name: Check
+  m_TagString: Wall
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3732934800608170118
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8599090153137373564}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6099628610371986219}
+  m_RootOrder: 111
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &8521065466555860821
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8599090153137373564}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 25, y: 20, z: 35}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &129388752834786361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8599090153137373564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3445becc984b644aa9d615dd2f414d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameObj: {fileID: 6099628610371986212}
+  radius: 24
+  scale: {fileID: 0}
+  isInMap: 0
+  layers: 29
+  tagName: 0
+  isThislayerSame: 1
+  isRoad: 0
 --- !u!1 &8740961191432798072
 GameObject:
   m_ObjectHideFlags: 0
