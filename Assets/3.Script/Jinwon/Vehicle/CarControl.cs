@@ -22,15 +22,30 @@ public class CarControl : MonoBehaviour
 
     public bool isPlayerEntered = false; // 차량에 탑승했는지 확인
 
+    private bool isIgnited = false; // 시동 걸었나
+
     private bool isLightOn = false; // 라이트 On, Off 여부
+
+    [Header("Audio")]
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip doorClip;
+    [SerializeField] private AudioClip ignitionClip;
+    [SerializeField] private AudioClip drivingClip;
+
 
     private void Awake()
     {
         TryGetComponent(out rb);
+        TryGetComponent(out audioSource);
     }
 
     private void Update()
     {
+        if (!isPlayerEntered)
+        {
+            return;
+        }
+
         // 라이트 On, Off
         if (isPlayerEntered && Input.GetKeyDown(KeyCode.N))
         {
@@ -42,7 +57,8 @@ public class CarControl : MonoBehaviour
             carSpeed = Mathf.Abs((int)(z * 4.0f));
         }
 
-        //Debug.Log($"carSpeed = {carSpeed}");
+        GetKeyboardInput();
+        
     }
 
     private void FixedUpdate()
@@ -52,7 +68,6 @@ public class CarControl : MonoBehaviour
             return;
         }
 
-        GetKeyboardInput();
         CarMove();
     }
 
@@ -61,6 +76,13 @@ public class CarControl : MonoBehaviour
         // 앞뒤 입력
         if (Input.GetKey(KeyCode.W)) // 앞으로 갈 때
         {
+            if (!isIgnited)
+            {
+                isIgnited = true;
+                audioSource.PlayOneShot(ignitionClip);
+                //StartCoroutine(DrivingSound_co());
+            }
+
             if (z < 25)
             {
                 if (z < 0)
@@ -77,6 +99,13 @@ public class CarControl : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.S)) // 뒤로 갈 때
         {
+            if (!isIgnited)
+            {
+                isIgnited = true;
+                audioSource.PlayOneShot(ignitionClip);
+                //StartCoroutine(DrivingSound_co());
+            }
+
             if (z > -10)
             {
                 if (z > 0)
@@ -208,6 +237,7 @@ public class CarControl : MonoBehaviour
 
     public void EnterCar()
     {
+        audioSource.PlayOneShot(doorClip);
         rb.velocity = Vector3.zero;
         isPlayerEntered = true;
         rb.isKinematic = false;
@@ -216,6 +246,8 @@ public class CarControl : MonoBehaviour
 
     public void ExitCar()
     {
+        isIgnited = false;
+        audioSource.PlayOneShot(doorClip);
         x = 0;
         z = 0;
         rb.velocity = Vector3.zero;
@@ -224,8 +256,29 @@ public class CarControl : MonoBehaviour
         carCamera.gameObject.SetActive(false);
     }
 
+    private IEnumerator DrivingSound_co()
+    {
+        yield return new WaitForSeconds(1.0f);
+        audioSource.volume = 0.25f;
+
+        while (true)
+        {
+            audioSource.PlayOneShot(drivingClip);
+            yield return null;
+
+            if (!isIgnited)
+            {
+                audioSource.volume = 0.5f;
+                yield break;
+            }
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        z = 0;
+        if (!other.CompareTag("Item") && (!other.CompareTag("Armor")) && (!other.CompareTag("Weapon")))
+        {
+            z = 0;
+        }
     }
 }
