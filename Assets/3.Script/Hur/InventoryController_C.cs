@@ -20,6 +20,7 @@ public class InventoryController_C : MonoBehaviour
     private InventoryHighlight_C inventoryHighlight;
 
     public int matchingID;
+    public bool rollback = false; // 1 -> 0으로 돌아가기
 
     //주변 슬롯
     public Slot[] slots;
@@ -271,6 +272,9 @@ public class InventoryController_C : MonoBehaviour
             selectedItemGrid.PickUpItem(tileGridPosition.x, tileGridPosition.y);
 
         inventoryHighlight.itemID = selectedItem.gameObject.GetComponent<InventoryItem_C>().dataid; //클릭될 때 정보 교류
+
+        //픽업을 할 때 0으로 바꿔버리기 
+        rollback = true;
 
         if (selectedItem != null)
         {

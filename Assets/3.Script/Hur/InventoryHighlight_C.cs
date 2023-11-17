@@ -6,7 +6,7 @@ public class InventoryHighlight_C : MonoBehaviour
 {
     [SerializeField] RectTransform hightlighter;
     [SerializeField] private GridManager gm;
-
+    [SerializeField] private InventoryController_C inv_cont;
     [SerializeField] List<ItemData_C> itemdata;
 
     public bool sinho = false;
@@ -17,6 +17,7 @@ public class InventoryHighlight_C : MonoBehaviour
     private void Start()
     {
         gm = FindObjectOfType<GridManager>();
+        inv_cont = FindObjectOfType<InventoryController_C>();
         //Caculator(0, 0);
     }
     private void Update()
@@ -130,22 +131,37 @@ public class InventoryHighlight_C : MonoBehaviour
     }
 
     private void Caculator(int x, int y)
-    {  //111111
-
-
-
-        for (int i = 0; i < _width; i++)
+    {
+        if (!inv_cont.rollback)
         {
-            for (int j = 0; j < _height; j++)
+            for (int i = 0; i < _width; i++)
             {
-                gm.array[x + i, y + j] = 1;
+                for (int j = 0; j < _height; j++)
+                {
+                    gm.array[x + i, y + j] = 1;
 
-                Debug.Log($"gm.array(1) : {x + i},{y + j}");
+                    Debug.Log($"gm.array : {x + i},{y + j}");
 
+                }
             }
-        }
-        gm.AllGridCheck();
+            inv_cont.rollback = true;
+        } 
+        else //롤백이면
+        {
+            for (int i = 0; i < _width; i++)
+            {
+                for (int j = 0; j < _height; j++)
+                {
+                    gm.array[x + i, y + j] = 0;
 
+                    Debug.Log($"롤백array : {x + i},{y + j}");
+
+                }
+            }
+            inv_cont.rollback = false;
+        }
+        
+        gm.AllGridCheck();
     }
     public void SetParent(ItemGrid_C targetGrid)
     {

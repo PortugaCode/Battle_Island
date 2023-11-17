@@ -11,22 +11,24 @@ public class GridManager : MonoBehaviour
      * 인벤토리 UI가 없어도 데이터가 있어서 표에 아이템이 차지한 넓이가 표시되게 하기
      */
     [SerializeField] private InventoryHighlight_C inv_highlight;
-    [SerializeField] private InventoryItem_C inv_item;
+    //[SerializeField] private InventoryItem_C inv_item;
     [SerializeField] private RectTransform check_value;
-    [SerializeField] private ItemGrid_C itemgrid;
+    //[SerializeField] private InventoryController_C inv_cont;
+    //[SerializeField] private ItemGrid_C itemgrid;
     public ItemData_C itemData;
 
     public int[,] array = new int[17, 28]; // 인벤토리 width, height 따로 만들어서 new int[width, height] (동적할당)
 
     //아이템 넓이, 높이
-    public int width; 
+    public int width;
     public int height;
 
     private void Start()
     {
         inv_highlight = FindObjectOfType<InventoryHighlight_C>();
-        inv_item = FindObjectOfType<InventoryItem_C>();
-        itemgrid = FindObjectOfType<ItemGrid_C>();
+        //inv_item = FindObjectOfType<InventoryItem_C>();
+        //inv_cont = FindObjectOfType<InventoryController_C>();
+        //itemgrid = FindObjectOfType<ItemGrid_C>();
         AllGridZero();
     }
 
@@ -44,7 +46,7 @@ public class GridManager : MonoBehaviour
 
     public void AllGridCheck()
     {
-        //아이템을 다른 곳으로 옮겼을 때는 값이 1 -> 0
+
         for (int i = 0; i < 17; i++)
         {
             for (int j = 0; j < 28; j++)
@@ -52,6 +54,7 @@ public class GridManager : MonoBehaviour
                 Debug.Log($"확인 : {i},{j} = {array[i, j]}");
             }
         }
+
     }
 
     private void Update()
