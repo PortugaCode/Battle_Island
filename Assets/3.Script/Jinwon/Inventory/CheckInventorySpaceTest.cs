@@ -42,9 +42,11 @@ public class CheckInventorySpaceTest : MonoBehaviour
         inventory[0, 1] = 1;
         inventory[0, 2] = 1;
         inventory[0, 3] = 1;
+        inventory[1, 3] = 1;
+        inventory[2, 3] = 1;
 
-        currentItem.x = 3;
-        currentItem.y = 3;
+        currentItem.x = 2;
+        currentItem.y = 5;
 
 
         SetTile();

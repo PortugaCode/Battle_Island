@@ -119,6 +119,14 @@ public class CombatControl : MonoBehaviour
         // [ÃÑÀ» ¼Õ¿¡ ÀåÂø] - TEST
         if (hasGun && (currentWeapon != Weapon.Gun) && Input.GetKeyDown(KeyCode.Keypad1))
         {
+            GetComponent<DrawProjection>().drawProjection = false;
+
+            if (isThirdPerson)
+            {
+                isThirdPerson = false;
+                zoomControl.Third_ZoomOut();
+            }
+
             currentWeapon = Weapon.Gun;
             rig.GetComponent<Rig>().weight = 1.0f;
             animator.SetBool("EquipGun", true);
@@ -369,6 +377,7 @@ public class CombatControl : MonoBehaviour
 
     private IEnumerator UnEquipGun_co()
     {
+        animator.SetBool("EquipGun", false);
         animator.SetTrigger("UnEquip");
         rig.GetComponent<Rig>().weight = 0f;
 
@@ -432,6 +441,12 @@ public class CombatControl : MonoBehaviour
         GetComponent<IndicatorControl>().ToggleIndicator(true);
 
         yield return new WaitForSeconds(1.0f);
+
+        if (isThirdPerson)
+        {
+            isThirdPerson = false;
+            zoomControl.Third_ZoomOut();
+        }
 
         canThrow = true;
 
