@@ -976,7 +976,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.06666667
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 0}
 --- !u!1 &75713811
@@ -4095,6 +4095,7 @@ MonoBehaviour:
   PlaneTransform: {fileID: 567752181}
   layover: {fileID: 0}
   radius: 250
+  nextDeadzoneRadius: 0
 --- !u!1 &567926885
 GameObject:
   m_ObjectHideFlags: 0
@@ -6756,7 +6757,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed71a745a1a20024aa2cfd1c72d1e25e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map: {fileID: 3566713675370793990, guid: 5d20ade5819a49c49b9c292f775fef4e, type: 3}
+  surface: {fileID: 0}
+  Map: {fileID: 0}
+  randomSpawn: {fileID: 0}
+  deadZoneManager: {fileID: 0}
+  nextDeadZone: {fileID: 0}
+  currentDeadZone: {fileID: 0}
+  bakeTime: 4
+  ActiveTime: 2
+  isBakedEnd: 0
 --- !u!4 &813252067
 Transform:
   m_ObjectHideFlags: 0
@@ -25306,6 +25315,7 @@ MonoBehaviour:
   PlaneTransform: {fileID: 4941504066154906670}
   layover: {fileID: 0}
   radius: 250
+  nextDeadzoneRadius: 0
 --- !u!4 &4941504066154906670
 Transform:
   m_ObjectHideFlags: 0
@@ -25666,7 +25676,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.06666667
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 0}
 --- !u!4 &4941504066615305625
