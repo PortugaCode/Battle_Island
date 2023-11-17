@@ -10,7 +10,11 @@ public class NavMeshBaker : MonoBehaviour
 
     public Transform Map;
 
+    public GameObject randomSpawn;
+
     private float bakeTime = 4.0f;
+
+    public bool isBakedEnd = false;
 
     private void Awake()
     {
@@ -22,13 +26,19 @@ public class NavMeshBaker : MonoBehaviour
         //generatePosition += new Vector3(50, 0, 50);
 
         yield return new WaitForSeconds(bakeTime);
-
         SetStatic(Map);
-        yield return new WaitForSeconds(0.5f);
 
+        yield return new WaitForSeconds(0.2f);
         BakeWorld();
+        isBakedEnd = true;
+
+        if(isBakedEnd)
+        {
+            randomSpawn.SetActive(true);
+        }
     }
 
+    //하위 모든 오브젝트 Static으로 변경
     private void SetStatic(Transform parent)
     {
         parent.gameObject.isStatic = true;
@@ -43,9 +53,8 @@ public class NavMeshBaker : MonoBehaviour
     {
         surface.RemoveData();
         surface.BuildNavMesh();
-
     }
-
+/*
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.T))
@@ -53,5 +62,5 @@ public class NavMeshBaker : MonoBehaviour
             BakeWorld();
         }
     }
-
+*/
 }
