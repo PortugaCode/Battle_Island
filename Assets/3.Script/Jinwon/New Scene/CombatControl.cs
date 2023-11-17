@@ -486,7 +486,8 @@ public class CombatControl : MonoBehaviour
         isDead = true;
         rig.GetComponent<Rig>().weight = 0f;
         GetComponent<Rigidbody>().velocity = Vector3.zero;
-        GetComponent<Rigidbody>().isKinematic = true;
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+        //GetComponent<Rigidbody>().isKinematic = true;
         animator.SetTrigger("Dead");
 
         // 죽은 다음 동작 함수 호출
