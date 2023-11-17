@@ -34,7 +34,6 @@ public class SlotManager : MonoBehaviour
         for (int i = 0; i < ItemID.Count; i++)
         {
             MeetItem(ItemID[i]);
-
         }
     }
 

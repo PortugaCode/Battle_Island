@@ -33,8 +33,6 @@ public class OpenInvent : MonoBehaviour
     {
         Open = true;
 
-        Debug.Log(slotHolder.transform.childCount);
-
         for(int i = 0; i < slotHolder.transform.childCount; i++)
         {
             Destroy(slotHolder.transform.GetChild(i).gameObject);

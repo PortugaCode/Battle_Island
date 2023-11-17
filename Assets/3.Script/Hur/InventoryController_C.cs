@@ -13,7 +13,7 @@ public class InventoryController_C : MonoBehaviour
 
     [SerializeField] List<ItemData_C> item;
     [SerializeField] GameObject itemPrefab;
-    
+
     [SerializeField] Transform canvasT;
     [SerializeField] GridManager gridmanager;
 
@@ -115,7 +115,7 @@ public class InventoryController_C : MonoBehaviour
                 inventoryHighlight.SetSize(itemToHighlight);
                 inventoryHighlight.SetPosition(selectedItemGrid, itemToHighlight);
 
-                gridmanager.Find_itmeGrid(selectedItemGrid, itemToHighlight);
+                gridmanager.Find_itmeGrid(0, 0);
             }
             else
             {
@@ -137,12 +137,14 @@ public class InventoryController_C : MonoBehaviour
 
     }
 
-    public void CreateItem()//수정 - 생략 //슬롯 스크립트랑 연결할것
-     //slot프리팹에 넣을 함수
+    public void CreateItem()
+    //수정 - 생략 
+    //슬롯 스크립트랑 연결할것
+    //slot프리팹에 넣을 함수
     {
         //Debug.Log("아이템 감지 in InventoryController");
-        
-        InventoryItem_C inventoryItem = 
+
+        InventoryItem_C inventoryItem =
         Instantiate(itemPrefab).GetComponent<InventoryItem_C>();
         selectedItem = inventoryItem;
 
@@ -150,18 +152,14 @@ public class InventoryController_C : MonoBehaviour
         rect.SetParent(canvasT);
         rect.SetAsLastSibling();
 
-        //int matchingID = PlayerPrefs.GetInt("아이템 아이디"); //아이템 정보 - 슬롯 몇번째를 눌렀는지 정보를 알아내면 됨 //아이템아이디
-
-        //여러 개 같이 묶여서 덮어쓰는 중. 따로 눌러서 할 수 있음?
-
         int selectedItemID = 0;
 
         switch (matchingID)
         {
-            case(100): 
+            case (100):
                 selectedItemID = 0;
                 break;
-            case (101): 
+            case (101):
                 selectedItemID = 1;
                 break;
             case (102):
@@ -212,7 +210,8 @@ public class InventoryController_C : MonoBehaviour
             case (117):
                 selectedItemID = 17;
                 break;
-            default: Debug.Log("디폴트값");
+            default:
+                Debug.Log("디폴트값");
                 break;
         }
 
@@ -268,8 +267,10 @@ public class InventoryController_C : MonoBehaviour
     }
     private void PickUpItem(Vector2Int tileGridPosition)
     {
-        selectedItem = 
+        selectedItem =
             selectedItemGrid.PickUpItem(tileGridPosition.x, tileGridPosition.y);
+
+        inventoryHighlight.itemID = selectedItem.gameObject.GetComponent<InventoryItem_C>().dataid; //클릭될 때 정보 교류
 
         if (selectedItem != null)
         {
@@ -283,5 +284,5 @@ public class InventoryController_C : MonoBehaviour
             rect.position = Input.mousePosition;
         }
     }
-    
+
 }
