@@ -80,7 +80,7 @@ public class CarControl : MonoBehaviour
             {
                 isIgnited = true;
                 audioSource.PlayOneShot(ignitionClip);
-                //StartCoroutine(DrivingSound_co());
+                StartCoroutine(DrivingSound_co());
             }
 
             if (z < 25)
@@ -103,7 +103,7 @@ public class CarControl : MonoBehaviour
             {
                 isIgnited = true;
                 audioSource.PlayOneShot(ignitionClip);
-                //StartCoroutine(DrivingSound_co());
+                StartCoroutine(DrivingSound_co());
             }
 
             if (z > -10)
@@ -246,7 +246,9 @@ public class CarControl : MonoBehaviour
 
     public void ExitCar()
     {
+        audioSource.Stop();
         isIgnited = false;
+        audioSource.loop = false;
         audioSource.PlayOneShot(doorClip);
         x = 0;
         z = 0;
@@ -260,18 +262,8 @@ public class CarControl : MonoBehaviour
     {
         yield return new WaitForSeconds(1.0f);
         audioSource.volume = 0.25f;
-
-        while (true)
-        {
-            audioSource.PlayOneShot(drivingClip);
-            yield return null;
-
-            if (!isIgnited)
-            {
-                audioSource.volume = 0.5f;
-                yield break;
-            }
-        }
+        audioSource.loop = true;
+        audioSource.Play();
     }
 
     private void OnTriggerEnter(Collider other)
