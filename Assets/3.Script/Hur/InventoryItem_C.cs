@@ -11,9 +11,6 @@ public class InventoryItem_C : MonoBehaviour, IPointerClickHandler
     public ItemData_C itemData;
     public int checkpoint;
 
-    //public int itemID;
-    //public int width;
-    //public int height;
     [SerializeField] private InventoryHighlight_C inventoryHighlight_C;
     public int dataid;
 

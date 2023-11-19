@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -479,11 +479,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inv_highlight: {fileID: 852251271}
-  inv_item: {fileID: 2834026981322721980, guid: 72536be8e66e6e346a3f91be363bd8a1, type: 3}
   check_value: {fileID: 1858679949}
-  itemgrid: {fileID: 1355491117338470579}
+  openIvn: {fileID: 2123277084}
   itemData: {fileID: 0}
-  itemPos: 0
   width: 0
   height: 0
 --- !u!1 &435858880
@@ -809,7 +807,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hightlighter: {fileID: 1355491116788331496}
   gm: {fileID: 434158327}
-  ivn_item: {fileID: 0}
+  inv_cont: {fileID: 0}
   itemdata:
   - {fileID: 11400000, guid: 60ed157e2b26ff146a0654e96dc22e4a, type: 2}
   - {fileID: 11400000, guid: d10657bfc8e438248854beef02cd2f7b, type: 2}
@@ -829,8 +827,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 84e8785c7382c2248a1a8000e62af269, type: 2}
   - {fileID: 11400000, guid: 076ec852b9811e24c974d8e0ae943c1a, type: 2}
   - {fileID: 11400000, guid: 25f2713756509554193dc395e6f3946a, type: 2}
+  openIvn: {fileID: 2123277084}
   sinho: 0
   itemID: 0
+  _width: 0
+  _height: 0
 --- !u!114 &852251272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,6 +869,8 @@ MonoBehaviour:
   canvasT: {fileID: 1355491117338470578}
   gridmanager: {fileID: 434158327}
   matchingID: 0
+  rollback: 0
+  itemID: 0
   slots: []
   slotHolder: {fileID: 1355491116276425753}
 --- !u!114 &852251273
@@ -1716,6 +1719,7 @@ MonoBehaviour:
   slot: {fileID: 1169471413}
   slotHolder: {fileID: 1355491116276425752}
   Open: 0
+  openThisSC: 0
 --- !u!4 &2123277085
 Transform:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ public class InventoryHighlight_C : MonoBehaviour
     [SerializeField] private GridManager gm;
     [SerializeField] private InventoryController_C inv_cont;
     [SerializeField] List<ItemData_C> itemdata;
+    [SerializeField] private OpenInvent openIvn;
 
     public bool sinho = false;
     public int itemID;
@@ -18,14 +19,39 @@ public class InventoryHighlight_C : MonoBehaviour
     {
         gm = FindObjectOfType<GridManager>();
         inv_cont = FindObjectOfType<InventoryController_C>();
+        openIvn = FindObjectOfType<OpenInvent>();
         //Caculator(0, 0);
+
+        if (itemdata != null && itemdata.Count > 0)
+        {
+            for (int i = 0; i < itemdata.Count; i++)
+            {
+                ItemData_C pickItem = itemdata[i]; // 리스트의 n번째 요소 가져오기
+
+                _width = pickItem.width;
+                _height = pickItem.height;
+                itemID = pickItem.itemID;
+            }
+
+        }
+        else
+        {
+            return;
+        }
+
     }
     private void Update()
     {
-        DataLibrary();
+        if (openIvn.openThisSC)
+        {
+            DataLibrary(itemID);
+        }
+        
     }
-    public void DataLibrary()
+    public void DataLibrary(int itemID)
     {
+        openIvn.openThisSC = false;
+
         switch (itemID)
         {
             case (100):
@@ -102,7 +128,7 @@ public class InventoryHighlight_C : MonoBehaviour
         hightlighter.sizeDelta = size;
     }
 
-    public void SetPosition(ItemGrid_C targetGrid, InventoryItem_C targetItem)
+    public void SetPosition(ItemGrid_C targetGrid, InventoryItem_C targetItem, int itemID)
     {
         Vector2 pos = targetGrid.CalculatePositionOnGRid(
             targetItem,
@@ -123,14 +149,14 @@ public class InventoryHighlight_C : MonoBehaviour
             int y = targetItem.onGridPositionY;
 
             //계산
-            Caculator(x,y);
+            Caculator(x, y, itemID);
             sinho = true;
         }
 
         hightlighter.localPosition = pos;
     }
 
-    private void Caculator(int x, int y)
+    private void Caculator(int x, int y, int itemID)
     {
         if (!inv_cont.rollback)
         {
@@ -138,14 +164,14 @@ public class InventoryHighlight_C : MonoBehaviour
             {
                 for (int j = 0; j < _height; j++)
                 {
-                    gm.array[x + i, y + j] = 1;
+                    gm.array[x + i, y + j] = itemID; // 1 -> 아이템 ID로 바꿔야함
 
                     Debug.Log($"gm.array : {x + i},{y + j}");
 
                 }
             }
             inv_cont.rollback = true;
-        } 
+        }
         else //롤백이면
         {
             for (int i = 0; i < _width; i++)
@@ -160,7 +186,7 @@ public class InventoryHighlight_C : MonoBehaviour
             }
             inv_cont.rollback = false;
         }
-        
+
         gm.AllGridCheck();
     }
     public void SetParent(ItemGrid_C targetGrid)

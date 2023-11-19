@@ -11,10 +11,8 @@ public class GridManager : MonoBehaviour
      * 인벤토리 UI가 없어도 데이터가 있어서 표에 아이템이 차지한 넓이가 표시되게 하기
      */
     [SerializeField] private InventoryHighlight_C inv_highlight;
-    //[SerializeField] private InventoryItem_C inv_item;
     [SerializeField] private RectTransform check_value;
-    //[SerializeField] private InventoryController_C inv_cont;
-    //[SerializeField] private ItemGrid_C itemgrid;
+    [SerializeField] private OpenInvent openIvn;
     public ItemData_C itemData;
 
     public int[,] array = new int[17, 28]; // 인벤토리 width, height 따로 만들어서 new int[width, height] (동적할당)
@@ -26,14 +24,19 @@ public class GridManager : MonoBehaviour
     private void Start()
     {
         inv_highlight = FindObjectOfType<InventoryHighlight_C>();
-        //inv_item = FindObjectOfType<InventoryItem_C>();
-        //inv_cont = FindObjectOfType<InventoryController_C>();
-        //itemgrid = FindObjectOfType<ItemGrid_C>();
-        AllGridZero();
+        openIvn = FindObjectOfType<OpenInvent>();
+
+        if (openIvn.openThisSC)
+        {
+            AllGridZero();
+        }
+       
     }
 
     private void AllGridZero()
     {
+        openIvn.openThisSC = false;
+
         for (int i = 0; i < 17; i++)
         {
             for (int j = 0; j < 28; j++)
@@ -61,7 +64,7 @@ public class GridManager : MonoBehaviour
     {
         Find_itmeGrid(width, height);
     }
-    public void Find_itmeGrid(int width, int height)
+    public void Find_itmeGrid(int width, int height) //이거 다시 수정할거 없는지 확인
     {
         //inv_item일 때 아닐 때
         if (inv_highlight.sinho)
