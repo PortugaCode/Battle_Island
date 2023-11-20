@@ -16,6 +16,8 @@ public class Slot : MonoBehaviour, IPointerClickHandler
 
     public int width;
     public int height;
+    public ItemData_hur.ItemType itemType;
+    public ItemData_hur.UsingType usingType;
 
     private void Awake()
     {

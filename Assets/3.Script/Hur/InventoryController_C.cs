@@ -21,7 +21,7 @@ public class InventoryController_C : MonoBehaviour
     public bool isOverlap = false; // 인벤토리에 아이템을 놓을 때 겹치는가?
 
     public int itemID;
-    private Slot slot;
+    //private Slot slot;
 
     // 주변 슬롯
     public Slot[] slots;
@@ -51,7 +51,7 @@ public class InventoryController_C : MonoBehaviour
     {
         inventoryHighlight = GetComponent<InventoryHighlight_C>();
         slots = slotHolder.GetComponentsInChildren<Slot>();
-        slot = GetComponent<Slot>();
+        //slot = GetComponent<Slot>();
     }
     private void Update()
     {
@@ -246,7 +246,7 @@ public class InventoryController_C : MonoBehaviour
             }
         }
 
-        Debug.Log(count);
+        Debug.Log("디아블로 인벤토리 : " + count);
     }
 
     /*public void Calculate(int x, int y, int itemID)
@@ -283,7 +283,7 @@ public class InventoryController_C : MonoBehaviour
         GridCheck();
     }*/
 
-    private void InsertItem(int x, int y, int itemID)
+    public void InsertItem(int x, int y, int itemID) //아이템 롤백을 InsertItem과 DeleteItem 함수로 나눔
     {
         if (selectedItem == null)
         {
@@ -305,7 +305,7 @@ public class InventoryController_C : MonoBehaviour
         GridCheck();
     }
 
-    private void DeleteItem(InventoryItem_C item)
+    public void DeleteItem(InventoryItem_C item)
     {
         Debug.Log($"{item.itemData.itemName}을 array에서 제거합니다");
 
