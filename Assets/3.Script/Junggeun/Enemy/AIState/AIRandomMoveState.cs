@@ -20,7 +20,7 @@ public class AIRandomMoveState : AIState
     public void Enter(AIAgent agent)
     {
         Debug.Log("랜덤 이동");
-        GameObject.FindGameObjectWithTag("DeadZone").TryGetComponent(out deadZone);
+        GameObject.FindGameObjectWithTag("DeadZone").transform.GetChild(0).TryGetComponent(out deadZone);
         point = GetRandomPoint(new Vector3(16, 0, -31), 60f);
         agent.navMeshAgent.destination = point;
         agent.navMeshAgent.speed = 5;
@@ -74,7 +74,7 @@ public class AIRandomMoveState : AIState
         }
 
         distance = agent.transform.position - point;
-        if (distance.magnitude <= 5f)
+        if (distance.magnitude <= 8f)
         {
             //point = null; //나중에 Vector 000으로 바꾸기
             point = GetRandomPoint(center, rid);
