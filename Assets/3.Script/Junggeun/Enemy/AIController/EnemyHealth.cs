@@ -85,6 +85,7 @@ public class EnemyHealth : MonoBehaviour
             aILocoMotion.isAlreadyDie2 = true;
             GameManager.instance.isLastEnemy = false;
         }
+        else if(currentHealth <= 0.0f && isDie) DieEffect(direction);
         blinkTimer = blinkDu;
     }
 
@@ -113,6 +114,14 @@ public class EnemyHealth : MonoBehaviour
         {
             GameManager.instance.isLastEnemy = true;
         }
+        AIDeathState deathState = agent.stateMachine.GetState(AiStateID.Death) as AIDeathState;
+        deathState.direction = direction;
+        agent.stateMachine.ChangeState(AiStateID.Death);
+        agent.navMeshAgent.velocity = Vector3.zero;
+    }
+
+    private void DieEffect(Vector3 direction)
+    {
         AIDeathState deathState = agent.stateMachine.GetState(AiStateID.Death) as AIDeathState;
         deathState.direction = direction;
         agent.stateMachine.ChangeState(AiStateID.Death);

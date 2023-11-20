@@ -28,6 +28,7 @@ public class GameOverUI : MonoBehaviour
     private void Update()
     {
         GameOver();
+
     }
 
     public void GameOver()
@@ -39,14 +40,14 @@ public class GameOverUI : MonoBehaviour
             {
                 StartCoroutine(WinEffect());
                 GameManager.instance.isGameOver = false;
-                RankingText.text = $"·©Å· #{GameManager.instance.Ranking}";
+                RankingText.text = $"·©Å· #{GameManager.instance.enemyCount+1}";
                 KillCountText.text = $"{GameManager.instance.killCount} Kill";
             }
             else
             {
                 LoseCanvas.SetActive(true);
                 GameManager.instance.isGameOver = false;
-                RankingText.text = $"·©Å· #{GameManager.instance.Ranking}";
+                RankingText.text = $"·©Å· #{GameManager.instance.enemyCount +1}";
                 KillCountText.text = $"{GameManager.instance.killCount} Kill";
 
             }

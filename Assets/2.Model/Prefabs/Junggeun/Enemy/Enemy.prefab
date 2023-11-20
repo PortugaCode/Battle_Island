@@ -10296,9 +10296,12 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   isDamage: 0
+  isDeadZone: 0
   skinnedMeshRenderer: []
   blinkIn: 10
   blinkDu: 0.05
+  deadZone: {fileID: 0}
+  phase: 0
 --- !u!114 &4250038575850221945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10469,7 +10472,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -7820878624632325989, guid: 28ffb86e6a229044895b29d557cf00a0, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0

@@ -7,15 +7,18 @@ public class RendomSpawner : MonoBehaviour
 {
     [Header("Enemy Prefab")]
     [SerializeField] private GameObject EnemyAi;
+    [SerializeField] private GameObject Helic;
     public List<GameObject> enemyList;
 
     private Vector3[] Spawnpoint;
+    private GameObject point;
 
     private void Awake()
     {
         enemyList = new List<GameObject>();
+        point = GetRandomPoint();
 
-        if(GameManager.instance.Level == 0)
+        if (GameManager.instance.Level == 0)
         {
             Spawnpoint = new Vector3[5];
         }
@@ -26,7 +29,7 @@ public class RendomSpawner : MonoBehaviour
 
         if(GameManager.instance.Level == 7)
         {
-            //Çï¸®ÄßÅÍ »ý¼ºÇÏ±â
+            GameObject ColneHelicopter = Instantiate(Helic, point.transform.position, Quaternion.identity);
         }
 
         for (int i = 0; i < Spawnpoint.Length; i++)
@@ -51,11 +54,15 @@ public class RendomSpawner : MonoBehaviour
 
     private Vector3 GetRandomPoint(Vector3 center, float MaxDistance)
     {
-        Vector3 randomPos = Random.insideUnitSphere * MaxDistance + center;
-        randomPos.y = 1f;
         NavMeshHit hit;
 
-        NavMesh.SamplePosition(randomPos, out hit, MaxDistance, NavMesh.AllAreas);
+        //NavMesh.SamplePosition(randomPos, out hit, MaxDistance, NavMesh.AllAreas);
+        do
+        {
+            Vector3 randomPos = Random.insideUnitSphere * MaxDistance + center;
+            randomPos.y = 1f;
+            NavMesh.SamplePosition(randomPos, out hit, MaxDistance, NavMesh.AllAreas);
+        } while (hit.position.y > 3f);
 
         /*        while (true)
                 {
@@ -67,5 +74,13 @@ public class RendomSpawner : MonoBehaviour
                 }*/
 
         return hit.position;
+    }
+
+    private GameObject GetRandomPoint()
+    {
+        GameObject[] a = GameObject.FindGameObjectsWithTag("Finish");
+        int index = Random.Range(0, 6);
+
+        return a[index];
     }
 }
