@@ -1,0 +1,135 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &839229335024879837
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 841719288255399719}
+  - component: {fileID: 852961514107814663}
+  - component: {fileID: 860447761790965145}
+  - component: {fileID: 812030216060736975}
+  - component: {fileID: 839229335024879838}
+  - component: {fileID: 4804332050370997021}
+  m_Layer: 0
+  m_Name: Item_Pouch_big
+  m_TagString: Wearable
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &841719288255399719
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839229335024879837}
+  m_LocalRotation: {x: 0.0043201507, y: -0.78108996, z: -0.6243802, w: -0.005404443}
+  m_LocalPosition: {x: 7.52, y: 0.2783, z: -4.47}
+  m_LocalScale: {x: 12.248612, y: 12.248612, z: 12.248612}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -77.276, y: -180.793, z: 0}
+--- !u!33 &852961514107814663
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839229335024879837}
+  m_Mesh: {fileID: 4300000, guid: fecffd4ed95d4f2419dd0414399c2a3b, type: 3}
+--- !u!23 &860447761790965145
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839229335024879837}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a74066172cf19cd4bacae3c6600a7217, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &812030216060736975
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839229335024879837}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 43839717982604038, guid: 268f7d064cf46e34a977b01d4533c2f5, type: 2}
+--- !u!136 &839229335024879838
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839229335024879837}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.068868205
+  m_Height: 0.1928224
+  m_Direction: 1
+  m_Center: {x: 0.00000013783574, y: -0.0022743493, z: -0.0029767947}
+--- !u!114 &4804332050370997021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839229335024879837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f043b5b0ce25621469de82f34e668ff4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemData:
+    itemIcon: {fileID: -2920359113916870920, guid: b2092e9a5cf090145b42ca180369859a, type: 3}
+    itemID: 115
+    itemName: "\uD070 \uC8FC\uBA38\uB2C8"
+    isUsed: 0
+    itemCount: 1
+    itemType: 4
+    usingType: 1
+  itemData_c: {fileID: 11400000, guid: 84e8785c7382c2248a1a8000e62af269, type: 2}

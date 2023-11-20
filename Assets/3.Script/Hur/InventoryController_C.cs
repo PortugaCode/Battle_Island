@@ -13,10 +13,17 @@ public class InventoryController_C : MonoBehaviour
 
     [SerializeField] List<ItemData_C> item;
     [SerializeField] GameObject itemPrefab;
-    
+
     [SerializeField] Transform canvasT;
+    [SerializeField] GridManager gridmanager;
 
     private InventoryHighlight_C inventoryHighlight;
+
+    public int matchingID;
+    public bool rollback = false; // 1 -> 0으로 돌아가기
+
+    public int itemID;
+    private Slot slot;
 
     //주변 슬롯
     public Slot[] slots;
@@ -36,12 +43,21 @@ public class InventoryController_C : MonoBehaviour
         inventoryHighlight = GetComponent<InventoryHighlight_C>();
         noticeItem = FindObjectOfType<NoticeItem>();
         slots = slotHolder.GetComponentsInChildren<Slot>();
+        gridmanager = FindObjectOfType<GridManager>();
+        slot = GetComponent<Slot>();
+
     }
     private void Update()
     {
         ItemIconDrag();
 
-        if (noticeItem.ItemDragOn) //수정 - 생략
+        //확인용 - Grid, 좌표
+        if (Input.GetMouseButton(0))
+        {
+            //Debug.Log(selectedItemGrid.GetTileGridPosition(Input.mousePosition));
+        }
+
+        if (noticeItem.ItemDragOn)
         {
             if (selectedItem == null)
             {
@@ -99,11 +115,15 @@ public class InventoryController_C : MonoBehaviour
         {
             itemToHighlight = selectedItemGrid.GetItem(positionOnGrid.x, positionOnGrid.y);
 
+            //itemID = selectedItem.dataid;
+
             if (itemToHighlight != null)
             {
                 inventoryHighlight.Show(true);
                 inventoryHighlight.SetSize(itemToHighlight);
-                inventoryHighlight.SetPosition(selectedItemGrid, itemToHighlight);
+                inventoryHighlight.SetPosition(selectedItemGrid, itemToHighlight, itemID);
+
+                gridmanager.Find_itmeGrid(0, 0);
             }
             else
             {
@@ -112,6 +132,8 @@ public class InventoryController_C : MonoBehaviour
         }
         else
         {
+            itemID = selectedItem.dataid;
+
             inventoryHighlight.Show(selectedItemGrid.BoundryCheck(
                 positionOnGrid.x,
                 positionOnGrid.y,
@@ -125,11 +147,10 @@ public class InventoryController_C : MonoBehaviour
 
     }
 
-    public void CreateItem()//수정 - 생략 //슬롯 스크립트랑 연결할것
-     //slot프리팹에 넣을 함수
+    public void CreateItem()
     {
         //Debug.Log("아이템 감지 in InventoryController");
-        
+
         InventoryItem_C inventoryItem =
         Instantiate(itemPrefab).GetComponent<InventoryItem_C>();
         selectedItem = inventoryItem;
@@ -138,18 +159,14 @@ public class InventoryController_C : MonoBehaviour
         rect.SetParent(canvasT);
         rect.SetAsLastSibling();
 
-        int matchingID = PlayerPrefs.GetInt("Item_ID"); //아이템 정보 - 슬롯 몇번째를 눌렀는지 정보를 알아내면 됨
-
-        //여러 개 같이 묶여서 덮어쓰는 중. 따로 눌러서 할 수 있음?
-
         int selectedItemID = 0;
 
         switch (matchingID)
         {
-            case(100): 
+            case (100):
                 selectedItemID = 0;
                 break;
-            case (101): 
+            case (101):
                 selectedItemID = 1;
                 break;
             case (102):
@@ -200,7 +217,8 @@ public class InventoryController_C : MonoBehaviour
             case (117):
                 selectedItemID = 17;
                 break;
-            default: Debug.Log("디폴트값");
+            default:
+                //Debug.Log("디폴트값");
                 break;
         }
 
@@ -256,8 +274,13 @@ public class InventoryController_C : MonoBehaviour
     }
     private void PickUpItem(Vector2Int tileGridPosition)
     {
-        selectedItem = 
+        selectedItem =
             selectedItemGrid.PickUpItem(tileGridPosition.x, tileGridPosition.y);
+
+        inventoryHighlight.itemID = selectedItem.gameObject.GetComponent<InventoryItem_C>().dataid; //클릭될 때 정보 교류
+
+        //픽업을 할 때 0으로 바꿔버리기 
+        rollback = true;
 
         if (selectedItem != null)
         {
@@ -271,5 +294,5 @@ public class InventoryController_C : MonoBehaviour
             rect.position = Input.mousePosition;
         }
     }
-    
+
 }

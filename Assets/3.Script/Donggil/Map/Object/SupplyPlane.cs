@@ -9,7 +9,7 @@ public class SupplyPlane : MonoBehaviour
     [Header("보급상자 나오는 위치(Plane에 있음)")]
     public Transform dropSupplyPosition;
 
-    public float speed = 10.0f;
+    public float speed = 20.0f;
     Vector3 planePosition;
     Vector3 destination;
     float droptime = 0;
@@ -18,16 +18,25 @@ public class SupplyPlane : MonoBehaviour
     public bool isPlaneSpawn = false;
     public bool setTimeAndDestination = false;
 
+    private SpawnSupplyPlane spawnBoxTime;
+
+    private void Start()
+    {
+        spawnBoxTime = FindObjectOfType<SpawnSupplyPlane>();
+    }
+
 
     private void Update()
     {
         if (isPlaneSpawn)
         {
-            if(setTimeAndDestination)
+            if (setTimeAndDestination)
             {
-                planePosition = transform.position;
-                destination = new Vector3(planePosition.x * -1, planePosition.y, planePosition.z * -1);
-                droptime = Random.Range(12.0f, 18.0f);
+                planePosition = transform.localPosition;
+                destination = new Vector3(planePosition.x * -1, 80, planePosition.z * -1);
+                Debug.Log(planePosition);
+                Debug.Log(destination);
+                droptime = Random.Range(spawnBoxTime.CalcMinTime(), spawnBoxTime.CalcMaxTime());
                 setTimeAndDestination = false;
                 Debug.Log(droptime);
             }

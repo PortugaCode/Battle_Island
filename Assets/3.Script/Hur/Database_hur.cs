@@ -8,7 +8,7 @@ public class Database_hur : MonoBehaviour
     public static Database_hur instance;
 
     public List<ItemData_hur> itemList = new List<ItemData_hur>();//플레이어가 소지한 아이템 리스트
-    public Image _itemIcon;
+    public Sprite _itemIcon;
 
     private void Awake()
     {
@@ -61,5 +61,16 @@ public class Database_hur : MonoBehaviour
         }
 
         return null;
+    }
+    public int ReturnItemIndex(int itemID)
+    {
+        for(int i =0; i< itemList.Count; i++)
+        {
+            if (itemID == itemList[i].itemID)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 }

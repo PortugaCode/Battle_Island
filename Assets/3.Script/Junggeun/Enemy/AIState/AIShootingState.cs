@@ -84,8 +84,8 @@ public class AIShootingState : AIState
                     y = UnityEngine.Random.Range(-2f, 2f);
                     if (agent.navMeshAgent.speed <= 0)
                     {
-                        Physics.Raycast(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward, out agent.hit, Mathf.Infinity);
-                        Debug.DrawRay(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward * 1000f, Color.green);
+                        Physics.Raycast(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward, out agent.hit, Vector3.Distance(agent.CurrentGun_Gun.muzzleTransform.position, agent.playerTarget.position));
+                        Debug.DrawRay(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward * agent.hit.distance, Color.green);
 
                         agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position + new Vector3(x, y, 0f), 2.5f * Time.deltaTime);
                         if (agent.magAmmo > 0)
@@ -105,8 +105,8 @@ public class AIShootingState : AIState
         {
             x = UnityEngine.Random.Range(-2f, 2f);
             y = UnityEngine.Random.Range(-2f, 2f);
-            Physics.Raycast(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward, out agent.hit, Mathf.Infinity);
-            Debug.DrawRay(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward * 1000f, Color.green);
+            Physics.Raycast(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward, out agent.hit, Vector3.Distance(agent.CurrentGun_Gun.muzzleTransform.position, agent.playerTarget.position));
+            Debug.DrawRay(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward * agent.hit.distance, Color.green);
 
             agent.AimTarget.position = Vector3.Lerp(agent.AimTarget.position, agent.playerTarget.position + new Vector3(x, y, 0f), 3f * Time.deltaTime);
             if (agent.magAmmo > 0)
@@ -172,7 +172,7 @@ public class AIShootingState : AIState
             }
             else if (hit.collider.CompareTag("Player"))
             {
-                Debug.DrawRay(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward * 1000f, Color.red);
+                Debug.DrawRay(agent.CurrentGun_Gun.muzzleTransform.position, agent.CurrentGun_Gun.muzzleTransform.forward * hit.distance, Color.red);
             }
             else if(hit.collider)
             {

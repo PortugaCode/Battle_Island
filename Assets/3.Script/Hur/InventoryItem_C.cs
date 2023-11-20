@@ -2,12 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class InventoryItem_C : MonoBehaviour
 {
     //이 스크립트는 Diablo식 인벤토리에 둘 아이템의 크기를 결정함
 
     public ItemData_C itemData;
+    public int checkpoint;
+
+    [SerializeField] private InventoryHighlight_C inventoryHighlight_C;
+    public int dataid;
 
     public int HEIGHT
     {
@@ -36,22 +41,28 @@ public class InventoryItem_C : MonoBehaviour
     public int onGridPositionY;
 
     public bool rotated = false;
+    public bool delay = false;
+
+    private void Awake()
+    {
+        //inventoryHighlight_C = FindObjectOfType<InventoryHighlight_C>();
+    }
+    //public void OnPointerClick(PointerEventData eventData)
+    //{
+    //    //Debug.Log("클릭");
+    //    inventoryHighlight_C.itemID = dataid;
+    //}
 
     public void Set(ItemData_C itemData)//아이템 정보 가져오는 곳
     {
         this.itemData = itemData;
-
+        dataid = itemData.itemID;
         GetComponent<Image>().sprite = itemData.itemIcon;
-
-        //무조건 주변 인벤토리에서 끌어온 아이템과 같아야 함
-        //Debug.Log("아이템 뿅");
-        //Debug.Log($"Diablo에 전해진 정보 : {PlayerPrefs.GetInt("Item_ID")}");
 
         Vector2 size = new Vector2();
         size.x = itemData.width * ItemGrid_C.tileSizeWidth;
         size.y = itemData.height * ItemGrid_C.tileSizeHeight;
         GetComponent<RectTransform>().sizeDelta = size;
-
     }
 
     public void Rotate()
@@ -60,4 +71,7 @@ public class InventoryItem_C : MonoBehaviour
         RectTransform rect = GetComponent<RectTransform>();
         rect.rotation = Quaternion.Euler(0, 0, rotated == true ? 90f : 0f);
     }
+
+
 }
+

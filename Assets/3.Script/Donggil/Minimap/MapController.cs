@@ -11,6 +11,11 @@ public class MapController : MonoBehaviour
         {
             MapOpen();
         }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Map.SetActive(false);
+        }
     }
 
     public void MapOpen()

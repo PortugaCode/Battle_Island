@@ -50,6 +50,7 @@ public class CombatControl : MonoBehaviour
     private Animator animator;
     private CharacterMovement cm;
     private ZoomControl zoomControl;
+    private AudioSource audioSource;
 
     // Mouse Input
     [Header("Mouse Input")]
@@ -71,16 +72,22 @@ public class CombatControl : MonoBehaviour
     public bool lookAround = false;
     public float normalCamX;
     public float normalCamY;
+    [SerializeField] private GameObject crosshairControl;
 
     // Heal
     [Header("Heal")]
     public bool isHealing = false;
+
+    // AudioClip
+    [Header("AudioClip")]
+    [SerializeField] private AudioClip reloadClip;
 
     private void Awake()
     {
         TryGetComponent(out animator);
         TryGetComponent(out cm);
         TryGetComponent(out zoomControl);
+        TryGetComponent(out audioSource);
     }
 
     private void Update()
@@ -118,6 +125,14 @@ public class CombatControl : MonoBehaviour
         // [총을 손에 장착] - TEST
         if (hasGun && (currentWeapon != Weapon.Gun) && Input.GetKeyDown(KeyCode.Keypad1))
         {
+            GetComponent<DrawProjection>().drawProjection = false;
+
+            if (isThirdPerson)
+            {
+                isThirdPerson = false;
+                zoomControl.Third_ZoomOut();
+            }
+
             currentWeapon = Weapon.Gun;
             rig.GetComponent<Rig>().weight = 1.0f;
             animator.SetBool("EquipGun", true);
@@ -256,6 +271,11 @@ public class CombatControl : MonoBehaviour
             {
                 if (currentGun != null && currentGun.GetComponent<Gun>().currentMag > 0)
                 {
+                    if (isThirdPerson)
+                    {
+                        crosshairControl.GetComponent<CrosshairControl>().Expand();
+                    }
+
                     currentGun.GetComponent<Gun>().PlayerShoot();
                     GunRecoil();
                 }
@@ -348,9 +368,13 @@ public class CombatControl : MonoBehaviour
         rig.GetComponent<Rig>().weight = 0f;
 
         animator.SetTrigger("Reload");
+
+        yield return new WaitForSeconds(0.25f);
+
+        audioSource.PlayOneShot(reloadClip);
         currentGun.GetComponent<Gun>().PlayerReload();
 
-        yield return new WaitForSeconds(1.725f);
+        yield return new WaitForSeconds(1.5f);
         rig.GetComponent<Rig>().weight = 1.0f;
 
         isReloading = false;
@@ -363,6 +387,7 @@ public class CombatControl : MonoBehaviour
 
     private IEnumerator UnEquipGun_co()
     {
+        animator.SetBool("EquipGun", false);
         animator.SetTrigger("UnEquip");
         rig.GetComponent<Rig>().weight = 0f;
 
@@ -427,6 +452,12 @@ public class CombatControl : MonoBehaviour
 
         yield return new WaitForSeconds(1.0f);
 
+        if (isThirdPerson)
+        {
+            isThirdPerson = false;
+            zoomControl.Third_ZoomOut();
+        }
+
         canThrow = true;
 
         currentWeapon = Weapon.None;
@@ -455,7 +486,8 @@ public class CombatControl : MonoBehaviour
         isDead = true;
         rig.GetComponent<Rig>().weight = 0f;
         GetComponent<Rigidbody>().velocity = Vector3.zero;
-        GetComponent<Rigidbody>().isKinematic = true;
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+        //GetComponent<Rigidbody>().isKinematic = true;
         animator.SetTrigger("Dead");
 
         // 죽은 다음 동작 함수 호출

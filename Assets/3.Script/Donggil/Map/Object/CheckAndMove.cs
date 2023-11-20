@@ -68,7 +68,11 @@ public class CheckAndMove : MonoBehaviour
             {
                 if (isThislayerSame)
                 {
-                    if (colliders.Length == 1) isPushEnd = true;
+                    if (colliders.Length == 1)
+                    {
+                        isPushEnd = true;
+                        SetStatic(transform);
+                    }
                     else if (colliders.Length > 1)
                     {
                         Vector3 closestPoint = col.ClosestPointOnBounds(objectCenter);
@@ -76,16 +80,19 @@ public class CheckAndMove : MonoBehaviour
                         Vector3 whereToMove = new Vector3(dir.x, 0, dir.z);
                         transform.position -= whereToMove;
                         //Debug.Log(dir);
-                        if (dir == Vector3.up || Time.frameCount > targetFrame)
+                        if (Time.frameCount > targetFrame)
                         {
                             isPushEnd = true;
-                            //Debug.Log(isPushEnd);
                         }
                     }
                 }
                 else
                 {
-                    if (colliders.Length == 0) isPushEnd = true;
+                    if (colliders.Length == 0)
+                    {
+                        isPushEnd = true;
+                        SetStatic(transform);
+                    }
                     else if (colliders.Length > 0)
                     {
                         Vector3 closestPoint = col.ClosestPointOnBounds(objectCenter);
@@ -93,14 +100,22 @@ public class CheckAndMove : MonoBehaviour
                         Vector3 whereToMove = new Vector3(dir.x, 0, dir.z);
                         transform.position -= whereToMove;
                         //Debug.Log(dir);
-                        if(dir == Vector3.up || Time.frameCount > targetFrame)
+                        if (Time.frameCount > targetFrame)
                         {
                             isPushEnd = true;
-                            //Debug.Log(isPushEnd);
                         }
                     }
                 }
             }
+        }
+    }
+    private void SetStatic(Transform parent)
+    {
+        parent.gameObject.isStatic = true;
+
+        foreach (Transform child in parent)
+        {
+            SetStatic(child);
         }
     }
 

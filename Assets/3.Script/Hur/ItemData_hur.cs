@@ -36,6 +36,9 @@ public class ItemData_hur
         itemIcon = Resources.Load("resource_hur/" + _itemID.ToString(), typeof(Sprite)) as Sprite;
         itemCount = _count;
     }
-
+    public ItemData_hur CreateNewItemData(int _itemID, string _itemName, bool _isUsed, ItemType _itemType, UsingType _usingType, int _count)
+    {
+        return new ItemData_hur(_itemID, _itemName, _isUsed, _itemType, _usingType, _count);
+    }
 
 }

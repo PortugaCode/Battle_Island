@@ -31,6 +31,12 @@ public class Gun : MonoBehaviour
     public int currentMag; // 현재 탄창에 있는 총알 개수
     public bool canShoot; // 발사 가능 여부
 
+    [Header("Audio")]
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip rifleClip;
+    [SerializeField] private AudioClip sniperClip;
+    private AudioClip currentClip;
+
     private void Update()
     {
         if (!canShoot && timer > 0)
@@ -46,15 +52,32 @@ public class Gun : MonoBehaviour
 
     private void Start()
     {
+        audioSource = GameObject.FindGameObjectWithTag("Player").GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
         zoomControl = player.GetComponent<ZoomControl>();
         combatControl = player.GetComponent<CombatControl>();
+
+        if (gunType == GunType.Sniper1)
+        {
+            currentClip = sniperClip;
+        }
+        else
+        {
+            currentClip = rifleClip;
+        }
     }
 
     public virtual void PlayerShoot() // 플레이어 발사 메서드
     {
+        if (audioSource == null)
+        {
+            audioSource = GameObject.FindGameObjectWithTag("Player").GetComponent<AudioSource>();
+        }
+
         if (canShoot && currentMag > 0)
         {
+            audioSource.PlayOneShot(currentClip);
+
             canShoot = false;
             timer = coolDown;
             currentMag -= 1;
