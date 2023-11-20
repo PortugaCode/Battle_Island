@@ -317,7 +317,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 0.8646453, b: 0.6273585, a: 1}
   m_Intensity: 80
-  m_Range: 0.46897623
+  m_Range: 0.8
   m_SpotAngle: 65.17292
   m_InnerSpotAngle: 35.56543
   m_CookieSize: 10
@@ -378,7 +378,7 @@ GameObject:
   - component: {fileID: 5980176686117019195}
   - component: {fileID: 5971100355701590193}
   - component: {fileID: 5939934821345132441}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Env_Road_T_01_Dirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -474,9 +474,9 @@ GameObject:
   - component: {fileID: 5980535440147547967}
   - component: {fileID: 5970836842809400479}
   - component: {fileID: 5939263282044973605}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Road_T_Original
-  m_TagString: Untagged
+  m_TagString: Dongil01
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -571,7 +571,7 @@ GameObject:
   - component: {fileID: 5946883604507564009}
   - component: {fileID: 5976482393504649645}
   - component: {fileID: 5970241373446297565}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Env_Road_T_01_Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -702,8 +702,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 10, y: 0.01, z: 16}
-  m_Center: {x: 0, y: -0.02, z: 2.6}
+  m_Size: {x: 10, y: 0, z: 14}
+  m_Center: {x: 0, y: 0, z: 2}
 --- !u!114 &-5709104709091680131
 MonoBehaviour:
   m_ObjectHideFlags: 0

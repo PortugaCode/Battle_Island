@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 719961385444928794}
   - component: {fileID: 720232090705898654}
   - component: {fileID: 720300989844218232}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Env_Bridge_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 6424311466185660036}
   m_Layer: 6
   m_Name: Road_Straight_Original_00
-  m_TagString: Untagged
+  m_TagString: Dongil01
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -172,7 +172,7 @@ GameObject:
   - component: {fileID: 3805279144384662280}
   - component: {fileID: 4979209220456884943}
   - component: {fileID: 3867912429810111568}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bridge_Support
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -318,8 +318,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 20, y: 0.01, z: 10}
-  m_Center: {x: 0, y: -0.3, z: 0}
+  m_Size: {x: 16, y: 0, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &-8448079981879773127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,7 +371,7 @@ GameObject:
   - component: {fileID: 5369501818502252378}
   - component: {fileID: 5369501818502252379}
   - component: {fileID: 5272140205623393843}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Street Light (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -673,7 +673,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 0.8646453, b: 0.6273585, a: 1}
   m_Intensity: 80
-  m_Range: 0.46897623
+  m_Range: 0.8
   m_SpotAngle: 65.17292
   m_InnerSpotAngle: 35.56543
   m_CookieSize: 10
@@ -731,9 +731,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5900138022047362725}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bridge
-  m_TagString: Untagged
+  m_TagString: Dongil01
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -769,7 +769,7 @@ GameObject:
   - component: {fileID: 5938983350960660354}
   - component: {fileID: 5939519131566902568}
   - component: {fileID: 5938638777538288876}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Env_Bridge_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -892,7 +892,7 @@ GameObject:
   - component: {fileID: 6882885500455299194}
   - component: {fileID: 6916514403825539440}
   - component: {fileID: 6906452791413881938}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Env_Road_Straight_03_Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -974,7 +974,7 @@ GameObject:
   - component: {fileID: 6916740701052391944}
   - component: {fileID: 6908402893307562154}
   - component: {fileID: 6874769896680499754}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Env_Road_Straight_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1072,7 +1072,7 @@ GameObject:
   - component: {fileID: 6916470004939321908}
   - component: {fileID: 6908365329509533950}
   - component: {fileID: 6876522135608388172}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Env_Road_Straight_03_Dirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1168,7 +1168,7 @@ GameObject:
   - component: {fileID: 8773971090489256999}
   - component: {fileID: 8783935145344135099}
   - component: {fileID: 8741945653789589265}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Env_Road_Straight_02_Dirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1263,7 +1263,7 @@ GameObject:
   - component: {fileID: 8771882002700097133}
   - component: {fileID: 8773867171293158491}
   - component: {fileID: 8783888306155939403}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Env_Road_Straight_02_Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1345,7 +1345,7 @@ GameObject:
   - component: {fileID: 8776667465730213883}
   - component: {fileID: 8783873327492494537}
   - component: {fileID: 8741947753817771099}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Env_Road_Straight_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1600,7 +1600,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 0.8646453, b: 0.6273585, a: 1}
   m_Intensity: 80
-  m_Range: 0.46897623
+  m_Range: 0.8
   m_SpotAngle: 65.17292
   m_InnerSpotAngle: 35.56543
   m_CookieSize: 10
@@ -1664,7 +1664,7 @@ GameObject:
   - component: {fileID: 8930439413438622970}
   - component: {fileID: 8930439413438622971}
   - component: {fileID: 1393855172188167922}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Street Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}

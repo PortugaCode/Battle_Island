@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7883707881446901429}
   m_Layer: 0
   m_Name: DeadZoneManager
-  m_TagString: Untagged
+  m_TagString: DeadZone
   m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -49,3 +49,9 @@ MonoBehaviour:
   mapRange: {fileID: 0}
   mesh: {fileID: 0}
   player: {fileID: 0}
+  randomSpawner: {fileID: 0}
+  enemyList: []
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  radius: 0

@@ -6,12 +6,19 @@ using UnityEngine.AI;
 
 public class NavMeshBaker : MonoBehaviour
 {
-    public GameObject map;
+    public NavMeshSurface surface;
 
-    private Vector3 generatePosition = Vector3.zero;
+    public Transform Map;
 
-    private float bakeTime = 4.0f;
-    private float gameTime = 0;
+    public GameObject randomSpawn;
+    public GameObject deadZoneManager;
+    public GameObject nextDeadZone;
+    public GameObject currentDeadZone;
+
+    public float bakeTime = 4.0f;
+    public float ActiveTime = 2.0f;
+
+    public bool isBakedEnd = false;
 
     private void Awake()
     {
@@ -20,34 +27,48 @@ public class NavMeshBaker : MonoBehaviour
 
     private IEnumerator GenerateNavMesh()
     {
-        GameObject obj = Instantiate(map, generatePosition, Quaternion.identity, transform);
         //generatePosition += new Vector3(50, 0, 50);
 
         yield return new WaitForSeconds(bakeTime);
+        SetStatic(Map);
 
-
+        yield return new WaitForSeconds(0.2f);
         BakeWorld();
+        isBakedEnd = true;
+
+        if (isBakedEnd)
+        {
+            yield return new WaitForSeconds(ActiveTime);
+            deadZoneManager.SetActive(true);
+            nextDeadZone.SetActive(true);
+            currentDeadZone.SetActive(true);
+            randomSpawn.SetActive(true);
+        }
+    }
+
+    //하위 모든 오브젝트 Static으로 변경
+    private void SetStatic(Transform parent)
+    {
+        parent.gameObject.isStatic = true;
+
+        foreach (Transform child in parent)
+        {
+            SetStatic(child);
+        }
     }
 
     private void BakeWorld()
     {
-        NavMeshSurface[] surfaces = gameObject.GetComponentsInChildren<NavMeshSurface>();
-        foreach (var s in surfaces)
-        {
-            s.RemoveData();
-            s.BuildNavMesh();
-        }
-
+        surface.RemoveData();
+        surface.BuildNavMesh();
     }
-/*
-    private void Update()
-    {
-        gameTime += Time.deltaTime;
-        if (gameTime > 1.0f)
+    /*
+        private void Update()
         {
-            BakeWorld();
-            gameTime = 0;
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                BakeWorld();
+            }
         }
-    }
-*/
+    */
 }
