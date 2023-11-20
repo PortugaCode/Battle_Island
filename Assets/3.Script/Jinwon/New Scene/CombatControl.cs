@@ -511,6 +511,9 @@ public class CombatControl : MonoBehaviour
 
     private void PlayerDead()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
         isDead = true;
         GameManager.instance.isPlayerDead = true;
         GameManager.instance.isGameOver = true;
