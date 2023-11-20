@@ -9,7 +9,6 @@ public class InventoryItem_C : MonoBehaviour
     //이 스크립트는 Diablo식 인벤토리에 둘 아이템의 크기를 결정함
 
     public ItemData_C itemData;
-    public int checkpoint;
 
     [SerializeField] private InventoryHighlight_C inventoryHighlight_C;
     public int dataid;
@@ -25,6 +24,7 @@ public class InventoryItem_C : MonoBehaviour
             return itemData.width;//회전을 했다면 높이 -> 넓이로 변환
         }
     }
+
     public int WIDTH
     {
         get
@@ -42,16 +42,6 @@ public class InventoryItem_C : MonoBehaviour
 
     public bool rotated = false;
     public bool delay = false;
-
-    private void Awake()
-    {
-        //inventoryHighlight_C = FindObjectOfType<InventoryHighlight_C>();
-    }
-    //public void OnPointerClick(PointerEventData eventData)
-    //{
-    //    //Debug.Log("클릭");
-    //    inventoryHighlight_C.itemID = dataid;
-    //}
 
     public void Set(ItemData_C itemData)//아이템 정보 가져오는 곳
     {
@@ -71,7 +61,5 @@ public class InventoryItem_C : MonoBehaviour
         RectTransform rect = GetComponent<RectTransform>();
         rect.rotation = Quaternion.Euler(0, 0, rotated == true ? 90f : 0f);
     }
-
-
 }
 
