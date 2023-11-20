@@ -1785,8 +1785,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shot: {fileID: 8300000, guid: 7e4982f37deb02f4bb75b9f93d8975a1, type: 3}
-  isWin: 0
-  isGameOver: 0
   GameOverCanvas: {fileID: 3281296020070460920}
   Winner:
   - {fileID: 3281296020135255063}
@@ -1807,7 +1805,7 @@ AudioSource:
   m_GameObject: {fileID: 3281296020448603714}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -7820878624632325989, guid: 28ffb86e6a229044895b29d557cf00a0, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1

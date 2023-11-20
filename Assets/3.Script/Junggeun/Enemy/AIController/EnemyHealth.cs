@@ -19,6 +19,7 @@ public class EnemyHealth : MonoBehaviour
     private float blinkTimer;
 
     private UIHealthBar healthBar;
+    private AILocoMotion aILocoMotion;
 
 
     private void Start()
@@ -26,6 +27,7 @@ public class EnemyHealth : MonoBehaviour
         healthBar = GetComponentInChildren<UIHealthBar>();
         currentHealth = maxHealth;
         TryGetComponent(out agent);
+        TryGetComponent(out aILocoMotion);
         skinnedMeshRenderer = GetComponentsInChildren<SkinnedMeshRenderer>();
         var rigbodies = GetComponentsInChildren<Rigidbody>();
         foreach (var rig in rigbodies)
@@ -58,19 +60,24 @@ public class EnemyHealth : MonoBehaviour
 
         currentHealth -= amount;
         healthBar.SetHealthBar(currentHealth / maxHealth);
-        if (currentHealth <= 0.0f)
+        if (currentHealth <= 0.0f && !isDie && !GameManager.instance.isLastEnemy)
         {
             Die(direction);
         }
+        else if(GameManager.instance.isLastEnemy)
+        {
+            aILocoMotion.isAlreadyDie = true;
+            aILocoMotion.isAlreadyDie2 = true;
+            GameManager.instance.isLastEnemy = false;
+        }
         blinkTimer = blinkDu;
-
     }
 
     public void TakeDamageDeadZone(float amount, Vector3 direction)
     {
         currentHealth -= amount;
         healthBar.SetHealthBar(currentHealth / maxHealth);
-        if (currentHealth <= 0.0f)
+        if (currentHealth <= 0.0f && !isDie)
         {
             Die(direction);
         }
@@ -80,7 +87,17 @@ public class EnemyHealth : MonoBehaviour
     private void Die(Vector3 direction)
     {
         isDie = true;
-        
+        GameManager.instance.enemyCount -= 1;
+        GameManager.instance.killCount += 1;
+        if (GameManager.instance.enemyCount <= 0)
+        {
+            GameManager.instance.isWin = true;
+            GameManager.instance.isGameOver = true;
+        }
+        else if(GameManager.instance.enemyCount == 1)
+        {
+            GameManager.instance.isLastEnemy = true;
+        }
         AIDeathState deathState = agent.stateMachine.GetState(AiStateID.Death) as AIDeathState;
         deathState.direction = direction;
         agent.stateMachine.ChangeState(AiStateID.Death);

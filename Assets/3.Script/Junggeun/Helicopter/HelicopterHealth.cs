@@ -24,8 +24,9 @@ public class HelicopterHealth : MonoBehaviour
 
     private void Update()
     {
-        
+        if (GameManager.instance.isWin) Die();
     }
+
 
     public void TakeDamage(float damege)
     {
