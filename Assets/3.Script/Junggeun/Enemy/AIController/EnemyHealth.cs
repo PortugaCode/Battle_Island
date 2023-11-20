@@ -11,6 +11,7 @@ public class EnemyHealth : MonoBehaviour
     private bool isDie = false;
     public bool IsDie => isDie;
     public bool isDamage = false;
+    public bool isDeadZone = false;
 
     [SerializeField] private SkinnedMeshRenderer[] skinnedMeshRenderer;
 
@@ -20,11 +21,15 @@ public class EnemyHealth : MonoBehaviour
 
     private UIHealthBar healthBar;
     private AILocoMotion aILocoMotion;
+    [SerializeField] private DeadZone deadZone;
 
+    public DeadZone.Phase phase;
+    private float gameTime = 0;
 
     private void Start()
     {
         healthBar = GetComponentInChildren<UIHealthBar>();
+        deadZone = FindObjectOfType<DeadZone>();
         currentHealth = maxHealth;
         TryGetComponent(out agent);
         TryGetComponent(out aILocoMotion);
@@ -51,6 +56,16 @@ public class EnemyHealth : MonoBehaviour
         {
             skinnedMeshRenderer[i].material.color = Color.white * intensity;
         }
+
+        gameTime += Time.deltaTime;
+        if (isDeadZone)
+        {
+            if (gameTime >= 1.0f)
+            {
+                TakeDamageDeadZone(deadZone.SetDeadZoneDamage(phase), Vector3.zero);
+                gameTime = 0;
+            }
+        }
     }
 
     public void TakeDamage(float amount, Vector3 direction)
@@ -64,7 +79,7 @@ public class EnemyHealth : MonoBehaviour
         {
             Die(direction);
         }
-        else if(GameManager.instance.isLastEnemy)
+        else if (GameManager.instance.isLastEnemy)
         {
             aILocoMotion.isAlreadyDie = true;
             aILocoMotion.isAlreadyDie2 = true;
@@ -94,7 +109,7 @@ public class EnemyHealth : MonoBehaviour
             GameManager.instance.isWin = true;
             GameManager.instance.isGameOver = true;
         }
-        else if(GameManager.instance.enemyCount == 1)
+        else if (GameManager.instance.enemyCount == 1)
         {
             GameManager.instance.isLastEnemy = true;
         }

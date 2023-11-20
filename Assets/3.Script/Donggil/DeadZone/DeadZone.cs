@@ -102,17 +102,17 @@ public class DeadZone : MonoBehaviour
     [Tooltip("자기장 자식 오브젝트")]
     public GameObject DeadZonePrefabs;
     [Tooltip("자기장 부모 오브젝트")]
-    [SerializeField] private GameObject DeadZoneObject;
+    public GameObject DeadZoneObject;
 
 
     [Header("다음 자기장 오브젝트(부모만 넣기)")]
-    [SerializeField] private GameObject NextDeadZone;                     //목표위치 표시를 위한 빈 오브젝트
+    public GameObject NextDeadZone;                     //목표위치 표시를 위한 빈 오브젝트
 
     [Header("자기장 시작 범위(Collider)(콜라이더 포함된 맵 오브젝트 넣기)")]
     [SerializeField] private Collider mapRange;
 
     [Header("자기장 크기 확인(현재 자기장 자식 오브젝트 넣기)")]
-    [SerializeField] private MeshRenderer mesh;
+    public MeshRenderer mesh;
 
 
     [Header("플레이어와 자기장 거리탐지")]
@@ -272,7 +272,7 @@ public class DeadZone : MonoBehaviour
 
 
         //자기장 거리가 다음자기장에 근접했고 스케일이 다음 자기장 스케일과 근접했을경우
-        if (Distance() <= 0.001f && DeadZoneObject.transform.localScale.x <= InitPhase(phase).x && DeadZoneObject.transform.localScale.z <= InitPhase(phase).z)
+        if (Distance() <= 0.1f && DeadZoneObject.transform.localScale.x <= InitPhase(phase).x && DeadZoneObject.transform.localScale.z <= InitPhase(phase).z)
         {
             if (phase == Phase.Phase5) return;      //마지막 페이즈면 탈출
             else
@@ -331,16 +331,12 @@ public class DeadZone : MonoBehaviour
         enemyList = randomSpawner.GetComponent<RendomSpawner>().enemyList;
         DamageTic += Time.deltaTime;
 
-        for (int i = 0; i < enemyList.Count; i++)
+        foreach (GameObject enemy in enemyList)
         {
-            if (Vector3.SqrMagnitude(DeadZoneObject.transform.position - enemyList[i].transform.position) > Mathf.Pow(mesh.bounds.size.x / 2, 2))
+            if (Vector3.SqrMagnitude(DeadZoneObject.transform.position - enemy.transform.position) > Mathf.Pow(mesh.bounds.size.x / 2, 2))
             {
-                if (DamageTic >= 1.0f)              //1초당 데미지 입음
-                {
-                    Debug.Log("적 자기장 데미지");
-                    enemyList[i].transform.root.GetComponent<EnemyHealth>().TakeDamage(SetDeadZoneDamage(phase), Vector3.zero);
-                    DamageTic = 0;                  //시간초 초기화
-                }
+                enemy.transform.root.GetComponent<EnemyHealth>().phase = phase;
+                enemy.transform.root.GetComponent<EnemyHealth>().isDeadZone = true;
             }
         }
 
