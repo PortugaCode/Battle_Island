@@ -23,7 +23,7 @@ public class CombatControl : MonoBehaviour
 
     // Health Stat
     public bool isDead = false;
-    public float playerHealth = 100.0f;
+    public float playerHealth = 300.0f;
 
     // Gun
     [Header("Gun")]
@@ -543,6 +543,18 @@ public class CombatControl : MonoBehaviour
             }
 
             yield return null;
+        }
+
+        if (playerHealth < 300)
+        {
+            if (playerHealth >= 270)
+            {
+                playerHealth = 300;
+            }
+            else
+            {
+                playerHealth += 150;
+            }
         }
 
         InventoryControl.instance.RemoveItem(109);
