@@ -9,28 +9,35 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     [SerializeField] private InventoryController_C IvnCont;
     [SerializeField] private SlotManager slotManager;
     [SerializeField] private InventoryHighlight_C ih;
+    [SerializeField] private OpenInvent openIvn;
 
     public int id;
     public bool grapItem;
+
+    public int width;
+    public int height;
+
     private void Awake()
     {
         IvnCont = FindObjectOfType<InventoryController_C>();
         slotManager = FindObjectOfType<SlotManager>();
         ih = FindObjectOfType<InventoryHighlight_C>();
+        openIvn = FindObjectOfType<OpenInvent>();
 
         grapItem = false;
     }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         if (!grapItem)
         {
             grapItem = true;
 
-            //Debug.Log($"{id}");
-            IvnCont.matchingID = id;
-            IvnCont.CreateItem();
-            ih.itemID = id;
-            ih.DataLibrary(id);
+            IvnCont.CreateItem(id);
+            //ih.itemID = id;
+            IvnCont.currentWidth = width;
+            IvnCont.currentHeight = height;
+            openIvn.openThisSC = false;
             slotManager.ItemID.Remove(id);
             Destroy(gameObject);
         }

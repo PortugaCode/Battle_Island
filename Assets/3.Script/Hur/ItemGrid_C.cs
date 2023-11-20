@@ -46,8 +46,7 @@ public class ItemGrid_C : MonoBehaviour
         {
             for (int iy = 0; iy < item.HEIGHT; iy++)
             {
-                inventoryItemSlot[item.onGridPositionX + ix,
-                    item.onGridPositionY + iy] = null;
+                inventoryItemSlot[item.onGridPositionX + ix, item.onGridPositionY + iy] = null;
             }
         }
     }
@@ -104,17 +103,15 @@ public class ItemGrid_C : MonoBehaviour
 
         return tileGridPosition;
     }
-    public bool PlaceItem(InventoryItem_C inventoryItem, int posX, int posY,
-        ref InventoryItem_C overlapItem)
+
+    public bool PlaceItem(InventoryItem_C inventoryItem, int posX, int posY, ref InventoryItem_C overlapItem)
     {
-        if (!BoundryCheck(posX, posY, inventoryItem.WIDTH,
-            inventoryItem.HEIGHT))
+        if (!BoundryCheck(posX, posY, inventoryItem.WIDTH, inventoryItem.HEIGHT))
         {
             return false;
         }
 
-        if (OverlapCheck(posX, posY, inventoryItem.WIDTH,
-            inventoryItem.HEIGHT, ref overlapItem) == false)
+        if (OverlapCheck(posX, posY, inventoryItem.WIDTH, inventoryItem.HEIGHT, ref overlapItem) == false)
         {
             overlapItem = null;
             return false;
@@ -132,8 +129,7 @@ public class ItemGrid_C : MonoBehaviour
 
     public void PlaceItem(InventoryItem_C inventoryItem, int posX, int posY)
     {
-        RectTransform rectTransform =
-                    inventoryItem.GetComponent<RectTransform>();
+        RectTransform rectTransform = inventoryItem.GetComponent<RectTransform>();
         rectTransform.SetParent(this.rectTransform);
 
         for (int x = 0; x < inventoryItem.WIDTH; x++)
