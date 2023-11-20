@@ -37,6 +37,20 @@ public class BulletController : MonoBehaviour
             rig.velocity = Vector3.zero;
             gameObject.SetActive(false);
         }
+        else if(collision.collider.CompareTag("Boom"))
+        {
+            collision.gameObject.GetComponent<BoomObject>().TakeDamage();
+
+
+
+            effectManager.fireEffect.transform.position = gameObject.transform.position;
+            effectManager.fireEffect.Play();
+            BulletPooling.Instance.Bullets.Enqueue(gameObject);
+            gameObject.transform.localPosition = Vector3.zero;
+            gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
+            rig.velocity = Vector3.zero;
+            gameObject.SetActive(false);
+        }
         else if (collision.collider)
         {
             effectManager.fireEffect.transform.position = gameObject.transform.position;
