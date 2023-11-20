@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class NoticeItem : MonoBehaviour
 {
     [SerializeField] private Database_hur database;
-    [SerializeField] private GameObject slotprefab;
+    [SerializeField] private GameObject slotprefab; //Slot 스크립트 정보를 가져옴(예상)
     [SerializeField] private Transform parentTransform;
     [SerializeField] private PlayerController player;
 
@@ -35,25 +35,25 @@ public class NoticeItem : MonoBehaviour
         //만약 감지했던 아이템 데이터가 Surround 인벤토리에 뜬다면
         //Debug.Log("3. 아이템 감지 in NoticeItem");
 
-        ItemData_hur itemData = MatchInfo();
+        ItemData_hur itemData = MatchInfo(3);
         GameObject SurSlotPrefab = Instantiate(slotprefab, parentTransform);
         UpdateSlot(SurSlotPrefab, itemData);
     }
 
-    private ItemData_hur MatchInfo()
+    private ItemData_hur MatchInfo(int id)
     //itemList에 해당하는 아이템과 이어져야 함
     {
-        int Itemindex = PlayerPrefs.GetInt("아이템 ID");
+        int index = database.ReturnItemIndex(id);
         //Debug.Log($"4. {PlayerPrefs.GetString("아이템 이름")}을 주변 슬롯에서 습득!");
 
-        if(database != null)
+        if (database != null)
         {
             for(int i =0; i < database.itemList.Count; i++)
             {
                 database.GetItemByID(i);
             }
             
-            return database.GetItemByID(Itemindex);
+            return database.GetItemByID(id);
         }
         else
         {

@@ -1,27 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class Slot : MonoBehaviour
+
+public class Slot : MonoBehaviour, IPointerClickHandler
 {
-    /* player가 아이템과 충돌했을 때 -> E키를 눌러야 Update가 실행됨
-     * 
-     */
-    [SerializeField] private PlayerController player;
-    private void Start()
-    {
-        player = FindObjectOfType<PlayerController>();
-    }
-    private void Update()
-    {
-        AddItem();
-    }
-    public void AddItem()
-    {
-        if (player.eatItem)
-        {
-            Debug.Log("슬롯 추가");
-        }
-    }
+    [SerializeField] private InventoryController_C IvnCont;
+    [SerializeField] private SlotManager slotManager;
+    [SerializeField] private InventoryHighlight_C ih;
 
+    public int id;
+    public bool grapItem;
+    private void Awake()
+    {
+        IvnCont = FindObjectOfType<InventoryController_C>();
+        slotManager = FindObjectOfType<SlotManager>();
+        ih = FindObjectOfType<InventoryHighlight_C>();
+
+        grapItem = false;
+    }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (!grapItem)
+        {
+            grapItem = true;
+
+            Debug.Log($"{id}");
+            IvnCont.matchingID = id;
+            IvnCont.CreateItem();
+            ih.itemID = id;
+            slotManager.ItemID.Remove(id);
+            Destroy(gameObject);
+        }
+        
+    }
 }
+
