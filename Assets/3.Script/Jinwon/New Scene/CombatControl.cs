@@ -19,6 +19,7 @@ public class CombatControl : MonoBehaviour
 
     // Weapon Stat
     public Weapon currentWeapon = Weapon.None;
+    private bool isChanging = false;
 
     // Health Stat
     public bool isDead = false;
@@ -123,26 +124,21 @@ public class CombatControl : MonoBehaviour
         }
 
         // [ÃÑÀ» ¼Õ¿¡ ÀåÂø] - TEST
-        if (hasGun && (currentWeapon != Weapon.Gun) && Input.GetKeyDown(KeyCode.Keypad1))
+        if (hasGun && (currentWeapon != Weapon.Gun) && !isChanging && Input.GetKeyDown(KeyCode.Keypad1))
         {
-            GetComponent<DrawProjection>().drawProjection = false;
+            isChanging = true;
 
-            if (isThirdPerson)
-            {
-                isThirdPerson = false;
-                zoomControl.Third_ZoomOut();
-            }
+            StartCoroutine(EquipGun_co());
+        }
 
-            currentWeapon = Weapon.Gun;
-            rig.GetComponent<Rig>().weight = 1.0f;
-            animator.SetBool("EquipGun", true);
-            animator.SetTrigger("Equip");
+        // [ÃÑÀ» ¼Õ¿¡¼­ µî µÚ·Î ³Ö±â]
+        if (hasGun && (currentWeapon == Weapon.Gun) && !isChanging && Input.GetKeyDown(KeyCode.Keypad1))
+        {
+            isChanging = true;
 
-            currentGun.transform.SetParent(holdGunPivot);
-            currentGun.transform.localPosition = Vector3.zero;
-            currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
+            currentWeapon = Weapon.None;
 
-            grenadeModel.SetActive(false);
+            StartCoroutine(UnEquipGun_co());
         }
 
         // [ÀçÀåÀü]
@@ -156,12 +152,14 @@ public class CombatControl : MonoBehaviour
         }
 
         // [¼ö·ùÅº ÀåÂø]
-        if (currentWeapon != Weapon.Grenade && InventoryControl.instance.CheckInventory(107) && Input.GetKeyDown(KeyCode.Keypad2))
+        if (currentWeapon != Weapon.Grenade && !isChanging && InventoryControl.instance.CheckInventory(107) && Input.GetKeyDown(KeyCode.Keypad2))
         {
             if (isFirstPerson || isThirdPerson)
             {
                 return;
             }
+
+            isChanging = true;
 
             currentWeapon = Weapon.Grenade;
 
@@ -399,6 +397,36 @@ public class CombatControl : MonoBehaviour
             currentGun.transform.localPosition = Vector3.zero;
             currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
         }
+
+        yield return new WaitForSeconds(0.8f);
+
+        isChanging = false;
+    }
+
+    private IEnumerator EquipGun_co()
+    {
+        GetComponent<DrawProjection>().drawProjection = false;
+
+        if (isThirdPerson)
+        {
+            isThirdPerson = false;
+            zoomControl.Third_ZoomOut();
+        }
+
+        currentWeapon = Weapon.Gun;
+        rig.GetComponent<Rig>().weight = 1.0f;
+        animator.SetBool("EquipGun", true);
+        animator.SetTrigger("Equip");
+
+        currentGun.transform.SetParent(holdGunPivot);
+        currentGun.transform.localPosition = Vector3.zero;
+        currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
+
+        grenadeModel.SetActive(false);
+
+        yield return new WaitForSeconds(1.5f);
+
+        isChanging = false;
     }
 
     public void GunRecoil()
