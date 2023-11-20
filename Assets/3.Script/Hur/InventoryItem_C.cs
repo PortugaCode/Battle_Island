@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class InventoryItem_C : MonoBehaviour, IPointerClickHandler
+public class InventoryItem_C : MonoBehaviour
 {
     //이 스크립트는 Diablo식 인벤토리에 둘 아이템의 크기를 결정함
 
@@ -45,13 +45,13 @@ public class InventoryItem_C : MonoBehaviour, IPointerClickHandler
 
     private void Awake()
     {
-        inventoryHighlight_C = FindObjectOfType<InventoryHighlight_C>();
+        //inventoryHighlight_C = FindObjectOfType<InventoryHighlight_C>();
     }
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        //Debug.Log("클릭");
-        inventoryHighlight_C.itemID = dataid;
-    }
+    //public void OnPointerClick(PointerEventData eventData)
+    //{
+    //    //Debug.Log("클릭");
+    //    inventoryHighlight_C.itemID = dataid;
+    //}
 
     public void Set(ItemData_C itemData)//아이템 정보 가져오는 곳
     {

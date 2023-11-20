@@ -49,12 +49,17 @@ public class GridManager : MonoBehaviour
 
     public void AllGridCheck()
     {
+        // 가로 17, 세로 28
 
         for (int i = 0; i < 17; i++)
         {
             for (int j = 0; j < 28; j++)
             {
-                Debug.Log($"확인 : {i},{j} = {array[i, j]}");
+                if (array[i,j]!=0)
+                {
+                    Debug.Log($"확인 : {i},{j} = {array[i, j]}");
+                }
+                
             }
         }
 
@@ -75,7 +80,7 @@ public class GridManager : MonoBehaviour
             {
                 for (height = 0; height < 2; height++)
                 {
-                    Debug.Log("부피 : " + (width, height)); //부피
+                    //Debug.Log("부피 : " + (width, height)); //부피
                 }
             }
         }

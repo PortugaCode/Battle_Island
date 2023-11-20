@@ -45,7 +45,7 @@ public class SlotManager : MonoBehaviour
 
     private void PrefabPlus(int count, int id)
     {
-        Debug.Log("PrefabPlus");
+        //Debug.Log("PrefabPlus");
         GameObject newSlot = Instantiate(slotPrefab, transform.position, Quaternion.identity);
         newSlot.transform.SetParent(slotHolder);
         newSlot.transform.position = slotHolder.position + new Vector3(count * 0f, 0f, 0f);

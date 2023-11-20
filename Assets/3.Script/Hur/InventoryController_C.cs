@@ -115,74 +115,7 @@ public class InventoryController_C : MonoBehaviour
         {
             itemToHighlight = selectedItemGrid.GetItem(positionOnGrid.x, positionOnGrid.y);
 
-            if (item != null)
-            {
-
-                for (int i = 0; i < item.Count; i++)
-                {
-                    //ItemData_C pickItem = item[i]; // 리스트의 n번째 ID 가져오기
-
-                    switch (i)
-                    {
-                        case 0:
-                            itemID = 100;
-                            break;
-                        case 1:
-                            itemID = 101;
-                            break;
-                        case 2:
-                            itemID = 102;
-                            break;
-                        case 3:
-                            itemID = 103;
-                            break;
-                        case 4:
-                            itemID = 104;
-                            break;
-                        case 5:
-                            itemID = 105;
-                            break;
-                        case 6:
-                            itemID = 106;
-                            break;
-                        case 7:
-                            itemID = 107;
-                            break;
-                        case 8:
-                            itemID = 108;
-                            break;
-                        case 9:
-                            itemID = 109;
-                            break;
-                        case 10:
-                            itemID = 110;
-                            break;
-                        case 11:
-                            itemID = 111;
-                            break;
-                        case 12:
-                            itemID = 112;
-                            break;
-                        case 13:
-                            itemID = 113;
-                            break;
-                        case 14:
-                            itemID = 114;
-                            break;
-                        case 15:
-                            itemID = 115;
-                            break;
-                        case 16:
-                            itemID = 116;
-                            break;
-                        case 17:
-                            itemID = 117;
-                            break;
-
-                    }
-
-                }
-            }
+            //itemID = selectedItem.dataid;
 
             if (itemToHighlight != null)
             {
@@ -199,6 +132,8 @@ public class InventoryController_C : MonoBehaviour
         }
         else
         {
+            itemID = selectedItem.dataid;
+
             inventoryHighlight.Show(selectedItemGrid.BoundryCheck(
                 positionOnGrid.x,
                 positionOnGrid.y,
@@ -283,7 +218,7 @@ public class InventoryController_C : MonoBehaviour
                 selectedItemID = 17;
                 break;
             default:
-                Debug.Log("디폴트값");
+                //Debug.Log("디폴트값");
                 break;
         }
 

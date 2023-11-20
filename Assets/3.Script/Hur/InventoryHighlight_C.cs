@@ -22,31 +22,32 @@ public class InventoryHighlight_C : MonoBehaviour
         openIvn = FindObjectOfType<OpenInvent>();
         //Caculator(0, 0);
 
-        if (itemdata != null && itemdata.Count > 0)
-        {
-            for (int i = 0; i < itemdata.Count; i++)
-            {
-                ItemData_C pickItem = itemdata[i]; // 리스트의 n번째 요소 가져오기
+        //if (itemdata != null && itemdata.Count > 0)
+        //{
+        //    for (int i = 0; i < itemdata.Count; i++)
+        //    {
+        //        ItemData_C pickItem = itemdata[i]; // 리스트의 n번째 요소 가져오기
 
-                _width = pickItem.width;
-                _height = pickItem.height;
-                itemID = pickItem.itemID;
-            }
+        //        _width = pickItem.width;
+        //        _height = pickItem.height;
+        //        itemID = pickItem.itemID;
+        //    }
 
-        }
-        else
-        {
-            return;
-        }
+        //}
+        //else
+        //{
+        //    return;
+        //}
 
     }
     private void Update()
     {
-        if (openIvn.openThisSC)
-        {
-            DataLibrary(itemID);
-        }
-        
+        //if (openIvn.openThisSC)
+        //{
+        //    DataLibrary(itemID);
+        //}
+        //DataLibrary(itemID);
+
     }
     public void DataLibrary(int itemID)
     {
@@ -140,9 +141,9 @@ public class InventoryHighlight_C : MonoBehaviour
 
         if (!sinho)
         {
-            Debug.Log("하이라이트 ON"); //인벤토리 grid에 닿을 때마다 뜸 (같은 아이템도 마찬가지)
-            Debug.Log("시작좌표 : " +
-                (targetItem.onGridPositionX, targetItem.onGridPositionY));
+            //Debug.Log("하이라이트 ON"); //인벤토리 grid에 닿을 때마다 뜸 (같은 아이템도 마찬가지)
+            //Debug.Log("시작좌표 : " +
+            //    (targetItem.onGridPositionX, targetItem.onGridPositionY));
 
             //시작 좌표
             int x = targetItem.onGridPositionX;
@@ -158,6 +159,8 @@ public class InventoryHighlight_C : MonoBehaviour
 
     private void Caculator(int x, int y, int itemID)
     {
+        //Debug.Log(inv_cont.rollback);
+
         if (!inv_cont.rollback)
         {
             for (int i = 0; i < _width; i++)
@@ -166,7 +169,7 @@ public class InventoryHighlight_C : MonoBehaviour
                 {
                     gm.array[x + i, y + j] = itemID; // 1 -> 아이템 ID로 바꿔야함
 
-                    Debug.Log($"gm.array : {x + i},{y + j}");
+                    //Debug.Log($"gm.array : {x + i},{y + j}");
 
                 }
             }
@@ -174,13 +177,20 @@ public class InventoryHighlight_C : MonoBehaviour
         }
         else //롤백이면
         {
+            // array[17,28] 이니까
+            // x+i 는 16 이하여야하고
+            // y+j 는 27이하여야한다
+
+            // x 가 아이템의 너비?
+            // y 는 아이템의 높이
+
             for (int i = 0; i < _width; i++)
             {
                 for (int j = 0; j < _height; j++)
                 {
-                    gm.array[x + i, y + j] = 0;
+                    gm.array[i + x, j + y] = 0;
 
-                    Debug.Log($"롤백array : {x + i},{y + j}");
+                    //Debug.Log($"롤백array : {x + i},{y + j}");
 
                 }
             }

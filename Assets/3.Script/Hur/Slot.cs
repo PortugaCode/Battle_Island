@@ -26,10 +26,11 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         {
             grapItem = true;
 
-            Debug.Log($"{id}");
+            //Debug.Log($"{id}");
             IvnCont.matchingID = id;
             IvnCont.CreateItem();
             ih.itemID = id;
+            ih.DataLibrary(id);
             slotManager.ItemID.Remove(id);
             Destroy(gameObject);
         }
