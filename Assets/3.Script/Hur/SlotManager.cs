@@ -59,6 +59,8 @@ public class SlotManager : MonoBehaviour
         newSlot.transform.GetChild(0).GetComponent<Image>().sprite = database.itemList[index].itemIcon;
         newSlot.transform.GetChild(2).GetComponent<Text>().text = database.itemList[index].itemName;
         newSlot.GetComponent<Slot>().id = database.itemList[index].itemID;
+        newSlot.GetComponent<Slot>().width = database.itemList[index].width;
+        newSlot.GetComponent<Slot>().height = database.itemList[index].height;
     }
 
     

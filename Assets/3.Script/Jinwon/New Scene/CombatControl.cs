@@ -484,6 +484,8 @@ public class CombatControl : MonoBehaviour
     private void PlayerDead()
     {
         isDead = true;
+        GameManager.instance.isPlayerDead = true;
+        GameManager.instance.isGameOver = true;
         rig.GetComponent<Rig>().weight = 0f;
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;

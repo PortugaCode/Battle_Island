@@ -16,7 +16,7 @@ public class GameUIControll : MonoBehaviour
     public bool isBag = false;
     public bool isRifle1 = false;
 
-
+    private CombatControl combat;
 
     [Header("1번은 무기, 2번은 수류탄")]
     [SerializeField] private Image rifleImg2;
@@ -39,6 +39,12 @@ public class GameUIControll : MonoBehaviour
     [Header("남은 적")]
     public Text countEnemy;
 
+    private void Start()
+    {
+        GameObject.FindGameObjectWithTag("Player").TryGetComponent(out combat);
+
+    }
+
     private void Update()
     {
         helmatImg.enabled = isHelmet;
@@ -46,8 +52,15 @@ public class GameUIControll : MonoBehaviour
         bagImg.enabled = isBag;
         rifleImg1.enabled = isRifle1;
 
+        //===============================================
+
         rifleImg2.enabled = isRifle2;
         throwImg.enabled = isThrow;
+
+        //===============================================
+
+        hpbar.value = combat.playerHealth;
     }
 
+    
 }

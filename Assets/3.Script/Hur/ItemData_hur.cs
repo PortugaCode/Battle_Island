@@ -11,6 +11,8 @@ public class ItemData_hur
     public string itemName;
     public bool isUsed;
     public int itemCount;
+    public int width;
+    public int height;
     
     public ItemType itemType; // 아이템 종류 타입
     public UsingType usingType; // 아이템 쓸모 타입
@@ -25,7 +27,7 @@ public class ItemData_hur
         Consumable, Wearable
     }
 
-    public ItemData_hur(int _itemID, string _itemName, bool _isUsed, ItemType _itemType, UsingType _usingType, int _count)
+    public ItemData_hur(int _itemID, string _itemName, bool _isUsed, ItemType _itemType, UsingType _usingType, int _count, int _width, int _height)
         //초기화
     {
         itemID = _itemID;
@@ -35,10 +37,7 @@ public class ItemData_hur
         usingType = _usingType;
         itemIcon = Resources.Load("resource_hur/" + _itemID.ToString(), typeof(Sprite)) as Sprite;
         itemCount = _count;
+        width = _width;
+        height = _height;
     }
-    public ItemData_hur CreateNewItemData(int _itemID, string _itemName, bool _isUsed, ItemType _itemType, UsingType _usingType, int _count)
-    {
-        return new ItemData_hur(_itemID, _itemName, _isUsed, _itemType, _usingType, _count);
-    }
-
 }

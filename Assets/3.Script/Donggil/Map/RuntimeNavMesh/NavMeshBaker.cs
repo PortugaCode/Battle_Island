@@ -14,11 +14,13 @@ public class NavMeshBaker : MonoBehaviour
     public GameObject deadZoneManager;
     public GameObject nextDeadZone;
     public GameObject currentDeadZone;
+    public GameObject Player;
 
     public float bakeTime = 4.0f;
     public float ActiveTime = 2.0f;
 
     public bool isBakedEnd = false;
+
 
     private void Awake()
     {
@@ -43,6 +45,7 @@ public class NavMeshBaker : MonoBehaviour
             nextDeadZone.SetActive(true);
             currentDeadZone.SetActive(true);
             randomSpawn.SetActive(true);
+            //Player.SetActive(true);
         }
     }
 

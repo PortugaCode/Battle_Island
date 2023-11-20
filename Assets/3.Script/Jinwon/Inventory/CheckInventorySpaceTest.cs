@@ -26,7 +26,7 @@ public class CheckInventorySpaceTest : MonoBehaviour
     private int place_x = -1; // 아이템을 놓을 수 있는 위치 x
     private int place_y = -1; // 아이템을 놓을 수 있는 위치 y
 
-    private bool haveToTurn = false; // 회전해야 하는가
+    //private bool haveToTurn = false; // 회전해야 하는가
 
     private void Awake()
     {
@@ -113,7 +113,7 @@ public class CheckInventorySpaceTest : MonoBehaviour
                         {
                             place_y = i;
                             place_x = j;
-                            haveToTurn = true;
+                            //haveToTurn = true;
                             return;
                         }
                     }
