@@ -14,8 +14,20 @@ public class RendomSpawner : MonoBehaviour
     private void Awake()
     {
         enemyList = new List<GameObject>();
-        Spawnpoint = new Vector3[5];
-        //Spawnpoint = new Vector3[GameManager.instance.Level];
+
+        if(GameManager.instance.Level == 0)
+        {
+            Spawnpoint = new Vector3[5];
+        }
+        else
+        {
+            Spawnpoint = new Vector3[GameManager.instance.Level];
+        }
+
+        if(GameManager.instance.Level == 7)
+        {
+            //Çï¸®ÄßÅÍ »ý¼ºÇÏ±â
+        }
 
         for (int i = 0; i < Spawnpoint.Length; i++)
         {
@@ -28,7 +40,11 @@ public class RendomSpawner : MonoBehaviour
             GameObject CloneEnemy = Instantiate(EnemyAi, Spawnpoint[i], Quaternion.identity);
             enemyList.Add(CloneEnemy);
         }
+        GameManager.instance.randomSpawner = GameObject.FindObjectOfType<RendomSpawner>().GetComponent<RendomSpawner>();
+
+        GameManager.instance.EnemyCount();
     }
+
 
 
 

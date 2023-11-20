@@ -684,9 +684,74 @@ Transform:
   - {fileID: 8765284534935182191}
   - {fileID: 6889295229883456656}
   - {fileID: 8705153536823907666}
+  - {fileID: 5437822241752130953}
   m_Father: {fileID: 2731433468402107851}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8164271100153395633
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5437822241752130953}
+  - component: {fileID: 290016001177142724}
+  - component: {fileID: 5361437826273195364}
+  m_Layer: 0
+  m_Name: SpawnItem_1F
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5437822241752130953
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8164271100153395633}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4.07, y: 0.84, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8877985792478886213}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &290016001177142724
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8164271100153395633}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5, y: 0, z: 5}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5361437826273195364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8164271100153395633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e45cf4c67817cc24d8933f3a6f588535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GunPrefabs:
+  - {fileID: 5167319595456415944, guid: ef23c5c7af0c4434b887d4ee470d6795, type: 3}
+  - {fileID: 57878610182035613, guid: d9fe8dd76c765064eb48bf96c7eabbd4, type: 3}
+  rangeObject: {fileID: 8164271100153395633}
+  Gun_Object: {fileID: 5437822241752130953}
+  minItem: 0
+  maxItem: 1
 --- !u!1 &8486266824349695242
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] private GameObject hitEffectPrefab;
     [SerializeField] private GameObject bulletHolePrefab;
-    [SerializeField] private GameObject crosshairControl;
+    [SerializeField] private GameObject thirdPersonCrosshair;
 
     public Vector3 startPostion;
 
@@ -59,12 +59,12 @@ public class Bullet : MonoBehaviour
 
             if (collision.collider.transform.root.CompareTag("Enemy"))
             {
-                if (crosshairControl == null)
+                /*if (thirdPersonCrosshair == null)
                 {
-                    crosshairControl = FindObjectOfType<CrosshairControl>().gameObject;
+                    thirdPersonCrosshair = FindObjectOfType<CrosshairControl>().gameObject;
                 }
 
-                crosshairControl.GetComponent<CrosshairControl>().TurnRed();
+                thirdPersonCrosshair.GetComponent<CrosshairControl>().TurnRed();*/
 
                 collision.collider.transform.root.GetComponent<EnemyHealth>().TakeDamage(bulletDamage, hitDirection);
                 Recorder.instance.UpdateData(collision.collider.gameObject, startPostion ,transform.forward);

@@ -26,9 +26,18 @@ public class IntroButton : MonoBehaviour
         }
     }
 
+    public void GotoIntro()
+    {
+        SceneManager.LoadScene("Intro");
+    }
 
     public void StartButton()
     {
-        SceneManager.LoadScene("Map");
+        SceneManager.LoadScene("JDScene");
+    }
+
+    public void ClickSetting()
+    {
+        OptionManager.Instance.OptionPanel.SetActive(true);
     }
 }

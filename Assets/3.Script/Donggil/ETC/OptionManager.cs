@@ -4,7 +4,22 @@ using UnityEngine;
 
 public class OptionManager : MonoBehaviour
 {
-    [SerializeField] private GameObject OptionPanel;
+    public static OptionManager Instance = null;
+
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public GameObject OptionPanel;
     [SerializeField] private GameObject GraphicOption;
     [SerializeField] private GameObject AudioOption;
 

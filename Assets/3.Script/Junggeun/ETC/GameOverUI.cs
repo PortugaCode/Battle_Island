@@ -8,9 +8,6 @@ public class GameOverUI : MonoBehaviour
     private AudioSource audioSource;
     [SerializeField] private AudioClip shot;
 
-    public bool isWin;
-    public bool isGameOver;
-
     [SerializeField] private GameObject GameOverCanvas;
 
 
@@ -30,18 +27,28 @@ public class GameOverUI : MonoBehaviour
 
     private void Update()
     {
-        if(isGameOver)
+        GameOver();
+    }
+
+    public void GameOver()
+    {
+        if (GameManager.instance.isGameOver)
         {
             GameOverCanvas.SetActive(true);
-            if(isWin)
+            if (GameManager.instance.isWin)
             {
                 StartCoroutine(WinEffect());
-                isGameOver = false;
+                GameManager.instance.isGameOver = false;
+                RankingText.text = $"·©Å· #{GameManager.instance.Ranking}";
+                KillCountText.text = $"{GameManager.instance.killCount} Kill";
             }
             else
             {
                 LoseCanvas.SetActive(true);
-                isGameOver = false;
+                GameManager.instance.isGameOver = false;
+                RankingText.text = $"·©Å· #{GameManager.instance.Ranking}";
+                KillCountText.text = $"{GameManager.instance.killCount} Kill";
+
             }
         }
     }
@@ -69,6 +76,6 @@ public class GameOverUI : MonoBehaviour
         yield return du;
         WinEffectCanvas.SetActive(false);
         WinCanvas.SetActive(true);
-        isWin = false;
+        GameManager.instance.isWin = false;
     }
 }

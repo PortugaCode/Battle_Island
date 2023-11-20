@@ -2728,14 +2728,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GunPrefabs:
-  - {fileID: 2594569492079255030, guid: 186b4676d0640cf43ab07272c7a46c7a, type: 3}
-  - {fileID: 4928649075297080802, guid: 6648d35430a8c4742af5380214a8b821, type: 3}
-  - {fileID: 8301308901008883399, guid: a60aa6d61ffa24a4d9a27d9fe9a9e871, type: 3}
-  - {fileID: 5624450546489106789, guid: 2d28f9f6dfe3826438b5e4e878f00451, type: 3}
-  - {fileID: 2752994935547804718, guid: 2165ff8261390d441b98934a562efc42, type: 3}
+  - {fileID: 1766153975377552810, guid: 3bee17bce1ba35846afdea5b89336f8c, type: 3}
+  - {fileID: 5167319595456415944, guid: ef23c5c7af0c4434b887d4ee470d6795, type: 3}
+  - {fileID: 57878610182035613, guid: d9fe8dd76c765064eb48bf96c7eabbd4, type: 3}
   rangeObject: {fileID: 2344853001530204522}
   Gun_Object: {fileID: 3062944382710101257}
-  minItem: 2
+  minItem: 3
   maxItem: 6
 --- !u!1 &2538568917216988138
 GameObject:
@@ -3323,14 +3321,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GunPrefabs:
-  - {fileID: 2594569492079255030, guid: 186b4676d0640cf43ab07272c7a46c7a, type: 3}
-  - {fileID: 4928649075297080802, guid: 6648d35430a8c4742af5380214a8b821, type: 3}
-  - {fileID: 8301308901008883399, guid: a60aa6d61ffa24a4d9a27d9fe9a9e871, type: 3}
-  - {fileID: 5624450546489106789, guid: 2d28f9f6dfe3826438b5e4e878f00451, type: 3}
-  - {fileID: 2752994935547804718, guid: 2165ff8261390d441b98934a562efc42, type: 3}
+  - {fileID: 1766153975377552810, guid: 3bee17bce1ba35846afdea5b89336f8c, type: 3}
+  - {fileID: 5167319595456415944, guid: ef23c5c7af0c4434b887d4ee470d6795, type: 3}
+  - {fileID: 57878610182035613, guid: d9fe8dd76c765064eb48bf96c7eabbd4, type: 3}
   rangeObject: {fileID: 2957434744874692851}
   Gun_Object: {fileID: 6965928381372654863}
-  minItem: 2
+  minItem: 3
   maxItem: 6
 --- !u!1 &3055179849393055871
 GameObject:
@@ -10792,6 +10788,7 @@ Transform:
   - {fileID: 3856428461679698181}
   - {fileID: 3856428460239806845}
   - {fileID: 3856428460644039870}
+  - {fileID: 6827983799491106465}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14138,6 +14135,71 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.0232697, y: 3.2864075, z: 0.30508995}
   m_Center: {x: -1.0116348, y: 1.1432037, z: 0}
+--- !u!1 &4374853247709163126
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6827983799491106465}
+  - component: {fileID: 7798584946715912415}
+  - component: {fileID: 7772273769348322580}
+  m_Layer: 0
+  m_Name: SpawnItem_1F
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6827983799491106465
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4374853247709163126}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.23, y: 0.1, z: -5.13}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3856428461225900247}
+  m_RootOrder: 23
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7798584946715912415
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4374853247709163126}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 8, y: 0, z: 8}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7772273769348322580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4374853247709163126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e45cf4c67817cc24d8933f3a6f588535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GunPrefabs:
+  - {fileID: 5167319595456415944, guid: ef23c5c7af0c4434b887d4ee470d6795, type: 3}
+  - {fileID: 57878610182035613, guid: d9fe8dd76c765064eb48bf96c7eabbd4, type: 3}
+  - {fileID: 1766153975377552810, guid: 3bee17bce1ba35846afdea5b89336f8c, type: 3}
+  rangeObject: {fileID: 4374853247709163126}
+  Gun_Object: {fileID: 6827983799491106465}
+  minItem: 4
+  maxItem: 8
 --- !u!1 &4457059191384938966
 GameObject:
   m_ObjectHideFlags: 0
@@ -15627,14 +15689,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GunPrefabs:
-  - {fileID: 2594569492079255030, guid: 186b4676d0640cf43ab07272c7a46c7a, type: 3}
-  - {fileID: 4928649075297080802, guid: 6648d35430a8c4742af5380214a8b821, type: 3}
-  - {fileID: 8301308901008883399, guid: a60aa6d61ffa24a4d9a27d9fe9a9e871, type: 3}
-  - {fileID: 5624450546489106789, guid: 2d28f9f6dfe3826438b5e4e878f00451, type: 3}
-  - {fileID: 2752994935547804718, guid: 2165ff8261390d441b98934a562efc42, type: 3}
+  - {fileID: 1766153975377552810, guid: 3bee17bce1ba35846afdea5b89336f8c, type: 3}
+  - {fileID: 5167319595456415944, guid: ef23c5c7af0c4434b887d4ee470d6795, type: 3}
+  - {fileID: 57878610182035613, guid: d9fe8dd76c765064eb48bf96c7eabbd4, type: 3}
   rangeObject: {fileID: 5430348454848640885}
   Gun_Object: {fileID: 2136516350217558034}
-  minItem: 2
+  minItem: 3
   maxItem: 6
 --- !u!1 &5513908301415974557
 GameObject:
@@ -15775,14 +15835,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GunPrefabs:
-  - {fileID: 2594569492079255030, guid: 186b4676d0640cf43ab07272c7a46c7a, type: 3}
-  - {fileID: 4928649075297080802, guid: 6648d35430a8c4742af5380214a8b821, type: 3}
-  - {fileID: 8301308901008883399, guid: a60aa6d61ffa24a4d9a27d9fe9a9e871, type: 3}
-  - {fileID: 5624450546489106789, guid: 2d28f9f6dfe3826438b5e4e878f00451, type: 3}
-  - {fileID: 2752994935547804718, guid: 2165ff8261390d441b98934a562efc42, type: 3}
+  - {fileID: 1766153975377552810, guid: 3bee17bce1ba35846afdea5b89336f8c, type: 3}
+  - {fileID: 5167319595456415944, guid: ef23c5c7af0c4434b887d4ee470d6795, type: 3}
+  - {fileID: 57878610182035613, guid: d9fe8dd76c765064eb48bf96c7eabbd4, type: 3}
   rangeObject: {fileID: 5590090944658767159}
   Gun_Object: {fileID: 5060300323686894221}
-  minItem: 2
+  minItem: 3
   maxItem: 6
 --- !u!1 &5609506962465814371
 GameObject:
@@ -16034,14 +16092,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GunPrefabs:
-  - {fileID: 2594569492079255030, guid: 186b4676d0640cf43ab07272c7a46c7a, type: 3}
-  - {fileID: 4928649075297080802, guid: 6648d35430a8c4742af5380214a8b821, type: 3}
-  - {fileID: 8301308901008883399, guid: a60aa6d61ffa24a4d9a27d9fe9a9e871, type: 3}
-  - {fileID: 5624450546489106789, guid: 2d28f9f6dfe3826438b5e4e878f00451, type: 3}
-  - {fileID: 2752994935547804718, guid: 2165ff8261390d441b98934a562efc42, type: 3}
+  - {fileID: 1766153975377552810, guid: 3bee17bce1ba35846afdea5b89336f8c, type: 3}
+  - {fileID: 5167319595456415944, guid: ef23c5c7af0c4434b887d4ee470d6795, type: 3}
+  - {fileID: 57878610182035613, guid: d9fe8dd76c765064eb48bf96c7eabbd4, type: 3}
   rangeObject: {fileID: 5723920611572446512}
   Gun_Object: {fileID: 696016925284849997}
-  minItem: 2
+  minItem: 3
   maxItem: 6
 --- !u!1 &5747605184050321840
 GameObject:
@@ -16926,14 +16982,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GunPrefabs:
-  - {fileID: 2594569492079255030, guid: 186b4676d0640cf43ab07272c7a46c7a, type: 3}
-  - {fileID: 4928649075297080802, guid: 6648d35430a8c4742af5380214a8b821, type: 3}
-  - {fileID: 8301308901008883399, guid: a60aa6d61ffa24a4d9a27d9fe9a9e871, type: 3}
-  - {fileID: 5624450546489106789, guid: 2d28f9f6dfe3826438b5e4e878f00451, type: 3}
-  - {fileID: 2752994935547804718, guid: 2165ff8261390d441b98934a562efc42, type: 3}
+  - {fileID: 1766153975377552810, guid: 3bee17bce1ba35846afdea5b89336f8c, type: 3}
+  - {fileID: 5167319595456415944, guid: ef23c5c7af0c4434b887d4ee470d6795, type: 3}
+  - {fileID: 57878610182035613, guid: d9fe8dd76c765064eb48bf96c7eabbd4, type: 3}
   rangeObject: {fileID: 6332238597781339785}
   Gun_Object: {fileID: 7907396147261899932}
-  minItem: 2
+  minItem: 3
   maxItem: 6
 --- !u!1 &6384297240666720239
 GameObject:
