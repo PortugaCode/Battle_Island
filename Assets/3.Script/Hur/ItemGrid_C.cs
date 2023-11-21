@@ -20,6 +20,8 @@ public class ItemGrid_C : MonoBehaviour
     [SerializeField] private int gridSizeWidth = 17;
     [SerializeField] private int gridSizeHeight = 28;
 
+    public int gridNumber;
+
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -235,4 +237,5 @@ public class ItemGrid_C : MonoBehaviour
 
         return true;
     }
+    
 }
