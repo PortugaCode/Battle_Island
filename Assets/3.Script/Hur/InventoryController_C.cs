@@ -246,7 +246,7 @@ public class InventoryController_C : MonoBehaviour
 
     private void PickUpItem(Vector2Int tileGridPosition) // [인벤토리]에서 아이템 클릭하여 픽업할 때 호출되는 함수
     {
-        //Debug.Log("[인벤토리]에서 아이템 픽업");
+        Debug.Log("[인벤토리]에서 아이템 픽업");
 
         selectedItem = selectedItemGrid.PickUpItem(tileGridPosition.x, tileGridPosition.y);
 
@@ -281,12 +281,12 @@ public class InventoryController_C : MonoBehaviour
                 if (array[i, j] != 0)
                 {
                     count += 1;
-                    //Debug.Log($"확인 : {i},{j} = {array[i, j]}");
+                    Debug.Log($"확인 : {i},{j} = {array[i, j]}");
                 }
             }
         }
 
-        //Debug.Log("디아블로 인벤토리 : " + count);
+        Debug.Log("디아블로 인벤토리 : " + count);
     }
 
     /*public void Calculate(int x, int y, int itemID)
@@ -327,11 +327,11 @@ public class InventoryController_C : MonoBehaviour
     {
         if (selectedItem == null)
         {
-            //Debug.Log("SelectedItem이 Null이다");
+            Debug.Log("SelectedItem이 Null이다");
         }
         else
         {
-            //Debug.Log($"{selectedItem.itemData.itemName}을 array에 넣습니다");
+            Debug.Log($"{selectedItem.itemData.itemName}을 array에 넣습니다");
         }
 
         for (int i = 0; i < currentWidth; i++)
@@ -347,7 +347,7 @@ public class InventoryController_C : MonoBehaviour
 
     public void DeleteItem(InventoryItem_C item)
     {
-        //Debug.Log($"{item.itemData.itemName}을 array에서 제거합니다");
+        Debug.Log($"{item.itemData.itemName}을 array에서 제거합니다");
 
         // 넣기는 되는데 왜 제대로 안빼졌나?
         // (클릭한 위치부터 아이템 모양만큼 빠지기 때문)
