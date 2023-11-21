@@ -529,6 +529,17 @@ public class CombatControl : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
+        if (isFirstPerson)
+        {
+            isFirstPerson = false;
+            zoomControl.First_ZoomOut();
+        }
+        else if (isThirdPerson)
+        {
+            isThirdPerson = false;
+            zoomControl.Third_ZoomOut();
+        }
+
         isDead = true;
         GameManager.instance.isPlayerDead = true;
         GameManager.instance.isGameOver = true;
