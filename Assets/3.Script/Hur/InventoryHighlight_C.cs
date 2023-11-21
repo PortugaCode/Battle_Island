@@ -38,6 +38,7 @@ public class InventoryHighlight_C : MonoBehaviour
         //inv_cont.Calculate(x, y, itemID);
 
         hightlighter.localPosition = pos;
+        hightlighter.localPosition = new Vector3(hightlighter.localPosition.x, hightlighter.localPosition.y, 1f);
     }
 
     public void SetParent(ItemGrid_C targetGrid)

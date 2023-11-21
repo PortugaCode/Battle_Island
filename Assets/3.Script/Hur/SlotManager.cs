@@ -36,7 +36,10 @@ public class SlotManager : MonoBehaviour
         ItemID.Add(115);
         ItemID.Add(116);
         ItemID.Add(117);
+<<<<<<< Updated upstream
         ItemID.Add(118);
+=======
+>>>>>>> Stashed changes
     }
 
     private void Start()
@@ -83,8 +86,12 @@ public class SlotManager : MonoBehaviour
         newSlot.GetComponent<Slot>().height = database.itemList[index].height;
 
         //아이템 타입
-        //newSlot.GetComponent<Slot>().usingType = database.itemList[index].usingType;
+        newSlot.GetComponent<Slot>().usingType = database.itemList[index].usingType;
         
         //CheckType(id);
     }
+<<<<<<< Updated upstream
+=======
+    
+>>>>>>> Stashed changes
 }
