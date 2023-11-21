@@ -121,13 +121,13 @@ public class UIManager : MonoBehaviour
 
         float amount = 0;
 
-        if (damage >= 30)
+        if (damage >= 20)
         {
             amount = 1.0f;
         }
         else
         {
-            amount = (1.0f / 30.0f) * damage;
+            amount = (1.0f / 20.0f) * damage;
         }
 
         while (color.a < amount)
