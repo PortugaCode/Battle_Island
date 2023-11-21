@@ -14,9 +14,16 @@ public class SpawnSupplyPlane : MonoBehaviour
     public float radius = 350.0f;
     public float nextDeadzoneRadius = 0;
 
+    private DeadZone deadzone;
+    private float gameTime = 0;
+    private float planeSpawnTime = 0;
+
+    public bool isPlaneSpawned = false;
 
     private void Start()
     {
+        deadzone = FindObjectOfType<DeadZone>();
+        planeSpawnTime = Random.Range(1, 4);
         Instantiate(plane, new Vector3(300, 80, 300), Quaternion.identity, PlaneTransform);
 
         PlaneTransform.GetChild(0).gameObject.SetActive(false);
@@ -27,10 +34,16 @@ public class SpawnSupplyPlane : MonoBehaviour
         nextDeadzoneRadius = layover.transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size.x / 2;
         transform.position = new Vector3(layover.transform.position.x, 80, layover.transform.position.z);
 
-
-        if (Input.GetKeyDown(KeyCode.U))
+        if (deadzone.isWaitTime)
         {
-            PlaneSpawn();
+            gameTime += Time.deltaTime;
+            if (gameTime >= planeSpawnTime && !isPlaneSpawned)
+            {
+                PlaneSpawn();
+                gameTime = 0;
+                planeSpawnTime = Random.Range(1, 4);
+                isPlaneSpawned = true;
+            }
         }
     }
 

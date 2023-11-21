@@ -45,7 +45,7 @@ public class InventoryControl : MonoBehaviour
         }
     }
 
-    // [소지한 아이템 리스트]
+    // [소지한 아이템들을 저장해놓은 리스트]
     public List<Item> inventory;
 
     // [총알 개수]
@@ -73,13 +73,21 @@ public class InventoryControl : MonoBehaviour
 
         if (id == 103) // 아머
         {
-            armorModel.SetActive(true);
+            if (!armorModel.activeSelf) // 아머 모델 활성화
+            {
+                GetComponent<CombatControl>().isArmor = true;
+                GetComponent<CombatControl>().playerHealth += 60;
+                armorModel.SetActive(true);
+            }
         }
         else if (id == 104) // 가방
         {
-            bagModel.SetActive(true);
+            if (!bagModel.activeSelf) // 가방 모델 활성화
+            {
+                bagModel.SetActive(true);
+            }
         }
-        else if (id == 107) // 슈류탄 (TEST)
+        else if (id == 107) // 수류탄
         {
             for (int i = 0; i < amount - 1; i++)
             {
@@ -98,7 +106,18 @@ public class InventoryControl : MonoBehaviour
         }
         else if (id == 111) // 헬멧
         {
-            helmetModel.SetActive(true);
+            if (!helmetModel.activeSelf) // 헬멧 모델 활성화
+            {
+                helmetModel.SetActive(true);
+            }
+        }
+        else if (id == 116) // 라이플
+        {
+            GetComponent<CombatControl>().EquipGun(GunType.Rifle1);
+        }
+        else if (id == 117) // 스나이퍼
+        {
+            GetComponent<CombatControl>().EquipGun(GunType.Sniper1);
         }
 
         inventory.Add(currentItem);

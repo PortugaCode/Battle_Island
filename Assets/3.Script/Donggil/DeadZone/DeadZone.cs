@@ -129,7 +129,7 @@ public class DeadZone : MonoBehaviour
     private bool isPointComplete = true;            //다음지점 정해짐 여부
     private bool isNextDeadZoneMove = false;        //다음 자기장위치 움직임 여부
     private bool isSetTime = false;                 //시간 정해짐 여부
-    private bool isWaitTime = false;                //대기시간 여부
+    public bool isWaitTime = false;                //대기시간 여부
 
     private float gameTime = 0;
     private float DamageTic = 0;
@@ -241,6 +241,8 @@ public class DeadZone : MonoBehaviour
             }
         }
 
+
+
         if (Vector3.SqrMagnitude(DeadZoneObject.transform.position - player.transform.position) > Mathf.Pow(mesh.bounds.size.x / 2, 2))     //자기장 밖으로 벗어날 시
         {
             DamageTic += Time.deltaTime;
@@ -272,7 +274,9 @@ public class DeadZone : MonoBehaviour
 
 
         //자기장 거리가 다음자기장에 근접했고 스케일이 다음 자기장 스케일과 근접했을경우
-        if (Distance() <= 0.1f && DeadZoneObject.transform.localScale.x <= InitPhase(phase).x && DeadZoneObject.transform.localScale.z <= InitPhase(phase).z)
+        if (Distance() <= 0.1f &&
+            DeadZoneObject.transform.localScale.x - InitPhase(phase).x <= 0.1f &&
+            DeadZoneObject.transform.localScale.z - InitPhase(phase).z <= 0.1f)
         {
             if (phase == Phase.Phase5) return;      //마지막 페이즈면 탈출
             else
@@ -307,7 +311,9 @@ public class DeadZone : MonoBehaviour
         float MaxScaleDistance = Mathf.Max(Mathf.Abs(scaleDistance.x), Mathf.Abs(scaleDistance.y), Mathf.Abs(scaleDistance.z));
         NextDeadZone.transform.position = Vector3.MoveTowards(NextDeadZone.transform.position, DeadZonePosition, distance * Time.deltaTime);
         NextDeadZone.transform.localScale -= new Vector3(MaxScaleDistance * Time.deltaTime, 0, MaxScaleDistance * Time.deltaTime);
-        if (Vector3.Distance(NextDeadZone.transform.position, DeadZonePosition) <= 0.001f && NextDeadZone.transform.localScale.x <= InitPhase(phase).x && NextDeadZone.transform.localScale.z <= InitPhase(phase).z)
+        if (Vector3.Distance(NextDeadZone.transform.position, DeadZonePosition) <= 0.1f &&
+            NextDeadZone.transform.localScale.x - InitPhase(phase).x <= 0.1f && 
+            NextDeadZone.transform.localScale.z - InitPhase(phase).z <= 0.1f)
         {
             NextDeadZone.transform.position = DeadZonePosition;
             NextDeadZone.transform.localScale = DeadZoneScale;
@@ -333,10 +339,14 @@ public class DeadZone : MonoBehaviour
 
         foreach (GameObject enemy in enemyList)
         {
+                enemy.transform.root.GetComponent<EnemyHealth>().phase = phase;
             if (Vector3.SqrMagnitude(DeadZoneObject.transform.position - enemy.transform.position) > Mathf.Pow(mesh.bounds.size.x / 2, 2))
             {
-                enemy.transform.root.GetComponent<EnemyHealth>().phase = phase;
                 enemy.transform.root.GetComponent<EnemyHealth>().isDeadZone = true;
+            }
+            else
+            {
+                enemy.transform.root.GetComponent<EnemyHealth>().isDeadZone = false;
             }
         }
 

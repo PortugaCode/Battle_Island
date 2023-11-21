@@ -32,11 +32,12 @@ public class CarControl : MonoBehaviour
     [SerializeField] private AudioClip ignitionClip;
     [SerializeField] private AudioClip drivingClip;
 
-
     private void Awake()
     {
         TryGetComponent(out rb);
         TryGetComponent(out audioSource);
+
+        StartCoroutine(CarAwake_co());
     }
 
     private void Update()
@@ -211,6 +212,13 @@ public class CarControl : MonoBehaviour
             //rb.MovePosition(rb.position + backDirection * Time.deltaTime); // 차량 이동
             rb.velocity = new Vector3(targetDirection.x, rb.velocity.y, targetDirection.z);
         }
+    }
+
+    private IEnumerator CarAwake_co()
+    {
+        yield return new WaitForSeconds(2.0f);
+
+        rb.isKinematic = true;
     }
 
     private void ToggleLight()

@@ -9,10 +9,10 @@ public class InventorySlot : MonoBehaviour
     public Text itemName_txt;
     public Text itemCount_txt;
 
-    public void AddItem(ItemData_hur _item)
+    public void 
+        Item(ItemData_hur _item)
     {
         itemName_txt.text = _item.itemName;
         icon.sprite = _item.itemIcon;
-        
     }
 }

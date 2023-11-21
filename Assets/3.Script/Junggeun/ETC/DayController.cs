@@ -9,8 +9,8 @@ public class DayController : MonoBehaviour
 
     private bool isNight = false;
 
-    [SerializeField, Range(0, 24)] private float timeofDay;
-    [SerializeField, Range(0, 24)] private float timeofDay2;
+    [Range(0, 24)] public float timeofDay;
+    [Range(0, 24)] public float timeofDay2;
     [SerializeField] private float sunSpeed;
 
     private void Update()
