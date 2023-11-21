@@ -8,7 +8,6 @@ public class WearableInv : MonoBehaviour
     /*
      아이템 type 검사
      Uisngtype -> itemType 순으로 질문
-     
      */
 
     public List<GameObject> Head = new List<GameObject>();

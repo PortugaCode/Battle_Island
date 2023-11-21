@@ -7,7 +7,6 @@ public class SlotManager : MonoBehaviour
 {
     [SerializeField] private GameObject slotPrefab;
     [SerializeField] private Transform slotHolder; //½½·Ô ºÎ¸ð
-    //[SerializeField] private PlayerController player;
     [SerializeField] private Database_hur database;
     [SerializeField] private ItemData_hur ItemData;
 
