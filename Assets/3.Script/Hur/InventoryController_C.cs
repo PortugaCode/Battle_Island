@@ -38,6 +38,10 @@ public class InventoryController_C : MonoBehaviour
     public int currentWidth;
     public int currentHeight;
 
+    //플레이어 스크립트와 연동 (InsertItem)
+    public int x;
+    public int y;
+
     public ItemGrid_C SelectedItemGrid
     {
         get => selectedItemGrid;
@@ -221,11 +225,15 @@ public class InventoryController_C : MonoBehaviour
         {
             if (overlapItem != null) // 아이템을 내려놓을 곳에 이미 아이템이 들어가 있을 때
             {
-                //Debug.Log("Overlap 발생");
+                Debug.Log("Overlap 발생");
 
                 DeleteItem(overlapItem); // 밑에 있던 아이템 빼고
 
                 InsertItem(tileGridPosition.x, tileGridPosition.y, itemID); // 들고있던 아이템 넣고
+
+                //Debug.Log("tileGridPosition.x : " + tileGridPosition.x);
+                //Debug.Log("tileGridPosition.y : " + tileGridPosition.y);
+                //Debug.Log("itemID : " + itemID);
 
                 selectedItem = overlapItem; // 아이템 변경하고
                 currentWidth = selectedItem.itemData.width; // width 바꿔주고
@@ -274,14 +282,14 @@ public class InventoryController_C : MonoBehaviour
         int count = 0;
 
         // 가로 17, 세로 28
-        for (int i = 0; i < 17; i++)
+        for (int x= 0; x < 17; x++)
         {
-            for (int j = 0; j < 28; j++)
+            for (int y = 0; y < 28; y++)
             {
-                if (array[i, j] != 0)
+                if (array[x, y] != 0)
                 {
                     count += 1;
-                    Debug.Log($"확인 : {i},{j} = {array[i, j]}");
+                    Debug.Log($"확인 : {x},{y} = {array[x, y]}");
                 }
             }
         }
@@ -332,6 +340,8 @@ public class InventoryController_C : MonoBehaviour
         else
         {
             Debug.Log($"{selectedItem.itemData.itemName}을 array에 넣습니다");
+            Debug.Log($"x, y : {x, y}");
+            Debug.Log("itemID : " + itemID);
         }
 
         for (int i = 0; i < currentWidth; i++)
