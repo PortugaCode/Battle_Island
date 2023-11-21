@@ -10,11 +10,14 @@ public class NavMeshBaker : MonoBehaviour
 
     public Transform Map;
 
+    //public GameObject mapPrefab;
+
     public GameObject randomSpawn;
     public GameObject deadZoneManager;
     public GameObject nextDeadZone;
     public GameObject currentDeadZone;
     public GameObject Player;
+    public GameObject SpawnPlane;
 
     public float bakeTime = 4.0f;
     public float ActiveTime = 2.0f;
@@ -29,7 +32,8 @@ public class NavMeshBaker : MonoBehaviour
 
     private IEnumerator GenerateNavMesh()
     {
-        //generatePosition += new Vector3(50, 0, 50);
+        //yield return new WaitForSeconds(0.2f);
+        //GameObject initMap = Instantiate(mapPrefab, Vector3.zero, Quaternion.identity, transform);
 
         yield return new WaitForSeconds(bakeTime);
         SetStatic(Map);
@@ -45,6 +49,7 @@ public class NavMeshBaker : MonoBehaviour
             nextDeadZone.SetActive(true);
             currentDeadZone.SetActive(true);
             yield return new WaitForSeconds(0.2f);
+            SpawnPlane.SetActive(true);
             randomSpawn.SetActive(true);
             //Player.SetActive(true);
         }

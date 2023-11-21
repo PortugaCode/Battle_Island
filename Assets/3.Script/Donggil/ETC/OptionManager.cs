@@ -19,6 +19,8 @@ public class OptionManager : MonoBehaviour
         }
     }
 
+
+
     public GameObject OptionPanel;
     [SerializeField] private GameObject GraphicOption;
     [SerializeField] private GameObject AudioOption;
@@ -68,6 +70,8 @@ public class OptionManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
             if (OptionPanel.activeSelf)
             {
                 OptionPanel.SetActive(false);

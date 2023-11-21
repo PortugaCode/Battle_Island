@@ -129,7 +129,7 @@ public class DeadZone : MonoBehaviour
     private bool isPointComplete = true;            //다음지점 정해짐 여부
     private bool isNextDeadZoneMove = false;        //다음 자기장위치 움직임 여부
     private bool isSetTime = false;                 //시간 정해짐 여부
-    private bool isWaitTime = false;                //대기시간 여부
+    public bool isWaitTime = false;                //대기시간 여부
 
     private float gameTime = 0;
     private float DamageTic = 0;
