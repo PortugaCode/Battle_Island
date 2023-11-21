@@ -12,7 +12,6 @@ public class SurrItemClick : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("OnPointerEnter");
         image.color = Color.cyan;
     }
 

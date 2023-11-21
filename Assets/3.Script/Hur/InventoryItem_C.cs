@@ -13,9 +13,6 @@ public class InventoryItem_C : MonoBehaviour
     [SerializeField] private InventoryHighlight_C inventoryHighlight_C;
     public int dataid;
 
-
-
-
     public int HEIGHT
     {
         get
