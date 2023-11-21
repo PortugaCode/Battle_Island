@@ -327,9 +327,24 @@ public class CombatControl : MonoBehaviour
 
         // [Aim 설정]
         Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2.0f, Screen.height / 2.0f)); // 화면 중앙 (크로스헤어 위치)에 Ray 쏘기
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, 100f, ~(1 << LayerMask.NameToLayer("Player"))))
+        
+        /*if (Physics.Raycast(ray, out RaycastHit raycastHit, 100f, ~(1 << LayerMask.NameToLayer("Player"))))
         {
             aimTarget.transform.position = raycastHit.point;
+        }*/
+
+        RaycastHit[] hits;
+        hits = Physics.RaycastAll(ray, 100f, ~(1 << LayerMask.NameToLayer("Player")));
+
+        for (int i = 0; i < hits.Length; i++)
+        {
+            RaycastHit hit = hits[i];
+
+            if ((Vector3.Distance(Camera.main.transform.position, hit.point) > Vector3.Distance(Camera.main.transform.position, transform.position)) && Vector3.Distance(transform.position, hit.point) > 2.5f)
+            {
+                aimTarget.transform.position = hit.point;
+                break;
+            }
         }
 
         if (!isFirstPerson && !isThirdPerson)
