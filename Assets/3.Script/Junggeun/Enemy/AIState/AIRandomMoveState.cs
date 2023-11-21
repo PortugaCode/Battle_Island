@@ -20,7 +20,8 @@ public class AIRandomMoveState : AIState
     public void Enter(AIAgent agent)
     {
         Debug.Log("·£´ý ÀÌµ¿");
-        GameObject.FindGameObjectWithTag("DeadZone").TryGetComponent(out deadZone);
+        deadZone = GameObject.FindGameObjectWithTag("DeadZone").transform.GetChild(0).GetComponent<DeadZone>();
+        //GameObject.FindGameObjectWithTag("DeadZone").transform.GetChild(0).TryGetComponent(out deadZone);
         point = GetRandomPoint(new Vector3(16, 0, -31), 60f);
         agent.navMeshAgent.destination = point;
         agent.navMeshAgent.speed = 5;
@@ -184,11 +185,16 @@ public class AIRandomMoveState : AIState
 
     private Vector3 GetRandomPoint(Vector3 center, float MaxDistance)
     {
-        Vector3 randomPos = Random.insideUnitSphere * MaxDistance + center;
-        randomPos.y = 1f;
+
         NavMeshHit hit;
 
-        NavMesh.SamplePosition(randomPos, out hit, MaxDistance, NavMesh.AllAreas);
+        do
+        {
+            Vector3 randomPos = Random.insideUnitSphere * MaxDistance + center;
+            randomPos.y = 1f;
+            NavMesh.SamplePosition(randomPos, out hit, MaxDistance, NavMesh.AllAreas);
+        } while (hit.position.y > 3f);
+
         #region
         /*        while (true)
                 {

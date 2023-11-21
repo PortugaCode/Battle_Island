@@ -60,6 +60,10 @@ public class GameUIControll : MonoBehaviour
         //===============================================
 
         hpbar.value = combat.playerHealth;
+
+        //===============================================
+
+        countEnemy.text = $"³²Àº Àû : {GameManager.instance.enemyCount}";
     }
 
     
