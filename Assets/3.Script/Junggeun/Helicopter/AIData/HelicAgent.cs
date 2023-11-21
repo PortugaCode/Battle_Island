@@ -7,6 +7,7 @@ public class HelicAgent : MonoBehaviour
 {
     [HideInInspector] public HelicStateMachine stateMachine;
     public Transform Player;
+    public Transform Player_Tr;
     [HideInInspector] public RaycastHit hit;
     [HideInInspector] public RaycastHit bullethit;
     [HideInInspector] public bool isShot;
@@ -51,7 +52,8 @@ public class HelicAgent : MonoBehaviour
 
         if (GameObject.FindGameObjectWithTag("Player"))
         {
-            GameObject.FindGameObjectWithTag("Player").TryGetComponent(out Player);
+            GameObject.FindGameObjectWithTag("Player").TryGetComponent(out Player_Tr);
+            GameObject.FindGameObjectWithTag("PlayerTarget").TryGetComponent(out Player);
         }
 
         transform.GetChild(0).TryGetComponent(out enemyAudio);
@@ -61,6 +63,8 @@ public class HelicAgent : MonoBehaviour
 
     private void Update()
     {
+        Player.position = Player_Tr.position + new Vector3(0f, 1.2f, 0f);
+
         stateMachine.Update();
         Physics.Raycast(OriginalTarget.position, OriginalTarget.forward, out bullethit);
         Debug.DrawRay(OriginalTarget.position, OriginalTarget.forward * bullethit.distance, Color.black);

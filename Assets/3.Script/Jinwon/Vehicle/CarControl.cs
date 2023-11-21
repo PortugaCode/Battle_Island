@@ -265,12 +265,4 @@ public class CarControl : MonoBehaviour
         audioSource.loop = true;
         audioSource.Play();
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!other.CompareTag("Item") && (!other.CompareTag("Armor")) && (!other.CompareTag("Weapon")))
-        {
-            z = 0;
-        }
-    }
 }

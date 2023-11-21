@@ -9,7 +9,7 @@ public class ItemGrid_C : MonoBehaviour
      *  64*64칸은  Grid Imagetype이 0.5, GridSizeWidth는 8, Height는 14
      * 
      */
-
+    
     public const float tileSizeWidth = 32f;
     public const float tileSizeHeight = 32f;
 

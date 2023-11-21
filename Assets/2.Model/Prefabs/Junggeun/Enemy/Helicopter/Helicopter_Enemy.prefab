@@ -6429,6 +6429,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
+  Player_Tr: {fileID: 0}
   isShot: 0
   isShotPattern: 0
   enemyAudio: {fileID: 0}
@@ -11461,7 +11462,7 @@ GameObject:
   - component: {fileID: 9115789964578684429}
   m_Layer: 0
   m_Name: Helicopter Pivot
-  m_TagString: Untagged
+  m_TagString: Helicopter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11532,7 +11533,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 75
+  MaxDistance: 100
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -11660,7 +11661,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 75
+  MaxDistance: 100
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
