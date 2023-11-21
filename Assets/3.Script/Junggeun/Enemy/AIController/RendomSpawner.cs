@@ -79,7 +79,7 @@ public class RendomSpawner : MonoBehaviour
     private GameObject GetRandomPoint()
     {
         GameObject[] a = GameObject.FindGameObjectsWithTag("Finish");
-        int index = Random.Range(0, 6);
+        int index = Random.Range(0, 7);
 
         return a[index];
     }

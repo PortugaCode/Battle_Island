@@ -62,7 +62,7 @@ public class HelicRandomMoveState : HelicState
 
     private bool FindPlayer(HelicAgent agent)
     {
-        Collider[] w = Physics.OverlapSphere(agent.hit.point, 20f);
+        Collider[] w = Physics.OverlapSphere(agent.hit.point, 15f);
         foreach (Collider col in w)
         {
             if (col.CompareTag("Player"))
@@ -86,7 +86,7 @@ public class HelicRandomMoveState : HelicState
     private GameObject GetRandomPoint()
     {
         GameObject[] a = GameObject.FindGameObjectsWithTag("Finish");
-        int index = Random.Range(0, 6);
+        int index = Random.Range(0, 7);
 
         return a[index];
     }

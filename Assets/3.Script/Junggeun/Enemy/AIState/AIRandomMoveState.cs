@@ -21,8 +21,10 @@ public class AIRandomMoveState : AIState
     {
         Debug.Log("·£´ý ÀÌµ¿");
         deadZone = GameObject.FindGameObjectWithTag("DeadZone").transform.GetChild(0).GetComponent<DeadZone>();
+        rid = deadZone.CurrentRadius();
+        center = deadZone.CurrentDeadZonePosition();
         //GameObject.FindGameObjectWithTag("DeadZone").transform.GetChild(0).TryGetComponent(out deadZone);
-        point = GetRandomPoint(new Vector3(16, 0, -31), 60f);
+        point = GetRandomPoint(center, rid);
         agent.navMeshAgent.destination = point;
         agent.navMeshAgent.speed = 5;
         Debug.DrawRay(point, Vector3.up * 5000f, Color.green, 10f);
@@ -118,7 +120,7 @@ public class AIRandomMoveState : AIState
                 Playerdirection.Normalize();
                 float dotProduct = Vector3.Dot(Playerdirection, agnetDirection);
 
-                if(Physics.Raycast(agent.transform.position, Playerdirection, 20f, agent.WallLayer))
+                if(Physics.Raycast(agent.transform.position, Playerdirection, Vector3.Distance(col.transform.position, agent.transform.position), agent.WallLayer))
                 {
                     return false;
                 }

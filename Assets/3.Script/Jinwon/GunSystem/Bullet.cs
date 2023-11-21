@@ -35,7 +35,7 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision) // 충돌 처리
     {
-        if (!collision.collider.transform.root.CompareTag("Player") && !collision.collider.transform.root.CompareTag("Weapon")) // 무시
+        if (!collision.collider.transform.root.CompareTag("Player") && !collision.collider.transform.root.CompareTag("Weapon") && !collision.collider.transform.root.CompareTag("EnemyBullet")) // 무시
         {
             Vector3 hitDirection = (collision.contacts[0].point - transform.position).normalized; // 충돌 방향
 
@@ -57,6 +57,19 @@ public class Bullet : MonoBehaviour
                 }
             }
 
+            if(collision.collider.transform.CompareTag("Helicopter"))
+            {
+                // 오브젝트 풀에서 꺼내서 사용
+                if (ObjectPoolControl.instance.hitEffectQueue.Count > 0)
+                {
+                    collision.collider.transform.root.GetComponent<HelicopterHealth>().TakeDamage(bulletDamage);
+                    GameObject currentHitEffect = ObjectPoolControl.instance.hitEffectQueue.Dequeue();
+                    currentHitEffect.transform.position = collision.contacts[0].point;
+                    currentHitEffect.transform.rotation = Quaternion.Euler(hitDirection);
+                    currentHitEffect.SetActive(true);
+                }
+            }
+
             if (collision.collider.transform.root.CompareTag("Enemy"))
             {
                 /*if (thirdPersonCrosshair == null)
@@ -68,6 +81,12 @@ public class Bullet : MonoBehaviour
 
                 collision.collider.transform.root.GetComponent<EnemyHealth>().TakeDamage(bulletDamage, hitDirection);
                 Recorder.instance.UpdateData(collision.collider.gameObject, startPostion ,transform.forward);
+            }
+
+            if (collision.collider.CompareTag("Head"))
+            {
+                collision.collider.transform.root.GetComponent<EnemyHealth>().TakeDamage(bulletDamage * 4.0f, hitDirection);
+                Recorder.instance.UpdateData(collision.collider.gameObject, startPostion, transform.forward);
             }
 
             // 오브젝트 풀에 넣기
