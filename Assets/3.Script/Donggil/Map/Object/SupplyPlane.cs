@@ -55,6 +55,7 @@ public class SupplyPlane : MonoBehaviour
         {
             isPlaneSpawn = false;
             gameTime = 0;
+            spawnBoxTime.isPlaneSpawned = false;
             gameObject.SetActive(false);
         }
     }
