@@ -24,12 +24,15 @@ public class CombatControl : MonoBehaviour
     // Health Stat
     public bool isDead = false;
     public float playerHealth = 300.0f;
+    public bool isArmor = false;
 
     // Gun
     [Header("Gun")]
     public GameObject currentGun;
     [SerializeField] private GameObject testGunPrefab;
-    private bool hasGun = false; // 등 뒤에 총을 장착했는가?
+    [SerializeField] private GameObject riflePrefab;
+    [SerializeField] private GameObject sniperPrefab;
+    public bool hasGun = false; // 등 뒤에 총을 장착했는가?
     private bool isReloading = false; // 재장전 중인가?
 
     // Grenade
@@ -110,17 +113,6 @@ public class CombatControl : MonoBehaviour
                 isHealing = true;
                 StartCoroutine(Heal_Co());
             }
-        }
-
-        // [총을 등 뒤에 장착] - TEST
-        if (!hasGun && Input.GetKeyDown(KeyCode.Return))
-        {
-            hasGun = true;
-
-            currentGun = Instantiate(testGunPrefab, transform.position, Quaternion.identity);
-            currentGun.transform.SetParent(backGunPivot);
-            currentGun.transform.localPosition = Vector3.zero;
-            currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
         }
 
         // [총을 손에 장착] - TEST
@@ -327,14 +319,55 @@ public class CombatControl : MonoBehaviour
 
         // [Aim 설정]
         Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2.0f, Screen.height / 2.0f)); // 화면 중앙 (크로스헤어 위치)에 Ray 쏘기
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, 100f, ~(1 << LayerMask.NameToLayer("Player"))))
+        
+        /*if (Physics.Raycast(ray, out RaycastHit raycastHit, 100f, ~(1 << LayerMask.NameToLayer("Player"))))
         {
             aimTarget.transform.position = raycastHit.point;
+        }*/
+
+        RaycastHit[] hits;
+        hits = Physics.RaycastAll(ray, 100f, ~(1 << LayerMask.NameToLayer("Player")));
+
+        for (int i = 0; i < hits.Length; i++)
+        {
+            RaycastHit hit = hits[i];
+
+            if ((Vector3.Distance(Camera.main.transform.position, hit.point) > Vector3.Distance(Camera.main.transform.position, transform.position)) && Vector3.Distance(transform.position, hit.point) > 2.5f)
+            {
+                aimTarget.transform.position = hit.point;
+                break;
+            }
         }
 
         if (!isFirstPerson && !isThirdPerson)
         {
             rig.transform.Find("Body").GetComponent<MultiAimConstraint>().weight = 0.0f;
+        }
+    }
+
+    public void EquipGun(GunType gunType)
+    {
+        // [총을 등 뒤에 장착] - TEST
+        if (!hasGun)
+        {
+            if (gunType == GunType.Sniper1)
+            {
+                hasGun = true;
+
+                currentGun = Instantiate(sniperPrefab, transform.position, Quaternion.identity);
+                currentGun.transform.SetParent(backGunPivot);
+                currentGun.transform.localPosition = Vector3.zero;
+                currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
+            }
+            else
+            {
+                hasGun = true;
+
+                currentGun = Instantiate(riflePrefab, transform.position, Quaternion.identity);
+                currentGun.transform.SetParent(backGunPivot);
+                currentGun.transform.localPosition = Vector3.zero;
+                currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
+            }
         }
     }
 
@@ -513,6 +546,17 @@ public class CombatControl : MonoBehaviour
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+
+        if (isFirstPerson)
+        {
+            isFirstPerson = false;
+            zoomControl.First_ZoomOut();
+        }
+        else if (isThirdPerson)
+        {
+            isThirdPerson = false;
+            zoomControl.Third_ZoomOut();
+        }
 
         isDead = true;
         GameManager.instance.isPlayerDead = true;

@@ -73,8 +73,10 @@ public class ZoomControl : MonoBehaviour
 
         // [카메라 회전값 동기화]
         firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.Value = normalCamera.m_XAxis.Value;
-        firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.Value = 0f;
+        firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.Value = 100.0f * normalCamera.m_YAxis.Value - 50.0f;
         firstPersonCamera.gameObject.SetActive(true);
+
+        StartCoroutine(SetCameraVerticalMaxSpeed_co());
 
         // [1인칭 UI 출력]
         if (GetComponent<CombatControl>().currentGun.GetComponent<Gun>().gunType == GunType.Rifle1 || GetComponent<CombatControl>().currentGun.GetComponent<Gun>().gunType == GunType.Rifle2)
@@ -85,7 +87,6 @@ public class ZoomControl : MonoBehaviour
         {
             UIManager.instance.FirstPersonSniperCrosshair(true);
         }
-        
     }
 
     public void First_ZoomOut()
@@ -118,8 +119,10 @@ public class ZoomControl : MonoBehaviour
     {
         // [카메라 회전값 동기화]
         thirdPersonCamera.m_XAxis.Value = normalCamera.m_XAxis.Value;
-        thirdPersonCamera.m_YAxis.Value = 0.5f;
+        thirdPersonCamera.m_YAxis.Value = normalCamera.m_YAxis.Value;
         thirdPersonCamera.gameObject.SetActive(true);
+
+        StartCoroutine(SetCameraVerticalMaxSpeed_co());
 
         if (GetComponent<CombatControl>().currentWeapon == Weapon.Gun)
         {
@@ -145,6 +148,30 @@ public class ZoomControl : MonoBehaviour
 
             // [애니메이션]
             animator.SetTrigger("UnAim");
+        }
+    }
+
+    private IEnumerator SetCameraVerticalMaxSpeed_co()
+    {
+        if (GetComponent<CombatControl>().isFirstPerson)
+        {
+            firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.m_MaxSpeed = 0.0f;
+            firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed = 0.0f;
+
+            yield return new WaitForSeconds(0.25f);
+
+            firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.m_MaxSpeed = 250.0f;
+            firstPersonCamera.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed = 250.0f;
+        }
+        else if (GetComponent<CombatControl>().isThirdPerson)
+        {
+            thirdPersonCamera.m_YAxis.m_MaxSpeed = 0.0f;
+            thirdPersonCamera.m_XAxis.m_MaxSpeed = 0.0f;
+
+            yield return new WaitForSeconds(0.25f);
+
+            thirdPersonCamera.m_YAxis.m_MaxSpeed = 2.5f;
+            thirdPersonCamera.m_XAxis.m_MaxSpeed = 300.0f;
         }
     }
 

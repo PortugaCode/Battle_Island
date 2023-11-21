@@ -16,6 +16,11 @@ public class ItemControl : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            if (GetComponent<EquipCheck>() != null && GetComponent<EquipCheck>().isEquip)
+            {
+                return;
+            }
+
             canGet = true;
             InventoryControl.instance.focusedItems.Add(gameObject);
             UIManager.instance.ShowGetItemUI();
