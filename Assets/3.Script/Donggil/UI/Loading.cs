@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Loading : MonoBehaviour
 {
     public Slider loadingSlider;
+    public Text FinLoading;
 
     public GameObject loadingScene;
 
@@ -29,18 +30,25 @@ public class Loading : MonoBehaviour
     private void DoLoading()
     {
         currentTime = Time.time - startTime;
-        if(currentTime < loadingTime)
+        if (currentTime < loadingTime)
         {
             loadingSlider.value = (currentTime / loadingTime);
         }
-        else
+        else if (Input.anyKeyDown)
         {
             EndLoading();
         }
+        else if (currentTime >= loadingTime)
+        {
+            FinLoading.gameObject.SetActive(true);
+            Time.timeScale = 0f;
+        }
+
     }
 
     private void EndLoading()
     {
+        Time.timeScale = 1f;
         loadingSlider.value = 1.0f;
         loadingScene.SetActive(false);
     }
