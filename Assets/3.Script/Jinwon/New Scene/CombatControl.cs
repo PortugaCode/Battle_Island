@@ -24,12 +24,15 @@ public class CombatControl : MonoBehaviour
     // Health Stat
     public bool isDead = false;
     public float playerHealth = 300.0f;
+    public bool isArmor = false;
 
     // Gun
     [Header("Gun")]
     public GameObject currentGun;
     [SerializeField] private GameObject testGunPrefab;
-    private bool hasGun = false; // 등 뒤에 총을 장착했는가?
+    [SerializeField] private GameObject riflePrefab;
+    [SerializeField] private GameObject sniperPrefab;
+    public bool hasGun = false; // 등 뒤에 총을 장착했는가?
     private bool isReloading = false; // 재장전 중인가?
 
     // Grenade
@@ -110,17 +113,6 @@ public class CombatControl : MonoBehaviour
                 isHealing = true;
                 StartCoroutine(Heal_Co());
             }
-        }
-
-        // [총을 등 뒤에 장착] - TEST
-        if (!hasGun && Input.GetKeyDown(KeyCode.Return))
-        {
-            hasGun = true;
-
-            currentGun = Instantiate(testGunPrefab, transform.position, Quaternion.identity);
-            currentGun.transform.SetParent(backGunPivot);
-            currentGun.transform.localPosition = Vector3.zero;
-            currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
         }
 
         // [총을 손에 장착] - TEST
@@ -350,6 +342,32 @@ public class CombatControl : MonoBehaviour
         if (!isFirstPerson && !isThirdPerson)
         {
             rig.transform.Find("Body").GetComponent<MultiAimConstraint>().weight = 0.0f;
+        }
+    }
+
+    public void EquipGun(GunType gunType)
+    {
+        // [총을 등 뒤에 장착] - TEST
+        if (!hasGun)
+        {
+            if (gunType == GunType.Sniper1)
+            {
+                hasGun = true;
+
+                currentGun = Instantiate(sniperPrefab, transform.position, Quaternion.identity);
+                currentGun.transform.SetParent(backGunPivot);
+                currentGun.transform.localPosition = Vector3.zero;
+                currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
+            }
+            else
+            {
+                hasGun = true;
+
+                currentGun = Instantiate(riflePrefab, transform.position, Quaternion.identity);
+                currentGun.transform.SetParent(backGunPivot);
+                currentGun.transform.localPosition = Vector3.zero;
+                currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
+            }
         }
     }
 
