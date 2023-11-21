@@ -16,18 +16,18 @@ public class StreetLight : MonoBehaviour
     private void Update()
     {
         //Merge할때 시간에 따라서 가로등 켜는걸로 수정예정
-        /*if (dayCon.timeofDay < 14.0f)
+        if (dayCon.timeofDay < 14.0f)
         {
             isNight = true;
         }
         else
         {
             isNight = false;
-        }*/
-        if (Input.GetKeyDown(KeyCode.I))
+        }
+ /*       if (Input.GetKeyDown(KeyCode.I))
         {
             isNight = !isNight;
-        }
+        }*/
 
         if (isNight)
         {

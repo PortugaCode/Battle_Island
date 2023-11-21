@@ -8,7 +8,7 @@ public class OptionManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
@@ -22,14 +22,17 @@ public class OptionManager : MonoBehaviour
 
 
     public GameObject OptionPanel;
+    public GameObject InGameOptionPanel;
     [SerializeField] private GameObject GraphicOption;
     [SerializeField] private GameObject AudioOption;
 
+    public bool isTitle = false;
+
     public void GraphicOptionCon()
     {
-        if(!GraphicOption.activeSelf)
+        if (!GraphicOption.activeSelf)
         {
-            if(!AudioOption.activeSelf)
+            if (!AudioOption.activeSelf)
             {
                 GraphicOption.SetActive(true);
             }
@@ -47,9 +50,9 @@ public class OptionManager : MonoBehaviour
 
     public void AudioOptionCon()
     {
-        if(!AudioOption.activeSelf)
+        if (!AudioOption.activeSelf)
         {
-            if(!GraphicOption.activeSelf)
+            if (!GraphicOption.activeSelf)
             {
                 AudioOption.SetActive(true);
             }
@@ -68,18 +71,42 @@ public class OptionManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (!isTitle)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                OpenInGameOption();
+            }
+        }
+    }
+
+    public void OpenTitleOption()
+    {
+        if (OptionPanel.activeSelf)
+        {
+            OptionPanel.SetActive(false);
+        }
+        else
+        {
+            OptionPanel.SetActive(true);
+        }
+    }
+
+    public void OpenInGameOption()
+    {
+
+        if (OptionPanel.activeSelf)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            OptionPanel.SetActive(false);
+        }
+        else
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
-            if (OptionPanel.activeSelf)
-            {
-                OptionPanel.SetActive(false);
-            }
-            else
-            {
-                OptionPanel.SetActive(true);
-            }
+            OptionPanel.SetActive(true);
         }
+
     }
 }
