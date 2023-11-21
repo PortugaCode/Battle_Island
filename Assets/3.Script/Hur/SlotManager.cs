@@ -36,7 +36,6 @@ public class SlotManager : MonoBehaviour
         ItemID.Add(115);
         ItemID.Add(116);
         ItemID.Add(117);
-        ItemID.Add(118);
     }
 
     private void Start()

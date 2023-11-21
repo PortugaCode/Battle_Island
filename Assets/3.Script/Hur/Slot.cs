@@ -39,7 +39,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
             //ih.itemID = id;
             IvnCont.currentWidth = width;
             IvnCont.currentHeight = height;
-            openIvn.openThisSC = false;
+            //openIvn.openThisSC = false;
             slotManager.ItemID.Remove(id);
             Destroy(gameObject);
         }

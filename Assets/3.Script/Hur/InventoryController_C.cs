@@ -174,10 +174,6 @@ public class InventoryController_C : MonoBehaviour
                     PlaceItem(tileGridPosition);
                     Debug.Log("head");
                 }
-                else
-                {
-                    PickUpItem(tileGridPosition);
-                }
             }
             else if (selectedItemGrid.gridNumber == 2)
             {
