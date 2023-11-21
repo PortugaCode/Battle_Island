@@ -18,9 +18,25 @@ public class SlotManager : MonoBehaviour
 
     private void Awake()
     {
-        ItemID.Add(108);
+        ItemID.Add(100);
+        ItemID.Add(101);
+        ItemID.Add(102);
+        ItemID.Add(103);
         ItemID.Add(104);
         ItemID.Add(105);
+        ItemID.Add(106);
+        ItemID.Add(107);
+        ItemID.Add(108);
+        ItemID.Add(109);
+        ItemID.Add(110);
+        ItemID.Add(111);
+        ItemID.Add(112);
+        ItemID.Add(113);
+        ItemID.Add(114);
+        ItemID.Add(115);
+        ItemID.Add(116);
+        ItemID.Add(117);
+        ItemID.Add(118);
     }
 
     private void Start()
@@ -35,7 +51,6 @@ public class SlotManager : MonoBehaviour
         for (int i = 0; i < ItemID.Count; i++)
         {
             MeetItem(ItemID[i]);
-
         }
     }
 
@@ -71,7 +86,5 @@ public class SlotManager : MonoBehaviour
         //newSlot.GetComponent<Slot>().usingType = database.itemList[index].usingType;
         
         //CheckType(id);
-
     }
-
 }
