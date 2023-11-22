@@ -8,15 +8,15 @@ public class CharacterMovement : MonoBehaviour
 {
     // Components
     private Rigidbody rb;
-    private Animator animator;
+    public Animator animator;
     private ZoomControl zoomControl;
     private CombatControl combatControl;
 
     // Movement
     [Header("Movement")]
     public bool canMove = true;
-    private float x;
-    private float z;
+    public float x;
+    public float z;
     public float currentSpeed;
     public float walkSpeed = 2.5f;
     public float runSpeed = 6.5f;
@@ -92,11 +92,6 @@ public class CharacterMovement : MonoBehaviour
             {
                 currentSpeed -= Time.deltaTime * 10.0f;
                 forwardSpeed = currentSpeed;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Insert)) // TEST
-            {
-                InventoryControl.instance.ShowInventory();
             }
 
             if (Input.GetKeyDown(KeyCode.Home)) // Test
