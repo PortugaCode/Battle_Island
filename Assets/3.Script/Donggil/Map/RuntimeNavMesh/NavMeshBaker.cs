@@ -49,7 +49,7 @@ public class NavMeshBaker : MonoBehaviour
             nextDeadZone.SetActive(true);
             currentDeadZone.SetActive(true);
             yield return new WaitForSeconds(0.2f);
-            //SpawnPlane.SetActive(true);
+            SpawnPlane.SetActive(true);
             randomSpawn.SetActive(true);
             //Player.SetActive(true);
         }

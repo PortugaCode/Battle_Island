@@ -24,7 +24,7 @@ public class OptionManager : MonoBehaviour
 
 
     public GameObject OptionPanel;
-    public GameObject InGameOptionPanel;
+    public GameObject OpenLobby;
     [SerializeField] private GameObject GraphicOption;
     [SerializeField] private GameObject AudioOption;
 
@@ -73,33 +73,32 @@ public class OptionManager : MonoBehaviour
 
     private void Update()
     {
-        if(SceneManager.GetActiveScene().name == "JDScene")
+        if (SceneManager.GetActiveScene().name == "JDScene")
         {
             isTitle = false;
         }
-        
-        if (!isTitle)
+        else if (SceneManager.GetActiveScene().name == "Intro")
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                OpenInGameOption();
-            }
+            isTitle = true;
         }
-    }
 
-    public void OpenTitleOption()
-    {
-        if (OptionPanel.activeSelf)
+        if (isTitle)
         {
-            OptionPanel.SetActive(false);
+            OpenLobby.SetActive(false);
         }
         else
         {
-            OptionPanel.SetActive(true);
+            OpenLobby.SetActive(true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && !isTitle)
+        {
+            OpenOption();
         }
     }
 
-    public void OpenInGameOption()
+
+    public void OpenOption()
     {
 
         if (OptionPanel.activeSelf)
@@ -107,13 +106,29 @@ public class OptionManager : MonoBehaviour
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             OptionPanel.SetActive(false);
+            Time.timeScale = 1.0f;
         }
         else
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             OptionPanel.SetActive(true);
+            Time.timeScale = 0;
         }
 
+    }
+
+    public void CursorVisible()
+    {
+        if (!isTitle)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
+
+    public void TimeScaleInActive()
+    {
+        Time.timeScale = 1.0f;
     }
 }
