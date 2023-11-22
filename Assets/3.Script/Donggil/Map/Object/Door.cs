@@ -21,13 +21,13 @@ public class Door : MonoBehaviour
         for (int i = 0; i < leftDoors.Length; i++)
         {
             bool randomBool = (Random.value > 0.5f);
-            leftDoors[i].transform.rotation = Quaternion.Euler(randomBool ? openLeftDoor : closeDoor);
+            leftDoors[i].transform.rotation = Quaternion.Euler(randomBool ? openLeftDoor : openLeftDoor);
         }
 
         for (int i = 0; i < rightDoors.Length; i++)
         {
             bool randomBool = (Random.value > 0.5f);
-            rightDoors[i].transform.rotation = Quaternion.Euler(randomBool ? openRightDoor : closeDoor);
+            rightDoors[i].transform.rotation = Quaternion.Euler(randomBool ? openRightDoor : openRightDoor);
         }
     }
 }

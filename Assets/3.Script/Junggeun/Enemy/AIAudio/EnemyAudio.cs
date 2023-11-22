@@ -12,6 +12,7 @@ public class EnemyAudio : MonoBehaviour
     [Header("Audio Clip")]
     [SerializeField] private AudioClip Shot;
     [SerializeField] private AudioClip Reload;
+    [SerializeField] private AudioClip SniperShot;
 
     private void Awake()
     {
@@ -26,5 +27,9 @@ public class EnemyAudio : MonoBehaviour
     public void PlayReload()
     {
         audiomanager.PlayOneShot(Reload);
+    }
+    public void ChangeSniperSound()
+    {
+        Shot = SniperShot;
     }
 }

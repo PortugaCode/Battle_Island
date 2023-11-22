@@ -11534,7 +11534,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 100
+  MaxDistance: 75
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -11623,6 +11623,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Shot: {fileID: 8300000, guid: 790bc52b2f0ffe0498ed35e1fe49e9bb, type: 3}
   Reload: {fileID: 0}
+  SniperShot: {fileID: 0}
 --- !u!1 &9115789964659020220
 GameObject:
   m_ObjectHideFlags: 0
@@ -11765,6 +11766,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Shot: {fileID: 8300000, guid: 0bba9d7e9672e3c45bdd1901f2e1f46b, type: 3}
   Reload: {fileID: 0}
+  SniperShot: {fileID: 0}
 --- !u!1 &9115789964774579414
 GameObject:
   m_ObjectHideFlags: 0

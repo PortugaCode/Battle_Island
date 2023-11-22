@@ -45,23 +45,40 @@ public class BulletController : MonoBehaviour
             collision.gameObject.GetComponent<BoomObject>().TakeDamage();
 
 
+            if(gameObject != null)
+            {
+                if (effectManager.fireEffect != null)
+                {
+                    effectManager.fireEffect.transform.position = gameObject.transform.position;
+                    effectManager.fireEffect.Play();
+                }
+            }
 
-            effectManager.fireEffect.transform.position = gameObject.transform.position;
-            effectManager.fireEffect?.Play();
-            BulletPooling.Instance.Bullets.Enqueue(gameObject);
+
+
+            
             gameObject.transform.localPosition = Vector3.zero;
             gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
             rig.velocity = Vector3.zero;
+            BulletPooling.Instance.Bullets.Enqueue(gameObject);
             gameObject.SetActive(false);
         }
         else if (collision.collider)
         {
-            effectManager.fireEffect.transform.position = gameObject.transform.position;
-            effectManager.fireEffect?.Play();
-            BulletPooling.Instance.Bullets.Enqueue(gameObject);
+            if (gameObject != null)
+            {
+
+                if (effectManager.fireEffect != null)
+                {
+                    effectManager.fireEffect.transform.position = gameObject.transform.position;
+                    effectManager.fireEffect.Play();
+                }
+            }
+
             gameObject.transform.localPosition = Vector3.zero;
             gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
             rig.velocity = Vector3.zero;
+            BulletPooling.Instance.Bullets.Enqueue(gameObject);
             gameObject.SetActive(false);
         }
 

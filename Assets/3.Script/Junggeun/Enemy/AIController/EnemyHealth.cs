@@ -100,6 +100,7 @@ public class EnemyHealth : MonoBehaviour
         if (currentHealth <= 0.0f && !isDie && GameManager.instance.isLastEnemy)
         {
             Die(direction);
+            GameManager.instance.isLastEnemy = false;
         }
         blinkTimer = blinkDu;
     }
@@ -107,11 +108,11 @@ public class EnemyHealth : MonoBehaviour
     {
         currentHealth -= amount;
         healthBar.SetHealthBar(currentHealth / maxHealth);
-        if (currentHealth <= 0.0f && !isDie && !aILocoMotion.isAlreadyDie2)
+        if (currentHealth <= 0.0f && !isDie && !GameManager.instance.isLastEnemy)
         {
             Die(direction);
         }
-        if (!aILocoMotion.isAlreadyDie2) blinkTimer = blinkDu;
+        if (!GameManager.instance.isLastEnemy) blinkTimer = blinkDu;
     }
 
     private void Die(Vector3 direction)

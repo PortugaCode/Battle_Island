@@ -93,6 +93,10 @@ public class AIFindWeaponState : AIState
                 agent.CurrentGun.GetComponent<Rigidbody>().useGravity = false;
                 agent.CurrentGun_Gun = agent.CurrentGun.GetComponent<Gun>();
                 agent.Nowgundata = agent.gundata[(int)col.GetComponent<Gun>().gunType];
+                if(agent.CurrentGun_Gun.gunType == GunType.Sniper1)
+                {
+                    agent.enemyAudio.ChangeSniperSound();
+                }
                 agent.magAmmo = agent.Nowgundata.magCapcity;
                 agent.ammoRemain += agent.Nowgundata.magCapcity;
             }

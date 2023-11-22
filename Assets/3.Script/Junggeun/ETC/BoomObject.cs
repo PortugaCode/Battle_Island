@@ -9,6 +9,7 @@ public class BoomObject : MonoBehaviour
     public bool isboom => isBoom;
     private EffectManager effectManager;
     private float explodeRange = 5f;
+    [SerializeField] private GameObject BoomSound;
 
     private void Start()
     {
@@ -34,8 +35,9 @@ public class BoomObject : MonoBehaviour
 
         foreach (Collider c in colliders)
         {
-            if (c.CompareTag("Enemy"))
+            if (c.transform.root.CompareTag("Enemy"))
             {
+                Vector3 direcrion = (c.transform.position - gameObject.transform.position).normalized;
                 float damage = 0f;
 
                 // [ 거리에 따른 데미지 계산]
@@ -48,8 +50,7 @@ public class BoomObject : MonoBehaviour
                     damage = Vector3.Magnitude(c.transform.position - transform.position) * (-200.0f / 3.0f) + (1000.0f / 3.0f);
                 }
 
-                c.GetComponent<EnemyHealth>().TakeDamage((int)damage, c.transform.position - transform.position);
-
+                c.transform.root.GetComponent<EnemyHealth>().TakeDamage((int)damage, direcrion);
                 //Debug.Log($"수류탄 : {c.name}에게 {(int)damage}의 데미지");
             }
 
@@ -73,6 +74,8 @@ public class BoomObject : MonoBehaviour
                 //Debug.Log($"player health : {c.GetComponent<CombatControl>().playerHealth}");
             }
         }
+        GameObject a = Instantiate(BoomSound, gameObject.transform.position, Quaternion.identity);
+        Destroy(a, 3f);
         Destroy(gameObject);
     }
 }
