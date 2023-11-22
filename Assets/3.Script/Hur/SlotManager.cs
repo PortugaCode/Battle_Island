@@ -24,7 +24,10 @@ public class SlotManager : MonoBehaviour
     {
         for (int i = 0; i < InventoryControl.instance.nearItemList.Count; i++)
         {
-            MeetItem(InventoryControl.instance.nearItemList[i].GetComponent<ItemControl>().id);
+            if (InventoryControl.instance.nearItemList[i].GetComponent<ItemControl>() != null)
+            {
+                MeetItem(InventoryControl.instance.nearItemList[i].GetComponent<ItemControl>().id);
+            }
         }
     }
 

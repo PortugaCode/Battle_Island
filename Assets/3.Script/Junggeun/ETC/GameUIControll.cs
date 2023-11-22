@@ -22,15 +22,12 @@ public class GameUIControll : MonoBehaviour
     [SerializeField] private Image rifleImg2;
     [SerializeField] private Image throwImg;
 
-    public bool isRifle2 = false;
-    public bool isThrow = false;
-
 
     [Header("ÃÑ¾Ë ³²Àº °Í")]
     public Text ammoText;
 
-    [Header("¼ö·ùÅº °¹¼ö")]
-    public Text throwText;
+    /*[Header("¼ö·ùÅº °¹¼ö")]
+    public Text throwText;*/
 
     [Header("HP ¹Ù")]
     public Slider hpbar;
@@ -52,10 +49,16 @@ public class GameUIControll : MonoBehaviour
         bagImg.enabled = isBag;
         rifleImg1.enabled = isRifle1;
 
+        if (combat.currentGun == null) ammoText.text = $"0 1 {InventoryControl.instance.ammo.ToString()}";
+
+        else ammoText.text = $"{combat.currentGun.GetComponent<Gun>().currentMag} 1 {InventoryControl.instance.ammo.ToString()}";
+
+
+
         //===============================================
 
-        rifleImg2.enabled = isRifle2;
-        throwImg.enabled = isThrow;
+        rifleImg2.enabled = combat.isEquip_Gun;
+        throwImg.enabled = combat.isEquip_Grenade;
 
         //===============================================
 

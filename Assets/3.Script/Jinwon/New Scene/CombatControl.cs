@@ -20,6 +20,7 @@ public class CombatControl : MonoBehaviour
     // Weapon Stat
     public Weapon currentWeapon = Weapon.None;
     private bool isChanging = false;
+    public bool isEquip_Gun = false;
 
     // Health Stat
     public bool isDead = false;
@@ -43,6 +44,7 @@ public class CombatControl : MonoBehaviour
     public float throwPower = 7.5f; // 던지는 힘
     public Vector3 throwDirection; // 던질 방향
     private bool canThrow = true; // 던지기 가능 여부
+    public bool isEquip_Grenade = false;
 
     [Header("Recoil")]
     public float recoilX;
@@ -129,7 +131,6 @@ public class CombatControl : MonoBehaviour
         if (hasGun && (currentWeapon != Weapon.Gun) && !isChanging && Input.GetKeyDown(KeyCode.Alpha1))
         {
             isChanging = true;
-
             StartCoroutine(EquipGun_co());
         }
 
@@ -137,7 +138,6 @@ public class CombatControl : MonoBehaviour
         if (hasGun && (currentWeapon == Weapon.Gun) && !isChanging && Input.GetKeyDown(KeyCode.Alpha1))
         {
             isChanging = true;
-
             currentWeapon = Weapon.None;
 
             StartCoroutine(UnEquipGun_co());
@@ -162,7 +162,8 @@ public class CombatControl : MonoBehaviour
             }
 
             isChanging = true;
-
+            isEquip_Grenade = true;
+            
             currentWeapon = Weapon.Grenade;
 
             StartCoroutine(UnEquipGun_co());
@@ -446,6 +447,8 @@ public class CombatControl : MonoBehaviour
 
     private IEnumerator UnEquipGun_co()
     {
+        isEquip_Gun = false;
+
         animator.SetBool("EquipGun", false);
         animator.SetTrigger("UnEquip");
         rig.GetComponent<Rig>().weight = 0f;
@@ -466,6 +469,8 @@ public class CombatControl : MonoBehaviour
 
     private IEnumerator EquipGun_co()
     {
+        isEquip_Gun = true;
+
         GetComponent<DrawProjection>().drawProjection = false;
 
         if (isThirdPerson)
@@ -524,6 +529,8 @@ public class CombatControl : MonoBehaviour
 
     private IEnumerator ThrowGrenade() // 수류탄 던지기
     {
+        isEquip_Grenade = false;
+
         Vector3 direction = throwDirection * throwPower; // 방향 미리 지정
 
         animator.SetTrigger("ThrowGrenade"); // 애니메이션 재생

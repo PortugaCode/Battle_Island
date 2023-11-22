@@ -50,11 +50,11 @@ public class Bullet : MonoBehaviour
                     currentHitEffect.SetActive(true);
                 }
 
-                if (hit.point != null)
+                /*if (hit.point != null)
                 {
                     GameObject bulletHole = Instantiate(bulletHolePrefab, hit.point + hit.normal * 0.001f, Quaternion.LookRotation(hit.normal));
                     Destroy(bulletHole, 10.0f);
-                }
+                }*/
             }
 
             if (collision.collider.CompareTag("Helicopter"))
@@ -68,11 +68,11 @@ public class Bullet : MonoBehaviour
                     currentHitEffect.SetActive(true);
                 }
 
-                if (hit.point != null)
+                /*if (hit.point != null)
                 {
                     GameObject bulletHole = Instantiate(bulletHolePrefab, hit.point + hit.normal * 0.001f, Quaternion.LookRotation(hit.normal));
                     Destroy(bulletHole, 10.0f);
-                }
+                }*/
 
                 collision.collider.transform.root.GetComponent<HelicopterHealth>().TakeDamage(bulletDamage);
                 //Recorder.instance.UpdateData(collision.collider.gameObject, startPostion, transform.forward);
@@ -108,11 +108,11 @@ public class Bullet : MonoBehaviour
                     currentHitEffect.SetActive(true);
                 }
 
-                if (hit.point != null)
+                /*if (hit.point != null)
                 {
                     GameObject bulletHole = Instantiate(bulletHolePrefab, hit.point + hit.normal * 0.001f, Quaternion.LookRotation(hit.normal));
                     Destroy(bulletHole, 10.0f);
-                }
+                }*/
 
                 collision.collider.transform.GetComponent<BoomObject>().TakeDamage();
             }

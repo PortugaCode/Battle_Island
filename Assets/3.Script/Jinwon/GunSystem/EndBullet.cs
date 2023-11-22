@@ -26,17 +26,14 @@ public class EndBullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision) // 面倒 贸府
     {
-        if (!collision.collider.CompareTag("Player")) // 公矫
+        if (collision.collider.transform.root.CompareTag("Enemy") || collision.collider.transform.CompareTag("Head"))
         {
             Vector3 hitDirection = (collision.contacts[0].point - transform.position).normalized; // 面倒 规氢
-            if (collision.collider.transform.root.CompareTag("Enemy") || collision.collider.transform.CompareTag("Head"))
-            {
-                collision.collider.transform.root.GetComponent<EnemyHealth>().TakeDamage_End(1000f, hitDirection);
-                Debug.Log("GAME OVER");
 
-                Recorder.instance.EndReplay();
-            }
+            collision.collider.transform.root.GetComponent<EnemyHealth>().TakeDamage_End(1000f, hitDirection);
+            Debug.Log("GAME OVER");
 
+            Recorder.instance.EndReplay();
             Destroy(gameObject);
         }
     }

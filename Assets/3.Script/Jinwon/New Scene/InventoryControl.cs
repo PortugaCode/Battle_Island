@@ -67,6 +67,8 @@ public class InventoryControl : MonoBehaviour
                 }
             }
 
+
+
             inventoryController_C.AddItemOnUI(focusedItems[focusedItems.Count - 1].GetComponent<ItemControl>().x, focusedItems[focusedItems.Count - 1].GetComponent<ItemControl>().y, focusedItems[focusedItems.Count - 1].GetComponent<ItemControl>().id);
             focusedItems[focusedItems.Count - 1].GetComponent<ItemControl>().PickUpItem();
         }
@@ -110,6 +112,7 @@ public class InventoryControl : MonoBehaviour
         {
             if (!armorModel.activeSelf) // 아머 모델 활성화
             {
+                gameUIControll.isArmor = true;
                 GetComponent<CombatControl>().isArmor = true;
                 GetComponent<CombatControl>().playerHealth += 60;
                 gameUIControll.hpbar.maxValue = 360.0f;
@@ -120,27 +123,40 @@ public class InventoryControl : MonoBehaviour
         {
             if (!helmetModel.activeSelf) // 헬멧 모델 활성화
             {
+                gameUIControll.isHelmet = true;
                 helmetModel.SetActive(true);
             }
         }
         else if (id == 116) // 라이플
         {
+            gameUIControll.isRifle1 = true;
             GetComponent<CombatControl>().EquipGun(GunType.Rifle1);
         }
         else if (id == 117) // 스나이퍼
         {
+            gameUIControll.isRifle1 = true;
             GetComponent<CombatControl>().EquipGun(GunType.Sniper1);
         }
     }
 
     public void UnEquipItem(int id)
     {
-        if (id == 116) // 라이플
+        if (id == 103) // 아머
         {
+            gameUIControll.isArmor = false;
+        }
+        else if (id == 111) // 헬멧
+        {
+            gameUIControll.isHelmet = false;
+        }
+        else if (id == 116) // 라이플
+        {
+            gameUIControll.isRifle1 = false;
             GetComponent<CombatControl>().UnEquipGun(GunType.Rifle1);
         }
         else if (id == 117) // 스나이퍼
         {
+            gameUIControll.isRifle1 = false;
             GetComponent<CombatControl>().UnEquipGun(GunType.Sniper1);
         }
     }
@@ -162,12 +178,15 @@ public class InventoryControl : MonoBehaviour
     {
         foreach (GameObject item in nearItemList)
         {
-            if (item.GetComponent<ItemControl>().id == id)
+            if (item != null && item.GetComponent<ItemControl>() != null)
             {
-                nearItemList.Remove(item);
-                focusedItems.Remove(item);
-                Destroy(item);
-                return;
+                if (item.GetComponent<ItemControl>().id == id)
+                {
+                    nearItemList.Remove(item);
+                    focusedItems.Remove(item);
+                    Destroy(item);
+                    return;
+                }
             }
         }
     }

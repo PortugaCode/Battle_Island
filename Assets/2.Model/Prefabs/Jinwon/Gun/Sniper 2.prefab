@@ -10,13 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3970885849746366960}
   - component: {fileID: 3970885849746366961}
-  - component: {fileID: 7403649440346668419}
-  - component: {fileID: -2814932605192238452}
-  - component: {fileID: 7352573078673976538}
-  - component: {fileID: -7282767000491869585}
-  m_Layer: 10
-  m_Name: Sniper 1
-  m_TagString: Weapon
+  m_Layer: 0
+  m_Name: Sniper 2
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -61,68 +57,6 @@ MonoBehaviour:
   canShoot: 1
   rifleClip: {fileID: 8300000, guid: c14ef1641a7aefa49b82762551699873, type: 3}
   sniperClip: {fileID: 8300000, guid: 7e4982f37deb02f4bb75b9f93d8975a1, type: 3}
---- !u!114 &7403649440346668419
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3970885849746366963}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8edc7ff4788bae24cad0aa2fdf8cdbc2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isEquip: 0
-  isEnemyEquip: 0
-  isPlayerEquip: 0
---- !u!114 &-2814932605192238452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3970885849746366963}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d9c865afd6fd6046b860ca348f489a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemName: "\uC2A4\uB098\uC774\uD37C1"
-  id: 117
-  amount: 1
-  x: 9
-  y: 3
-  canGet: 0
---- !u!135 &7352573078673976538
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3970885849746366963}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0.23}
---- !u!54 &-7282767000491869585
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3970885849746366963}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &7500902917538352929
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,7 +66,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7495782387721483845}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -164,7 +98,7 @@ GameObject:
   - component: {fileID: 7556681761315178481}
   - component: {fileID: 7541679651601371567}
   - component: {fileID: 7530824592961623591}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: SM_Wep_Sniper_Mil_Stock_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -246,7 +180,7 @@ GameObject:
   - component: {fileID: 7541691764813269545}
   - component: {fileID: 7531662534727465215}
   - component: {fileID: 7508630041168684627}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -345,7 +279,7 @@ GameObject:
   - component: {fileID: 7556669973976719021}
   - component: {fileID: 7541819482775503681}
   - component: {fileID: 7530192291623845191}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: SM_Wep_Sniper_Mil_Trigger_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -426,7 +360,7 @@ GameObject:
   - component: {fileID: 7548418935802156155}
   - component: {fileID: 7540877184245541045}
   - component: {fileID: 7531265138420225413}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: SM_Wep_Sniper_Mil_Bolt_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -507,7 +441,7 @@ GameObject:
   - component: {fileID: 7548154905533370167}
   - component: {fileID: 7541559454894122317}
   - component: {fileID: 7530608576262429953}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: SM_Wep_Sniper_Mil_Scope_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}

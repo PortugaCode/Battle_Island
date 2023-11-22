@@ -60,11 +60,11 @@ MonoBehaviour:
   GunPrefabs:
   - {fileID: 1766153975377552810, guid: 3bee17bce1ba35846afdea5b89336f8c, type: 3}
   - {fileID: 5167319595456415944, guid: ef23c5c7af0c4434b887d4ee470d6795, type: 3}
-  - {fileID: 57878610182035613, guid: d9fe8dd76c765064eb48bf96c7eabbd4, type: 3}
+  - {fileID: 5601488106001695524, guid: d9fe8dd76c765064eb48bf96c7eabbd4, type: 3}
   - {fileID: 3970885849746366963, guid: e75bbf2510931ab4d9f11eb7891d69b1, type: 3}
-  - {fileID: 3116707400163527702, guid: d4e5dec5c105d2f41b7badfc0d042b3b, type: 3}
-  - {fileID: 355058281003513576, guid: 62c4cd61e276a094cb1e3accd4b91dc5, type: 3}
-  - {fileID: 1003270874674272312, guid: 18010d283a6cbc749acd2e1c18e4f42b, type: 3}
+  - {fileID: 8246322494195461423, guid: 62c4cd61e276a094cb1e3accd4b91dc5, type: 3}
+  - {fileID: 4629311249960716097, guid: 18010d283a6cbc749acd2e1c18e4f42b, type: 3}
+  - {fileID: 8310018340999288571, guid: d4e5dec5c105d2f41b7badfc0d042b3b, type: 3}
   - {fileID: 4795218593226759081, guid: 1be062c8d074ee94b81a4b751fd47a93, type: 3}
   rangeObject: {fileID: 332975684328008128}
   Gun_Object: {fileID: 1160705741229156752}
@@ -99,7 +99,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1346967680444230987}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &459942649928958214
 MeshCollider:
@@ -440,6 +440,7 @@ Transform:
   - {fileID: 5312855154460226883}
   - {fileID: 985409415922688907}
   - {fileID: 1160705741229156752}
+  - {fileID: 4527395993901389180}
   - {fileID: 7685871031770003770}
   - {fileID: 8666867874616696441}
   - {fileID: 5202723053069757358}
@@ -448,7 +449,6 @@ Transform:
   - {fileID: 402739247038964125}
   - {fileID: 5821851388450482259}
   - {fileID: 8191400084058942365}
-  - {fileID: 4527395993901389180}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -601,7 +601,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1346967680444230987}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 20.7, y: 0, z: 0}
 --- !u!65 &5141503451103977271
 BoxCollider:
@@ -645,7 +645,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1346967680444230987}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: -43.5, y: 0, z: 0}
 --- !u!65 &4263981140273530364
 BoxCollider:
@@ -720,11 +720,11 @@ MonoBehaviour:
   GunPrefabs:
   - {fileID: 1766153975377552810, guid: 3bee17bce1ba35846afdea5b89336f8c, type: 3}
   - {fileID: 5167319595456415944, guid: ef23c5c7af0c4434b887d4ee470d6795, type: 3}
-  - {fileID: 57878610182035613, guid: d9fe8dd76c765064eb48bf96c7eabbd4, type: 3}
+  - {fileID: 5601488106001695524, guid: d9fe8dd76c765064eb48bf96c7eabbd4, type: 3}
   - {fileID: 3970885849746366963, guid: e75bbf2510931ab4d9f11eb7891d69b1, type: 3}
-  - {fileID: 3116707400163527702, guid: d4e5dec5c105d2f41b7badfc0d042b3b, type: 3}
-  - {fileID: 355058281003513576, guid: 62c4cd61e276a094cb1e3accd4b91dc5, type: 3}
-  - {fileID: 1003270874674272312, guid: 18010d283a6cbc749acd2e1c18e4f42b, type: 3}
+  - {fileID: 8246322494195461423, guid: 62c4cd61e276a094cb1e3accd4b91dc5, type: 3}
+  - {fileID: 4629311249960716097, guid: 18010d283a6cbc749acd2e1c18e4f42b, type: 3}
+  - {fileID: 8310018340999288571, guid: d4e5dec5c105d2f41b7badfc0d042b3b, type: 3}
   - {fileID: 4795218593226759081, guid: 1be062c8d074ee94b81a4b751fd47a93, type: 3}
   rangeObject: {fileID: 3605799293498629894}
   Gun_Object: {fileID: 6247316885719169968}
@@ -759,7 +759,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1346967680444230987}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: -20.9, y: 0, z: 0}
 --- !u!65 &76632355755575115
 BoxCollider:
@@ -821,7 +821,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1346967680444230987}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &7834601859185632269
 BoxCollider:
@@ -1210,7 +1210,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1346967680444230987}
-  m_RootOrder: 15
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &4050245542432558698
 BoxCollider:
@@ -3356,7 +3356,7 @@ Transform:
   - {fileID: 5202723052949794154}
   - {fileID: 5202723052887531055}
   m_Father: {fileID: 1346967680444230987}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5202723053252491525
 GameObject:
@@ -5870,7 +5870,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1346967680444230987}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 37.9, y: 0, z: 0}
 --- !u!65 &4196021269456150932
 BoxCollider:
@@ -5915,7 +5915,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1346967680444230987}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3666072111791183253
 MonoBehaviour:

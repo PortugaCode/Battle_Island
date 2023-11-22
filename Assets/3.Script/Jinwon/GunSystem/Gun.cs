@@ -85,7 +85,7 @@ public class Gun : MonoBehaviour
             UIManager.instance.UpdateAmmoText(currentMag); // Test
 
             Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2.0f, Screen.height / 2.0f)); // 화면 중앙 (크로스헤어 위치)에 Ray 쏘기
-            if (Physics.Raycast(ray, out RaycastHit raycastHit, 100f, ~(1 << LayerMask.NameToLayer("Player"))))
+            if (Physics.Raycast(ray, out RaycastHit raycastHit, 5000f, ~(1 << LayerMask.NameToLayer("Player"))))
             {
                 // Bullet 생성
                 if (combatControl.isFirstPerson) // 1인칭 시점일 때 카메라 조금 앞에서 발사

@@ -21,6 +21,8 @@ public class Recorder : MonoBehaviour
 
     public GameObject bulletPrefab;
 
+    private bool isReplay = false;
+
     private void Awake()
     {
         if (instance == null)
@@ -47,6 +49,13 @@ public class Recorder : MonoBehaviour
 
     public void Replay()
     {
+        if (isReplay)
+        {
+            return;
+        }
+
+        isReplay = true;
+
         UIManager.instance.TurnOffUI();
         GetComponent<CharacterMovement>().canMove = false;
 
