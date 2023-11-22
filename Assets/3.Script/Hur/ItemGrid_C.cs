@@ -63,6 +63,11 @@ public class ItemGrid_C : MonoBehaviour
 
     internal InventoryItem_C GetItem(int x, int y)
     {
+        if (x >= gridSizeWidth || y >= gridSizeHeight)
+        {
+            return inventoryItemSlot[0, 0];
+        }
+
         return inventoryItemSlot[x, y];
     }
 
@@ -84,10 +89,8 @@ public class ItemGrid_C : MonoBehaviour
                 {
                     return new Vector2Int(x, y);
                 }
-
             }
         }
-
         return null;
     }
 
@@ -129,6 +132,18 @@ public class ItemGrid_C : MonoBehaviour
         return true;
     }
 
+    public bool PlaceItem2(InventoryItem_C inventoryItem, int posX, int posY)
+    {
+        if (!BoundryCheck(posX, posY, inventoryItem.WIDTH, inventoryItem.HEIGHT))
+        {
+            return false;
+        }
+
+        PlaceItem(inventoryItem, posX, posY);
+
+        return true;
+    }
+
     public void PlaceItem(InventoryItem_C inventoryItem, int posX, int posY)
     {
         RectTransform rectTransform = inventoryItem.GetComponent<RectTransform>();
@@ -154,11 +169,9 @@ public class ItemGrid_C : MonoBehaviour
         (InventoryItem_C inventoryItem, int posX, int posY)
     {
         Vector2 position = new Vector2();
-        position.x =
-            posX * tileSizeWidth + tileSizeWidth * inventoryItem.WIDTH / 2;
+        position.x = posX * tileSizeWidth + tileSizeWidth * inventoryItem.WIDTH / 2;
 
-        position.y =
-            -(posY * tileSizeHeight + tileSizeHeight * inventoryItem.HEIGHT / 2);
+        position.y = -(posY * tileSizeHeight + tileSizeHeight * inventoryItem.HEIGHT / 2);
 
         return position;
     }

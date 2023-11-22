@@ -101,12 +101,7 @@ public class CombatControl : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.PageUp)) // Damage Test
-        {
-            TakeDamage(20.0f);
-        }
-
-        if (!isHealing && Input.GetKeyDown(KeyCode.Keypad4)) // Heal
+        if (!isHealing && Input.GetKeyDown(KeyCode.Alpha3)) // Heal
         {
             if (InventoryControl.instance.CheckInventory(109))
             {
@@ -116,7 +111,7 @@ public class CombatControl : MonoBehaviour
         }
 
         // [ÃÑÀ» ¼Õ¿¡ ÀåÂø] - TEST
-        if (hasGun && (currentWeapon != Weapon.Gun) && !isChanging && Input.GetKeyDown(KeyCode.Keypad1))
+        if (hasGun && (currentWeapon != Weapon.Gun) && !isChanging && Input.GetKeyDown(KeyCode.Alpha1))
         {
             isChanging = true;
 
@@ -124,7 +119,7 @@ public class CombatControl : MonoBehaviour
         }
 
         // [ÃÑÀ» ¼Õ¿¡¼­ µî µÚ·Î ³Ö±â]
-        if (hasGun && (currentWeapon == Weapon.Gun) && !isChanging && Input.GetKeyDown(KeyCode.Keypad1))
+        if (hasGun && (currentWeapon == Weapon.Gun) && !isChanging && Input.GetKeyDown(KeyCode.Alpha1))
         {
             isChanging = true;
 
@@ -144,7 +139,7 @@ public class CombatControl : MonoBehaviour
         }
 
         // [¼ö·ùÅº ÀåÂø]
-        if (currentWeapon != Weapon.Grenade && !isChanging && InventoryControl.instance.CheckInventory(107) && Input.GetKeyDown(KeyCode.Keypad2))
+        if (currentWeapon != Weapon.Grenade && !isChanging && InventoryControl.instance.CheckInventory(107) && Input.GetKeyDown(KeyCode.Alpha2))
         {
             if (isFirstPerson || isThirdPerson)
             {
@@ -347,7 +342,7 @@ public class CombatControl : MonoBehaviour
 
     public void EquipGun(GunType gunType)
     {
-        // [ÃÑÀ» µî µÚ¿¡ ÀåÂø] - TEST
+        // [ÃÑÀ» µî µÚ¿¡ ÀåÂø]
         if (!hasGun)
         {
             if (gunType == GunType.Sniper1)
@@ -368,6 +363,29 @@ public class CombatControl : MonoBehaviour
                 currentGun.transform.localPosition = Vector3.zero;
                 currentGun.transform.localRotation = Quaternion.Euler(Vector3.zero);
             }
+        }
+    }
+
+    public void UnEquipGun(GunType gunType)
+    {
+        // [ÃÑÀ» µî¿¡¼­ »©°í ¾Èº¸ÀÌ°Ô]
+        if (hasGun)
+        {
+            if (gunType == GunType.Sniper1)
+            {
+                hasGun = false;
+                Destroy(currentGun);
+            }
+            else
+            {
+                hasGun = false;
+                Destroy(currentGun);
+            }
+
+            currentWeapon = Weapon.None;
+            animator.SetBool("EquipGun", false);
+            animator.SetTrigger("UnEquip");
+            rig.GetComponent<Rig>().weight = 0f;
         }
     }
 
@@ -409,11 +427,6 @@ public class CombatControl : MonoBehaviour
         rig.GetComponent<Rig>().weight = 1.0f;
 
         isReloading = false;
-    }
-
-    public void EquipGun(GameObject gun)
-    {
-        currentGun = gun;
     }
 
     private IEnumerator UnEquipGun_co()
@@ -600,6 +613,8 @@ public class CombatControl : MonoBehaviour
                 playerHealth += 150;
             }
         }
+
+        GetComponent<CharacterMovement>().currentSpeed = GetComponent<CharacterMovement>().walkSpeed;
 
         InventoryControl.instance.RemoveItem(109);
         //Debug.Log("Heal ¿Ï·á");

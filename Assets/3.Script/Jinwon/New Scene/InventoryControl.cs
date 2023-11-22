@@ -18,11 +18,12 @@ public class InventoryControl : MonoBehaviour
         }
 
         gameUIControll = FindObjectOfType<GameUIControll>();
+        inventoryController_C = FindObjectOfType<InventoryController_C>();
         inventory = new List<Item>();
     }
 
     [Header("Item")]
-    private List<GameObject> nearItemList = new List<GameObject>(); // 주변 아이템 리스트
+    public List<GameObject> nearItemList = new List<GameObject>(); // 주변 아이템 리스트
     public LayerMask itemLayer; // 아이템 체크할 레이어
     public List<GameObject> focusedItems; // 현재 콜라이더에 접촉된 아이템 리스트
 
@@ -33,16 +34,15 @@ public class InventoryControl : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private GameUIControll gameUIControll;
+    private InventoryController_C inventoryController_C;
 
     public struct Item
     {
-        public string itemName;
         public int id;
         public int amount;
 
-        public Item(string name, int id, int amount)
+        public Item(int id, int amount)
         {
-            this.itemName = name;
             this.id = id;
             this.amount = amount;
             // 필요한 정보 있으면 이후에 추가
@@ -57,7 +57,7 @@ public class InventoryControl : MonoBehaviour
 
     private void Update()
     {
-        if (focusedItems.Count > 0 && Input.GetKeyDown(KeyCode.F)) // TEST
+        if (GetComponent<CharacterMovement>().canMove && focusedItems.Count > 0 && Input.GetKeyDown(KeyCode.F)) // TEST
         {
             if (focusedItems[focusedItems.Count - 1].CompareTag("Weapon"))
             {
@@ -67,25 +67,16 @@ public class InventoryControl : MonoBehaviour
                 }
             }
 
+            inventoryController_C.AddItemOnUI(focusedItems[focusedItems.Count - 1].GetComponent<ItemControl>().x, focusedItems[focusedItems.Count - 1].GetComponent<ItemControl>().y, focusedItems[focusedItems.Count - 1].GetComponent<ItemControl>().id);
             focusedItems[focusedItems.Count - 1].GetComponent<ItemControl>().PickUpItem();
         }
     }
 
-    public void GetItem(string name, int id, int amount)
+    public void GetItem(int id, int amount)
     {
-        Item currentItem = new Item(name, id, amount);
+        Item currentItem = new Item(id, amount);
 
-        if (id == 103) // 아머
-        {
-            if (!armorModel.activeSelf) // 아머 모델 활성화
-            {
-                GetComponent<CombatControl>().isArmor = true;
-                GetComponent<CombatControl>().playerHealth += 60;
-                gameUIControll.hpbar.maxValue = 360.0f;
-                armorModel.SetActive(true);
-            }
-        }
-        else if (id == 104) // 가방
+        if (id == 104) // 가방
         {
             if (!bagModel.activeSelf) // 가방 모델 활성화
             {
@@ -101,12 +92,28 @@ public class InventoryControl : MonoBehaviour
         }
         else if (id == 108) // 총알상자
         {
-            ammo += amount;
+            ammo += 60;
             UIManager.instance.UpdateAmmoText(0); // Test
 
             if (InventoryControl.instance.CheckInventory(108))
             {
                 return; // 이미 박스 있으면 추가 안함
+            }
+        }
+
+        inventory.Add(currentItem);
+    }
+
+    public void EquipItem(int id)
+    {
+        if (id == 103) // 아머
+        {
+            if (!armorModel.activeSelf) // 아머 모델 활성화
+            {
+                GetComponent<CombatControl>().isArmor = true;
+                GetComponent<CombatControl>().playerHealth += 60;
+                gameUIControll.hpbar.maxValue = 360.0f;
+                armorModel.SetActive(true);
             }
         }
         else if (id == 111) // 헬멧
@@ -124,8 +131,18 @@ public class InventoryControl : MonoBehaviour
         {
             GetComponent<CombatControl>().EquipGun(GunType.Sniper1);
         }
+    }
 
-        inventory.Add(currentItem);
+    public void UnEquipItem(int id)
+    {
+        if (id == 116) // 라이플
+        {
+            GetComponent<CombatControl>().UnEquipGun(GunType.Rifle1);
+        }
+        else if (id == 117) // 스나이퍼
+        {
+            GetComponent<CombatControl>().UnEquipGun(GunType.Sniper1);
+        }
     }
 
     public void RemoveItem(int id)
@@ -135,16 +152,23 @@ public class InventoryControl : MonoBehaviour
             if (item.id == id)
             {
                 inventory.Remove(item);
+                inventoryController_C.RemoveItemOnUI(id);
                 return;
             }
         }
     }
     
-    public void ShowInventory() // TEST
+    public void RemoveItemFromNearList(int id)
     {
-        for (int i = 0; i < inventory.Count; i++)
+        foreach (GameObject item in nearItemList)
         {
-            Debug.Log($"아이템 이름 : {inventory[i].itemName}, 아이템 ID : {inventory[i].id}");
+            if (item.GetComponent<ItemControl>().id == id)
+            {
+                nearItemList.Remove(item);
+                focusedItems.Remove(item);
+                Destroy(item);
+                return;
+            }
         }
     }
 
@@ -162,7 +186,7 @@ public class InventoryControl : MonoBehaviour
         return false;
     }
 
-    private void GetNearItemList()
+    public void GetNearItemList()
     {
         nearItemList.Clear();
 

@@ -194,4 +194,16 @@ public class ZoomControl : MonoBehaviour
         // [플레이어 모델 활성화]
         player.transform.Find("Model").gameObject.SetActive(true);
     }
+
+    public void StopCameraMove()
+    {
+        normalCamera.m_XAxis.m_MaxSpeed = 0f;
+        normalCamera.m_YAxis.m_MaxSpeed = 0f;
+    }
+
+    public void StartCameraMove()
+    {
+        normalCamera.m_XAxis.m_MaxSpeed = 400.0f;
+        normalCamera.m_YAxis.m_MaxSpeed = 2.5f;
+    }
 }

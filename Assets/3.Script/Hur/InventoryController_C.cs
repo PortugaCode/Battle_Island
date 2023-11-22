@@ -6,6 +6,8 @@ public class InventoryController_C : MonoBehaviour
 {
     [SerializeField] private ItemGrid_C selectedItemGrid;
 
+    private ItemGrid_C inventoryGrid;
+
     InventoryItem_C selectedItem;
     InventoryItem_C overlapItem;
     RectTransform rect;
@@ -19,6 +21,7 @@ public class InventoryController_C : MonoBehaviour
 
     public bool grabItem = false; // 현재 마우스에 아이템을 들고있는가?
     public bool isOverlap = false; // 인벤토리에 아이템을 놓을 때 겹치는가?
+    private bool isNewItem = false; // place할 때 플레이어 인벤토리에 첫 추가인가?
 
     public int itemID;
     //private Slot slot;
@@ -42,6 +45,13 @@ public class InventoryController_C : MonoBehaviour
     public int x;
     public int y;
 
+    // 스크립트 참조
+    private OpenInvent openInvent;
+
+    // All Item 들어갈 그리드 오브젝트
+    [Header("Grid Object")]
+    [SerializeField] private GameObject grid;
+
     public ItemGrid_C SelectedItemGrid
     {
         get => selectedItemGrid;
@@ -55,6 +65,17 @@ public class InventoryController_C : MonoBehaviour
     {
         inventoryHighlight = GetComponent<InventoryHighlight_C>();
         slots = slotHolder.GetComponentsInChildren<Slot>();
+        openInvent = FindObjectOfType<OpenInvent>();
+
+        ItemGrid_C[] grids = FindObjectsOfType<ItemGrid_C>();
+
+        for (int i = 0; i < grids.Length; i++)
+        {
+            if (grids[i].gridNumber == 0)
+            {
+                inventoryGrid = grids[i];
+            }
+        }
     }
     private void Update()
     {
@@ -66,28 +87,25 @@ public class InventoryController_C : MonoBehaviour
 
         ItemIconDrag(); // [주변]에서 아이템 아이콘 클릭 시 아이템 아이콘이 마우스를 따라다니는 함수
 
-        HandleHighlight(); // [인벤토리]에서 아이템 위에 마우스 올렸을때 형광색 하이라이트 표시하는 함수
-
-        if (Input.GetMouseButtonDown(1)) // 마우스 우클릭
+        if (openInvent.Open)
         {
-            ToolTipAppear();
-            RotateItem(); // 아이템 회전하는 함수
+            HandleHighlight(); // [인벤토리]에서 아이템 위에 마우스 올렸을때 형광색 하이라이트 표시하는 함수
+
+            if (Input.GetMouseButtonDown(1)) // 마우스 우클릭
+            {
+                RotateItem(); // 아이템 회전하는 함수
+            }
+
+            if (Input.GetMouseButtonDown(0)) // 마우스 좌클릭
+            {
+                LeftMouseButtonPress();
+            }
         }
-
-        if (Input.GetMouseButtonDown(0)) // 마우스 좌클릭
-        {
-            LeftMouseButtonPress();
-        }
-    }
-
-    private void ToolTipAppear()
-    {
-
     }
 
     private void ItemIconDrag() // [주변]에서 아이템 아이콘 클릭 시 아이템 아이콘이 마우스를 따라다니는 함수
     {
-        if (selectedItem != null)
+        if (selectedItem != null && openInvent.Open)
         {
             //Debug.Log($"{selectedItem.itemData.name} 드래그 중");
             rect.position = Input.mousePosition;
@@ -152,28 +170,71 @@ public class InventoryController_C : MonoBehaviour
         rect.SetAsLastSibling();
 
         inventoryItem.Set(item[id - 100]);
+
+        // ----- //
+
+        InventoryControl.instance.RemoveItemFromNearList(id);
+        UIManager.instance.CloseGetItemUI();
+        isNewItem = true;
+    }
+
+    public void AddItemOnUI(int width, int height, int id) // F로 아이템 주웠을 때 UI에도 보여지게 하는 함수
+    {
+        isNewItem = false;
+        InventoryItem_C inventoryItem = Instantiate(itemPrefab).GetComponent<InventoryItem_C>();
+        selectedItem = inventoryItem;
+        rect = inventoryItem.GetComponent<RectTransform>();
+        rect.SetParent(canvasT);
+        rect.SetAsLastSibling();
+        itemID = id;
+        inventoryItem.Set(item[id - 100]);
+
+        int[] xy = GetComponent<InventorySpaceCheck>().CheckBoard(width, height);
+
+        int xValue = xy[0];
+        int yValue = xy[1];
+
+        if (xValue == -1 && yValue == -1)
+        {
+            Debug.Log("인벤토리가 꽉 찼습니다.");
+            return;
+        }
+
+        currentWidth = width;
+        currentHeight = height;
+
+        bool complete = inventoryGrid.PlaceItem2(selectedItem, xValue, yValue);
+
+        if (complete)
+        {
+            InsertItem(xValue, yValue, id);
+            selectedItem = null;
+        }
+    }
+
+    public void RemoveItemOnUI(int id)
+    {
+        for (int i = 0; i < grid.transform.childCount; i++)
+        {
+            if (grid.transform.GetChild(i).GetComponent<InventoryItem_C>() != null)
+            {
+                if (grid.transform.GetChild(i).GetComponent<InventoryItem_C>().itemData.itemID == id)
+                {
+                    DeleteItem(grid.transform.GetChild(i).GetComponent<InventoryItem_C>());
+                    Destroy(grid.transform.GetChild(i).gameObject);
+                    return;
+                }
+            }
+        }
     }
 
     private void LeftMouseButtonPress() // 왼쪽 마우스 버튼 클릭 시 호출되는 함수
     {
         Vector2Int tileGridPosition = GetTileGridPosition();
 
-        //---------------------
-
-        //if (selectedItem == null) // 현재 선택한 아이템이 없으면 아이템 픽업
-        //{
-        //    PickUpItem(tileGridPosition);
-        //}
-        //else // 이미 선택한 아이템이 있으면 아이템 내려놓기
-        //{
-        //    PlaceItem(tileGridPosition);
-        //}
-
-        //----------------------
-
         if(selectedItem != null)
         {
-            if (selectedItemGrid.gridNumber == 0)
+            if (selectedItemGrid.gridNumber == 0) // 인벤토리에 놓을 때
             {
                 PlaceItem(tileGridPosition);
             }
@@ -181,24 +242,24 @@ public class InventoryController_C : MonoBehaviour
             {
                 if (selectedItem.itemData.itemType == ItemData_C.ItemType.head)
                 {
+                    InventoryControl.instance.EquipItem(itemID);
                     PlaceItem(tileGridPosition);
-                    Debug.Log("head");
                 }
             }
             else if (selectedItemGrid.gridNumber == 2)
             {
                 if (selectedItem.itemData.itemType == ItemData_C.ItemType.armor)
                 {
+                    InventoryControl.instance.EquipItem(itemID);
                     PlaceItem(tileGridPosition);
-                    Debug.Log("armor");
                 }
             }
             else if (selectedItemGrid.gridNumber == 3)
             {
                 if (selectedItem.itemData.itemType == ItemData_C.ItemType.weapon)
                 {
+                    InventoryControl.instance.EquipItem(itemID);
                     PlaceItem(tileGridPosition);
-                    Debug.Log("weapon");
                 }
             }
         }
@@ -206,7 +267,6 @@ public class InventoryController_C : MonoBehaviour
         {
             PickUpItem(tileGridPosition);
         }
-
     }
 
     private Vector2Int GetTileGridPosition()
@@ -217,9 +277,7 @@ public class InventoryController_C : MonoBehaviour
         {
             position.x -= (selectedItem.WIDTH - 1) * ItemGrid_C.tileSizeWidth / 2;
             position.y += (selectedItem.HEIGHT - 1) * ItemGrid_C.tileSizeHeight / 2;
-
         }
-
         return selectedItemGrid.GetTileGridPosition(position);
     }
 
@@ -231,15 +289,15 @@ public class InventoryController_C : MonoBehaviour
         {
             if (overlapItem != null) // 아이템을 내려놓을 곳에 이미 아이템이 들어가 있을 때
             {
-                Debug.Log("Overlap 발생");
+                if (selectedItemGrid.gridNumber == 3)
+                {
+                    InventoryControl.instance.UnEquipItem(overlapItem.itemData.itemID);
+                    InventoryControl.instance.EquipItem(itemID);
+                }
 
                 DeleteItem(overlapItem); // 밑에 있던 아이템 빼고
 
                 InsertItem(tileGridPosition.x, tileGridPosition.y, itemID); // 들고있던 아이템 넣고
-
-                //Debug.Log("tileGridPosition.x : " + tileGridPosition.x);
-                //Debug.Log("tileGridPosition.y : " + tileGridPosition.y);
-                //Debug.Log("itemID : " + itemID);
 
                 selectedItem = overlapItem; // 아이템 변경하고
                 currentWidth = selectedItem.itemData.width; // width 바꿔주고
@@ -260,7 +318,7 @@ public class InventoryController_C : MonoBehaviour
 
     private void PickUpItem(Vector2Int tileGridPosition) // [인벤토리]에서 아이템 클릭하여 픽업할 때 호출되는 함수
     {
-        Debug.Log("[인벤토리]에서 아이템 픽업");
+        isNewItem = false;
 
         selectedItem = selectedItemGrid.PickUpItem(tileGridPosition.x, tileGridPosition.y);
 
@@ -268,6 +326,8 @@ public class InventoryController_C : MonoBehaviour
         {
             return;
         }
+
+        itemID = selectedItem.dataid;
 
         currentWidth = selectedItem.itemData.width;
         currentHeight = selectedItem.itemData.height;
@@ -277,8 +337,12 @@ public class InventoryController_C : MonoBehaviour
             rect = selectedItem.GetComponent<RectTransform>();
         }
 
+        if (selectedItemGrid.gridNumber == 3)
+        {
+            InventoryControl.instance.UnEquipItem(itemID);
+        }
+        
         DeleteItem(selectedItem);
-        //Calculate(tileGridPosition.x, tileGridPosition.y, itemID);
     }
 
     // ----------------------------------------------------------------------------------
@@ -295,47 +359,13 @@ public class InventoryController_C : MonoBehaviour
                 if (array[x, y] != 0)
                 {
                     count += 1;
-                    Debug.Log($"확인 : {x},{y} = {array[x, y]}");
+                    //Debug.Log($"확인 : {x},{y} = {array[x, y]}");
                 }
             }
         }
 
-        Debug.Log("디아블로 인벤토리 : " + count);
+        //Debug.Log(count);
     }
-
-    /*public void Calculate(int x, int y, int itemID)
-    {
-        if (grabItem) // 아이템을 들고 있을 때 array에 itemID 넣기
-        {
-            for (int i = 0; i < currentWidth; i++)
-            {
-                for (int j = 0; j < currentHeight; j++)
-                {
-                    array[x + i, y + j] = itemID;
-                }
-            }
-
-            grabItem = false;
-        }
-        else // 아이템을 안 들고 있을 때 array에서 itemID 빼기
-        {
-            // 넣기는 되는데 왜 제대로 안빼졌나?
-            // (클릭한 위치부터 아이템 모양만큼 빠지기 때문)
-            // 그래서 아이템을 뺄 때에는 클릭 위치가 아닌 아이템의 왼쪽 상단 좌표부터 시작해야 한다. (selectedItem.onGridPosition 참조)
-            
-            for (int i = 0; i < currentWidth; i++)
-            {
-                for (int j = 0; j < currentHeight; j++)
-                {
-                    array[i + selectedItem.onGridPositionX, j + selectedItem.onGridPositionY] = 0;
-                }
-            }
-
-            grabItem = true;
-        }
-
-        GridCheck();
-    }*/
 
     public void InsertItem(int x, int y, int itemID) //아이템 롤백을 InsertItem과 DeleteItem 함수로 나눔
     {
@@ -343,12 +373,12 @@ public class InventoryController_C : MonoBehaviour
         {
             Debug.Log("SelectedItem이 Null이다");
         }
-        else
+        /*else
         {
             Debug.Log($"{selectedItem.itemData.itemName}을 array에 넣습니다");
             Debug.Log($"x, y : {x}, {y}");
             Debug.Log("itemID : " + itemID);
-        }
+        }*/
 
         for (int i = 0; i < currentWidth; i++)
         {
@@ -358,12 +388,17 @@ public class InventoryController_C : MonoBehaviour
             }
         }
 
+        if (isNewItem)
+        {
+            InventoryControl.instance.GetItem(itemID, 1);
+        }
+
         GridCheck();
     }
 
     public void DeleteItem(InventoryItem_C item)
     {
-        Debug.Log($"{item.itemData.itemName}을 array에서 제거합니다");
+        //Debug.Log($"{item.itemData.itemName}을 array에서 제거합니다");
 
         // 넣기는 되는데 왜 제대로 안빼졌나?
         // (클릭한 위치부터 아이템 모양만큼 빠지기 때문)

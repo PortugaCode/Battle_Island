@@ -36,11 +36,8 @@ public class Slot : MonoBehaviour, IPointerClickHandler
             grapItem = true;
 
             IvnCont.CreateItem(id);
-            //ih.itemID = id;
             IvnCont.currentWidth = width;
             IvnCont.currentHeight = height;
-            //openIvn.openThisSC = false;
-            slotManager.ItemID.Remove(id);
             Destroy(gameObject);
         }
         
