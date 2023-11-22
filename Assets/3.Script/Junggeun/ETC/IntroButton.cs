@@ -41,4 +41,9 @@ public class IntroButton : MonoBehaviour
     {
         OptionManager.Instance.OptionPanel.SetActive(true);
     }
+
+    public void ExitButton()
+    {
+        Application.Quit();
+    }
 }
