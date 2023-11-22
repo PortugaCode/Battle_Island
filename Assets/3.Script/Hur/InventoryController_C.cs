@@ -70,7 +70,6 @@ public class InventoryController_C : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1)) // 마우스 우클릭
         {
-            ToolTipAppear();
             RotateItem(); // 아이템 회전하는 함수
         }
 
@@ -78,11 +77,6 @@ public class InventoryController_C : MonoBehaviour
         {
             LeftMouseButtonPress();
         }
-    }
-
-    private void ToolTipAppear()
-    {
-
     }
 
     private void ItemIconDrag() // [주변]에서 아이템 아이콘 클릭 시 아이템 아이콘이 마우스를 따라다니는 함수
