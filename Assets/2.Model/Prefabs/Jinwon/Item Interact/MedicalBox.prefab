@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1003270874674272317}
   - component: {fileID: 1003270874674272318}
   - component: {fileID: 1003270874674272319}
+  - component: {fileID: 6014698550651459129}
   m_Layer: 10
   m_Name: MedicalBox
   m_TagString: Item
@@ -62,6 +63,22 @@ MonoBehaviour:
   id: 109
   amount: 1
   canGet: 0
+--- !u!54 &6014698550651459129
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1003270874674272312}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &4678323733005246764
 GameObject:
   m_ObjectHideFlags: 0
@@ -153,7 +170,7 @@ MeshCollider:
   m_GameObject: {fileID: 4678323733005246764}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30

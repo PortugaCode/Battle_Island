@@ -10475,7 +10475,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -7820878624632325989, guid: 28ffb86e6a229044895b29d557cf00a0, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.6
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -10484,7 +10484,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 50
+  MaxDistance: 30
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -10573,6 +10573,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Shot: {fileID: 8300000, guid: b82a66dab749415458d1f6600c997095, type: 3}
   Reload: {fileID: 8300000, guid: 9eca29ee7f8209e419470fcd586aec21, type: 3}
+  SniperShot: {fileID: 8300000, guid: 7e4982f37deb02f4bb75b9f93d8975a1, type: 3}
 --- !u!1 &4250041425166233360
 GameObject:
   m_ObjectHideFlags: 0

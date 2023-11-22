@@ -241,8 +241,6 @@ public class DeadZone : MonoBehaviour
             }
         }
 
-
-
         if (Vector3.SqrMagnitude(DeadZoneObject.transform.position - player.transform.position) > Mathf.Pow(mesh.bounds.size.x / 2, 2))     //자기장 밖으로 벗어날 시
         {
             DamageTic += Time.deltaTime;
@@ -254,6 +252,12 @@ public class DeadZone : MonoBehaviour
         }
 
         EnemyDamage(Phase.Phase1 + index);
+
+
+        if (GameManager.instance.isWin)
+        {
+            InActiveDeadZone();
+        }
     }
 
 
@@ -363,9 +367,12 @@ public class DeadZone : MonoBehaviour
         return DeadZoneObject.transform.position;
     }
 
-    private void OnDrawGizmos()
+    private void InActiveDeadZone()
     {
-        //Gizmos.DrawLine(DeadZoneObject.transform.position, player.transform.position);
+        
+        
+            DeadZoneObject.SetActive(false);
+        
     }
 }
 

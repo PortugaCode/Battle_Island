@@ -12,6 +12,8 @@ public class AIRandomMoveState : AIState
     private float rid;
     private Vector3 center;
 
+    private bool isFind = false;
+
     public AiStateID GetID()
     {
         return AiStateID.RandomMove;
@@ -21,10 +23,12 @@ public class AIRandomMoveState : AIState
     {
         Debug.Log("랜덤 이동");
         deadZone = GameObject.FindGameObjectWithTag("DeadZone").transform.GetChild(0).GetComponent<DeadZone>();
-        //GameObject.FindGameObjectWithTag("DeadZone").transform.GetChild(0).TryGetComponent(out deadZone);
-        point = GetRandomPoint(new Vector3(16, 0, -31), 60f);
+        rid = deadZone.CurrentRadius();
+        center = deadZone.CurrentDeadZonePosition();
+
+        point = GetRandomPoint(center, rid);
         agent.navMeshAgent.destination = point;
-        agent.navMeshAgent.speed = 5;
+        agent.navMeshAgent.speed = 4f;
         Debug.DrawRay(point, Vector3.up * 5000f, Color.green, 10f);
     }
 
@@ -38,49 +42,54 @@ public class AIRandomMoveState : AIState
         if(ifTakeDamage(agent) && agent.isReady && agent.isAmmoReady)
         {
             agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
+            isFind = false;
             return;
         }
-        if (FindPlayer(agent) && agent.isReady && agent.isAmmoReady)
+        else if (FindPlayer(agent) && agent.isReady && agent.isAmmoReady)
         {
             agent.stateMachine.ChangeState(AiStateID.ChasePlayer);
+            isFind = false;
             return;
         }
+
+        if(agent.enemyHealth.isDeadZone && !isFind)
+        {
+            point = GetRandomPoint(center, rid);
+            agent.navMeshAgent.destination = point;
+            isFind = true;
+            return;
+        }
+
 
         if (FindWeapon(agent) && !agent.isReady)
         {
             agent.stateMachine.ChangeState(AiStateID.FindWeapon);
+            isFind = false;
             return;
         }
 
-        if (FindBullet(agent))
+        else if (FindBullet(agent))
         {
             agent.stateMachine.ChangeState(AiStateID.FindBullet);
+            isFind = false;
             return;
         }
 
-        if (FindArmor(agent) && !agent.isArmor)
+        else if (FindArmor(agent) && !agent.isArmor)
         {
             agent.stateMachine.ChangeState(AiStateID.FindArmor);
+            isFind = false;
             return;
         }
 
-
-        if (FindPlayer(agent))
-        {
-            agent.navMeshAgent.speed = 4f;
-        }
-        else
-        {
-            agent.navMeshAgent.speed = 3.5f;
-        }
 
         distance = agent.transform.position - point;
         if (distance.magnitude <= 5f)
         {
+            isFind = false;
             //point = null; //나중에 Vector 000으로 바꾸기
             point = GetRandomPoint(center, rid);
             agent.navMeshAgent.destination = point;
-            agent.navMeshAgent.speed = 5;
             Debug.DrawRay(point, Vector3.up * 5000f, Color.green, 10f);
         }
     }
@@ -118,7 +127,7 @@ public class AIRandomMoveState : AIState
                 Playerdirection.Normalize();
                 float dotProduct = Vector3.Dot(Playerdirection, agnetDirection);
 
-                if(Physics.Raycast(agent.transform.position, Playerdirection, 20f, agent.WallLayer))
+                if(Physics.Raycast(agent.transform.position + new Vector3(0.0f, 1.2f, 0.0f), Playerdirection, Vector3.Distance(col.transform.position, agent.transform.position), agent.WallLayer))
                 {
                     return false;
                 }
@@ -193,7 +202,7 @@ public class AIRandomMoveState : AIState
             Vector3 randomPos = Random.insideUnitSphere * MaxDistance + center;
             randomPos.y = 1f;
             NavMesh.SamplePosition(randomPos, out hit, MaxDistance, NavMesh.AllAreas);
-        } while (hit.position.y > 3f);
+        } while (hit.position.y > 2f);
 
         #region
         /*        while (true)

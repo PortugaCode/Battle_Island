@@ -108,6 +108,21 @@ public class CombatControl : MonoBehaviour
 
         if (!isHealing && Input.GetKeyDown(KeyCode.Keypad4)) // Heal
         {
+            if (isArmor)
+            {
+                if (playerHealth == 360)
+                {
+                    return;
+                }
+            }
+            else
+            {
+                if (playerHealth == 300)
+                {
+                    return;
+                }
+            }
+
             if (InventoryControl.instance.CheckInventory(109))
             {
                 isHealing = true;
@@ -255,7 +270,7 @@ public class CombatControl : MonoBehaviour
         }
 
         // [ÃÑ & ÁÂÅ¬¸¯]
-        if (currentWeapon == Weapon.Gun && Input.GetMouseButton(0))
+        if (currentWeapon == Weapon.Gun && Input.GetMouseButton(0) && GetComponent<CharacterMovement>().canMove)
         {
             if (isFirstPerson || isThirdPerson)
             {
@@ -589,15 +604,26 @@ public class CombatControl : MonoBehaviour
             yield return null;
         }
 
-        if (playerHealth < 300)
+        if (isArmor)
         {
-            if (playerHealth >= 270)
-            {
-                playerHealth = 300;
-            }
-            else
+            if (playerHealth < 210)
             {
                 playerHealth += 150;
+            }
+            else if (playerHealth >= 210)
+            {
+                playerHealth = 360;
+            }
+        }
+        else
+        {
+            if (playerHealth < 150)
+            {
+                playerHealth += 150;
+            }
+            else if (playerHealth >= 150)
+            {
+                playerHealth = 300;
             }
         }
 

@@ -6,6 +6,7 @@ public class Grenade : MonoBehaviour
 {
     [SerializeField] private GameObject explosionPrefab;
     [SerializeField] private GameObject model;
+    [SerializeField] private GameObject BoomSound;
 
     public float timeDelay = 5.0f; // 폭발까지 걸리는 시간
     private float explodeRange = 5.0f;
@@ -31,11 +32,12 @@ public class Grenade : MonoBehaviour
     private void Explode()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, explodeRange); // 폭발 범위 콜라이더 검출
-
+        
         foreach (Collider c in colliders)
         {
-            if (c.CompareTag("Enemy"))
+            if (c.transform.root.CompareTag("Enemy"))
             {
+                Vector3 direcrion = (c.transform.position - gameObject.transform.position).normalized;
                 float damage = 0f;
 
                 // [ 거리에 따른 데미지 계산]
@@ -48,8 +50,7 @@ public class Grenade : MonoBehaviour
                     damage = Vector3.Magnitude(c.transform.position - transform.position) * (-200.0f / 3.0f) + (1000.0f / 3.0f);
                 }
 
-                c.GetComponent<EnemyHealth>().TakeDamage((int)damage, c.transform.position - transform.position);
-
+                c.transform.root.GetComponent<EnemyHealth>().TakeDamage((int)damage, direcrion);
                 //Debug.Log($"수류탄 : {c.name}에게 {(int)damage}의 데미지");
             }
 
@@ -75,7 +76,8 @@ public class Grenade : MonoBehaviour
         }
 
         model.SetActive(false);
-
+        GameObject a = Instantiate(BoomSound, gameObject.transform.position, Quaternion.identity);
+        Destroy(a, 3f);
         Instantiate(explosionPrefab, transform.position, Quaternion.identity); // 폭발 이펙트 생성
         Destroy(gameObject);
     }

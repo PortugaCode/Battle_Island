@@ -51,7 +51,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 43661ff2635bdc947b87d5d0f816367e, type: 2}
+  - {fileID: 2100000, guid: edac4691788ee2d4581c3e51f6a05ad1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -298,6 +298,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitEffectPrefab: {fileID: 1651067172247726722, guid: 3c7e276839917344c8b044f48aaf0db1, type: 3}
   bulletHolePrefab: {fileID: 102186768905599777, guid: 112aabdf7aa2cb64fa43b189065c2828, type: 3}
+  thirdPersonCrosshair: {fileID: 0}
+  startPostion: {x: 0, y: 0, z: 0}
   gravity: 0
   bulletSpeed: 100
   bulletDamage: 0

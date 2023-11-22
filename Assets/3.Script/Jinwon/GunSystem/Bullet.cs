@@ -35,11 +35,11 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision) // 충돌 처리
     {
-        if (!collision.collider.transform.root.CompareTag("Player") && !collision.collider.transform.root.CompareTag("Weapon") && !collision.collider.transform.root.CompareTag("EnemyBullet")) // 무시
+        if (!collision.collider.transform.root.CompareTag("Player") && !collision.collider.transform.root.CompareTag("Weapon") && !collision.collider.transform.CompareTag("EnemyBullet")) // 무시
         {
             Vector3 hitDirection = (collision.contacts[0].point - transform.position).normalized; // 충돌 방향
 
-            if (collision.collider.transform.root.CompareTag("Wall")) // 총알 이펙트 벽에만 나오게
+            if (!collision.collider.transform.root.CompareTag("Enemy") && collision.collider.transform.gameObject.layer != 10) // 총알 이펙트 벽에만 나오게
             {
                 // 오브젝트 풀에서 꺼내서 사용
                 if (ObjectPoolControl.instance.hitEffectQueue.Count > 0)
@@ -95,6 +95,26 @@ public class Bullet : MonoBehaviour
             {
                 collision.collider.transform.root.GetComponent<EnemyHealth>().TakeDamage(bulletDamage * 4.0f, hitDirection);
                 Recorder.instance.UpdateData(collision.collider.transform.root.gameObject, startPostion, transform.forward);
+            }
+
+            if(collision.collider.CompareTag("Boom"))
+            {
+                // 오브젝트 풀에서 꺼내서 사용
+                if (ObjectPoolControl.instance.hitEffectQueue.Count > 0)
+                {
+                    GameObject currentHitEffect = ObjectPoolControl.instance.hitEffectQueue.Dequeue();
+                    currentHitEffect.transform.position = collision.contacts[0].point;
+                    currentHitEffect.transform.rotation = Quaternion.Euler(hitDirection);
+                    currentHitEffect.SetActive(true);
+                }
+
+                if (hit.point != null)
+                {
+                    GameObject bulletHole = Instantiate(bulletHolePrefab, hit.point + hit.normal * 0.001f, Quaternion.LookRotation(hit.normal));
+                    Destroy(bulletHole, 10.0f);
+                }
+
+                collision.collider.transform.GetComponent<BoomObject>().TakeDamage();
             }
 
             // 오브젝트 풀에 넣기

@@ -56,22 +56,12 @@ public class RendomSpawner : MonoBehaviour
     {
         NavMeshHit hit;
 
-        //NavMesh.SamplePosition(randomPos, out hit, MaxDistance, NavMesh.AllAreas);
         do
         {
             Vector3 randomPos = Random.insideUnitSphere * MaxDistance + center;
             randomPos.y = 1f;
             NavMesh.SamplePosition(randomPos, out hit, MaxDistance, NavMesh.AllAreas);
-        } while (hit.position.y > 3f);
-
-        /*        while (true)
-                {
-                    NavMesh.SamplePosition(randomPos, out hit, MaxDistance, NavMesh.AllAreas);
-                    if (hit.position.y < 3f)
-                    {
-                        break;
-                    }
-                }*/
+        } while (hit.position.y > 2f);
 
         return hit.position;
     }
