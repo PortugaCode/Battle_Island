@@ -34,7 +34,7 @@ public class ResolutionManager : MonoBehaviour
         foreach (Resolution item in resolutions)
         {
             Dropdown.OptionData option = new Dropdown.OptionData();
-            option.text = item.width + " x " + item.height;
+            option.text = item.width + " x " + item.height + "    " + item.refreshRate + "hz";
             resolutionDrop.options.Add(option);
 
             if (item.width == Screen.width && item.height == Screen.height)
@@ -60,6 +60,7 @@ public class ResolutionManager : MonoBehaviour
 
     public void ApplyButton()
     {
+        Debug.Log("Àû¿ë");
         Screen.SetResolution(resolutions[resolutionNum].width, resolutions[resolutionNum].height, screenMode);
     }
 }
