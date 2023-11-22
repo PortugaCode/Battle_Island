@@ -5103,7 +5103,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 2.45, y: 0.1, z: 3}
-  m_Center: {x: 0, y: 2.5, z: 0.06}
+  m_Center: {x: 0, y: 2.6, z: 0.06}
 --- !u!65 &4075690867091449829
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5115,8 +5115,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.45, y: 0.3, z: 3}
-  m_Center: {x: 0, y: 0.15, z: 0.06}
+  m_Size: {x: 2.45, y: 0.13150977, z: 3}
+  m_Center: {x: 0, y: 0.06575488, z: 0.059999943}
 --- !u!65 &477005166738022212
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5157,6 +5157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   smoke: {fileID: 2193177016873030930}
   parachute: {fileID: 157682866054912497}
+  box: {fileID: 4953998931447054833}
   RareItemSpawn:
   - {fileID: 5996307454012719031}
   - {fileID: 8835700159951529500}
