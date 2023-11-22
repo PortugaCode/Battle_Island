@@ -36,6 +36,7 @@ public class SupplyBox : MonoBehaviour
         if (Physics.Raycast(ray, 3.0f))
         {
             rigid.drag = 0;
+            rigid.mass = 100f;
             parachute.SetActive(false);
             smoke.SetActive(true);
             for (int i = 0; i < RareItemSpawn.Length; i++)

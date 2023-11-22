@@ -55,6 +55,9 @@ public class InventoryControl : MonoBehaviour
     // [총알 개수]
     public int ammo;
 
+    // [먹은 총알박스의 개수]
+    public int ammoBoxCount = 0;
+
     private void Update()
     {
         if (GetComponent<CharacterMovement>().canMove && focusedItems.Count > 0 && Input.GetKeyDown(KeyCode.F)) // TEST
@@ -94,13 +97,9 @@ public class InventoryControl : MonoBehaviour
         }
         else if (id == 108) // 총알상자
         {
-            ammo += 60;
+            ammoBoxCount += 1;
+            ammo += 30;
             UIManager.instance.UpdateAmmoText(0); // Test
-
-            if (InventoryControl.instance.CheckInventory(108))
-            {
-                return; // 이미 박스 있으면 추가 안함
-            }
         }
 
         inventory.Add(currentItem);

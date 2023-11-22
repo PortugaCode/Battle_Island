@@ -151,8 +151,17 @@ public class Gun : MonoBehaviour
                 InventoryControl.instance.ammo = 0;
             }
 
-            if (InventoryControl.instance.ammo == 0)
+            int newBoxCount = (int)(InventoryControl.instance.ammo / 30.0f);
+
+            if (InventoryControl.instance.ammo % 30.0f > 0)
             {
+                newBoxCount += 1;
+            }
+            
+            if (newBoxCount < InventoryControl.instance.ammoBoxCount)
+            {
+                InventoryControl.instance.ammoBoxCount -= 1;
+                Debug.Log(InventoryControl.instance.ammoBoxCount);
                 InventoryControl.instance.RemoveItem(108);
             }
         }
