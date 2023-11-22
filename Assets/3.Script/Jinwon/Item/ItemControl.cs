@@ -59,7 +59,7 @@ public class ItemControl : MonoBehaviour
             UIManager.instance.CloseGetItemUI();
         }
 
-        InventoryControl.instance.GetItem(itemName, id, amount);
+        InventoryControl.instance.GetItem(id, amount);
 
         Destroy(gameObject);
     }
