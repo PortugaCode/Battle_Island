@@ -28,9 +28,13 @@ public class EndBullet : MonoBehaviour
     {
         if (!collision.collider.CompareTag("Player")) // 무시
         {
-            if (collision.collider.CompareTag("Enemy"))
+            Vector3 hitDirection = (collision.contacts[0].point - transform.position).normalized; // 충돌 방향
+            if (collision.collider.transform.root.CompareTag("Enemy") || collision.collider.transform.CompareTag("Head"))
             {
+                collision.collider.transform.root.GetComponent<EnemyHealth>().TakeDamage_End(1000f, hitDirection);
                 Debug.Log("GAME OVER");
+
+                Recorder.instance.EndReplay();
             }
 
             Destroy(gameObject);

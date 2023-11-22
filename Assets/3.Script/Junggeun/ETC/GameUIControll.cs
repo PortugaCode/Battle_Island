@@ -59,6 +59,7 @@ public class GameUIControll : MonoBehaviour
 
         //===============================================
 
+        //hpbar.maxValue = 360;
         hpbar.value = combat.playerHealth;
 
         //===============================================

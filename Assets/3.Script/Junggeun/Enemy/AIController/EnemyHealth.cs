@@ -79,25 +79,39 @@ public class EnemyHealth : MonoBehaviour
         {
             Die(direction);
         }
-        else if (GameManager.instance.isLastEnemy)
+        else if (currentHealth <= 0.0f && !isDie && GameManager.instance.isLastEnemy)
         {
             aILocoMotion.isAlreadyDie = true;
             aILocoMotion.isAlreadyDie2 = true;
-            GameManager.instance.isLastEnemy = false;
+            Recorder.instance.Replay();
         }
-        else if(currentHealth <= 0.0f && isDie) DieEffect(direction);
+        else if (currentHealth <= 0.0f && isDie) DieEffect(direction);
         blinkTimer = blinkDu;
     }
 
-    public void TakeDamageDeadZone(float amount, Vector3 direction)
+
+    public void TakeDamage_End(float amount, Vector3 direction)
     {
+
+        isDamage = true;
+
         currentHealth -= amount;
         healthBar.SetHealthBar(currentHealth / maxHealth);
-        if (currentHealth <= 0.0f && !isDie)
+        if (currentHealth <= 0.0f && !isDie && GameManager.instance.isLastEnemy)
         {
             Die(direction);
         }
         blinkTimer = blinkDu;
+    }
+    public void TakeDamageDeadZone(float amount, Vector3 direction)
+    {
+        currentHealth -= amount;
+        healthBar.SetHealthBar(currentHealth / maxHealth);
+        if (currentHealth <= 0.0f && !isDie && !aILocoMotion.isAlreadyDie2)
+        {
+            Die(direction);
+        }
+        if (!aILocoMotion.isAlreadyDie2) blinkTimer = blinkDu;
     }
 
     private void Die(Vector3 direction)

@@ -10032,7 +10032,7 @@ GameObject:
   - component: {fileID: 4250019799458495007}
   m_Layer: 0
   m_Name: Head
-  m_TagString: Untagged
+  m_TagString: Head
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10368,6 +10368,9 @@ MonoBehaviour:
   PlayerLayer:
     serializedVersion: 2
     m_Bits: 256
+  ItemLayer:
+    serializedVersion: 2
+    m_Bits: 1024
   initalState: 5
   config: {fileID: 11400000, guid: 3f8c108b0f369ac4da917b62543e8cab, type: 2}
 --- !u!114 &4250038575850221951

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class OptionManager : MonoBehaviour
 {
@@ -22,7 +24,7 @@ public class OptionManager : MonoBehaviour
 
 
     public GameObject OptionPanel;
-    public GameObject InGameOptionPanel;
+    public GameObject OpenLobby;
     [SerializeField] private GameObject GraphicOption;
     [SerializeField] private GameObject AudioOption;
 
@@ -71,28 +73,32 @@ public class OptionManager : MonoBehaviour
 
     private void Update()
     {
-        if (!isTitle)
+        if (SceneManager.GetActiveScene().name == "JDScene")
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                OpenInGameOption();
-            }
+            isTitle = false;
         }
-    }
-
-    public void OpenTitleOption()
-    {
-        if (OptionPanel.activeSelf)
+        else if (SceneManager.GetActiveScene().name == "Intro")
         {
-            OptionPanel.SetActive(false);
+            isTitle = true;
+        }
+
+        if (isTitle)
+        {
+            OpenLobby.SetActive(false);
         }
         else
         {
-            OptionPanel.SetActive(true);
+            OpenLobby.SetActive(true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && !isTitle)
+        {
+            OpenOption();
         }
     }
 
-    public void OpenInGameOption()
+
+    public void OpenOption()
     {
 
         if (OptionPanel.activeSelf)
@@ -100,13 +106,29 @@ public class OptionManager : MonoBehaviour
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             OptionPanel.SetActive(false);
+            Time.timeScale = 1.0f;
         }
         else
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             OptionPanel.SetActive(true);
+            Time.timeScale = 0;
         }
 
+    }
+
+    public void CursorVisible()
+    {
+        if (!isTitle)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
+
+    public void TimeScaleInActive()
+    {
+        Time.timeScale = 1.0f;
     }
 }
