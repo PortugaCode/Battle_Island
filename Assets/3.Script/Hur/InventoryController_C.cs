@@ -340,7 +340,7 @@ public class InventoryController_C : MonoBehaviour
         else
         {
             Debug.Log($"{selectedItem.itemData.itemName}을 array에 넣습니다");
-            Debug.Log($"x, y : {x, y}");
+            Debug.Log($"x, y : {x}, {y}");
             Debug.Log("itemID : " + itemID);
         }
 
