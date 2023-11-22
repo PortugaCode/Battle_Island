@@ -8,6 +8,8 @@ public class ItemControl : MonoBehaviour
     public string itemName;
     public int id;
     public int amount;
+    public int x;
+    public int y;
 
     [Header("Status")]
     public bool canGet = false;

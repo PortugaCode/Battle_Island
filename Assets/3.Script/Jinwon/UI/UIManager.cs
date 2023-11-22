@@ -99,8 +99,6 @@ public class UIManager : MonoBehaviour
             amount = (1.0f / 20.0f) * damage;
         }
 
-        Debug.Log("데미지입음");
-
         while (color.a < amount)
         {
             color.a += Time.deltaTime * 2.0f;

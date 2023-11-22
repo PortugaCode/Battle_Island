@@ -101,12 +101,7 @@ public class CombatControl : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.PageUp)) // Damage Test
-        {
-            TakeDamage(20.0f);
-        }
-
-        if (!isHealing && Input.GetKeyDown(KeyCode.Keypad4)) // Heal
+        if (!isHealing && Input.GetKeyDown(KeyCode.Alpha3)) // Heal
         {
             if (InventoryControl.instance.CheckInventory(109))
             {
@@ -116,7 +111,7 @@ public class CombatControl : MonoBehaviour
         }
 
         // [ÃÑÀ» ¼Õ¿¡ ÀåÂø] - TEST
-        if (hasGun && (currentWeapon != Weapon.Gun) && !isChanging && Input.GetKeyDown(KeyCode.Keypad1))
+        if (hasGun && (currentWeapon != Weapon.Gun) && !isChanging && Input.GetKeyDown(KeyCode.Alpha1))
         {
             isChanging = true;
 
@@ -124,7 +119,7 @@ public class CombatControl : MonoBehaviour
         }
 
         // [ÃÑÀ» ¼Õ¿¡¼­ µî µÚ·Î ³Ö±â]
-        if (hasGun && (currentWeapon == Weapon.Gun) && !isChanging && Input.GetKeyDown(KeyCode.Keypad1))
+        if (hasGun && (currentWeapon == Weapon.Gun) && !isChanging && Input.GetKeyDown(KeyCode.Alpha1))
         {
             isChanging = true;
 
@@ -144,7 +139,7 @@ public class CombatControl : MonoBehaviour
         }
 
         // [¼ö·ùÅº ÀåÂø]
-        if (currentWeapon != Weapon.Grenade && !isChanging && InventoryControl.instance.CheckInventory(107) && Input.GetKeyDown(KeyCode.Keypad2))
+        if (currentWeapon != Weapon.Grenade && !isChanging && InventoryControl.instance.CheckInventory(107) && Input.GetKeyDown(KeyCode.Alpha2))
         {
             if (isFirstPerson || isThirdPerson)
             {
@@ -618,6 +613,8 @@ public class CombatControl : MonoBehaviour
                 playerHealth += 150;
             }
         }
+
+        GetComponent<CharacterMovement>().currentSpeed = GetComponent<CharacterMovement>().walkSpeed;
 
         InventoryControl.instance.RemoveItem(109);
         //Debug.Log("Heal ¿Ï·á");

@@ -18,6 +18,7 @@ public class InventoryControl : MonoBehaviour
         }
 
         gameUIControll = FindObjectOfType<GameUIControll>();
+        inventoryController_C = FindObjectOfType<InventoryController_C>();
         inventory = new List<Item>();
     }
 
@@ -33,6 +34,7 @@ public class InventoryControl : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private GameUIControll gameUIControll;
+    private InventoryController_C inventoryController_C;
 
     public struct Item
     {
@@ -65,6 +67,7 @@ public class InventoryControl : MonoBehaviour
                 }
             }
 
+            inventoryController_C.AddItemOnUI(focusedItems[focusedItems.Count - 1].GetComponent<ItemControl>().x, focusedItems[focusedItems.Count - 1].GetComponent<ItemControl>().y, focusedItems[focusedItems.Count - 1].GetComponent<ItemControl>().id);
             focusedItems[focusedItems.Count - 1].GetComponent<ItemControl>().PickUpItem();
         }
     }
@@ -149,6 +152,7 @@ public class InventoryControl : MonoBehaviour
             if (item.id == id)
             {
                 inventory.Remove(item);
+                inventoryController_C.RemoveItemOnUI(id);
                 return;
             }
         }
@@ -161,6 +165,7 @@ public class InventoryControl : MonoBehaviour
             if (item.GetComponent<ItemControl>().id == id)
             {
                 nearItemList.Remove(item);
+                focusedItems.Remove(item);
                 Destroy(item);
                 return;
             }

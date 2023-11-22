@@ -16,7 +16,7 @@ public class OpenInvent : MonoBehaviour
 
     private void Start()
     {
-        inventoryObj.SetActive(false);
+        StartCoroutine(DisableInventory_co());
         slot = FindObjectOfType<SlotManager>();
         zoomControl = FindObjectOfType<ZoomControl>();
         characterMovement = FindObjectOfType<CharacterMovement>();
@@ -61,6 +61,7 @@ public class OpenInvent : MonoBehaviour
         inventoryObj.SetActive(true);
         slot.AddSlot();
     }
+
     public void Inventory_OFF()
     {
         Open = false;
@@ -73,5 +74,12 @@ public class OpenInvent : MonoBehaviour
 
         zoomControl.StartCameraMove();
         characterMovement.canMove = true;
+    }
+
+    private IEnumerator DisableInventory_co()
+    {
+        yield return new WaitForSeconds(0.05f);
+
+        inventoryObj.SetActive(false);
     }
 }
