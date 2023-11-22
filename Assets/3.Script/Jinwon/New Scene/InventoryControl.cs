@@ -17,6 +17,7 @@ public class InventoryControl : MonoBehaviour
             Destroy(gameObject);
         }
 
+        gameUIControll = FindObjectOfType<GameUIControll>();
         inventory = new List<Item>();
     }
 
@@ -29,6 +30,9 @@ public class InventoryControl : MonoBehaviour
     [SerializeField] private GameObject bagModel;
     [SerializeField] private GameObject armorModel;
     [SerializeField] private GameObject helmetModel;
+
+    [Header("UI")]
+    [SerializeField] private GameUIControll gameUIControll;
 
     public struct Item
     {
@@ -77,6 +81,7 @@ public class InventoryControl : MonoBehaviour
             {
                 GetComponent<CombatControl>().isArmor = true;
                 GetComponent<CombatControl>().playerHealth += 60;
+                gameUIControll.hpbar.maxValue = 360.0f;
                 armorModel.SetActive(true);
             }
         }

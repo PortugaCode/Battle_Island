@@ -81,7 +81,7 @@ public class AIFindArmorState : AIState
 
     private void CheckPickup(AIAgent agent)
     {
-        Collider[] a = Physics.OverlapSphere(agent.transform.position, 0.5f);
+        Collider[] a = Physics.OverlapSphere(agent.transform.position, 0.5f, agent.ItemLayer);
         foreach (Collider col in a)
         {
             if (col.CompareTag("Armor") && !col.GetComponent<EquipCheck>().isEquip)

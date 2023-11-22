@@ -41,7 +41,7 @@ public class SpawnSupplyPlane : MonoBehaviour
             {
                 PlaneSpawn();
                 gameTime = 0;
-                planeSpawnTime = Random.Range(1, 4);
+                planeSpawnTime = Random.Range(2, 4);
                 isPlaneSpawned = true;
             }
         }

@@ -65,7 +65,10 @@ public class Recorder : MonoBehaviour
 
     public void EndReplay()
     {
-        GetComponent<CharacterMovement>().canMove = true;
+        GameManager.instance.isWin = true;
+        //GetComponent<CharacterMovement>().canMove = true;
         bulletCamera.gameObject.SetActive(false);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 }
