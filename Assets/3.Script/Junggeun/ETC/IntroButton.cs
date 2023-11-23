@@ -29,6 +29,11 @@ public class IntroButton : MonoBehaviour
     public void GotoIntro()
     {
         GameManager.instance.isLastEnemy = false;
+        GameManager.instance.isGameOver = false;
+        GameManager.instance.isWin = false;
+        GameManager.instance.killCount = 0;
+        GameManager.instance.Ranking = 0;
+        GameManager.instance.isPlayerDead = false;
         SceneManager.LoadScene("Intro");
     }
 
