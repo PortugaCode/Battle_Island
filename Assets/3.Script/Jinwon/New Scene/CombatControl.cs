@@ -30,7 +30,6 @@ public class CombatControl : MonoBehaviour
     // Gun
     [Header("Gun")]
     public GameObject currentGun;
-    [SerializeField] private GameObject testGunPrefab;
     [SerializeField] private GameObject riflePrefab;
     [SerializeField] private GameObject sniperPrefab;
     public bool hasGun = false; // 등 뒤에 총을 장착했는가?

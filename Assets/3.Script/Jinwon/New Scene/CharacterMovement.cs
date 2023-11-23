@@ -11,6 +11,7 @@ public class CharacterMovement : MonoBehaviour
     public Animator animator;
     private ZoomControl zoomControl;
     private CombatControl combatControl;
+    private CapsuleCollider capsuleCollider;
 
     // Movement
     [Header("Movement")]
@@ -59,6 +60,7 @@ public class CharacterMovement : MonoBehaviour
         TryGetComponent(out animator);
         TryGetComponent(out zoomControl);
         TryGetComponent(out combatControl);
+        TryGetComponent(out capsuleCollider);
 
         // [마우스 커서 고정]
         Cursor.lockState = CursorLockMode.Locked;
@@ -111,8 +113,17 @@ public class CharacterMovement : MonoBehaviour
         }
         else
         {
+            if (nearCar != null)
+            {
+                capsuleCollider.isTrigger = true;
+                rb.isKinematic = true;
+                transform.position = nearCar.transform.position;
+            }
+
             if (Input.GetKeyDown(KeyCode.G)) // 하차
             {
+                capsuleCollider.isTrigger = false;
+                rb.isKinematic = false;
                 ExitCar();
             }
         }

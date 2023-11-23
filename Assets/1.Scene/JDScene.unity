@@ -565,6 +565,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 167002194}
   m_CullTransparentMesh: 1
+--- !u!1 &168916255
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 168916256}
+  - component: {fileID: 168916258}
+  - component: {fileID: 168916257}
+  m_Layer: 5
+  m_Name: BG
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &168916256
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168916255}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3.1829603, y: 3.1829603, z: 3.1829603}
+  m_Children: []
+  m_Father: {fileID: 8003831745455854272}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 783, y: -345}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &168916257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168916255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &168916258
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168916255}
+  m_CullTransparentMesh: 1
 --- !u!1 &181676733
 GameObject:
   m_ObjectHideFlags: 0
@@ -3465,7 +3540,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: "1. [ WASD ] = \uC774\uB3D9\n\n2. [ \uB9C8\uC6B0\uC2A4 \uC6B0\uD074\uB9AD
     ] \uC744 \uC624\uB798 \uB204\uB974\uBA74 3\uC778\uCE6D \uC870\uC900, \uD55C \uBC88
-    \uB204\uB974\uBA74 1\uC778\uCE6D \uC870\uC900\n\n3.  [ Shift ] = \uB2EC\uB9AC\uAE30\n\n4.
+    \uB204\uB974\uBA74 1\uC778\uCE6D \uC870\uC900\n\n3. [ Shift ] = \uB2EC\uB9AC\uAE30\n\n4.
     [ C ] = \uC549\uAE30\n\n5. [ SpaceBar ] = \uC810\uD504\n\n6. [ Tab ] = \uC778\uBCA4\uD1A0\uB9AC,
     [ F ] = \uC544\uC774\uD15C \uC90D\uAE30\n\n7. [ G ] = \uCC28\uB7C9 \uD0C0\uAE30
     / \uB0B4\uB9AC\uAE30"
@@ -17500,7 +17575,6 @@ MonoBehaviour:
   playerHealth: 300
   isArmor: 0
   currentGun: {fileID: 0}
-  testGunPrefab: {fileID: 7115515128426510549, guid: e250e1a33b43f8e4d9dd17b27e9d1bb2, type: 3}
   riflePrefab: {fileID: 7115515128426510549, guid: e250e1a33b43f8e4d9dd17b27e9d1bb2, type: 3}
   sniperPrefab: {fileID: 3970885849746366963, guid: 44da2f24b926cce4698d448a500d2299, type: 3}
   hasGun: 0
@@ -43601,7 +43675,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2351879994201352176}
-  m_LocalRotation: {x: -0.05744882, y: -0.000000017311645, z: -9.961788e-10, w: 0.9983485}
+  m_LocalRotation: {x: -0.05744882, y: 0.000000017311645, z: 9.961788e-10, w: 0.9983485}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -44338,7 +44412,7 @@ RectTransform:
   m_LocalScale: {x: 2.4482, y: 2.4482, z: 2.4482}
   m_Children: []
   m_Father: {fileID: 8003831745455854272}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -46018,6 +46092,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 168916256}
   - {fileID: 8003831744068699391}
   m_Father: {fileID: 8003831744499563154}
   m_RootOrder: 2
