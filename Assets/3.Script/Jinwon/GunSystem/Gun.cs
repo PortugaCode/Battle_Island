@@ -82,8 +82,6 @@ public class Gun : MonoBehaviour
             timer = coolDown;
             currentMag -= 1;
 
-            UIManager.instance.UpdateAmmoText(currentMag); // Test
-
             Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2.0f, Screen.height / 2.0f)); // 화면 중앙 (크로스헤어 위치)에 Ray 쏘기
             if (Physics.Raycast(ray, out RaycastHit raycastHit, 5000f, ~(1 << LayerMask.NameToLayer("Player"))))
             {
@@ -165,8 +163,6 @@ public class Gun : MonoBehaviour
                 InventoryControl.instance.RemoveItem(108);
             }
         }
-
-        UIManager.instance.UpdateAmmoText(currentMag); // Test
     }
 
     public virtual void EnemyShoot(AIAgent agent) // 적 AI 발사 메서드

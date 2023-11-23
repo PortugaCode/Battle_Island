@@ -25,7 +25,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject thirdPersonCrosshair; // 3인칭 크로스헤어 UI
     [SerializeField] private GameObject itemTextPrefab; // 텍스트 생성용 프리팹
     [SerializeField] private GameObject getItemUI; // 아이템 줍기 UI
-    [SerializeField] private GameObject ammoText; // 총알 표시 UI
     [SerializeField] private GameObject damageUI; // 데미지 인디케이터 UI
 
     private bool isIndicatorOn = false;
@@ -68,11 +67,6 @@ public class UIManager : MonoBehaviour
         {
             getItemUI.SetActive(false);
         }
-    }
-
-    public void UpdateAmmoText(int ammo)
-    {
-        ammoText.GetComponent<Text>().text = $"{ammo} / {InventoryControl.instance.ammo}";
     }
 
     public void DamageIndicator(float damage)

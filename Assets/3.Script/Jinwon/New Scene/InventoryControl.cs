@@ -85,6 +85,7 @@ public class InventoryControl : MonoBehaviour
         {
             if (!bagModel.activeSelf) // 가방 모델 활성화
             {
+                gameUIControll.isBag = true;
                 bagModel.SetActive(true);
             }
         }
@@ -99,7 +100,6 @@ public class InventoryControl : MonoBehaviour
         {
             ammoBoxCount += 1;
             ammo += 30;
-            UIManager.instance.UpdateAmmoText(0); // Test
         }
 
         inventory.Add(currentItem);
